@@ -1,5 +1,5 @@
 <template>
-<v-app>
+<v-app id="body">
 	<v-app-bar app color="orange">
 		<v-toolbar-title><h4 class="ma-5 pa-3 border text-light white--text">LOGO img</h4></v-toolbar-title>
 		<v-spacer></v-spacer>
@@ -7,9 +7,12 @@
 			{{ link.label }}
 		</v-btn>
 	</v-app-bar>
+
 	<v-content>
 		<router-view></router-view>
 	</v-content>
+
+	
 	<!-- footer -->
 	<!-- <div style="height: 150px;"></div> -->
 	<v-footer color="primary lighten-1" padless>
@@ -44,8 +47,12 @@ export default {
 }
 </script>
 
-<style type="text/css" scope>
+<style type="text/css" scoped>
 .border{
 	border: solid lightgrey 1px;
+}
+#body {
+	/*background: #222;*/
+	font-family: sans-serif;
 }
 </style>

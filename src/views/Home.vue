@@ -1,16 +1,19 @@
 <template>
-<v-container>
-	<v-row>
-		<v-col cols="12" md="6" wrap color="purple" v-for="(period, index) in time_periods" :key="index">
-			<timeperiods  :header="period.header" :topics="period.topics" />
-		</v-col>
-	</v-row>
-</v-container>
+  <v-container>
+  	<v-row>
+  		<v-col cols="12" md="6" wrap color="purple" v-for="(period, index) in time_periods" :key="index">
+  			<timeperiods :header="period.header" :topics="period.topics" />
+  		</v-col>
+  	</v-row>
+  </v-container>
 </template>
+
 
 <script>
 // @ is an alias to /src
 import timeperiods from '@/components/TimePeriods.vue'
+
+
 import { db } from '@/main'
 
 export default {

@@ -30,7 +30,7 @@
 			<v-btn block v-if="showBtn" @click="extendbtn" id="buttonExtend" ><v-icon dark large>{{btntext}}</v-icon></v-btn>
 
 		</v-row> -->
-		<v-row class="py-4 timeline" style="background-color: transparent; border-top: .5px dashed lightgrey">
+		<v-row class="py-4 timeline"> <!-- style="background-color: transparent; border-top: .5px dashed lightgrey" -->
 			<v-col cols="2" class="pa-0">
 				<v-img height="100%" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-ILL4LOZYbDF3-j7toq45fCjtR6RnsOr6TerzjUGBAUXfsjAz&usqp=CAU"> </v-img>
 			</v-col>
@@ -93,6 +93,7 @@ export default {
         doc.data().events.forEach(doc => {
           var x = {}
           x.start = doc.date.slice(0, 4)
+          x.date = doc.date.slice(0, 4)
           x.end = doc.date.slice(0, 4)
           x.label = doc.badge.toString()
           x.name = doc.eventTitle
@@ -239,11 +240,27 @@ export default {
     mouseover (d) {
       d.border = '1px solid black'
       document.getElementById('circle' + d.label).style.stroke = 'black'
+      
+      console.log(d3.event)
+      var tool = this.tool[0][0]
+      d3.select(tool)
+      .transition()
+      .duration(200)
+      .style('opacity', 0.9)
+      .text(d.name)
+      .style('left', (d3.event.pageX) + 'px')
+      .style('top', (d3.event.pageY - 105) + 'px')
     },
 
     mouseout (d) {
       d.border = ''
       document.getElementById('circle' + d.label).style.stroke = 'none'
+
+      var tool = this.tool[0][0]
+      d3.select(tool)
+      .transition()
+      .duration(50)
+      .style('opacity', 0)
     },
 
     // xAxis: create axis and axis year intervals

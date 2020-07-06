@@ -17,6 +17,7 @@
     "firebase": "^7.14.3",
     "lodash": "^4.17.15",
     "material-design-icons-iconfont": "^5.0.1",
+    "topojson": "^3.0.2",
     "vue": "^2.6.11",
     "vue-d3-geo": "^0.3.2",
     "vue-lodash": "^2.1.2",
