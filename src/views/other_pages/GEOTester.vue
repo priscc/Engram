@@ -12,7 +12,7 @@ import * as d3 from 'd3'
 import * as topojson from 'topojson'
 
 // inspired from: http://bl.ocks.org/wiesson/ef18dba71256d526eb42#license
-
+// OR https://gist.github.com/wiesson/ef18dba71256d526eb42?short_path=ca92d9d
 export default {
 	data () {
 		return {

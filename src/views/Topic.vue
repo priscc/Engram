@@ -9,15 +9,15 @@ Inital Topic Page Layout
 <v-container class="px-12" fluid>
 	<!-- BREADCRUMB -->
 	<v-row>
-		<v-col cols="1" >
+		<v-col style="max-width: 6%;">
 			<v-avatar size="32">
 				<v-btn color="blue lighten-2" dark rounded style="height: 100%;" @click="back">
 					<v-icon dark>mdi-arrow-left</v-icon>
 				</v-btn>
 			</v-avatar>
 		</v-col>
-		<v-col>
-			<h2><u>{{header}}</u></h2>
+		<v-col class="d-flex align-end">
+			<h3>{{header}}</h3>
 		</v-col>
 		<v-col></v-col>
 	</v-row>
@@ -45,7 +45,7 @@ Inital Topic Page Layout
 	<!-- Right content (changes dep on page) -->
 	<!-- col is added in component -->
 		<intro-template v-if="TopicContentSelect == 'Intro'" />
-		<event-template v-else-if="TopicContentSelect == 'Events'" :causes="causes" :turningP="turningP" :effects="effects"/>
+		<event-template v-else-if="TopicContentSelect == 'Events'" :causes="causes" :turningP="turningP" :effects="effects" :header="header"/>
 		<terminology-template v-else-if="TopicContentSelect == 'Terminology'"></terminology-template>
 		<people-template v-else-if="TopicContentSelect == 'Historical People'"></people-template>
 	</v-row>
@@ -88,33 +88,33 @@ export default {
   methods: {
     // move into EventTemplate
     async parseEventType () {
-      this.header = await db.collection('*SEARCH').where('collectionName', '==', this.id).get().then(function (querySnapshot) {
-        var x
-        querySnapshot.forEach(function (doc) {
-          // doc.data() is never undefined for query doc snapshots
-          x = doc.data().name
-        })
-        return x
-      })
-      // header console.log(todosRef1)
+		this.header = await db.collection('*SEARCH').where('collectionName', '==', this.id).get().then(function (querySnapshot) {
+				var x
+				querySnapshot.forEach(function (doc) {
+				// doc.data() is never undefined for query doc snapshots
+				x = doc.data().name
+				})
+				return x
+			})
 
-      const todosRef = db.collection(this.id).doc('Events')
-      var x = await todosRef.get().then(function (doc) {
-        var all = []
-        var c = []
-        var tp = []
-        var e = []
-        doc.data().events.forEach(doc => {
-          if (doc.eventType == 'Cause') { c.push(doc) } else if (doc.eventType == 'Turning Point') { tp.push(doc) } else { e.push(doc) }
-        })
-        all.c = c
-        all.tp = tp
-        all.e = e
-        return all
-			  })
-      this.causes = x.c
-      this.turningP = x.tp
-      this.effects = x.e
+		const todosRef = db.collection(this.id).doc('Events')
+		var x = await todosRef.get().then(function (doc) {
+			var all = []
+			var c = []
+			var tp = []
+			var e = []
+			doc.data().events.forEach(doc => {
+			  if (doc.eventType == 'Cause') { c.push(doc) } else if (doc.eventType == 'Turning Points') { tp.push(doc) } else { e.push(doc) }
+			})
+			all.c = c
+			all.tp = tp
+			all.e = e
+			return all
+		})
+
+		this.causes = x.c
+		this.turningP = x.tp
+		this.effects = x.e
     },
     submit (i) {
       this.TopicContentSelect = i

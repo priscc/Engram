@@ -1,44 +1,70 @@
 <template>
-	<v-col class="pl-10">
-		<v-row class="text-center" id="eventExtend">
-			<!-- Causes -->
-			<v-col class="pa-0">
-				<event-col :header="`Cause`"  :events="time"/>
-			</v-col>
-			<!-- line 2 -->
-			<v-col cols="1" class="pa-0" style="max-width: 10px;">
-				<svg width="100%" height="100%">
-				  <path d="M5,400 v-400" fill="yellow" stroke="lightgray" stroke-width="1" />
-				</svg>
-			</v-col>
-			<!-- TP -->
-			<v-col class="pa-0">
-				<event-col :header="`Turning Points`" :events="time"/>
-			</v-col>
-			<!-- line 2 -->
-			<v-col cols="1" class="pa-0" style="max-width: 10px;">
-				<svg width="100%" height="100%">
-				  <path d="M5,400 v-400" fill="yellow" stroke="lightgray" stroke-width="1" />
-				</svg>
-			</v-col>
-			<!-- Effects -->
-			<v-col class="pa-0">
-				<event-col :header="`Effect`" :events="time"/>
-			</v-col>
-		</v-row>
-		<!-- <v-row>
-			<v-btn block v-if="showBtn" @click="extendbtn" id="buttonExtend" ><v-icon dark large>{{btntext}}</v-icon></v-btn>
-
-		</v-row> -->
-		<v-row class="py-4 timeline"> <!-- style="background-color: transparent; border-top: .5px dashed lightgrey" -->
-			<v-col cols="2" class="pa-0">
-				<v-img height="100%" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-ILL4LOZYbDF3-j7toq45fCjtR6RnsOr6TerzjUGBAUXfsjAz&usqp=CAU"> </v-img>
-			</v-col>
+	<v-col class="pl-7">
+    
+    <!-- *** HEADER -->
+    <v-row class="text-center">
+      <v-col class="pt-0 pb-8">
+        <h2 class="font-weight-light"><u>Events of the {{header}}</u></h2>
+      </v-col>
+    </v-row>
+    
+		<!-- ***TIMELINE -->
+    <v-row class=" timeline"> <!-- style="background-color: transparent; border-top: .5px dashed lightgrey" -->
 			<v-col class="my-auto">
 				<div id="timeline2"></div>
 				<div id="timeline"></div>
 			</v-col>
 		</v-row>
+
+    <!-- *** NARRATIVE  -->
+    <v-row class="d-flex align-start pb-10" color="orange">
+      <v-col>
+        <!-- CAUSE switch -->
+        <div class="pa-2 px-4" style="background-color: #EDE7F6; border-radius: 25px; border: 1px solid #512DA8;">
+          <v-switch v-model="cause" label="Causes" class="ma-0 pa-0" color="#7E57C2" hide-details></v-switch>
+        </div>
+        <ul v-bind:style="{'display': causeDis}" v-for="i in causes">
+          <li>
+            {{i.eventTitle}}
+          </li>
+        </ul>
+      </v-col>
+      <v-col>
+        <!-- TURNING POINT switch -->
+        <div class="pa-2 px-4" style="background-color: #E3F2FD; border-radius: 25px; border: 1px solid #1E88E5;">
+          <v-switch v-model="tp" label="Turning Points" class="ma-0 pa-0" color="#90CAF9" hide-details></v-switch>
+        </div>
+        <ul v-bind:style="{'display': tpDis}" v-for="i in turningP">
+          <li>
+            {{i.eventTitle}}
+          </li>
+        </ul>
+      </v-col>
+      <v-col>
+        <!-- EFFECT switch -->
+        <div class="pa-2 px-4" style="background-color: #F1F8E9; border-radius: 25px; border: 1px solid #7CB342;">
+          <v-switch v-model="effect" label="Effects" class="ma-0 pa-0" color="#9CCC65" hide-details></v-switch>
+        </div>
+        <ul v-bind:style="{'display': effectDis}" v-for="i in effects">
+          <li>
+            {{i.eventTitle}}
+          </li>
+        </ul>
+      </v-col>
+    </v-row>
+
+    <!-- *** CONTENT -->
+    <v-row>
+      <v-col style="max-width: 25%">
+        <v-img width="100%" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-ILL4LOZYbDF3-j7toq45fCjtR6RnsOr6TerzjUGBAUXfsjAz&usqp=CAU"> </v-img>
+      </v-col>
+      <v-col>
+          <div class="py-2 px-2 pl-4" style="border: 1px solid black"> 
+            <h4>{{Descheader}}</h4>
+            <p style="font-size: 12px">{{content}}</p>
+          </div>
+      </v-col>
+    </v-row>
 	</v-col>
 </template>
 
@@ -60,30 +86,33 @@ export default {
   },
   data () {
     return {
+      prvCircle: null,
+      cause: false,
+        causeDis: "none",
+      tp: false,
+        tpDis: "none",
+      effect: false,
+        effectDis: "none",
 	  	id: this.$route.params.id,
 	  	extend: false,
 	  	showBtn: false,
 	  	btntext: 'mdi-chevron-down',
 	  	time: [
-        {
-          times: [
-
-          ]
-        }
+        { times: [ ] }
       ],
+      Descheader: "",
+      content: "",
       data: {},
       Width: null,
       svg: null, // #timeline
       chart: null, // timeline axis
       g: null,
       tool: null,
-      margin: { top: 20, right: 20, bottom: 20, left: 20 }
+      margin: { top: 20, right: 50, bottom: 20, left: 10 }
     }
   },
   methods: {
-  		searchDataSets () {
 
-  		},
     async pullData () {
       // var h = header.replace(/\s+/g, '').toLowerCase()
       const todosRef = db.collection(this.id).doc('Events')
@@ -98,8 +127,9 @@ export default {
           x.label = doc.badge.toString()
           x.name = doc.eventTitle
           x.type = doc.eventType
+          x.content = doc.content
           x.color = '#FF0000'
-          x.border = ''
+          // x.border = ''
           times.push(x)
         })
         return times
@@ -108,9 +138,14 @@ export default {
       this.myFunction()
     },
 
+///////////////
+// TIMELINE //
+//////////////
+
+    //myFunction: calls timeline
     myFunction () {
       this.datA(this.time)
-      var svg = d3.select('#timeline').append('svg')
+      var svg = d3.select('#timeline')
       this.timeline(svg)
     },
 
@@ -143,29 +178,35 @@ export default {
 
     // timeline: sets svg dimension, (creates svg tag layout) adds circles then adds timeline axis
     timeline (gParent) {
+
+      // gets svg of <div #timeline>, sets dimensions
+      var div = gParent[0][0]
+
       // cal svg elements
-      var outerWidth = 700
-      var outerHeight = 100
+      var outerWidth = div.getBoundingClientRect().width
+      
+      var outerHeight = 150
       var width = outerWidth - this.margin.left - this.margin.right
       var height = outerHeight - this.margin.top - this.margin.bottom
       this.Width = width
 
-      // gets svg of <div #timeline>, sets dimensions
-      var div = gParent[0][0]
+
       var svg = d3.select(div)
-        .attr('width', '100%')
-        .attr('height', outerHeight)
+        .append('svg')
+        .attr('overflow-x', "scroll")
+        .attr("width", "100%")
+        .attr("height", outerHeight)
 
       // Define the div for the tooltip
       this.tool = d3.select('#timeline2').append('div')
         .attr('width', '100%')
         .attr('height', '100%')
-			    .attr('class', 'tooltip')
-			    .style('opacity', 0)
+        .attr('class', 'tooltip')
+        .style('opacity', 0)
 
       // append g element for circles and timeline axis (chart)
       var g = svg.append('g')
-        .attr('transform', 'translate(' + this.margin.left + ',' + this.margin.top + ')')
+        .attr('transform', 'translate(' + this.margin.left + ',' + (  this.margin.top + 20 ) + ')')
       this.DrawCircles(g)
 
       // appends nested g for timeline axis
@@ -186,6 +227,7 @@ export default {
         console.warn("d3Timeline Warning: Ids per dataset is deprecated in favor of a 'class' key. Ids are now per data element.")
       }
 
+
       // circles
       g.selectAll('svg').data(Circledata).enter()
         .append('circle')
@@ -202,11 +244,36 @@ export default {
         .attr('cx', getXPos.bind(this))
         .attr('r', itemHeight / 1.8)
         .attr('height', itemHeight)
-        .attr('fill', function (d, i) { return d.color })
+        .attr('fill', function (d, i) { return d.color });
+      
+        //appending div
+        // g.selectAll('svg').data(Circledata).enter()
+        //   .append('div')
+        //   .attr('height', "10px")
+        //   .attr('width', "10px")
 
+
+      //Rotated
+      g.selectAll('svg').data(Circledata).enter()
+        .append('text')
+        .attr('class', function (d) { return ('text' + d.label) })
+        .classed('trend-type', true)
+        .style("text-anchor", "start")
+        .attr("transform", function (d){
+          var x = this.margin.left + (d.start - this.data.minDate) * scaleFactor + 10
+          var y = this.margin.top + (itemHeight + itemMargin) * scaleFactor - 10
+          // "translate(300,150) rotate(10)"
+          return "translate(" + x + "," + y + ") rotate(-10)"
+        }.bind(this))
+        .style('font-size', "12px")
+        .style('fill', 'black')
+        .text(function (d){ return d.name });
+
+          
       // circle text
       g.selectAll('svg').data(Circledata).enter()
         .append('text')
+        .attr('class', function (d) { return ('text' + d.label) })
         .on('mouseover', this.mouseover.bind(this))
         .on('mouseout', this.mouseout.bind(this))
         .attr('x', function (d) {
@@ -236,31 +303,44 @@ export default {
       }
     },
 
+    tooltip(d){
+      console.log(d)
+      // d3.select('#timeline2').append('div')
+      //   .attr('width', '10px')
+      //   .attr('height', '10px')
+      //   .attr('class', 'tooltip')
+      //   .style('opacity', 1)
+      //   .text(d.name)
+      //   .style('fill', 'black')
+        // .style('left', (d3.event.pageX) + 'px')
+        // .style('top', (d3.event.pageY - 105) + 'px')
+    },
+
     // Create Event Handlers for mouse
     mouseover (d) {
-      d.border = '1px solid black'
-      document.getElementById('circle' + d.label).style.stroke = 'black'
       
-      console.log(d3.event)
-      var tool = this.tool[0][0]
-      d3.select(tool)
-      .transition()
-      .duration(200)
-      .style('opacity', 0.9)
-      .text(d.name)
-      .style('left', (d3.event.pageX) + 'px')
-      .style('top', (d3.event.pageY - 105) + 'px')
+      if (this.prvCircle != null){
+        document.getElementById('circle' + this.prvCircle).style.stroke = ''
+        var x = document.getElementsByClassName('text' + this.prvCircle)
+        x[0].style.fontWeight = "normal"
+        x[1].style.fontWeight = "normal"
+      } 
+      
+      var newCircle = document.getElementById('circle' + d.label)
+        newCircle.style.stroke = '#263238'
+        newCircle.style.strokeWidth = '1.8'
+      
+      var x = document.getElementsByClassName('text' + d.label)
+          x[0].style.fontWeight = "bold"
+          x[0].style.fill = "#37474F"
+          x[1].style.fontWeight = "bold"
+      
+      this.Descheader = d.name
+      this.content = d.content
     },
 
     mouseout (d) {
-      d.border = ''
-      document.getElementById('circle' + d.label).style.stroke = 'none'
-
-      var tool = this.tool[0][0]
-      d3.select(tool)
-      .transition()
-      .duration(50)
-      .style('opacity', 0)
+      this.prvCircle = d.label
     },
 
     // xAxis: create axis and axis year intervals
@@ -283,6 +363,56 @@ export default {
     }
 
   },
+  watch: {
+    cause: function () {
+      this.time[0].times.forEach(doc => {
+        var num = doc.label
+        var circle = document.getElementById('circle' + num)
+        if (doc.type == "Cause" && this.cause == true){
+          circle.style.transitionDelay = 'all 2s'
+          circle.style.fill = "#7E57C2" 
+          this.causeDis = "block"
+        } 
+        else if (doc.type == "Cause" && this.cause == false){
+          circle.style.fill = "#FF0000"
+          this.causeDis = "none"
+        }
+      })
+    },
+    tp: function () {
+      this.time[0].times.forEach(doc => {
+        var num = doc.label
+        var circle = document.getElementById('circle' + num)
+        if (doc.type == "Turning Points" && this.tp == true){
+          circle.style.transitionDelay = 'all 2s'
+          circle.style.fill = "#0288D1" 
+          this.tpDis = "block"
+        } 
+        else if ( doc.type == "Turning Points" && this.tp == false){
+          circle.style.fill = "#FF0000" 
+          circle.style.stroke = 'none'
+          this.tpDis = "none"
+        }
+      })
+    },
+    effect: function () {
+      this.time[0].times.forEach(doc => {
+        var num = doc.label
+        var circle = document.getElementById('circle' + num)
+        if (doc.type == "Effect" && this.effect == true){
+          circle.style.transitionDelay = 'all 2s'
+          circle.style.fill = "#7CB342" 
+          this.effectDis = "block"
+        } 
+        else if (doc.type == "Effect" && this.effect == false){
+          circle.style.fill = "#FF0000" 
+          circle.style.stroke = 'none'
+          this.effectDis = "none"
+        }
+      })
+    }
+     
+  },
   mounted () {
     this.pullData()
   }
@@ -290,6 +420,10 @@ export default {
 </script>
 
 <style scope>
+
+  ul{
+    margin-left: 10%;
+  }
 	.timeline{
 		background-color: white;
 		opacity: 1;
@@ -308,11 +442,12 @@ export default {
 	.axis path, .axis line {
 		fill: none;
 		stroke: black;
+    stroke-width: 1.5px;
 		shape-rendering: crispEdges;
 	}
 	.axis text {
 		font-family: sans-serif;
-		font-size: 10px;
+		font-size: 12px;
 	}
 	.timeline-label {
 		font-family: sans-serif;
