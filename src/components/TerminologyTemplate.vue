@@ -1,6 +1,11 @@
 <template>
 	<v-col style="padding-bottom: 100px">
-		<!-- <h4 class="pl-3 pb-6">Terminology</h4> -->
+		<!-- *** HEADER -->
+		<v-row class="text-center" style=" border-bottom: 1px solid #26A69A;"> 
+			<v-col class="pt-0">
+				<h2 class="font-weight-light">Terms of the {{header}}</h2>
+			</v-col>
+		</v-row>
 		<v-row>
 			<v-col cols="1"></v-col>
 			<v-col>
@@ -34,7 +39,8 @@ export default {
   props: {
     causes: Array,
     turningP: Array,
-    effects: Array
+    effects: Array, 
+    header: String
   },
   data () {
     return {
@@ -56,7 +62,7 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 	#tooltip{
 		border-color: 1px solid black;
 	}

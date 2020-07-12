@@ -102,7 +102,7 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 	.bar-positive {
 		fill: steelblue;
 		transition: r 0.2s ease-in-out;

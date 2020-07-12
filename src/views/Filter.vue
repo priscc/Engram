@@ -375,7 +375,7 @@ export default {
 
 </script>
 
-<style type="text/css" scope>
+<style type="text/css" scoped>
 
 	.timeline{
 		background-color: white;

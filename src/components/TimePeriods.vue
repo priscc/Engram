@@ -38,7 +38,7 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 	.done:hover {
 		border: 2px solid grey;
 		font-weight: normal;

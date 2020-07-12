@@ -80,7 +80,7 @@ export default {
 }
 </script>
 
-<style type="text/css" scope>
+<style type="text/css" scoped>
 	.outlineItem{
 		/*border: 1px solid lightgrey;*/
 		/*opacity: .5*/

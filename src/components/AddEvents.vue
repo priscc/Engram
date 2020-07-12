@@ -256,7 +256,7 @@ export default {
 }
 </script>
 
-<style type="text/css" scope>
+<style type="text/css" scoped>
 	.box{
 		text-align: left;
 		background-color: #FCE4EC;

@@ -1,70 +1,84 @@
 <template>
-	<v-col class="pl-7">
+	<v-col class="ml-7" height="100%">
     
     <!-- *** HEADER -->
-    <v-row class="text-center">
-      <v-col class="pt-0 pb-8">
-        <h2 class="font-weight-light"><u>Events of the {{header}}</u></h2>
+    <v-row class="text-center" style="border-bottom: 1px solid #26A69A;"> 
+      <v-col class="pt-0">
+        <h2 class="font-weight-light">Events of the {{header}}</h2>
       </v-col>
     </v-row>
     
+    <!-- *** NARRATIVE -->
+      <v-row>
+        <v-tabs v-model="bottomNav" background-color="white" :color="color" right >
+          <v-tab @click="color = 'red'">All</v-tab>
+          <v-tab @click="color = 'purple'">Causes</v-tab>
+          <v-tab @click="color = 'blue'">Turning Points</v-tab>
+          <v-tab @click="color = 'green'"> Effects</v-tab>
+        </v-tabs>
+      </v-row>
+
 		<!-- ***TIMELINE -->
-    <v-row class=" timeline"> <!-- style="background-color: transparent; border-top: .5px dashed lightgrey" -->
-			<v-col class="my-auto">
+    <v-row class="timeline pt-2"> <!-- style="background-color: transparent; border-top: .5px dashed lightgrey" -->
+			<v-col class="my-0"> <!-- background: linear-gradient(143deg, transparent 33px, #FFFCDD 0); -->
 				<div id="timeline2"></div>
-				<div id="timeline"></div>
+				<div id="timeline" ></div>
 			</v-col>
 		</v-row>
 
-    <!-- *** NARRATIVE  -->
-    <v-row class="d-flex align-start pb-10" color="orange">
+    <!-- *** CONTENT -->
+    <v-row>
       <v-col>
-        <!-- CAUSE switch -->
-        <div class="pa-2 px-4" style="background-color: #EDE7F6; border-radius: 25px; border: 1px solid #512DA8;">
-          <v-switch v-model="cause" label="Causes" class="ma-0 pa-0" color="#7E57C2" hide-details></v-switch>
-        </div>
-        <ul v-bind:style="{'display': causeDis}" v-for="i in causes">
-          <li>
-            {{i.eventTitle}}
-          </li>
-        </ul>
-      </v-col>
-      <v-col>
-        <!-- TURNING POINT switch -->
-        <div class="pa-2 px-4" style="background-color: #E3F2FD; border-radius: 25px; border: 1px solid #1E88E5;">
-          <v-switch v-model="tp" label="Turning Points" class="ma-0 pa-0" color="#90CAF9" hide-details></v-switch>
-        </div>
-        <ul v-bind:style="{'display': tpDis}" v-for="i in turningP">
-          <li>
-            {{i.eventTitle}}
-          </li>
-        </ul>
-      </v-col>
-      <v-col>
-        <!-- EFFECT switch -->
-        <div class="pa-2 px-4" style="background-color: #F1F8E9; border-radius: 25px; border: 1px solid #7CB342;">
-          <v-switch v-model="effect" label="Effects" class="ma-0 pa-0" color="#9CCC65" hide-details></v-switch>
-        </div>
-        <ul v-bind:style="{'display': effectDis}" v-for="i in effects">
-          <li>
-            {{i.eventTitle}}
-          </li>
-        </ul>
+        <v-card elevation="24"  max-width="700" class="mx-auto" >
+          <v-carousel show-arrows-on-hover  height="100%" >
+            <v-carousel-item v-for="(slide, i) in slides" :key="i">
+              <v-sheet :color="colors[i]" height="100%" >
+                <v-row  class="fill-height" align="center" justify="center" >
+                  <v-container class="mx-5 my-4"> 
+                      <v-row>       
+
+                      <!-- MAP -->
+                        <v-col lg="4" md="4" sm="6" xs="12" class="pt-0">
+                          <v-img height="100%" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-ILL4LOZYbDF3-j7toq45fCjtR6RnsOr6TerzjUGBAUXfsjAz&usqp=CAU"></v-img>
+                        </v-col>
+                        <!-- card content -->
+                        <v-col lg="8" md="8" sm="6" cols="12" class="pt-0">
+                          <v-row>
+                            <v-col cols="12">
+                              <h2>{{Descheader}}</h2>
+                              <p class="subtitle-1">{{date}}</p>  
+                            </v-col>
+                          </v-row>
+                          <v-divider></v-divider>
+                          <v-row>
+                            <v-col lg="6" md="6" sm="12" cols="12">
+                              <p class="subtitle-2 mb-0 font-italic">Def</p>
+                              <p>The cow jumped over the moon. The cow jumped over the moon. The cow jumped over the moon. The cow jumped over the moon.</p>
+                            </v-col>
+                            <v-col lg="6" md="6" sm="12" cols="12">
+                              <p class="subtitle-2 mb-0 font-italic">Role in {{header}}</p>
+                              <p>Tester card was just made for fun. Tester card was just made. Tester card was just made. Tester card was just made.</p>
+                          </v-col>
+                          </v-row>
+                        </v-col>
+                      </v-row>
+
+                      <v-row class="mb-6">
+                        <v-col class="d-flex justify-end">
+                          <v-btn color="blue" :to="`/EventPage/${Descheader}`">Learn More</v-btn>
+                        </v-col>
+
+                      </v-row>
+                  </v-container>
+                </v-row>
+              </v-sheet>
+            </v-carousel-item>
+          </v-carousel>
+        </v-card>
       </v-col>
     </v-row>
 
-    <!-- *** CONTENT -->
-    <v-row>
-      <v-col style="max-width: 25%">
-        <v-img width="100%" src="https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcT-ILL4LOZYbDF3-j7toq45fCjtR6RnsOr6TerzjUGBAUXfsjAz&usqp=CAU"> </v-img>
-      </v-col>
-      <v-col>
-          <div class="py-2 px-2 pl-4" style="border: 1px solid black"> 
-            <h4>{{Descheader}}</h4>
-            <p style="font-size: 12px">{{content}}</p>
-          </div>
-      </v-col>
-    </v-row>
+  
 	</v-col>
 </template>
 
@@ -86,29 +100,33 @@ export default {
   },
   data () {
     return {
-      prvCircle: null,
-      cause: false,
-        causeDis: "none",
-      tp: false,
-        tpDis: "none",
-      effect: false,
-        effectDis: "none",
+      //carousel
+          colors: ['green','secondary','yellow darken-4','red lighten-2','orange darken-1'],
+          cycle: false,
+          slides: ['First','Second','Third','Fourth','Fifth'],
+          Descheader: "",
+          content: "",
+          date: "",
+      //top navbar
+          color: "red",
+          bottomNav: 0,
+          prvCircle: null,
+          cause: false,
+            causeDis: "none",
+          tp: false,
+            tpDis: "none",
+          effect: false,
+            effectDis: "none",
 	  	id: this.$route.params.id,
-	  	extend: false,
-	  	showBtn: false,
-	  	btntext: 'mdi-chevron-down',
-	  	time: [
-        { times: [ ] }
-      ],
-      Descheader: "",
-      content: "",
-      data: {},
-      Width: null,
-      svg: null, // #timeline
-      chart: null, // timeline axis
-      g: null,
-      tool: null,
-      margin: { top: 20, right: 50, bottom: 20, left: 10 }
+	  	//timeline content
+        time: [ {times: []} ],
+        data: {},
+        Width: null,
+        svg: null, // #timeline
+        chart: null, // timeline axis
+        g: null,
+        tool: null,
+        margin: { top: 20, right: 50, bottom: 20, left: 10 }
     }
   },
   methods: {
@@ -147,6 +165,15 @@ export default {
       this.datA(this.time)
       var svg = d3.select('#timeline')
       this.timeline(svg)
+
+      this.time[0].times.forEach(doc =>{
+        console.log(doc)
+        document.getElementById('circle' + doc.label).style.elevation = "above"
+        // var x = document.getElementsByClassName('text' + this.prvCircle)
+        // x[0].style.fontWeight = "normal"
+        // x[1].style.fontWeight = "normal"
+      })
+
     },
 
     // datA: formats timeline date data, parse to start and end dates, find min and max date
@@ -185,7 +212,7 @@ export default {
       // cal svg elements
       var outerWidth = div.getBoundingClientRect().width
       
-      var outerHeight = 150
+      var outerHeight = 125
       var width = outerWidth - this.margin.left - this.margin.right
       var height = outerHeight - this.margin.top - this.margin.bottom
       this.Width = width
@@ -337,6 +364,7 @@ export default {
       
       this.Descheader = d.name
       this.content = d.content
+      this.date = d.date
     },
 
     mouseout (d) {
@@ -364,49 +392,91 @@ export default {
 
   },
   watch: {
-    cause: function () {
+    bottomNav: function () {
       this.time[0].times.forEach(doc => {
         var num = doc.label
         var circle = document.getElementById('circle' + num)
-        if (doc.type == "Cause" && this.cause == true){
+        //all
+        if (this.bottomNav == 0){
           circle.style.transitionDelay = 'all 2s'
-          circle.style.fill = "#7E57C2" 
+          circle.style.fill = "#FF0000"  // *** PURPLE
+        }
+        //Cause
+        else if (doc.type == "Cause" && this.bottomNav == 1){
+          circle.style.transitionDelay = 'all 2s'
+          circle.style.fill = "#B388FF"  // *** PURPLE
           this.causeDis = "block"
-        } 
-        else if (doc.type == "Cause" && this.cause == false){
+        }
+        else if (doc.type == "Cause" && this.bottomNav != 1){
           circle.style.fill = "#FF0000"
           this.causeDis = "none"
         }
-      })
-    },
-    tp: function () {
-      this.time[0].times.forEach(doc => {
-        var num = doc.label
-        var circle = document.getElementById('circle' + num)
-        if (doc.type == "Turning Points" && this.tp == true){
+        //TP
+        else if (doc.type == "Turning Points" && this.bottomNav == 2){
           circle.style.transitionDelay = 'all 2s'
-          circle.style.fill = "#0288D1" 
+          circle.style.fill = "#80D8FF" // *** BLUE
           this.tpDis = "block"
         } 
-        else if ( doc.type == "Turning Points" && this.tp == false){
+        else if ( doc.type == "Turning Points" && this.bottomNav != 2){
           circle.style.fill = "#FF0000" 
-          circle.style.stroke = 'none'
           this.tpDis = "none"
         }
+        //Effects
+        if (doc.type == "Effect" && this.bottomNav == 3){
+          circle.style.transitionDelay = 'all 2s'
+          circle.style.fill = "#64DD17" // *** GREEN
+          this.effectDis = "block"
+        } 
+        else if (doc.type == "Effect" && this.bottomNav != 3){
+          circle.style.fill = "#FF0000"
+          this.effectDis = "none"
+        }
+
+
       })
     },
+    //unused
+      // cause: function () {
+      //   this.time[0].times.forEach(doc => {
+      //     var num = doc.label
+      //     var circle = document.getElementById('circle' + num)
+      //     else if (doc.type == "Cause" && this.cause == true){
+      //       circle.style.transitionDelay = 'all 2s'
+      //       circle.style.fill = "#B388FF"  // *** PURPLE
+      //       this.causeDis = "block"
+      //     } 
+      //     else if (doc.type == "Cause" && this.cause == false){
+      //       circle.style.fill = "#FF0000"
+      //       this.causeDis = "none"
+      //     }
+      //   })
+      // },
+      // tp: function () {
+      //   this.time[0].times.forEach(doc => {
+      //     var num = doc.label
+      //     var circle = document.getElementById('circle' + num)
+      //     if (doc.type == "Turning Points" && this.tp == true){
+      //       circle.style.transitionDelay = 'all 2s'
+      //       circle.style.fill = "#81D4FA" // *** BLUE
+      //       this.tpDis = "block"
+      //     } 
+      //     else if ( doc.type == "Turning Points" && this.tp == false){
+      //       circle.style.fill = "#FF0000" 
+      //       this.tpDis = "none"
+      //     }
+      //   })
+      // },
     effect: function () {
       this.time[0].times.forEach(doc => {
         var num = doc.label
         var circle = document.getElementById('circle' + num)
         if (doc.type == "Effect" && this.effect == true){
           circle.style.transitionDelay = 'all 2s'
-          circle.style.fill = "#7CB342" 
+          circle.style.fill = "#AED581" // *** GREEN
           this.effectDis = "block"
         } 
         else if (doc.type == "Effect" && this.effect == false){
-          circle.style.fill = "#FF0000" 
-          circle.style.stroke = 'none'
+          circle.style.fill = "#FF0000"
           this.effectDis = "none"
         }
       })
@@ -419,7 +489,20 @@ export default {
 }
 </script>
 
-<style scope>
+<style>
+.box p {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;  
+  overflow: hidden;
+}
+
+  .fade-enter-active, .fade-leave-active {
+  transition: opacity .5s;
+  }
+  .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+    opacity: 0;
+  }
 
   ul{
     margin-left: 10%;
@@ -441,13 +524,16 @@ export default {
 	}
 	.axis path, .axis line {
 		fill: none;
-		stroke: black;
+		stroke: #717171;
     stroke-width: 1.5px;
 		shape-rendering: crispEdges;
 	}
 	.axis text {
 		font-family: sans-serif;
 		font-size: 12px;
+    fill: #717171;
+    stroke: #717171;
+    stroke-width: .10px;
 	}
 	.timeline-label {
 		font-family: sans-serif;

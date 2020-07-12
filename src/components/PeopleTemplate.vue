@@ -1,11 +1,17 @@
 <template>
 	<v-col style="padding-bottom: 100px">
+		<v-row class="text-center" style=" border-bottom: 1px solid #26A69A;"> 
+			<v-col class="pt-0">
+				<h2 class="font-weight-light">Historical Figures of the {{header}}</h2>
+			</v-col>
+		</v-row>
+
 		<v-row>
 			<v-col v-for="n in 9" cols="3" md="3" sm="7">
 				<router-link to="/PeoplePage">
 				<v-hover>
 					<template v-slot:default="{ hover }" >
-						<v-img class="profile" aspect-ratio="1.4" src="https://cdn.vuetifyjs.com/images/parallax/material2.jpg">
+						<v-img class="profile" aspect-ratio="1" src="@/assets/joanarc.png">
 						<v-fade-transition>
 							<v-overlay v-if="hover" absolute color="#F5F5F5">
 								<p>Learn More</p>
@@ -28,12 +34,13 @@ export default {
   props: {
     causes: Array,
     turningP: Array,
-    effects: Array
+    effects: Array,
+    header: String
   }
 }
 </script>
 
-<style scope>
+<style scoped>
 	.profile{
 		border: 1px solid black;
 		border-radius: 50%;

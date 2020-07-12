@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
 		<div class="legend"></div>
-	<div class="view" id="map"></div>
+		<div class="view" id="map"></div>
 	</div>
 
 </template>
@@ -127,45 +127,44 @@ export default {
 }
 </script>
 
-<style >
-		#app {
-			background: #222;
-			font-family: sans-serif;
-		}
-		.border {
-				fill: none;
-				stroke: #d9edf7;
-				stroke-width: 1px;
-		}
-		.regions.selected {
-				fill: #222;
-				stroke: none;
-				transition: all 0.2s ease;
-		}
-		.regions.selected:hover {
-				fill: #d9edf7;
-				stroke: #d9edf7;
-				stroke-width: 1px;
-		}
-		.legend {
-				height: 10px;
-				color: #CCC;
-				text-align: center;
-		}
-		.svg-container {
-			display: inline-block;
-			position: relative;
-			width: 100%;
-			padding-bottom: 50%; /* aspect ratio */
-			vertical-align: top;
-			overflow: hidden;
-			left: 10%;
-		}
-		.svg-content-responsive {
-			display: inline-block;
-			position: absolute;
-			top: 20px;
-			
-		}
+<style>
+	#app {
+		background: #222;
+		font-family: sans-serif;
+	}
+	.border {
+		fill: none;
+		stroke: #d9edf7;
+		stroke-width: 1px;
+	}
+	.regions.selected {
+		fill: #222;
+		stroke: none;
+		transition: all 0.2s ease;
+	}
+	.regions.selected:hover {
+		fill: #d9edf7;
+		stroke: #d9edf7;
+		stroke-width: 1px;
+	}
+	.legend {
+		height: 10px;
+		color: #CCC;
+		text-align: center;
+	}
+	.svg-container {
+		display: inline-block;
+		position: relative;
+		width: 100%;
+		padding-bottom: 50%; /* aspect ratio */
+		vertical-align: top;
+		overflow: hidden;
+		left: 10%;
+	}
+	.svg-content-responsive {
+		display: inline-block;
+		position: absolute;
+		top: 20px;
+		
+	}
 </style>
-<body>

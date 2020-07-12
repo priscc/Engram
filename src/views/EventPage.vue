@@ -101,15 +101,16 @@ export default {
 
     // findingEvent: searching for the loction of the event using *SEARCH
     async findingEvent () {
-			 console.log(this.id)
-      var id = await db.collection('*SEARCH').where('name', '==', this.id).get().then(function (querySnapshot) {
-        var x
-        querySnapshot.forEach(function (doc) {
-          x = doc.data().location.collection
-        })
-        return x
-      })
-      this.collection = id
+      // ** this doesn't work becuase the events were not properly added to SEARC
+			// console.log(this.id)
+   //    var id = await db.collection('*SEARCH').where('name', '==', this.id).get().then(function (querySnapshot) {
+   //      var x
+   //      querySnapshot.forEach(function (doc) {
+   //        x = doc.data().location.collection
+   //      })
+   //      return x
+   //    })
+   //    this.collection = id
       this.pageContent()
     },
 
@@ -117,7 +118,7 @@ export default {
     async pageContent () {
       var id = this.id
 
-      var event = await db.collection(this.collection).doc('Events').get().then(function (doc) {
+      var event = await db.collection('americanrevolution').doc('Events').get().then(function (doc) {
         var dic = doc.data().events.filter(function (element) {
 					 return element.eventTitle == id
         })
@@ -127,12 +128,17 @@ export default {
     }
   },
   mounted () {
+    window.scrollTo({
+  top: 0,
+  left: 0,
+  behavior: 'smooth'
+});
     this.findingEvent()
   }
 }
 </script>
 
-<style scope>
+<style scoped>
 	.event-header{
 		display: inline
 	}

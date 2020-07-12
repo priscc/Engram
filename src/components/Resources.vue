@@ -34,8 +34,8 @@
 							<v-card-title class="headline grey lighten-2" primary-title >
 								<v-row class="ml-12">
 									<v-col class="d-flex align-end pb-2"><h5><u>{{resource.header}}</u></h5></v-col>
-									<v-col cols="1" class="d-flex justify-end">
-										<v-btn icon @click="dialog = false" opacity=".5" outlined>
+									<v-col cols="1">
+										<v-btn icon absolute right @click="dialog = false" opacity=".5">
 										<v-icon>mdi-close</v-icon>
 									</v-btn>
 									</v-col>
@@ -92,7 +92,7 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 	.v-card--reveal {
 		align-items: center;
 		bottom: 0;

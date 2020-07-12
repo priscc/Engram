@@ -59,7 +59,7 @@ export default {
 
 </script>
 
-<style type="text/css" scope>
+<style type="text/css" scoped>
 	#blog-show{
 		max-width: 800px;
 		margin: 0 auto;

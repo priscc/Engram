@@ -144,7 +144,7 @@ export default {
 }
 </script>
 
-<style scope>
+<style scoped>
 #text{
 	position: relative;
 	color: white;

@@ -6,24 +6,19 @@ Inital Topic Page Layout
 	People		|	people-page
 
 <template>
-<v-container class="px-12" fluid>
-	<!-- BREADCRUMB -->
+<v-container class="px-12" fluid height="100%">
 	<v-row>
-		<v-col style="max-width: 6%;">
-			<v-avatar size="32">
-				<v-btn color="blue lighten-2" dark rounded style="height: 100%;" @click="back">
-					<v-icon dark>mdi-arrow-left</v-icon>
-				</v-btn>
-			</v-avatar>
-		</v-col>
-		<v-col class="d-flex align-end">
-			<h3>{{header}}</h3>
-		</v-col>
-		<v-col></v-col>
-	</v-row>
-	<!-- Left sidebar -->
-	<v-row>
+		<!-- Left sidebar -->
 		<v-col class="topicsSideBar">
+			<v-row>
+				<v-col class="pt-0">
+					<v-avatar size="32">
+					<v-btn color="blue lighten-2" dark rounded style="height: 100%;" @click="back">
+						<v-icon dark>mdi-arrow-left</v-icon>
+					</v-btn>
+					</v-avatar>
+				</v-col>
+			</v-row>
 			<v-card tile >
 				<v-list>
 					<v-list-item-group v-model="item" color="primary">
@@ -42,13 +37,17 @@ Inital Topic Page Layout
 				</v-list>
 			</v-card>
 		</v-col>
-	<!-- Right content (changes dep on page) -->
-	<!-- col is added in component -->
-		<intro-template v-if="TopicContentSelect == 'Intro'" />
-		<event-template v-else-if="TopicContentSelect == 'Events'" :causes="causes" :turningP="turningP" :effects="effects" :header="header"/>
-		<terminology-template v-else-if="TopicContentSelect == 'Terminology'"></terminology-template>
-		<people-template v-else-if="TopicContentSelect == 'Historical People'"></people-template>
+		<!-- Right content (changes dep on page) -->
+		<!-- col is added in component -->
+
+			<intro-template v-if="TopicContentSelect == 'Intro'" :header="header"/>
+			<event-template v-else-if="TopicContentSelect == 'Events'" :causes="causes" :turningP="turningP" :effects="effects" :header="header"/>
+			<terminology-template v-else-if="TopicContentSelect == 'Terminology'" :header="header"></terminology-template>
+			<people-template v-else-if="TopicContentSelect == 'Historical People'" :header="header"></people-template>
+			<works v-else-if="TopicContentSelect == 'Works of the Time'" :header="header"></works>
+
 	</v-row>
+
 </v-container>
 </template>
 
@@ -58,6 +57,9 @@ import introTemplate from '@/components/IntroTemplate.vue'
 import eventTemplate from '@/components/Events/EventTemplate.vue'
 import terminologyTemplate from '@/components/TerminologyTemplate.vue'
 import peopleTemplate from '@/components/PeopleTemplate.vue'
+import works from '@/components/WorksoftheTime.vue'
+
+
 
 export default {
   name: 'Topics',
@@ -65,7 +67,8 @@ export default {
     introTemplate,
     eventTemplate,
     terminologyTemplate,
-    peopleTemplate
+    peopleTemplate,
+    works
   },
   data () {
     return {
@@ -134,7 +137,7 @@ export default {
 }
 </script>
 
-<style type="text/css" scope>
+<style type="text/css" scoped>
 	html {
 		scroll-behavior: smooth;
 	}
