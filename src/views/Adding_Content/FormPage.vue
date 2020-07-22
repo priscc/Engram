@@ -26,7 +26,7 @@
 			<v-col cols="4" class="text-center">
 				<v-hover>
 					<template v-slot:default="{ hover }">
-						<v-card class="mx-auto" max-width="344" style="border: 1px solid white" color="teal lighten-3" to="/AddTopicContent">
+						<v-card class="mx-auto" max-width="344" style="border: 1px solid white" color="teal lighten-3" to="/AddContent">
 							<v-img class="m-5" aspect-ratio="1.7" src="@/assets/adding_event.png"></v-img>
 							<v-card-text>
 								<h2 class="title">Add Content</h2>

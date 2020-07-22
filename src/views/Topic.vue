@@ -57,7 +57,7 @@ import introTemplate from '@/components/IntroTemplate.vue'
 import eventTemplate from '@/components/Events/EventTemplate.vue'
 import terminologyTemplate from '@/components/TerminologyTemplate.vue'
 import peopleTemplate from '@/components/PeopleTemplate.vue'
-import works from '@/components/WorksoftheTime.vue'
+import works from '@/components/WorksTemplate.vue'
 
 
 

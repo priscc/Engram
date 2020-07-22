@@ -1,4 +1,4 @@
-import Vue from 'vue'
+ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -28,17 +28,18 @@ Vue.use(Vuetify) // for vuetify icons
 Vue.directive('markdown', markdown) // v-markdown
 
 firebase.initializeApp({
-  apiKey: 'AIzaSyAEztmZlas_ZkOv21pbW2rLOa9TBDPDX0k',
-  authDomain: 'ap-studybit.firebaseapp.com',
-  databaseURL: 'https://ap-studybit.firebaseio.com',
-  projectId: 'ap-studybit',
-  storageBucket: 'ap-studybit.appspot.com',
-  messagingSenderId: '450002681745',
-  appId: '1:450002681745:web:2645cd3c81c3eac836e430',
-  measurementId: 'G-7DCFPNFXDB'
+  apiKey: "AIzaSyAEztmZlas_ZkOv21pbW2rLOa9TBDPDX0k",
+  authDomain: "ap-studybit.firebaseapp.com",
+  databaseURL: "https://ap-studybit.firebaseio.com",
+  projectId: "ap-studybit",
+  storageBucket: "ap-studybit.appspot.com",
+  messagingSenderId: "450002681745",
+  appId: "1:450002681745:web:2645cd3c81c3eac836e430",
+  measurementId: "G-7DCFPNFXDB"
 })
 
 export const db = firebase.firestore()
+
 export default new Vuetify({
   icons: {
     iconfont: 'md',

@@ -36,7 +36,7 @@ export default {
       links: [
         { label: 'Home', url: '/' },
         { label: 'About', url: '/About' },
-        { label: 'Add New Content', url: '/AddContentPage' },
+        { label: 'Add New Content', url: '/FormPage' },
         // { label: 'blogShow', url: '/blogShow' },
         // { label: 'addBlog', url: '/addBlog' },
         { label: 'Filter', url: '/Filter' },

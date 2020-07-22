@@ -103,7 +103,6 @@
 
 <script>
 import { db } from '@/main'
-
 export default {
   props: {
     topicSelected: String
@@ -139,7 +138,6 @@ export default {
     // 3b) update topic/Events/ with new event
     // 3c) update *SEARCH with new event
     // 4) mountedEvents() is called, update displayed events on right
-
     // locatingCollection [wateched]: setting Topic which events are added to & refresh right Events
     async locatingCollection () {
       // finding collection name from *SEARCH
@@ -156,7 +154,6 @@ export default {
       this.collectionName = id
       this.mountedEvents()
     },
-
     // mountedEvents: adding events to the right
     async mountedEvents () {
       this.events = []
@@ -170,7 +167,6 @@ export default {
       })
       this.events = this.organization(events) // sort events
     },
-
     // submitData: called when submit button is pressed
     async submitData () {
       console.log('ehy')
@@ -189,7 +185,6 @@ export default {
       this.updateSearch()
       this.reset()
     },
-
     // updateSearch: updates *SEARCH collection
     async updateSearch () {
       db.collection('*SEARCH').doc().set({
@@ -203,7 +198,6 @@ export default {
         }
       })
     },
-
     // organization: sorts events by start date & add badge # accordingly
     organization (x) {
       x.sort(function (a, b) {
@@ -216,7 +210,6 @@ export default {
       })
       return x
     },
-
     // updateTimePeroid: updating topicContent_published if Topic now has content
     //* ***not used, find if there is a better way to do this
     async updateTimePeroid (x, y) {
@@ -233,10 +226,8 @@ export default {
         topics: d
       })
     },
-
     // save: used for calendar
     save (date) { this.$refs.menu.save(date) },
-
     // reset: resets form
     reset () { this.$refs.form.reset() }
   },
