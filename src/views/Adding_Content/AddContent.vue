@@ -1,5 +1,6 @@
 <template>
 <div id="app">
+  <!-- Header -->
   <v-container>
     <v-row class="blue-grey darken-2 white--text text-center">
       <v-col>
@@ -7,16 +8,16 @@
         <blockquote class="blockquote pa-0">Select a topic below</blockquote>
       </v-col>
     </v-row>
-    <!-- DROP DOWN select topic menu -->
+    <!-- Drop dowan -->
     <v-row>
       <v-spacer></v-spacer>
       <v-col cols="7">
-        <v-select v-model="topic" :items="states" menu-props="auto" label="Select a topic"  single-line ripple @change="locatingCollection"></v-select>
+        <v-select v-model="topic" :items="topics" menu-props="auto" label="Select a topic"  single-line ripple @change="locatingCollection"></v-select>
       </v-col>
       <v-spacer></v-spacer>
     </v-row>
   </v-container>
-
+  <!-- Topic Components -->
   <v-container fluid>
     <v-row v-if="topic != '' ">
       <v-col>
@@ -62,11 +63,9 @@ export default {
   data: function () {
     return {
       // Drop down
+        topics: [],
+      // Toggle bar
         tab: 'Events',
-        states: [],
-      // For toggle bar
-        bottomNav: 0,
-        item: 0,
         tabs: [
           { title: 'Events', icon: 'mdi-clock-start', doc: 'Events' },
           { title: 'Terminology', icon: 'mdi-view-dashboard', doc: 'Terminology' },
@@ -82,8 +81,13 @@ export default {
   methods: {
 
     // readSearch: mounted to add Topics to auto-fill search list
-    readSearch () {
-      const todosRef = db.collection('*TIME_PERIODS')
+    async listTopics () {
+      // const todosRef = db.collection('topics').get().then(doc => {
+      //     doc.forEach(doc => {
+      //       this.topics.push(doc.data().topic)
+      //     })
+      //   })
+      const todosRef = await db.collection('*TIME_PERIODS')
       todosRef.get().then(snapshot => {
         var todos = []
         snapshot.forEach(doc => {
@@ -91,7 +95,7 @@ export default {
             todos.push(i.topicTitle)
           })
         })
-        this.states = todos
+        this.topics = todos
       })
     },
 
@@ -110,6 +114,7 @@ export default {
       this.items = await todosRef.get().then(function (doc) {
         var x = []
         if (this.tab == 'Events'){
+          console.log(doc.data())
           doc.data().events.forEach(doc => {
             x.push(doc)
           })
@@ -127,37 +132,17 @@ export default {
       var updates = await db.collection(this.collectionName).doc(this.tab)
       
       if (this.tab == 'Events'){
-        updates.update({
-          events: e
-        })
+        updates.update({ events: e })
       }
       else{
-        updates.update({
-          items: e
-        })
+        updates.update({ items: e })
       }
-      
       this.mountedEvents()
-    },
-
-    // updateSearch: updates *SEARCH collection
-      // async updateSearch () {
-        // db.collection('*SEARCH').doc().set({
-        //   name: this.createdEvent.eventTitle,
-        //   typeofContent: 'event',
-        //   eventName: this.createdEvent.eventName,
-        //   location: {
-        //     collection: this.collectionName,
-        //     doc: 'Events',
-        //     dataArr: 'events'
-        //   }
-        // })
-      // },
-
+    }
 
   },
   mounted () {
-    this.readSearch()
+    this.listTopics()
   }
 }
 </script>

@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { db } from '@/main'
+
 export default {
   props: {
     topicSelected: String,

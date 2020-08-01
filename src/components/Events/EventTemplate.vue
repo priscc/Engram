@@ -28,7 +28,7 @@
     <!-- *** CONTENT -->
     <v-row>
       <v-col>
-        <v-card elevation="24" max-width="750" class="mx-auto" outlined>
+        <v-card elevation="24" max-width="700" class="mx-auto" outlined>
           <v-carousel show-arrows-on-hover height="100%" @change="ChangeEvent">
             <v-carousel-item v-for="(slide, i) in time" :key="i" >
               <v-sheet light  height="100%" >
@@ -36,14 +36,14 @@
                   <v-container class="mb-10"> 
                       <v-row>       
                       <!-- MAP -->
-                        <v-col cols="6" class="pt-3 d-flex">
+                        <v-col cols="5" class="pt-3 d-flex">
                             <v-img class="align-center" max-width="100%" :src="slide.image"></v-img>
                         </v-col>
                         <!-- card content -->
-                        <v-col class="pt-0">
+                        <v-col class="pt-0 mr-2">
                           <v-row>
                             <v-col cols="12">
-                              <h2>{{slide.name}}</h2>
+                              <h2>{{slide.title}}</h2>
                               <p class="subtitle-1">{{slide.date}}</p>  
                             </v-col>
                           </v-row>
@@ -55,19 +55,18 @@
                             </v-col>
                             <v-col lg="6" md="6" sm="12" cols="12">
                               <p class="subtitle-2 mb-0 font-italic">Role in {{header}}</p>
-                              <p class="caption">Tester card was just made for fun. Tester card was just made. Tester card was just made. Tester card was just made.</p>
+                              <p class="caption"> {{slide.name}} Tester card was just made for fun. Tester card was just made. Tester card was just made. Tester card was just made.</p>
                           </v-col>
                           </v-row>
                           <!-- Button -->
                           <v-row>
                               <v-col class="d-flex justify-end pr-5">
-                                <v-btn color="blue" :to="`/EventPage/${slide.name}`">Learn More</v-btn>
+                                
+                                <v-btn color="blue" :to="`/EventPage/${id}/${slide.name}`" dark>Learn More</v-btn>
                               </v-col>
                           </v-row>
                         </v-col>
                       </v-row>
-                      
-                      
                   </v-container>
                 </v-row>
               </v-sheet>
@@ -131,7 +130,8 @@ export default {
           x.date = doc.date.slice(0, 4)
           x.end = doc.date.slice(0, 4)
           x.label = doc.badge.toString()
-          x.name = doc.eventTitle
+          x.title = doc.eventTitle
+          x.name = doc.name
           x.type = doc.eventType
           x.image = doc.image
           x.content = doc.content
@@ -255,7 +255,7 @@ export default {
           }.bind(this))
           .style('font-size', "12px")
           .style('fill', 'black')
-          .text(function (d){ return d.name });
+          .text(function (d){ return d.title });
             
         // circle text
         g.selectAll('svg').data(Circledata).enter()

@@ -73,7 +73,6 @@
 </template>
 
 <script>
-import { db } from '@/main'
 import firebase from 'firebase'
 
 export default {

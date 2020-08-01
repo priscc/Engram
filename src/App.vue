@@ -1,7 +1,10 @@
 <template>
 <v-app id="body">
-	<v-app-bar app color="orange">
-		<v-toolbar-title><h4 class="ma-5 pa-3 border text-light white--text">LOGO img</h4></v-toolbar-title>
+	<v-app-bar app color="blue-grey darken-4">
+		<v-toolbar-title>
+			<!-- <h4 class="ma-5 pa-3 border text-light white--text">LOGO img</h4> -->
+			<v-img class="ml-7 mb-3" width="100" src="@/assets/MegLogo.png"></v-img>
+		</v-toolbar-title>
 		<v-spacer></v-spacer>
 		<v-btn v-for="link in links" :key="`${link.label}-header-link`" text dark rounded :to="link.url">
 			{{ link.label }}
@@ -36,7 +39,7 @@ export default {
       links: [
         { label: 'Home', url: '/' },
         { label: 'About', url: '/About' },
-        { label: 'Add New Content', url: '/FormPage' },
+        { label: 'Add New Content', url: '/ManageContent' },
         // { label: 'blogShow', url: '/blogShow' },
         // { label: 'addBlog', url: '/addBlog' },
         { label: 'Filter', url: '/Filter' },

@@ -82,12 +82,6 @@ export default {
       dialog: false,
       overlay: false
     }
-  },
-  methods: {
-    sendtoParent (param) {
-      // See the callback in the child comp reference in the parent comp
-      this.$emit('askParentToDoStuff', true, param)
-    }
   }
 }
 </script>

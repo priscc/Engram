@@ -22,7 +22,7 @@ const routes = [
       component: () => import('../views/Topic.vue')
     },
     {
-      path: '/EventPage/:id',
+      path: '/EventPage/:topic/:id',
       name: 'EventPage',
       component: () => import('../views/EventPage.vue')
     },
@@ -34,9 +34,9 @@ const routes = [
 
   // Adding Content
     {
-      path: '/FormPage',
-      name: 'FormPage',
-      component: () => import('../views/Adding_Content/FormPage.vue')
+      path: '/ManageContent',
+      name: 'ManageContent',
+      component: () => import('../views/Adding_Content/ManageContent.vue')
     },
     {
       path: '/AddTopic',
@@ -48,13 +48,12 @@ const routes = [
       name: 'AddEvent',
       component: () => import('../views/Adding_Content/AddContent.vue')
     },
+  // Other tester Code
     {
       path: '/blogShow',
       name: 'blogShow',
       component: () => import('../components/othercomponents/blogShow.vue')
     },
-
-  // Other tester Code
     {
       path: '/Filter',
       name: 'Filter',

@@ -6,15 +6,15 @@
           </v-col>
         </v-row>
         <v-row>
-          <v-col v-for="(n, i) in works" :key="i" lg="4" md="4" sm="6" class="px-5 pb-2">
-          <v-card class="mx-auto" max-width="400" outlined>
+          <v-col v-for="(n, i) in works" :key="i" class="px-5 pb-2" lg="6" md="6" sm="12">
+          <v-card class="mx-auto  d-flex justify-space-between" outlined>
              <div class="d-flex flex-no-wrap justify-space-between">
               <v-avatar class="ma-3" size="125" tile>
                 <v-img :src="n.image" width="100%"></v-img>
               </v-avatar>
               <div>
                 <v-card-title class="subtitle-1">{{n.work}}</v-card-title>
-                <v-card-subtitle>{{n.description}} ljcbdlsjkvbe</v-card-subtitle>
+                <v-card-subtitle class="preview">{{n.description}} ljcbdlsjkvbe</v-card-subtitle>
               </div>
             </div>
           </v-card>
@@ -45,16 +45,6 @@ export default {
         this.works = await todosRef.get().then(function (doc) {
             return doc.data().items
         })
-
-       
-        // 
-
-        // const imageRef = await storageRef.child(this.$props.header +'/Works/' +)
-
-        // const download = imageRef.getDownloadURL()
-
-        // console.log(download)
-        // this.storageImg = download
     }
   },
   mounted () {
@@ -64,7 +54,19 @@ export default {
 </script>
 
 <style scoped>
-    #tooltip{
-        border-color: 1px solid black;
-    }
+  #tooltip{
+    border-color: 1px solid black;
+  }
+  .preview {
+    max-width: 500px;
+    margin: 0 auto;
+    width: 100%;
+    text-align: justify;
+  }
+  .preview {
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+    hyphens: auto;
+  }
 </style>

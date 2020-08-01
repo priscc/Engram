@@ -1,10 +1,3 @@
-** Page: Event Page **
-
-<- 	|  	Content		| (component) "this is currently not yet a component"
-	|	 			|  Resources
-
-**********************************
-
 <template>
 	<v-container class="px-12" fluid>
 		<v-row>
@@ -15,7 +8,6 @@
 					</v-btn>
 				</v-avatar>
 			</v-col>
-
 			<v-col>
 					<h2 class="event-header"><u>{{event.eventTitle}}</u></h2>
 					<div class="pl-5 event-header align-self-end font-weight-light font-italic">( {{event.date}} )</div>
@@ -27,6 +19,18 @@
 			<v-col>
 					<h4><u>Event Content Below</u></h4>
 					<div :key="event.content" v-markdown>{{event.content}}</div>
+          
+          <div v-for="i in event.resources.images">
+            <v-img height="150" width="100" :src="i.file" ></v-img>
+          </div>
+          <div v-for="i in event.resources.articles">
+            <p>{{i.title}}</p>
+          </div>
+          <div v-for="i in event.resources.videos">
+            <p>{{i.title}}</p>
+            <p>{{i.link}}</p>
+          </div>
+          
 			</v-col>
 			<v-col>
 				<resources v-for="resource in resources" :key="resource.header" :resource="resource"></resources>
@@ -47,8 +51,8 @@ export default {
   data () {
     return {
       id: this.$route.params.id,
-      collection: '',
-      event: [],
+      topic: this.$route.params.topic,
+      event: '',
       header: {},
       overlay: false,
       resources: [
@@ -101,17 +105,13 @@ export default {
 
     // findingEvent: searching for the loction of the event using *SEARCH
     async findingEvent () {
-      // ** this doesn't work becuase the events were not properly added to SEARC
-			// console.log(this.id)
-   //    var id = await db.collection('*SEARCH').where('name', '==', this.id).get().then(function (querySnapshot) {
-   //      var x
-   //      querySnapshot.forEach(function (doc) {
-   //        x = doc.data().location.collection
-   //      })
-   //      return x
-   //    })
-   //    this.collection = id
-      this.pageContent()
+      this.event = await db.collection(this.topic).doc('Events').get().then(function (doc) {
+        var v = doc.data().events.filter(function(i) {
+          console.log(this.id)
+            return i.name == this.id;
+        }.bind(this));
+        return v[0]
+      }.bind(this))
     },
 
     // pageContent: grabbing the event content from the database
@@ -122,7 +122,8 @@ export default {
         var dic = doc.data().events.filter(function (element) {
 					 return element.eventTitle == id
         })
-        return dic
+
+        return dic[0]
       })
       this.event = event[0]
     }
@@ -137,6 +138,9 @@ export default {
   }
 }
 </script>
+
+
+
 
 <style scoped>
 	.event-header{

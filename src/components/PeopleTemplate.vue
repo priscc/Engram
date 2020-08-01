@@ -12,14 +12,14 @@
               <template v-slot:default="{ hover }" >
                 <v-img class="profile" aspect-ratio="1" :src="p.image">
                 <v-fade-transition>
-                  <v-overlay v-if="hover" absolute color="#F5F5F5">
+                  <v-overlay v-if="hover" absolute dark>
                       <p>Learn More</p>
                   </v-overlay>
                 </v-fade-transition>
                 </v-img>
               </template>
             </v-hover>
-            <p class="pt-2 text-center" style="font-size: 12px;">{{p.figureName}}</p>
+            <p class="subtitle-2 pt-2 text-center" style="font-size: 12px;">{{p.figureName}}</p>
             </router-link>
           </v-col>
         </v-row>
