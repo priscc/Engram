@@ -79,7 +79,7 @@
 									<v-icon dark right class="pr-4">mdi-plus</v-icon> Add Article
 								</v-btn>
 							</v-col>
-							<v-col v-if="dialogArticle" >
+							<v-col v-if="dialogArticle">
 								<v-card elevation="4">
 									<v-form ref="form" v-model="validArticle" class="py-2">
 										<v-row class="ma-5">
@@ -101,7 +101,7 @@
 			</v-expansion-panel-content>
 		</v-expansion-panel>
 		<!-- Videos -->
-		<v-expansion-panel @change="videoID = !videoID">
+		<!-- <v-expansion-panel @change="videoID = !videoID">
 			<v-expansion-panel-header>
 				Videos
 				<template v-slot:actions>
@@ -149,7 +149,7 @@
 							</v-col>
 						</v-row>
 			</v-expansion-panel-content>
-		</v-expansion-panel>
+		</v-expansion-panel> -->
 	</v-expansion-panels>
 </div>
 </template>
@@ -159,9 +159,9 @@
 <script>
 export default {
 	props:{
-		images: Array,
-		articles: Array,
-		videos: Array
+		// images: Array,
+		// articles: Array,
+		// videos: Array
 	},
 	data: function () {
 		return {
@@ -177,6 +177,7 @@ export default {
 		// Article Resources 
 			dialogArticle: false,
 			articleID: true,
+			articles: [],
 			article:{
 				title: '',
 				link: ''
@@ -200,24 +201,26 @@ export default {
 	methods:{
 
 		saveImage(){
-				var arr = {caption: this.image.caption, file: this.image.file, preview: URL.createObjectURL(this.image.file)}
-				this.$props.images.push(arr)
-				this.reset('images')
-				this.save[0] = true
+			var arr = {caption: this.image.caption, file: this.image.file, preview: URL.createObjectURL(this.image.file)}
+			this.$props.images.push(arr)
+			console.log(this.$props.images)
+			this.reset('images')
+			this.save[0] = true
 		},
 
-		saveArticle(){
-				var arr = {title: this.article.title, link: this.article.link}
-				this.$props.articles.push(arr)
-				this.reset('articles')
-				this.save[1] = true
+		async saveArticle(){
+			var arr = {title: this.article.title, url: this.article.link}
+			// this.$props.articles.push(arr)
+			await this.$emit('updateResource', arr)
+			this.reset('articles')
+			this.save[1] = true
 		},
 
 		saveVideo(){
-				var arr = {title: this.video.title, link: this.video.link}
-				this.$props.videos.push(arr)
-				this.reset('videos')
-				this.save[2] = true
+			var arr = {title: this.video.title, url: this.video.link}
+			this.$props.videos.push(arr)
+			this.reset('videos')
+			this.save[2] = true
 		},
 
 		close(i, arr){

@@ -1,4 +1,4 @@
- import Vue from 'vue'
+import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -39,6 +39,11 @@ firebase.initializeApp({
 })
 
 export const db = firebase.firestore()
+
+export const tc = Vue.observable({
+  topic: null
+});
+
 
 export default new Vuetify({
   icons: {

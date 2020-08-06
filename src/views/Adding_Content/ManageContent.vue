@@ -6,9 +6,10 @@
 			<v-col cols="4" class="text-center">
 				<v-hover>
 					<template v-slot:default="{ hover }">
-						<v-card class="mx-auto" max-width="344" style="border: 1px solid white" color="cyan lighten-3" to="/AddTopic">
-							<v-img class="m-5" aspect-ratio="1.7" src="@/assets/adding_topic.png"></v-img>
+						<v-card class="mx-auto" elevation="10" max-width="344" height="150" style="border: 1px solid white" color="cyan lighten-3" to="/AddTopic">
+							<!-- <v-img class="m-5" aspect-ratio="1.7" src="@/assets/adding_topic.png"></v-img> -->
 							<v-card-text>
+								<v-icon>mdi-plus</v-icon>
 								<h2 class="title">Add a topic</h2>
 								Adding new topic to a time period
 							</v-card-text>
@@ -20,17 +21,18 @@
 						</v-card>
 					</template>
 				</v-hover>
-
 			</v-col>
 			<v-spacer></v-spacer>
 			<v-col cols="4" class="text-center">
 				<v-hover>
 					<template v-slot:default="{ hover }">
-						<v-card class="mx-auto" max-width="344" style="border: 1px solid white" color="teal lighten-3" to="/AddContent">
-							<v-img class="m-5" aspect-ratio="1.7" src="@/assets/adding_event.png"></v-img>
+						<v-card class="mx-auto" elevation="10" max-width="344" height="150" style="border: 1px solid white" color="teal lighten-3" to="/AddContent">
+							<!-- <v-img class="m-5" aspect-ratio="1.7" src="@/assets/adding_event.png"></v-img> -->
 							<v-card-text>
+								<v-icon>mdi-plus</v-icon>
 								<h2 class="title">Add Content</h2>
-							Adding content (events, people, terminology) to a selected topic
+								Adding content (events, people, terminology) to a selected 
+								topic
 							</v-card-text>
 							<v-fade-transition>
 								<v-overlay v-if="hover" absolute color="#036358" >

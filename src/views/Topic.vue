@@ -1,34 +1,24 @@
-Inital Topic Page Layout
-
-(left side bar) | (right content) - components
-	Events		|	events-page
-	Terminology	|	terminology-page
-	People		|	people-page
-
 <template>
 <v-container class="px-12" fluid height="100%">
 	<v-row>
-		<!-- Left sidebar -->
+		<!-- Side bar tabs -->
 		<v-col class="topicsSideBar">
 			<v-row>
 				<v-col class="pt-0">
 					<v-avatar size="32">
-					<v-btn color="blue lighten-2" dark rounded style="height: 100%;" @click="back">
-						<v-icon dark>mdi-arrow-left</v-icon>
-					</v-btn>
+						<v-btn color="blue lighten-2" dark rounded style="height: 100%;" to="/">
+							<v-icon dark>mdi-arrow-left</v-icon>
+						</v-btn>
 					</v-avatar>
 				</v-col>
 			</v-row>
-			<v-card tile >
+			<v-card tile>
 				<v-list>
 					<v-list-item-group v-model="item" color="primary">
-						<!-- Side bar -->
-						<v-list-item class="py-1 mb-4" v-for="(item, i) in items" :key="i" @click="submit(item.title)">
-							<!-- Side bar icons -->
+						<v-list-item class="py-1 mb-4" v-for="(item, i) in items" :key="i" @click="topicTab = item.title">
 							<v-list-item-icon class="mr-2 SideBar_icon">
 								<v-icon v-text="item.icon" small></v-icon>
 							</v-list-item-icon>
-							<!-- Side bar items -->
 							<v-list-item-content>
 								<v-list-item-title class="SideBar_text" v-text="item.title"></v-list-item-title>
 							</v-list-item-content>
@@ -37,105 +27,121 @@ Inital Topic Page Layout
 				</v-list>
 			</v-card>
 		</v-col>
-		<!-- Right content (changes dep on page) -->
-		<!-- col is added in component -->
 
-			<intro-template v-if="TopicContentSelect == 'Intro'" :header="header"/>
-			<event-template v-else-if="TopicContentSelect == 'Events'" :causes="causes" :turningP="turningP" :effects="effects" :header="header"/>
-			<terminology-template v-else-if="TopicContentSelect == 'Terminology'" :header="header"></terminology-template>
-			<people-template v-else-if="TopicContentSelect == 'Historical People'" :header="header"></people-template>
-			<works v-else-if="TopicContentSelect == 'Works of the Time'" :header="header"></works>
-
+		<!-- Right Comps -->
+		<intro-template v-if="topicTab == 'Intro'" 
+			:topicObj="topicObj"></intro-template>
+		<event-template v-else-if="topicTab == 'Events'" 
+			:events="events" :topicObj="topicObj"></event-template>
+		<terminology-template v-else-if="topicTab == 'Terminology'"  
+			:terminology="terminology" :topicObj="topicObj"></terminology-template>
+		<people-template v-else-if="topicTab == 'Historical People'" 
+			:people="people" :topicObj="topicObj"></people-template>
+		<works-template v-else-if="topicTab == 'Works of the Time'" 
+			:works="works" :topicObj="topicObj"></works-template>
 	</v-row>
-
 </v-container>
 </template>
 
+
+
 <script>
-import { db } from '@/main'
 import introTemplate from '@/components/IntroTemplate.vue'
-import eventTemplate from '@/components/Events/EventTemplate.vue'
+import eventTemplate from '@/components/EventTemplate.vue'
 import terminologyTemplate from '@/components/TerminologyTemplate.vue'
 import peopleTemplate from '@/components/PeopleTemplate.vue'
-import works from '@/components/WorksTemplate.vue'
-
-
-
+import worksTemplate from '@/components/WorksTemplate.vue'
+import { db, tc } from "@/main";
 export default {
-  name: 'Topics',
-  components: {
-    introTemplate,
-    eventTemplate,
-    terminologyTemplate,
-    peopleTemplate,
-    works
-  },
-  data () {
-    return {
-      id: this.$route.params.id,
-      header: '',
-      TopicContentSelect: '',
-      item: 0,
-      items: [
-        { title: 'Intro', icon: 'mdi-bookmark' },
-        { title: 'Events', icon: 'mdi-clock-start' },
-        { title: 'Terminology', icon: 'mdi-view-dashboard' },
-        { title: 'Historical People', icon: 'mdi-account' },
-        { title: 'Works of the Time', icon: 'mdi-lightbulb-outline' }
-      ],
-      causes: [],
-      turningP: [],
-      effects: []
-    }
-  },
-  methods: {
-    // move into EventTemplate
-    async parseEventType () {
-		this.header = await db.collection('*SEARCH').where('collectionName', '==', this.id).get().then(function (querySnapshot) {
-				var x
-				querySnapshot.forEach(function (doc) {
-				// doc.data() is never undefined for query doc snapshots
-				x = doc.data().name
-				})
-				return x
-			})
+	components: {
+		introTemplate,
+		eventTemplate,
+		terminologyTemplate,
+		peopleTemplate,
+		worksTemplate
+	},
+	data () { return {
+		id: this.$route.params.id,
+		topicObj: {},
+		events: [],
+		people: [],
+		terminology: [],
+		works: [],
 
-		const todosRef = db.collection(this.id).doc('Events')
-		var x = await todosRef.get().then(function (doc) {
-			var all = []
-			var c = []
-			var tp = []
-			var e = []
-			doc.data().events.forEach(doc => {
-			  if (doc.eventType == 'Cause') { c.push(doc) } else if (doc.eventType == 'Turning Points') { tp.push(doc) } else { e.push(doc) }
-			})
-			all.c = c
-			all.tp = tp
-			all.e = e
-			return all
-		})
+		// Bottom Navbar
+		topicTab: 'Intro',
+		item: 0,
+		items: [
+			{ title: 'Intro', icon: 'mdi-bookmark' },
+			{ title: 'Events', icon: 'mdi-clock-start' },
+			{ title: 'Terminology', icon: 'mdi-view-dashboard' },
+			{ title: 'Historical People', icon: 'mdi-account' },
+			{ title: 'Works of the Time', icon: 'mdi-lightbulb-outline' }
+		]
+	}},
+	methods: {
+		async grabTopic (){
 
-		this.causes = x.c
-		this.turningP = x.tp
-		this.effects = x.e
-    },
-    submit (i) {
-      this.TopicContentSelect = i
-      this.$router.replace(i)
-    },
-    back () {
-      console.log(this.$router.go(-1))
-    }
-  },
-  mounted () {
-  	this.TopicContentSelect = this.$route.params.subpage
+			// grabbing topic
+			var tcID = await db.collection('topics').doc(this.id).get().then(function(doc) {
+				var ref = doc.id
+				this.topicObj = doc.data()
+				this.topicObj.topicID = ref
+				return ref
+			}.bind(this))
 
-  	this.item = this.items.findIndex(rank => rank.title === this.TopicContentSelect)
+			// grabbing events
+			db.collection('events').where('topicID', '==', tcID)
+				.get().then(function(querySnapshot) {
+					querySnapshot.forEach(function(doc) {
+						var entry = doc.data()
+						entry.id = doc.id
+						this.events.push(entry)
+					}.bind(this));
+				}.bind(this))
 
-    this.parseEventType()
-  }
+			// grabbing people
+			db.collection('people').where('topicID', '==', tcID)
+				.get().then(function(querySnapshot) {
+					if (querySnapshot.docs.length == 0) querySnapshot = undefined
+					querySnapshot.forEach(function(doc) {
+						var entry = doc.data()
+						entry.id = doc.id
+						this.people.push(entry)
+					}.bind(this));
+				}.bind(this))
+
+			// grabbing terms
+			db.collection('terminology').where('topicID', '==', tcID)
+				.get().then(function(querySnapshot) {
+					if (querySnapshot.docs.length == 0) querySnapshot = undefined
+					querySnapshot.forEach(function(doc) {
+						this.terminology.push(doc.data())
+					}.bind(this));
+				}.bind(this))
+
+			// grabbing works
+			db.collection('works').where('topicID', '==', tcID)
+				.get().then(function(querySnapshot) {
+					if (querySnapshot.docs.length == 0) querySnapshot = undefined
+					querySnapshot.forEach(function(doc) {
+						this.works.push(doc.data())
+					}.bind(this));
+				}.bind(this))
+		},
+
+		back () {
+			console.log(this.$router.go(-1))
+		}
+	},
+	mounted(){
+		this.grabTopic()
+	}
 }
 </script>
+
+
+
 
 <style type="text/css" scoped>
 	html {

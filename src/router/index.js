@@ -17,17 +17,18 @@ const routes = [
       component: () => import('../views/About.vue')
     },
     {
-      path: '/Topic/:id/:subpage',
+      path: '/Topic/:id',
+      // path: '/Topic',
       name: 'Topic',
       component: () => import('../views/Topic.vue')
     },
     {
-      path: '/EventPage/:topic/:id',
+      path: '/EventPage/:id',
       name: 'EventPage',
       component: () => import('../views/EventPage.vue')
     },
     {
-      path: '/PeoplePage',
+      path: '/PeoplePage/:id',
       name: 'PeoplePage',
       component: () => import('../views/PeoplePage.vue')
     },

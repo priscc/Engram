@@ -1,46 +1,58 @@
 <template>
-	<v-container class="px-12" fluid>
-		<v-row class="py-4">
-			<v-col cols="1">
-				<v-avatar size="32">
-					<v-btn color="blue lighten-2" dark rounded style="height: 100%;" @click="back">
-						<v-icon dark >mdi-arrow-left</v-icon>
-					</v-btn>
-				</v-avatar>
-			</v-col>
-			<v-col>
-				<h2><u>Page Content</u></h2>
-				<br>
-				<p>{{event.date}}</p>
-				<h4 class="pt-6"><u>Event Content Below</u></h4>
-				<div :key="event.content" v-markdown>{{event.content}}</div>
+<v-container class="px-12" fluid>
+	<v-row class="py-4">
+		
+		<!-- Arrow -->
+		<v-col cols="1">
+			<v-avatar size="32">
+				<v-btn color="blue lighten-2" dark rounded style="height: 100%;" @click="back">
+					<v-icon dark >mdi-arrow-left</v-icon>
+				</v-btn>
+			</v-avatar>
+		</v-col>
+		
+		<!-- Content -->
+		<v-col cols="5">
+			<v-row>
+				<v-col>
+					<h2><u>{{figure.name}}</u></h2>
+					<p>{{figure.date}}</p>
+				</v-col>
+				<v-col cols="6">
+					<v-img class="profile" aspect-ratio="1" :src="figure.thumbURL"></v-img>
+				</v-col>
+			</v-row>
+			<!-- <h4 class="pt-6"><u>Event Content Below</u></h4> -->
+			<div :key="figure.contentMD" v-markdown>{{figure.contentMD}}</div>
+		</v-col>
+		
+		<!-- Resources -->
+		<v-col class="pl-6 mt-6">
+			<resources :resources="resources"></resources>
+		</v-col>
+	</v-row>
 
-			</v-col>
-			<v-col class="mt-6">
-				<resources v-for="resource in resources" :key="resource.header" :resource="resource"></resources>
-			</v-col>
-		</v-row>
-		<!-- Overlay -->
-		<!-- <v-dialog v-model="overlay" >
-    		<v-col id="text" class="px-12 pt-6 pb-12">
-    			<v-row>
-    				<v-btn id="button"  icon @click="overlay = false" opacity=".5" x-large outlined>
-						<v-icon>mdi-close</v-icon>
-					</v-btn>
-    			</v-row>
+	<!-- Overlay -->
+	<!-- <v-dialog v-model="overlay" >
+			<v-col id="text" class="px-12 pt-6 pb-12">
 				<v-row>
-					<v-col>
-						<h1 class="white--text">{{header.header}}</h1>
-					</v-col>
+					<v-btn id="button"  icon @click="overlay = false" opacity=".5" x-large outlined>
+					<v-icon>mdi-close</v-icon>
+				</v-btn>
 				</v-row>
-				<v-row>
-					<v-col v-for="(img, index) in header.img" :key="index" cols="3">
-						<v-img aspect-ratio="1.4" :src="img.src"></v-img>
-					</v-col>
-				</v-row>
-			</v-col>
-		</v-dialog> -->
-	</v-container>
+			<v-row>
+				<v-col>
+					<h1 class="white--text">{{header.header}}</h1>
+				</v-col>
+			</v-row>
+			<v-row>
+				<v-col v-for="(img, index) in header.img" :key="index" cols="3">
+					<v-img aspect-ratio="1.4" :src="img.src"></v-img>
+				</v-col>
+			</v-row>
+		</v-col>
+	</v-dialog> -->
+</v-container>
 </template>
 
 <script>
@@ -48,114 +60,72 @@ import { db } from '@/main'
 import resources from '@/components/Resources.vue'
 
 export default {
-  components: {
-    resources
-  },
-  data () {
-    return {
-    // id: this.$route.params.id,
-      collection: '',
-      event: [],
-      header: {},
-      overlay: false,
-      resources: [
-        {
-          header: 'Images',
-          img: [
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' }
-          ]
-        },
-        {
-          header: 'Videos',
-          img: [
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' }
-          ]
-        },
-        {
-          header: 'Books',
-          img: [
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' }
-          ]
-        },
-        {
-          header: 'Podcasts',
-          img: [
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' },
-            { src: 'https://cdn.vuetifyjs.com/images/parallax/material2.jpg', caption: '' }
-          ]
-        }
-      ]
-    }
-  },
-  methods: {
+	components: {
+		resources
+	},
+	data () { return {
+		id: this.$route.params.id,
+		figure: {},
+		resources: [],
+		overlay: false
+	}},
+	methods: {
 
-    // childComp: communicating with the resource component
-    childComp (param, id) {
-      console.log('received: ', id)
-      this.header = id
-      this.overlay = param
-    },
+		pullData () {
+			db.collection('people').doc(this.id).get().then(function(doc) {
+				this.figure = doc.data()
+			}.bind(this))
 
-    // back: goes to previous page
-    back () {
-      this.$router.go(-1)
-    }
+			db.collection('resources').where('parentID', '==', this.id).get().then(function(querySnapshot) {
+				if (querySnapshot.docs.length == 0) querySnapshot = undefined
+					querySnapshot.forEach(function(doc) {
+						this.resources.push(doc.data())
+					}.bind(this));
+				}.bind(this))
+			.catch(function(error) {
+			  console.log("Error getting documents: ", error);
+			  // alert('no events yet')
+			});
+		},
 
-    // 	//findingEvent: searching for the loction of the event using *SEARCH
-    // 	async findingEvent(){
-    // 		var id = await db.collection("*SEARCH").where("eventName", "==" , this.id).get().then(querySnapshot => {
-    // 			var x
-    // 			querySnapshot.forEach(doc => {
-    // 				x = doc.data().location.collection;
-    // 			})
-    // 			return x;
-    // 		});
-    // 		this.collection = id;
-    // 		this.pageContent();
-    // 	},
+		// childComp: communicating with the resource component
+		childComp (param, id) {
+			console.log('received: ', id)
+			this.header = id
+			this.overlay = param
+		},
 
-    // 	//pageContent: grabbing the event content from the database
-    // 	async pageContent(){
-    // 		var id = this.id
-    // 		var event = await db.collection(this.collection).doc('People').get().then( function (doc) {
-    // 			var dic = doc.data().events.filter(function(element) {
-    // 			    return element.eventName == id;
-    // 			});
-    // 			return dic
-    // 		});
-    // 		this.event = event[0]
-    // 	}
-  }
-  // mounted () {
-  // 	this.findingEvent()
-  // }
+		// back: goes to previous page
+		back () {
+			this.$router.go(-1)
+		}
+	},
+	mounted () {
+		this.pullData()
+	}
 }
 </script>
 
 <style scoped>
-#text{
-	position: relative;
-	color: white;
-	max-height: 90%;
-}
-#button{
-	position: absolute;
-	top: 10%;
-	right: 5%;
-	color: white;
-	transform: translate(-50%,-50%);
-	-ms-transform: translate(-50%,-50%);
-}
+	#text{
+		position: relative;
+		color: white;
+		max-height: 90%;
+	}
+	#button{
+		position: absolute;
+		top: 10%;
+		right: 5%;
+		color: white;
+		transform: translate(-50%,-50%);
+		-ms-transform: translate(-50%,-50%);
+	}
+	.profile{
+		border: 1px solid black;
+		border-radius: 50%;
+		height: 150px;
+		/*height: 100%;*/
+		margin-left: 21%;
+		margin-right: 21%;
+	}
 </style>
