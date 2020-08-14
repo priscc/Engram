@@ -1,35 +1,39 @@
 <template>
 <v-container class="px-12" fluid>
-	<v-row>
 
+	<v-row>
+		
 		<!-- Arrow -->
-		<v-col cols="1">
+		<v-col  style="max-width: 70px">
 			<v-avatar size="32">
 				<v-btn color="blue lighten-2" dark rounded style="height: 100%;" @click="back">
-					<v-icon dark>mdi-arrow-left</v-icon>
+					<v-icon dark >mdi-arrow-left</v-icon>
 				</v-btn>
 			</v-avatar>
 		</v-col>
 
-		<!-- Content -->
-		<v-col cols="5">
-			<v-row>
-				<v-col>
-					<h2><u>{{event.title}}</u></h2>
-					<p>{{event.date}}</p>
-				</v-col>
-				<v-col cols="6">
-					<v-img class="profile" aspect-ratio="1" :src="event.thumbURL"></v-img>
-				</v-col>
-			</v-row>
-			<!-- <h4 class="pt-6"><u>Event Content Below</u></h4> -->
-			<div class="font-italic pb-6" :key="event.roleMD" v-markdown>{{event.roleMD}}</div>
-			<div :key="event.contentMD" v-markdown>{{event.contentMD}}</div>
+		<!-- Header -->
+		<v-col class="d-flex flex-nowrap pt-0">
+			<v-img max-width="70px" min-width="70px" min-height="90px" class="profile" aspect-ratio="1" :src="event.thumbURL"></v-img>
+			<h2 class="pt-3 pl-10 pr-9 d-flex align-center font-weight-medium px-5"><u>{{event.title}}</u></h2>
+			<p class="pt-5 d-flex align-center font-italic caption mb-0"> ({{event.date}})</p>
 		</v-col>
+	</v-row>
 
-		<!-- Resources -->
-		<v-col class="pl-6 mt-6">
-			<resources :resources="resources"></resources>
+	<!-- Content -->
+	<v-row>
+		<v-spacer></v-spacer>		
+		<v-col lg="11" md="11" cols="12" class="pl-0">
+			<v-row class="pl-0">
+				<v-col lg="6" md="6" cols="12" class="pl-0">
+					<div class="pt-5 pr-12" :key="event.contentMD" v-markdown>{{event.contentMD}}</div>
+				</v-col>
+
+				<!-- Resources -->
+				<v-col class="pl-0">
+					<resources :images="images" :articles="articles" :videos="videos" ></resources>
+				</v-col>
+			</v-row>			
 		</v-col>
 	</v-row>
 </v-container>
@@ -48,26 +52,43 @@ export default {
 	data () { return {
 		id: this.$route.params.id,
 		event: {},
-		resources: [],
 		overlay: false,
+		resources: [],
+		images: [],
+		articles: [],
+		videos: []
 	}},
 	methods: {
 
-		pullData () {
-			db.collection('events').doc(this.id).get().then(function(doc) {
+		async pullData () {
+			await db.collection('events').doc(this.id).get().then(function(doc) {
 				this.event = doc.data()
 			}.bind(this))
 
-			db.collection('resources').where('parentID', '==', this.id).get().then(function(querySnapshot) {
+			await db.collection('resources').where('parentID', '==', this.id).get().then(function(querySnapshot) {
 				if (querySnapshot.docs.length == 0) querySnapshot = undefined
 					querySnapshot.forEach(function(doc) {
 						this.resources.push(doc.data())
 					}.bind(this));
 				}.bind(this))
-			.catch(function(error) {
-			  console.log("Error getting documents: ", error);
-			  // alert('no events yet')
-			});
+
+			this.resourcesSort()
+		},
+
+		resourcesSort (){
+			var rArr = this.resources
+
+			rArr.forEach( r => {
+				if( r.resourceType == 'image') {
+					this.images.push(r)
+				}
+				else if( r.resourceType == 'article') {
+					this.articles.push(r)
+				}
+				else{
+					this.videos.push(r)
+				}
+			})
 		},
 		// back: goes to previous page
 		back () {
@@ -103,9 +124,5 @@ export default {
 	.profile{
 		border: 1px solid black;
 		border-radius: 50%;
-		height: 150px;
-		/*height: 100%;*/
-		margin-left: 21%;
-		margin-right: 21%;
 	}
 </style>

@@ -1,6 +1,5 @@
 {
   "projects": {
-    "default": "ap-studybit",
-    "staging": "ap-studybit"
+    "default": "ap-studybit"
   }
 }

@@ -1,6 +1,6 @@
 <template>
 <div id='app'>
-	<h3 class="Subtitle-1 font-weight-bold text-center pb-4"><u>Add Resources</u></h3>
+	<h3 class="font-weight-medium text-center pb-4"><u>Add Resources</u></h3>
 	<v-expansion-panels multiple focusable v-model="panel">
 		<!-- Articles -->
 		<v-expansion-panel>
@@ -24,7 +24,7 @@
 				</v-row>
 				<!-- Saving articles -->
 				<v-row class="d-flex justify-end">
-					<v-btn large color="error" rounded
+					<v-btn medium color="error" rounded
 						@click="saveResource(0, articles, 'articles')">
 						Save
 						<v-icon class="ml-2">mdi-cloud-upload</v-icon>
@@ -55,7 +55,7 @@
 				</v-row>
 				<!-- Saving images -->
 				<v-row class="d-flex justify-end">
-					<v-btn large color="error" rounded
+					<v-btn medium color="error" rounded
 						@click="saveResource(1, images, 'images')">
 						Save
 						<v-icon class="ml-2">mdi-cloud-upload</v-icon>

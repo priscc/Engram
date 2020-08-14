@@ -29,8 +29,8 @@
 						<h3 class="Subtitle-1 font-weight-bold text-center"><u>Preview</u></h3>
 						<v-row class="pt-9">
 							<v-col style="border: 1px solid grey">
-								<div >{{createdTerm.term}}</div>
-						<div :key="createdTerm.definition" v-markdown>{{createdTerm.definition}}</div>
+								<div><b>{{createdTerm.term}}</b></div>
+								<div :key="createdTerm.definition" v-markdown>{{createdTerm.definition}}</div>
 							</v-col>
 						
 						</v-row>

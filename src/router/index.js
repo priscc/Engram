@@ -49,6 +49,11 @@ const routes = [
       name: 'AddEvent',
       component: () => import('../views/Adding_Content/AddContent.vue')
     },
+    {
+      path: '/ModifyingContent',
+      name: 'ModifyingContent',
+      component: () => import('../views/Adding_Content/ModifyingContent.vue')
+    },
   // Other tester Code
     {
       path: '/blogShow',

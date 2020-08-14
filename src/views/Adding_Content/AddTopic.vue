@@ -16,7 +16,7 @@
 					<v-select v-model="timePeriod" :items="timePeriods" label="Choose Time Period:" outlined dense :rules="rule" required>{{ timePeriods }}</v-select>
 					<v-row class="pt-2">
 						<v-col cols="4">
-							<v-file-input :rules="imgRule" accept="image/*" counter show-size label="Thumbnail"></v-file-input>
+							<v-file-input disabled accept="image/*" counter show-size label="Thumbnail"></v-file-input>
 						</v-col>
 						<v-col>
 							<v-textarea disabled outlined name="input-7-4" label="Topic intro content" value="This is just a tester, don't fill out" ></v-textarea>
@@ -51,16 +51,16 @@ export default {
 		},
 		// Form
 		timePeriods: [
-			'Regional Interactions c.1200 - c.1450',
-			'First Global Age c.1450 - c.1750',
-			'Revolutions & Industrialization c.1750-c.1900',
-			'Modern Times c.1900 - Present'
+			'Regional Interactions (1200 - 1450)',
+			'First Global Age (1450 - 1750)',
+			'Revolutions & Industrialization (1750 - 1900)',
+			'Modern Times (1900 - Present)'
 		],
 		timePeriod: '',
 		// Validation
 		valid: true,
 		rule: [ v => !!v || 'Required' ],
-		imgRule: [ v => !v || v.size < 2000000 || 'Image size should be less than 2 MB!']
+		imgRule: [ v => !!v || v.size < 2000000 || 'Image size should be less than 2 MB!']
 	}},
 	methods: {
 		async submitData () {
@@ -72,12 +72,14 @@ export default {
 					console.error("Error adding document: ", error);
 				});
 			
+			console.log(topicID)
 			//pulling info from timePeriods
 			var updatedTopics = []
 			var id = ''
 			await db.collection("timePeriods").where('title', '==', this.timePeriod).get()
 				.then(function(querySnapshot) {
 					querySnapshot.forEach(function(doc) {
+						console.log('doc', doc)
 						updatedTopics = doc.data().topicTitles
 						id = doc.id
 					});

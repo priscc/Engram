@@ -1,32 +1,23 @@
 <template>
-<v-container>
+<v-container fluid class="px-12">
 	<v-row>
-		<v-col cols="12" md="6" wrap color="purple" v-for="(period, index) in timePeriods" :key="index">
-			<v-card class="mx-auto" outlined>
-				<v-list-item-title class="headline pa-2 grey lighten-3 text-wrap title">{{ period.title }}</v-list-item-title>
-				<v-container class="py-0">
-					<v-row>
-						<v-col cols="3" class="pa-0" v-for="(topic, i) in period.topicTitles" :key="i">
-							<v-card class="mx-auto box" outlined :to="`/Topic/${topic.topicID}`">
-								<!-- v-on:click.native="routerPassInfo(topic)" -->
-								<div class="done pa-2">
-									<v-responsive>
-										<v-img :src="require(`@/assets/${topic.thumbURL}`)" aspect-ratio="1"></v-img>
+		<v-col v-for="(period, index) in timePeriods" :key="index" cols="12" lg="6" md="6" class=" d-flex align-self-stretch" wrap color="purple" >	
+			<v-card class="mx-0" outlined width="100%">
+				<v-card-title class="subtitle-1 font-weight-bold pa-2 grey lighten-3 text-wrap title">{{ period.title }}</v-card-title>
+				<v-container class="py-0" fluid >
+					<v-row class="align-stretch">
+						<v-col v-for="(topic, i) in period.topicTitles" :key="i" lg="3" md="3" cols="2" class="pa-0 align-stretch">
+							<v-card class="mx-auto done" style="height: 190px" :to="`/Topic/${topic.topicID}`" >
+								<div>
+									<v-responsive class="pa-6" height="120px">
+										<v-img width="100%" :src="require(`@/assets/${topic.thumbURL}`)" aspect-ratio="1.2"></v-img>
 									</v-responsive>
-									<v-card-subtitle class="text-center font-weight-bold caption">{{topic.title}}</v-card-subtitle>
+									<v-card-subtitle class="subtitle-2 text-center font-weight-normal pa-0 my-2 mx-3">
+										<p class="truncate">{{topic.title}}</p>
+									</v-card-subtitle>
 								</div>
 							</v-card>
-							<!-- Watermark topic -->
-								<!-- <v-card v-else id="watermark" class="mx-auto box" outlined>
-									<div class="pa-2">
-										<v-responsive>
-											<v-img :src="require(`@/assets/${topic.img}`)" aspect-ratio="1"></v-img>
-										</v-responsive>
-										<v-card-subtitle class="text-center">{{ topic.topicTitle }}</v-card-subtitle>
-									</div>
-								</v-card> -->
 						</v-col>
-
 					</v-row>
 				</v-container>
 			</v-card>
@@ -39,24 +30,25 @@
 <script>
 import router from "@/router";
 import { db, tc } from "@/main";
+import _ from 'lodash'
 export default {
 	data () { return {
 		timePeriods: []
 	}},
 	methods: {
-		routerPassInfo (id){
-			tc.topic = id;
-			if (router.currentRoute.path !== "/Topic") {
-				router.push({ path: "Topic", params: { topic: id } }); // Only on auth
-			}
+		async mountTopics(){
+			var tp = []
+			await db.collection('timePeriods').get().then( function(snapshot) {
+				snapshot.forEach(doc => {
+					tp.push(doc.data())
+				})
+			}.bind(this))
+			tp = _.sortBy(tp, [function(o) { return o.periodStart }]);
+			this.timePeriods = tp
 		}
 	},
 	mounted () {
-		db.collection('timePeriods').get().then( function(snapshot) {
-			snapshot.forEach(doc => {
-				this.timePeriods.push(doc.data())
-			})
-		}.bind(this))
+		this.mountTopics()
 	}
 }
 </script>
@@ -70,13 +62,6 @@ export default {
 		border: 2px solid grey;
 		font-weight: normal;
 	}
-	.box{
-		min-height: 100%;
-		border: .5px solid lightgrey;
-		text-align: center;
-		min-height: 100%;
-		opacity: 1;
-	}
 	#watermark:after {
 		content: "";
 		display: block;
@@ -89,6 +74,15 @@ export default {
 		background-size: 100% 100%;
 		background-repeat: no-repeat;
 		opacity: 0.4;
+	}
+	.truncate {
+		display: block;
+		display: -webkit-box;
+		max-width: 200px;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		text-overflow: ellipsis;
 	}
 </style>
 

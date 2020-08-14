@@ -1,34 +1,38 @@
 <template>
 <v-container class="px-12" fluid>
-	<v-row class="py-4">
+	<v-row>
 		
 		<!-- Arrow -->
-		<v-col cols="1">
+		<v-col  style="max-width: 70px">
 			<v-avatar size="32">
 				<v-btn color="blue lighten-2" dark rounded style="height: 100%;" @click="back">
 					<v-icon dark >mdi-arrow-left</v-icon>
 				</v-btn>
 			</v-avatar>
 		</v-col>
-		
-		<!-- Content -->
-		<v-col cols="5">
-			<v-row>
-				<v-col>
-					<h2><u>{{figure.name}}</u></h2>
-					<p>{{figure.date}}</p>
-				</v-col>
-				<v-col cols="6">
-					<v-img class="profile" aspect-ratio="1" :src="figure.thumbURL"></v-img>
-				</v-col>
-			</v-row>
-			<!-- <h4 class="pt-6"><u>Event Content Below</u></h4> -->
-			<div :key="figure.contentMD" v-markdown>{{figure.contentMD}}</div>
+
+		<!-- Header -->
+		<v-col class="d-flex flex-nowrap pt-0">
+			<v-img max-width="70px" min-width="70px" min-height="90px" class="profile" aspect-ratio="1" :src="figure.thumbURL"></v-img>
+			<h2 class="pt-3 pl-10 pr-9 d-flex align-center font-weight-medium px-5"><u>{{figure.name}}</u></h2>
+			<p class="pt-5 d-flex align-center font-italic caption mb-0"> ({{figure.date}})</p>
 		</v-col>
-		
-		<!-- Resources -->
-		<v-col class="pl-6 mt-6">
-			<resources :resources="resources"></resources>
+	</v-row>
+
+	<!-- Content -->
+	<v-row>
+		<v-spacer></v-spacer>		
+		<v-col lg="11" md="11" cols="12" class="pl-0">
+			<v-row class="pl-0">
+				<v-col lg="6" md="6" cols="12" class="pl-0">
+					<div class="pt-5 pr-12" :key="figure.contentMD" v-markdown>{{figure.contentMD}}</div>
+				</v-col>
+
+				<!-- Resources -->
+				<v-col class="pl-0">
+					<resources :images="images" :articles="articles" :videos="videos" ></resources>
+				</v-col>
+			</v-row>			
 		</v-col>
 	</v-row>
 
@@ -55,6 +59,8 @@
 </v-container>
 </template>
 
+
+
 <script>
 import { db } from '@/main'
 import resources from '@/components/Resources.vue'
@@ -66,29 +72,46 @@ export default {
 	data () { return {
 		id: this.$route.params.id,
 		figure: {},
+		overlay: false,
 		resources: [],
-		overlay: false
+		images: [],
+		articles: [],
+		videos: []
 	}},
 	methods: {
 
-		pullData () {
-			db.collection('people').doc(this.id).get().then(function(doc) {
+		async pullData () {
+			await db.collection('people').doc(this.id).get().then(function(doc) {
 				this.figure = doc.data()
 			}.bind(this))
 
-			db.collection('resources').where('parentID', '==', this.id).get().then(function(querySnapshot) {
+			await db.collection('resources').where('parentID', '==', this.id).get().then(function(querySnapshot) {
 				if (querySnapshot.docs.length == 0) querySnapshot = undefined
 					querySnapshot.forEach(function(doc) {
 						this.resources.push(doc.data())
 					}.bind(this));
 				}.bind(this))
-			.catch(function(error) {
-			  console.log("Error getting documents: ", error);
-			  // alert('no events yet')
-			});
+
+			this.resourcesSort()
 		},
 
-		// childComp: communicating with the resource component
+		resourcesSort (){
+			var rArr = this.resources
+
+			rArr.forEach( r => {
+				if( r.resourceType == 'image') {
+					this.images.push(r)
+				}
+				else if( r.resourceType == 'article') {
+					this.articles.push(r)
+				}
+				else{
+					this.videos.push(r)
+				}
+			})
+		},
+
+		// for OVERLAY
 		childComp (param, id) {
 			console.log('received: ', id)
 			this.header = id
@@ -105,6 +128,7 @@ export default {
 	}
 }
 </script>
+
 
 <style scoped>
 	#text{
@@ -123,9 +147,5 @@ export default {
 	.profile{
 		border: 1px solid black;
 		border-radius: 50%;
-		height: 150px;
-		/*height: 100%;*/
-		margin-left: 21%;
-		margin-right: 21%;
 	}
 </style>

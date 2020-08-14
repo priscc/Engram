@@ -6,15 +6,16 @@
 			<v-row>
 				<v-col class="pt-0">
 					<v-avatar size="32">
-						<v-btn color="blue lighten-2" dark rounded style="height: 100%;" to="/">
+						<v-btn color="orange lighten-1" dark rounded style="height: 100%;" to="/">
 							<v-icon dark>mdi-arrow-left</v-icon>
 						</v-btn>
 					</v-avatar>
 				</v-col>
 			</v-row>
+
 			<v-card tile>
 				<v-list>
-					<v-list-item-group v-model="item" color="primary">
+					<v-list-item-group v-model="item" color="orange" >
 						<v-list-item class="py-1 mb-4" v-for="(item, i) in items" :key="i" @click="topicTab = item.title">
 							<v-list-item-icon class="mr-2 SideBar_icon">
 								<v-icon v-text="item.icon" small></v-icon>
@@ -27,6 +28,53 @@
 				</v-list>
 			</v-card>
 		</v-col>
+
+	<!-- 	<v-row>
+			<v-col>
+				<v-card class="overflow-hidden">
+					<v-app-bar
+
+					:height="height"
+					:collapse="!collapseOnScroll"
+					
+					color="deep-purple accent-4"
+					dark
+					>
+					<v-app-bar-nav-icon v-if="collapse" @click="[collapse = !collapse, height = 50]"></v-app-bar-nav-icon>
+					<v-app-bar-nav-icon v-else @click="[collapse = !collapse, height = 200]"></v-app-bar-nav-icon>
+
+					</v-app-bar>
+					</v-card>
+			</v-col>
+
+		</v-row>
+ -->
+
+
+		<!-- Another side comp -->
+		<!-- <v-row>	
+				<v-card>
+					<v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent >
+						<v-list-item class="px-2 d-flex justify-end">
+							<v-btn small v-if="!mini"  icon @click.stop="mini = !mini"><v-icon>mdi-chevron-left</v-icon></v-btn>
+							<v-btn v-else small icon @click.stop="mini = !mini"><v-icon>mdi-chevron-right</v-icon></v-btn>
+						</v-list-item>
+						<v-divider></v-divider>
+						<v-list dense>
+							<v-list-item v-for="item in items" :key="item.title" link @click="topicTab = item.title" >
+								<v-list-item-icon>
+									<v-icon>{{ item.icon }}</v-icon>
+								</v-list-item-icon>
+								<v-list-item-content>
+									<v-list-item-title>{{ item.title }}</v-list-item-title>
+								</v-list-item-content>
+							</v-list-item>
+						</v-list>
+					</v-navigation-drawer>
+				</v-card>
+			</v-row> -->
+
+
 
 		<!-- Right Comps -->
 		<intro-template v-if="topicTab == 'Intro'" 
@@ -69,6 +117,7 @@ export default {
 		works: [],
 
 		// Bottom Navbar
+		collapse: true,
 		topicTab: 'Intro',
 		item: 0,
 		items: [
@@ -112,7 +161,7 @@ export default {
 				}.bind(this))
 
 			// grabbing terms
-			db.collection('terminology').where('topicID', '==', tcID)
+			db.collection('terminology').where('topicID', 'array-contains', tcID)
 				.get().then(function(querySnapshot) {
 					if (querySnapshot.docs.length == 0) querySnapshot = undefined
 					querySnapshot.forEach(function(doc) {

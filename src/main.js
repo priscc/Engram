@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
+// vuefire
+import { firestorePlugin } from 'vuefire'
 // lo-dash
 import VueLodash from 'vue-lodash'
 import lodash from 'lodash'
@@ -20,6 +22,7 @@ import Vuetify from 'vuetify/lib'
 import markdown from '@/directives/markdown'
 
 Vue.config.productionTip = false
+Vue.use(firestorePlugin)
 Vue.use(VueLodash, { name: 'custom', lodash: lodash })
 Vue.use(VueTextareaAutosize)
 Vue.use(VueResource)
@@ -38,11 +41,9 @@ firebase.initializeApp({
   measurementId: "G-7DCFPNFXDB"
 })
 
-export const db = firebase.firestore()
+const db = firebase.firestore()
 
-export const tc = Vue.observable({
-  topic: null
-});
+export { firebase, db };
 
 
 export default new Vuetify({

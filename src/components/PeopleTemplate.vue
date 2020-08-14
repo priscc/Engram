@@ -5,12 +5,13 @@
 			<h2 class="font-weight-light">Historical Figures of the {{topicObj.title}}</h2>
 		  </v-col>
 		</v-row>
+
 		<v-row>
-		  <v-col v-for="(p, i) in people" :key="i" cols="3" md="3" sm="4">
+		  <v-col class="d-flex justify-center " v-for="(p, i) in people" :key="i" lg="3" md="4" sm="4" xs="12">
 			<router-link :to="`/PeoplePage/${p.id}`">
 			<v-hover>
 			  <template v-slot:default="{ hover }" >
-				<v-img class="profile" aspect-ratio="1" :src="p.thumbURL">
+				<v-img class="profile" max-width="90px" min-width="90px" min-height="110px" aspect-ratio="1" :src="p.thumbURL">
 				<v-fade-transition>
 				  <v-overlay v-if="hover" absolute dark>
 					  <p>Learn More</p>
@@ -37,13 +38,10 @@ export default {
 }
 </script>
 
+
 <style scoped>
 	.profile{
 		border: 1px solid black;
 		border-radius: 50%;
-		height: 150px;
-		/*height: 100%;*/
-		margin-left: 21%;
-		margin-right: 21%;
 	}
 </style>

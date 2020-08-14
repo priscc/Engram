@@ -1,27 +1,46 @@
 <template>
 <div>
-	<div class="d-flex flex-row"  style="border: 1px solid black; position: relative;">
+
+	<div class="d-flex flex-row"  style="border-top: .5px solid black; position: relative;">
 		
 		<!-- ticks -->
-		<!-- <div
-			v-for="i in ticks"
-			style="border: 1.5px solid orange;  position: absolute; top: -5px; height: 15px"
-			v-bind:style="{ left: i * (100/tickSize) + '%' }"
+		<div
+			v-for="i in ticks +1"
+			style="border: 1px solid orange;  position: absolute; top: -7px; height: 15px"
+			v-bind:style="{ left: (( ( (i-1)*(tickSize) )*100) /total) + '%' }"
 			>
-			{{i}}
-		</div> -->
+		</div>
+
 
 		<!-- dates -->
-		<!-- <div
-			v-for="i in 3" max-height="5" 
-			style="position: absolute; top: 10px"
-			v-bind:style="{ left: i * 30 + '%' }"
-			>
-			{{i}}
-		</div> -->
-		
-		<!-- events -->
 		<div
+			v-for="i in ticks +1"
+			style="position: absolute; top: 10px; height: 15px; font-size: 12px;"
+			v-bind:style="{ left: (( ( (i-1)*(tickSize) )*100) /total) - 1 + '%' }"
+			>
+			{{ minDate + ((i-1)*tickSize)   }}
+		</div>
+		
+		
+		<!-- bluegrey then when hover it is #FF7043 -->
+		<!-- 1) see blue grey dots with numbers && see 1st card menu (hover / click)
+			2) when hover turns border orange
+			3) when click has fixed card && border is orange
+			4) click on tabs dots turn color but has the orange/blue-grey border  -->
+		<!-- events -->
+		<v-hover v-slot:default="{ hover }" v-for="(i, index) in dates" :key="index" class="px-2"
+				style="position: absolute; top: -35px; 
+					background-color: deeppink; border-radius: 25px; color: white;"
+				v-bind:style="{ left: i.tick + '%' }">
+			<v-card :elevation="hover ? 12 : 3" @hover="test" style="font-size: 12px; font-weight: 550"> 
+				{{index + 1}} 
+			<!-- <p v-if="hover">{{i.title}}</p> -->
+			</v-card>
+			<!-- <div :elevation="hover ? 20 : 2" style="border-top: 1px solid black"> <p>x</p></div> -->
+		</v-hover>
+
+
+		<!-- <div
 			v-for="i in dates" inline max-width="7" min-height="5" 
 			style="position: absolute; top: -35px; 
 			background-color: deeppink; border-radius: 50%;
@@ -29,8 +48,8 @@
 			"
 			v-bind:style="{ left: i.tick + '%' }"
 			>
-			<!-- {{i.title}} -->
-		</div>
+			{{i.title}}
+		</div> -->
 	</div>
 </div>
 	
@@ -44,26 +63,40 @@ export default {
 		events: Array
 	},
 	data () { return {
+		hover: null, 
 		dates:[],
 		ticks: 0,
 		tickSize: 0,
 		maxDate: 0,
 		minDate: 0,
+		total: 0,
 
 	}},
 	methods:{
+
+
+
+
+		test(ev){
+			console.log(ev)
+		},
+
+
 		calculatingDates () {
 
 			var ev = this.$props.events
 			
 			var max = new Date(Math.max.apply(null, ev.map( d => { return new Date(d.date)}))).getFullYear();
 			var min = new Date(Math.min.apply(null, ev.map( d => { return new Date(d.date)}))).getFullYear();
-			min = 1999
-			this.maxDate = (parseInt(max/10, 10)+1)*10 // round up to the nearest 10
-			this.minDate = parseInt(min / 10, 10) * 10 // round down to the nearest 10
+			
+			this.maxDate = max = (parseInt(max/10, 10)+1)*10 // round up to the nearest 10
+			this.minDate = min = parseInt(min / 10, 10) * 10 // round down to the nearest 10
 
+			var total = this.total = max - min
 
-			var total = max - min
+			console.log('total', total)
+			console.log('max', max)
+			console.log('min', min)
 
 			ev.forEach( d =>{
 				var dot = new Date(d.date).getFullYear()
@@ -72,6 +105,7 @@ export default {
 				this.dates.push( {title: d.title, tick: x} )
 			})
 			
+
 			// // Calutating ticks
 			if (total >= 100){
 				this.ticks = total/10

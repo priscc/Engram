@@ -105,7 +105,7 @@
 <script>
 import firebase from 'firebase'
 import { db } from '@/main'
-import addResources from "./Resource_Forms/addResources.vue"
+import addResources from "../Resource_Forms/addResources.vue"
 export default {
 	props: {
 		topicObj: Object

@@ -4,7 +4,7 @@
 	<v-container>
 		<v-row class="blue-grey darken-2 white--text text-center">
 			<v-col>
-				<h1 class="display-1">Add Content to a Topic</h1>
+				<!-- <h1 class="display-1">Add Content to a Topic</h1> -->
 				<blockquote class="blockquote pa-0">Select a topic below</blockquote>
 			</v-col>
 		</v-row>
@@ -48,10 +48,10 @@
 
 <script>
 // import addEvents from '@/components/Content_Forms/EventsForm.vue'
-import addEvents from '@/components/Content_Forms/EventsForm.vue'
-import addTerm from '@/components/Content_Forms/TerminologyForm.vue'
-import addPeople from '@/components/Content_Forms/PeopleForm.vue'
-import addWorks from '@/components/Content_Forms/WorksForm.vue'
+import addEvents from '@/components/Content_Forms/Add_Forms/EventsForm.vue'
+import addTerm from '@/components/Content_Forms/Add_Forms/TerminologyForm.vue'
+import addPeople from '@/components/Content_Forms/Add_Forms/PeopleForm.vue'
+import addWorks from '@/components/Content_Forms/Add_Forms/WorksForm.vue'
 import { db } from '@/main'
 import firebase from 'firebase'
 export default {
