@@ -91,7 +91,6 @@ export default {
 			terms: db.collection("terminology"),
 			works: db.collection("works"),
 			resources: db.collection("resources"),
-			
 		};
 	},
 	methods: {
@@ -100,6 +99,7 @@ export default {
 			var topicObj = this.topics.find(t => t.title === this.topic);
 			store.dispatch("setTopic", topicObj);
 			
+
 			var events = this.events.filter(t => t.topicID === topicObj.id);
 			store.dispatch("setEvents", events);
 

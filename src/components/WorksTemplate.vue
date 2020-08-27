@@ -7,15 +7,30 @@
 		</v-row>
 		<v-row class="pt-5">
 			<v-col v-for="(work, i) in works" :key="i" class="pb-2" cols="6">
-			<v-card class="mx-auto d-flex pb-4" outlined >
+			<v-card class="mx-auto d-flex" outlined>
 				<v-btn x-small fab absolute top right @click="[overlay = true, workDialog = work]"><v-icon>mdi-arrow-expand</v-icon></v-btn>
-					<v-avatar class="ma-3" size="135" tile>
-						<v-img :src="work.thumbURL" width="100%"></v-img>
-					</v-avatar>
-					<div class="mr-1 cardCaption">
-						<v-card-title class="subtitle-1"><p class="preview truncate_1">{{work.title}}</p></v-card-title>
-						<v-card-subtitle><p class="preview truncate">{{work.caption}}</p></v-card-subtitle>
-					</div>
+				<v-container>
+					<v-row>
+						<v-col class="pa-0">
+							<v-card-title class="subtitle-1 py-0 preview truncateTitle">
+								{{work.title}}
+							</v-card-title>
+						</v-col>
+					</v-row>
+					<v-row>
+						<v-col v-if="work.thumbURL" class="pa-0" cols="4">
+							<v-avatar class="ma-3 mb-0" size="135" tile>
+								<v-img :src="work.thumbURL" width="100%"></v-img>
+							</v-avatar>
+						</v-col>
+						<v-col class="py-0" style="min-height:150px ">
+							<v-card-subtitle class="preview truncateCaption pa-0 pl-3 pt-6 pr-6">
+								{{work.caption}}
+							</v-card-subtitle>
+						</v-col>
+					</v-row>
+					
+				</v-container>
 			</v-card>
 			</v-col>
 		</v-row>
@@ -32,16 +47,13 @@
 						<v-icon dark>mdi-close</v-icon>
 					</v-btn>
 					</div>
-					
 					<div class="mr-1">
 						<v-card-title class="subtitle-1"><p class="preview">{{workDialog.title}}</p></v-card-title>
 						<v-card-subtitle><p class="preview">{{workDialog.caption}}</p></v-card-subtitle>
 					</div>
 				</div>
-					
 			</v-card>
 		</v-dialog>
-
 	</v-col>
 </template>
 
@@ -73,7 +85,7 @@ export default {
 		-ms-hyphens: auto;
 		hyphens: auto;
 	}
-	.truncate_1 {
+	.truncateTitle {
 		display: block;
 		display: -webkit-box;
 		max-width: 100%;
@@ -82,11 +94,11 @@ export default {
 		overflow: hidden;
 		text-overflow: ellipsis;
 	}
-	.truncate {
+	.truncateCaption {
 		display: block;
 		display: -webkit-box;
 		max-width: 100%;
-		-webkit-line-clamp: 3;
+		-webkit-line-clamp: 5;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
 		text-overflow: ellipsis;

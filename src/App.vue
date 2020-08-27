@@ -36,10 +36,11 @@ export default {
         { label: 'Home', url: '/' },
         { label: 'About', url: '/About' },
         { label: 'Add New Content', url: '/ManageContent' },
+        { label: 'Next Steps', url: '/NextSteps' },
         // { label: 'blogShow', url: '/blogShow' },
         // { label: 'addBlog', url: '/addBlog' },
-        { label: 'Filter', url: '/Filter' },
-        { label: 'GEOTester', url: '/GEOTester' }
+        // { label: 'Filter', url: '/Filter' },
+        // { label: 'GEOTester', url: '/GEOTester' }
       ]
     }
   }

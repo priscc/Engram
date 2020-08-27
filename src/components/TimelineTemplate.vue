@@ -1,12 +1,12 @@
 <template>
 <div>
 
-	<div class="d-flex flex-row"  style="border-top: .5px solid black; position: relative;">
+	<div class="d-flex flex-row"  style="border-top: .5px solid #607D8B; position: relative;">
 		
 		<!-- ticks -->
 		<div
 			v-for="i in ticks +1"
-			style="border: 1px solid orange;  position: absolute; top: -7px; height: 15px"
+			style="border-left: 2px solid #607D8B;  position: absolute; top: -7px; height: 15px"
 			v-bind:style="{ left: (( ( (i-1)*(tickSize) )*100) /total) + '%' }"
 			>
 		</div>
@@ -28,28 +28,29 @@
 			3) when click has fixed card && border is orange
 			4) click on tabs dots turn color but has the orange/blue-grey border  -->
 		<!-- events -->
-		<v-hover v-slot:default="{ hover }" v-for="(i, index) in dates" :key="index" class="px-2"
-				style="position: absolute; top: -35px; 
-					background-color: deeppink; border-radius: 25px; color: white;"
-				v-bind:style="{ left: i.tick + '%' }">
-			<v-card :elevation="hover ? 12 : 3" @hover="test" style="font-size: 12px; font-weight: 550"> 
-				{{index + 1}} 
-			<!-- <p v-if="hover">{{i.title}}</p> -->
-			</v-card>
-			<!-- <div :elevation="hover ? 20 : 2" style="border-top: 1px solid black"> <p>x</p></div> -->
-		</v-hover>
+		<div>
+			<v-hover
+			v-slot:default="{ hover }" v-for="(i, index) in dates" :key="index" 
+			class="px-2"
+			style="position: absolute; top: -30px;  border-radius: 25px; color: white;"
+			v-bind:style="{ left: i.tick + '%' }">
+
+				<v-card
+				:elevation="hover ? 15 : 5" 
+				:id="`cardBorder${(index+1)}`"
+				class="cardColor"
+				v-on:mouseover="model = (index+1)"
+				style="font-size: 12px; font-weight: 550;"
+				:z-index="hover ? 500 : 5"
+				> 
+					<p v-if="hover" class="ma-0">{{i.title}}</p>
+					<p v-else> </p>
+				</v-card>
+			</v-hover>
+
+		</div>
 
 
-		<!-- <div
-			v-for="i in dates" inline max-width="7" min-height="5" 
-			style="position: absolute; top: -35px; 
-			background-color: deeppink; border-radius: 50%;
-			min-width: 10px; min-height: 10px
-			"
-			v-bind:style="{ left: i.tick + '%' }"
-			>
-			{{i.title}}
-		</div> -->
 	</div>
 </div>
 	
@@ -57,12 +58,16 @@
 
 
 <script>
+import store from "@/store";
 
 export default {
 	props:{
-		events: Array
+		events: Array,
+		bottomNav: Number
 	},
 	data () { return {
+		eventColors: this.$props.events,
+		prevHover: 1,
 		hover: null, 
 		dates:[],
 		ticks: 0,
@@ -72,60 +77,104 @@ export default {
 		total: 0,
 
 	}},
-	methods:{
-
-
-
-
-		test(ev){
-			console.log(ev)
+	computed: {	
+		model: {
+			// get () { return ((this.eventColors.length-1)-store.state.eventModel)  },
+			// set (value) { store.dispatch("eventModal", ((this.eventColors.length+1)-value) ) }
+			get () { return store.state.eventModel  },
+			set (value) { store.dispatch("eventModal", value) }
+	    }
+	},
+	watch: {
+		model: function (e){
+			document.getElementById("cardBorder"+this.prevHover).style.border = "none";
+			if(e != 0){
+				document.getElementById("cardBorder"+e).style.border = "2px solid #FFA726";
+				this.prevHover = e
+			}
 		},
+		bottomNav: function(ev) {
+			// console.log('bottomNav', ev)
 
+			this.eventColors.forEach( (doc, i) => {
+				
+				var circle = document.getElementById('cardBorder' + (i+1) )
+				
+				// Cause
+				if (doc.eventType == "Cause" && ev == 'Cause')
+					circle.style.backgroundColor = "#B388FF"  // *** PURPLE
+
+				//TP
+				else if (doc.eventType == "Turning Points" && ev == 'Turning Points')
+					circle.style.backgroundColor = "#80D8FF" // *** BLUE
+
+				//Effects
+				else if (doc.eventType == "Effect" && ev == 'Impact')
+					circle.style.backgroundColor = "#64DD17" // *** GREEN
+
+				else
+					circle.style.backgroundColor = "#607D8B" // **BLUEGREY
+				
+			})
+		}
+		
+	},
+	methods:{
 
 		calculatingDates () {
 
 			var ev = this.$props.events
 			
-			var max = new Date(Math.max.apply(null, ev.map( d => { return new Date(d.date)}))).getFullYear();
-			var min = new Date(Math.min.apply(null, ev.map( d => { return new Date(d.date)}))).getFullYear();
+			var max = Math.max.apply(null, ev.map( d => { return d.date }));
+			var min = Math.min.apply(null, ev.map( d => { return d.date }));
 			
 			this.maxDate = max = (parseInt(max/10, 10)+1)*10 // round up to the nearest 10
 			this.minDate = min = parseInt(min / 10, 10) * 10 // round down to the nearest 10
 
 			var total = this.total = max - min
 
-			console.log('total', total)
-			console.log('max', max)
-			console.log('min', min)
+			// console.log('total', total)
+			// console.log('max', max)
+			// console.log('min', min)
 
 			ev.forEach( d =>{
-				var dot = new Date(d.date).getFullYear()
+				var dot = d.date
 				var x = 100 - (((max-dot)/total) * 100)
 				
 				this.dates.push( {title: d.title, tick: x} )
 			})
+
 			
 
 			// // Calutating ticks
-			if (total >= 100){
+			if (total >= 500){
+				this.ticks = Math.floor(total/100)
+				this.tickSize = 100
+			}
+			else if (total >= 250){
+				this.ticks = Math.floor(total/25)
+				this.tickSize = 25
+				// console.log('> 100', total)
+			}
+			else if (total >= 100){
 				this.ticks = total/10
 				this.tickSize = 10
-				console.log('> 100', total)
+				// console.log('> 100', total)
 			}
 			else if ( total >= 50){
 				this.ticks = total/10
 				this.tickSize = 10
-				console.log('> 50', total)
+				// console.log('> 50', total)
 			}
 			else if ( total >= 20){
 				this.ticks = total/5
 				this.tickSize = 5
-				console.log('> 20', total)
+				// console.log('> 20', total)
 			}
 			else{
 				this.ticks = total
 				this.tickSize = 1
-				console.log('< 20', total)
+				// console.log('< 20', total)
 			}
 		}
 			
@@ -136,3 +185,9 @@ export default {
 }
 
 </script>
+
+<style type="text/css" scoped>
+	.cardColor{
+		background-color: #607D8B
+	}
+</style>

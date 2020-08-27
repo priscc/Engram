@@ -9,16 +9,14 @@
 		<v-row>
 			<v-col cols="1"></v-col>
 			<v-col>
-				<v-row>
-					<v-col v-for="(term, i) in terminology" cols="6" class="text-left">
-						<v-row  :key="i" class="py-5">
+				<v-row v-for="(term, i) in terminology">
+					<v-col class="text-left">
 							<v-tooltip right color="grey lighten-3">
 								<template v-slot:activator="{ on, attrs }">
 									<a class="pr-5" color="primary" dark v-bind="attrs" v-on="on">{{term.term}}</a>
 								</template>
 								<p style="max-width: 25em" class="black--text mb-0 py-4 px-3"><i>{{term.definition}}</i></p>
 							</v-tooltip>
-						</v-row>
 					</v-col>
 				</v-row>
 			</v-col>

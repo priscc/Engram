@@ -49,7 +49,7 @@
 			<v-col cols="4" class="text-center">
 				<v-hover>
 					<template v-slot:default="{ hover }">
-						<v-card disabled class="mx-auto" elevation="10" max-width="344" height="150" style="border: 1px solid white" color="deep-purple lighten-3" to="/AddTopic">
+						<v-card class="mx-auto" elevation="10" max-width="344" height="150" style="border: 1px solid white" color="deep-purple lighten-3" to="/ModifyingTopic">
 							<v-card-text>
 								<v-icon>mdi-plus</v-icon>
 								<h2 class="title">Modify a topic</h2>

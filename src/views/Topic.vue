@@ -29,63 +29,16 @@
 			</v-card>
 		</v-col>
 
-	<!-- 	<v-row>
-			<v-col>
-				<v-card class="overflow-hidden">
-					<v-app-bar
-
-					:height="height"
-					:collapse="!collapseOnScroll"
-					
-					color="deep-purple accent-4"
-					dark
-					>
-					<v-app-bar-nav-icon v-if="collapse" @click="[collapse = !collapse, height = 50]"></v-app-bar-nav-icon>
-					<v-app-bar-nav-icon v-else @click="[collapse = !collapse, height = 200]"></v-app-bar-nav-icon>
-
-					</v-app-bar>
-					</v-card>
-			</v-col>
-
-		</v-row>
- -->
-
-
-		<!-- Another side comp -->
-		<!-- <v-row>	
-				<v-card>
-					<v-navigation-drawer v-model="drawer" :mini-variant.sync="mini" permanent >
-						<v-list-item class="px-2 d-flex justify-end">
-							<v-btn small v-if="!mini"  icon @click.stop="mini = !mini"><v-icon>mdi-chevron-left</v-icon></v-btn>
-							<v-btn v-else small icon @click.stop="mini = !mini"><v-icon>mdi-chevron-right</v-icon></v-btn>
-						</v-list-item>
-						<v-divider></v-divider>
-						<v-list dense>
-							<v-list-item v-for="item in items" :key="item.title" link @click="topicTab = item.title" >
-								<v-list-item-icon>
-									<v-icon>{{ item.icon }}</v-icon>
-								</v-list-item-icon>
-								<v-list-item-content>
-									<v-list-item-title>{{ item.title }}</v-list-item-title>
-								</v-list-item-content>
-							</v-list-item>
-						</v-list>
-					</v-navigation-drawer>
-				</v-card>
-			</v-row> -->
-
-
-
 		<!-- Right Comps -->
 		<intro-template v-if="topicTab == 'Intro'" 
-			:topicObj="topicObj"></intro-template>
+			:resources="resources" :topicObj="topicObj"></intro-template>
 		<event-template v-else-if="topicTab == 'Events'" 
-			:events="events" :topicObj="topicObj"></event-template>
+			:events="events" :carouselEvents="carouselEvents" :topicObj="topicObj"></event-template>
 		<terminology-template v-else-if="topicTab == 'Terminology'"  
 			:terminology="terminology" :topicObj="topicObj"></terminology-template>
 		<people-template v-else-if="topicTab == 'Historical People'" 
 			:people="people" :topicObj="topicObj"></people-template>
-		<works-template v-else-if="topicTab == 'Works of the Time'" 
+		<works-template v-else-if="topicTab == 'Artifacts'" 
 			:works="works" :topicObj="topicObj"></works-template>
 	</v-row>
 </v-container>
@@ -100,6 +53,7 @@ import terminologyTemplate from '@/components/TerminologyTemplate.vue'
 import peopleTemplate from '@/components/PeopleTemplate.vue'
 import worksTemplate from '@/components/WorksTemplate.vue'
 import { db, tc } from "@/main";
+import store from "@/store";
 export default {
 	components: {
 		introTemplate,
@@ -112,9 +66,11 @@ export default {
 		id: this.$route.params.id,
 		topicObj: {},
 		events: [],
+		carouselEvents: [],
 		people: [],
 		terminology: [],
 		works: [],
+		resources: [],
 
 		// Bottom Navbar
 		collapse: true,
@@ -125,7 +81,7 @@ export default {
 			{ title: 'Events', icon: 'mdi-clock-start' },
 			{ title: 'Terminology', icon: 'mdi-view-dashboard' },
 			{ title: 'Historical People', icon: 'mdi-account' },
-			{ title: 'Works of the Time', icon: 'mdi-lightbulb-outline' }
+			{ title: 'Artifacts', icon: 'mdi-lightbulb-outline' }
 		]
 	}},
 	methods: {
@@ -139,44 +95,72 @@ export default {
 				return ref
 			}.bind(this))
 
+
+			// grabbing topic
+			db.collection('resources').where('parentID', '==', tcID)
+			.get().then(function(querySnapshot) {
+				querySnapshot.forEach(function(doc) {
+					this.resources.push(doc.data())
+				}.bind(this))
+			}.bind(this))
+			store.dispatch("setResources", this.resources);
+
+
+			var e = []
+			var e2 = []
 			// grabbing events
 			db.collection('events').where('topicID', '==', tcID)
 				.get().then(function(querySnapshot) {
 					querySnapshot.forEach(function(doc) {
 						var entry = doc.data()
 						entry.id = doc.id
-						this.events.push(entry)
+						entry.date = new Date(entry.startDate).getFullYear()
+						if (entry.date >= 999){
+							entry.date = entry.date+1
+						}
+						e.push(entry)
+						e2.push(entry)
 					}.bind(this));
+				}.bind(this))
+				.then(function(querySnapshot) {
+					// this.events = e.sort((x, y) => y.date - x.date);
+					this.events = this.carouselEvents = e2.sort((x, y) => x.date - y.date);
 				}.bind(this))
 
-			// grabbing people
-			db.collection('people').where('topicID', '==', tcID)
-				.get().then(function(querySnapshot) {
-					if (querySnapshot.docs.length == 0) querySnapshot = undefined
-					querySnapshot.forEach(function(doc) {
-						var entry = doc.data()
-						entry.id = doc.id
-						this.people.push(entry)
-					}.bind(this));
-				}.bind(this))
 
-			// grabbing terms
-			db.collection('terminology').where('topicID', 'array-contains', tcID)
-				.get().then(function(querySnapshot) {
-					if (querySnapshot.docs.length == 0) querySnapshot = undefined
-					querySnapshot.forEach(function(doc) {
-						this.terminology.push(doc.data())
-					}.bind(this));
-				}.bind(this))
 
-			// grabbing works
-			db.collection('works').where('topicID', '==', tcID)
-				.get().then(function(querySnapshot) {
-					if (querySnapshot.docs.length == 0) querySnapshot = undefined
-					querySnapshot.forEach(function(doc) {
-						this.works.push(doc.data())
-					}.bind(this));
-				}.bind(this))
+			// // grabbing people
+			// db.collection('people').where('topicID', '==', tcID)
+			// 	.get().then(function(querySnapshot) {
+			// 		if (querySnapshot.docs.length == 0) querySnapshot = undefined
+			// 		querySnapshot.forEach(function(doc) {
+			// 			var entry = doc.data()
+			// 			entry.id = doc.id
+			// 			this.people.push(entry)
+			// 		}.bind(this));
+			// 	}.bind(this))
+
+			// // grabbing terms
+			// db.collection('terminology').where('topicID', 'array-contains', tcID)
+			// 	.get().then(function(querySnapshot) {
+			// 		if (querySnapshot.docs.length == 0) querySnapshot = undefined
+			// 		querySnapshot.forEach(function(doc) {
+			// 			this.terminology.push(doc.data())
+			// 		}.bind(this));
+			// 	}.bind(this))
+			// 	.then(function() {
+			// 		console.log('h', this.terminology)
+			// 		this.terminology.sort( (a, b) => a.term.localeCompare(b.term, 'fr', {ignorePunctuation: true}) );
+			// 	}.bind(this))
+
+			// // grabbing works
+			// db.collection('works').where('topicID', '==', tcID)
+			// 	.get().then(function(querySnapshot) {
+			// 		if (querySnapshot.docs.length == 0) querySnapshot = undefined
+			// 		querySnapshot.forEach(function(doc) {
+			// 			this.works.push(doc.data())
+			// 		}.bind(this));
+			// 	}.bind(this))
 		},
 
 		back () {

@@ -57,7 +57,7 @@
 				</v-container>
 			</v-form>
 			<v-card-actions class="d-flex justify-end">
-				<v-btn class="white--text" color="green" @click="submit">Save</v-btn>
+				<v-btn class="white--text" color="green" @click="[submit(), dialog = false]">Save</v-btn>
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
@@ -80,7 +80,6 @@ export default {
 		rule: [ v => !!v || 'Required' ],
 		imgRule: [ 
 			v => !v || v.size > 0 && v.size < 2000000 || 'Image required',
-			v => !!v
 		],
 		imgRule2: [ v => !v || v.size > 0 && v.size < 2000000 || 'Image required' ]
 	}},
@@ -99,7 +98,9 @@ export default {
 			this.newWork.topicID = this.$store.state.topic.id
 			this.newWork.searchArray = keywords
 				
-			await this.saveImage(this.newWork)
+			if(this.newWork.thumbnail){
+				await this.saveImage(this.newWork)
+			}
 			
 			db.collection("works").add(this.newWork)
 			.then(function() { console.log("Document successfully updated!"); })
@@ -107,12 +108,11 @@ export default {
 			
 			store.dispatch("addWork", this.newWork);
 
-
-			
 			this.reset()
 		},
 
 		async submit(){
+			console.log('in here')
 			if(this.work.thumbnail){
 				await this.deleteImage(this.work)
 				await this.saveImage(this.work)
@@ -127,13 +127,13 @@ export default {
 
 		//clears firebase storage - thumbFile - thumbURL
 		async deleteImage(file){
-			// var desertRef = firebase.storage().ref().child(file.thumbFile);
-			// await desertRef.delete()
-			// .then(function() { 
+			var desertRef = firebase.storage().ref().child(file.thumbFile);
+			await desertRef.delete()
+			.then(function() { 
 				file.thumbFile = ''
 				file.thumbURL = ''
-			// })
-			// .catch(function(error) { console.error("Error updating document: ", error) });
+			})
+			.catch(function(error) { console.error("Error updating document: ", error) });
 		},
 
 

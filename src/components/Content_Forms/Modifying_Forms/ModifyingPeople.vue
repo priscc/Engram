@@ -39,24 +39,18 @@
 					<v-col class="pb-0">
 						<v-text-field filled v-model="personDialog.name" label="Figure name:" auto-fill="off"></v-text-field>
 						<v-row>
-							<v-col>
+							<v-col cols="5">
 								<v-file-input dense v-model="personDialog.thumbnail" accept="image/*" counter show-size label="Thumbnail" :placeholder="personDialog.thumbFile" ></v-file-input>
 							</v-col>
 							<v-col>
-								<v-menu ref="menu" v-model="menu" :close-on-content-click="false" transition="scale-transition" offset-y min-width="290px">
-									<template v-slot:activator="{ on }" >
-										<v-text-field dense prepend-icon="event" v-model="personDialog.date" label="Start date" :placeholder="personDialog.date" readonly v-on="on" ></v-text-field>
-									</template>
-									<v-date-picker ref="picker" v-model="personDialog.date" type="month" :max="new Date().toISOString().substr(0, 10)" min="1-01-01" no-title >
-										 <v-spacer></v-spacer>
-											<v-btn text color="primary" @click="menu = false">Cancel</v-btn>
-											<v-btn text color="primary" @click="save">OK</v-btn>
-									</v-date-picker>
-								</v-menu>
+								<v-text-field filled v-model="personDialog.dateOfBirth" label="Birth:" placeholder="YYYY" auto-fill="off"></v-text-field>
+							</v-col>
+							<v-col>
+								<v-text-field filled v-model="personDialog.dateOfDeath" label="Passing:" placeholder="YYYY" auto-fill="off"></v-text-field>
 							</v-col>
 						</v-row>
 						<v-btn v-if="!newEvent" small rounded class="mb-6 purple lighten-1 text-center" block dark @click="[addResources = true, width='100%']">Add & Edit Resources</v-btn>
-						<v-textarea filled v-model="personDialog.contentMD" label="Main event content:" :placeholder="personDialog.contentMD" ></v-textarea>
+						<v-textarea filled v-model="personDialog.contentMD" label="Main event content: *has markdown" :placeholder="personDialog.contentMD" ></v-textarea>
 		
 
 					</v-col>
@@ -144,6 +138,7 @@ export default {
 			//if there are resources to remove
 			if (this.removedResources.length != 0){ this.removingResources() }
 
+				console.log('new resources', this.$store.state.newResources)
 			//if there are resources to add
 			if (this.newResources.length != 0){ this.addingResources() }
 
@@ -169,7 +164,8 @@ export default {
 					batch.delete(ref);
 				}.bind(this));
 			}.bind(this))
-			.then( function(doc) { batch.commit() });
+			.then( function(doc) { batch.commit() })
+			.then( function (doc) { store.dispatch("clear_removedResources") });
 		},
 
 		addingResources(){
@@ -191,7 +187,8 @@ export default {
 					batch.set(ref, doc);
 				}.bind(this));
 			}.bind(this))
-			.then( function(doc) { batch.commit() });
+			.then( function(doc) { batch.commit() })
+			.then( function (doc) { store.dispatch("clear_newResources") });
 		},
 
 		//clears firebase storage - thumbFile - thumbURL

@@ -14,14 +14,14 @@
 				<v-col cols="9">
 					<v-text-field label="Topic title:" autocomplete="off" v-model="createdTopic.title" :rules="rule" required></v-text-field>
 					<v-select v-model="timePeriod" :items="timePeriods" label="Choose Time Period:" outlined dense :rules="rule" required>{{ timePeriods }}</v-select>
-					<v-row class="pt-2">
+					<!-- <v-row class="pt-2">
 						<v-col cols="4">
 							<v-file-input disabled accept="image/*" counter show-size label="Thumbnail"></v-file-input>
 						</v-col>
 						<v-col>
 							<v-textarea disabled outlined name="input-7-4" label="Topic intro content" value="This is just a tester, don't fill out" ></v-textarea>
 						</v-col>
-					</v-row>
+					</v-row> -->
 					<v-row>
 						<v-col class="d-flex justify-end row-reverse">
 							<v-btn class="mr-3" large color="error" outlined @click="reset">Reset Form</v-btn>
@@ -46,8 +46,8 @@ export default {
 		// New Topic info
 		createdTopic: {
 			title: '',
-			thumbURL: 'logo.png',
-			contentMD: 'this is introductory content that will probably end up being a paragraph long'
+			thumbURL: '',
+			contentMD: ''
 		},
 		// Form
 		timePeriods: [

@@ -14,8 +14,10 @@
 		<!-- Header -->
 		<v-col class="d-flex flex-nowrap pt-0">
 			<v-img max-width="70px" min-width="70px" min-height="90px" class="profile" aspect-ratio="1" :src="figure.thumbURL"></v-img>
-			<h2 class="pt-3 pl-10 pr-9 d-flex align-center font-weight-medium px-5"><u>{{figure.name}}</u></h2>
-			<p class="pt-5 d-flex align-center font-italic caption mb-0"> ({{figure.date}})</p>
+			<h2 class="Subtitle-1 pt-3 pl-10 pr-9 d-flex align-center font-weight-bold px-5">{{figure.name}}  
+				<small class="pl-6 pr-3">({{figure.dateOfBirth}} - {{figure.dateOfDeath}})</small>
+				<small> {{figure.age}} yrs</small>
+			</h2>
 		</v-col>
 	</v-row>
 
@@ -82,7 +84,9 @@ export default {
 
 		async pullData () {
 			await db.collection('people').doc(this.id).get().then(function(doc) {
-				this.figure = doc.data()
+				var entry = doc.data()
+				entry.age = (new Date(entry.dateOfDeath).getFullYear()) - (new Date(entry.dateOfBirth).getFullYear())
+				this.figure = entry
 			}.bind(this))
 
 			await db.collection('resources').where('parentID', '==', this.id).get().then(function(querySnapshot) {

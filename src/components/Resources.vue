@@ -1,9 +1,13 @@
 <template>
 <v-container fluid id="app">
-	<h3 v-if="images.length != 0 || articles.length != 0 || videos.length != 0" class="font-weight-regular pb-4 text-center">Resources</h3>
+	<h3 v-if="images.length != 0 || articles.length != 0 || videos.length != 0" class="font-weight-regular text-center pb-4">Additional Resources</h3>
 	<!-- Images -->
-	<div v-if="images.length != 0">
-		<h4 class="font-weight-light" style="border-bottom: 1.5px solid blue;">Images</h4>
+	<div v-if="images.length != 0" class="mb-10">
+		<h4
+			v-if="articles.length != 0 || videos.length != 0"
+			class="font-weight-light" style="border-bottom: 1.5px solid blue;">
+			Images
+		</h4>
 		<v-row>
 			<v-col v-for="(i, index) in images"  :key="index" cols="4">
 			<v-hover v-slot:default="{ hover }">
@@ -23,23 +27,27 @@
 	
 
 	<!-- Articles -->
-	<div v-if="articles.length != 0">
-		<h4 class="font-weight-light" style="border-bottom: 1.5px solid blue;">Articles</h4>
+	<div v-if="articles.length != 0" class="mb-10">
+		<h4 
+			v-if="images.length != 0 || videos.length != 0"
+			class="font-weight-light" style="border-bottom: 1.5px solid blue;">
+			Articles
+		</h4>
 		<v-row>
 			<v-col v-for="(i, index) in articles" :key="index" cols="12">
-			<v-hover v-slot:default="{ hover }">
-				<v-card class="mx-auto" color="grey lighten-4" max-width="600" >
-					<p class="pa-3">{{i.title}}</p>
-				</v-card>
-			</v-hover>
+				<a class="pa-3" :href="i.url">{{i.title}}</a>
 			</v-col>	
 		</v-row>
 	</div>
 	
 
 	<!-- Videos -->
-	<div v-if="videos.length != 0">
-		<h4 class="font-weight-light" style="border-bottom: 1.5px solid blue;">Videos</h4>
+	<div v-if="videos.length != 0" class="mb-10">
+		<h4 
+			v-if="images.length != 0 || articles.length != 0"
+			class="font-weight-light" style="border-bottom: 1.5px solid blue;">
+			Videos
+		</h4>
 		<v-row>
 			<v-col v-for="(i, index) in videos" :key="index" cols="6">
 				<v-card class="mx-auto" color="grey lighten-4">

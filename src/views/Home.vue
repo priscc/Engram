@@ -7,10 +7,10 @@
 				<v-container class="py-0" fluid >
 					<v-row class="align-stretch">
 						<v-col v-for="(topic, i) in period.topicTitles" :key="i" lg="3" md="3" cols="2" class="pa-0 align-stretch">
-							<v-card class="mx-auto done" style="height: 190px" :to="`/Topic/${topic.topicID}`" >
+							<v-card class="mx-auto done" style="height: 170px" :to="`/Topic/${topic.topicID}`" >
 								<div>
-									<v-responsive class="pa-6" height="120px">
-										<v-img width="100%" :src="require(`@/assets/${topic.thumbURL}`)" aspect-ratio="1.2"></v-img>
+									<v-responsive class="py-2 px-1" height="100px">
+										<v-img width="100%" :src="topic.thumbURL" aspect-ratio="1.2"></v-img>
 									</v-responsive>
 									<v-card-subtitle class="subtitle-2 text-center font-weight-normal pa-0 my-2 mx-3">
 										<p class="truncate">{{topic.title}}</p>
@@ -52,8 +52,6 @@ export default {
 	}
 }
 </script>
-
-
 
 
 

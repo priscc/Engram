@@ -12,6 +12,7 @@ import lodash from 'lodash'
 import VueTextareaAutosize from 'vue-textarea-autosize'
 import firebase from 'firebase/app'
 import 'firebase/firestore'
+import "firebase/auth";
 // VueResource
 import VueResource from 'vue-resource'
 // Vue icons
@@ -43,7 +44,25 @@ firebase.initializeApp({
 
 const db = firebase.firestore()
 
-export { firebase, db };
+const login = Vue.observable({
+  user: null
+});
+
+firebase.auth().onAuthStateChanged(user => {
+  if (user) {
+    login.user = user;
+    if (router.currentRoute.path !== "/dashboard") {
+      router.push({ path: "dashboard", params: { user: user } }); // Only on auth
+    }
+  } else {
+    login.user = null;
+    if (router.currentRoute.path !== "/") {
+      router.push({ path: "/", params: { user: null } }); // Optimistic
+    }
+  }
+});
+
+export { firebase, db, login };
 
 
 export default new Vuetify({

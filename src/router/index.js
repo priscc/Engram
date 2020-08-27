@@ -5,6 +5,12 @@ import Home from '../views/Home.vue'
 Vue.use(VueRouter)
 
 const routes = [
+  //user Login
+    {
+      path: '/NextSteps',
+      name: 'NextSteps',
+      component: () => import('../views/NextSteps.vue')
+    },
   //view pages
     {
       path: '/',
@@ -48,6 +54,11 @@ const routes = [
       path: '/AddContent',
       name: 'AddEvent',
       component: () => import('../views/Adding_Content/AddContent.vue')
+    },
+    {
+      path: '/ModifyingTopic',
+      name: 'ModifyingTopic',
+      component: () => import('../views/Adding_Content/ModifyingTopic.vue')
     },
     {
       path: '/ModifyingContent',

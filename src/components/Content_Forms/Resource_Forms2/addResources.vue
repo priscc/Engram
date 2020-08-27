@@ -41,11 +41,6 @@ export default {
 	},
 	data: function () {return {
 		panels: [ 'Articles', 'Images', 'Videos']
-	}},
-	methods:{
-		removeResource(i, arr){
-			arr.splice(i, 1)
-		}
-	}
+	}}
 }
 </script>

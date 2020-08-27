@@ -15,8 +15,9 @@
 		<!-- Header -->
 		<v-col class="d-flex flex-nowrap pt-0">
 			<v-img max-width="70px" min-width="70px" min-height="90px" class="profile" aspect-ratio="1" :src="event.thumbURL"></v-img>
-			<h2 class="pt-3 pl-10 pr-9 d-flex align-center font-weight-medium px-5"><u>{{event.title}}</u></h2>
-			<p class="pt-5 d-flex align-center font-italic caption mb-0"> ({{event.date}})</p>
+			<h2 class="pt-3 pl-10 pr-9 d-flex align-center font-weight-black px-5">{{event.title}}</h2>
+			<p v-if="event.endDate" class="pt-5 d-flex align-center font-italic caption mb-0"> ({{event.startDate}} - {{event.endDate}})</p>
+			<p v-else class="pt-5 d-flex align-center font-italic caption mb-0"> ({{event.startDate}})</p>
 		</v-col>
 	</v-row>
 
@@ -66,7 +67,7 @@ export default {
 			}.bind(this))
 
 			await db.collection('resources').where('parentID', '==', this.id).get().then(function(querySnapshot) {
-				if (querySnapshot.docs.length == 0) querySnapshot = undefined
+				console.log('here')
 					querySnapshot.forEach(function(doc) {
 						this.resources.push(doc.data())
 					}.bind(this));
@@ -76,6 +77,7 @@ export default {
 		},
 
 		resourcesSort (){
+			console.log(this.resources)
 			var rArr = this.resources
 
 			rArr.forEach( r => {

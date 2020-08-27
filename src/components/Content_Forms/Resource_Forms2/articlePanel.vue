@@ -10,7 +10,7 @@
 							<div class="subtitle-2">{{ resource.title }}</div>
 							<div class="caption">{{ resource.url }}</div>
 						</v-col>
-						<v-col class="py-0 d-flex justify-end">
+						<v-col cols="1" class="py-0 d-flex justify-end">
 							<v-btn color="red" icon @click="removeResource(resource)"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
 						</v-col>
 					</v-row>
@@ -81,6 +81,7 @@ export default {
 
 	methods: {
 		removeResource(resource){
+			console.log('resource', resource)
 			//if removing from db (has id) -- remove from resources && add id to removedResources
 			// else not from db --remove from resources && remove from newResources
 			store.dispatch("removeResource", resource);

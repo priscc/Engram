@@ -11,7 +11,7 @@
 			<router-link :to="`/PeoplePage/${p.id}`">
 			<v-hover>
 			  <template v-slot:default="{ hover }" >
-				<v-img class="profile" max-width="90px" min-width="90px" min-height="110px" aspect-ratio="1" :src="p.thumbURL">
+				<v-img class="profile mx-auto" max-width="90px" min-width="90px" min-height="110px" aspect-ratio="1" :src="p.thumbURL">
 				<v-fade-transition>
 				  <v-overlay v-if="hover" absolute dark>
 					  <p>Learn More</p>

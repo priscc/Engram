@@ -5,7 +5,6 @@
 		<v-row class="pt-4">
 			<v-col>
 				<v-card class="pa-2 d-flex flex-row">
-
 					<iframe width="160" height="70" :src="`https://www.youtube.com/embed/${resource.url}`" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 					<div class="caption pl-4">{{resource.title}}</div>
 					<v-btn small color="red" icon fab absolute top right @click="removeResource(resource)"><v-icon>mdi-close-circle-outline</v-icon></v-btn>
