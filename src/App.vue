@@ -40,7 +40,7 @@ export default {
         // { label: 'blogShow', url: '/blogShow' },
         // { label: 'addBlog', url: '/addBlog' },
         // { label: 'Filter', url: '/Filter' },
-        // { label: 'GEOTester', url: '/GEOTester' }
+        { label: 'GEOTester', url: '/GEOTester' }
       ]
     }
   }

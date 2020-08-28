@@ -6,7 +6,7 @@
 		<v-form ref="form" v-model="valid">
 			<v-row>
 				<v-col cols="2">
-					<v-file-input dense v-model="newWork.thumbnail" accept="image/*" counter show-size label="Thumbnail" placeholder="Thumbnail" :rules="imgRule" clearable></v-file-input>
+					<v-file-input dense v-model="newWork.thumbnail" accept="image/*" counter show-size label="Thumbnail" placeholder="Thumbnail" :rules="imgRuleNew" clearable></v-file-input>
 				</v-col>
 				<v-col cols="4">
 					<v-text-field 
@@ -47,7 +47,7 @@
 				<v-container>
 					<v-row>
 						<v-col>
-							<v-file-input dense v-model="work.thumbnail" accept="image/*" counter show-size label="Thumbnail" :placeholder="work.thumbFile" :rules="imgRule2" clearable></v-file-input>
+							<v-file-input dense v-model="work.thumbnail" accept="image/*" counter show-size label="Thumbnail" :placeholder="work.thumbFile" :rules="imgRuleMod" clearable></v-file-input>
 							<v-text-field 
 								v-model="work.title" label="Term" :placeholder="work.title" dense >
 							</v-text-field>
@@ -73,15 +73,15 @@ import firebase from 'firebase'
 export default {
 	data: function () {return {
 		dialog: false,
-		newWork: {}, //form creates objects -- {thumbnail:'', title:'', caption:''}
+		newWork: {}, //{thumbnail:'', title:'', caption:''}
 		work: {}, //form creates objects -- {thumbnail:'', title:'', caption:''} (thumnail is removed)
 		// Validation
 		valid: true,
 		rule: [ v => !!v || 'Required' ],
-		imgRule: [ 
-			v => !v || v.size > 0 && v.size < 2000000 || 'Image required',
+		imgRuleNew: [ 
+			v => !v || v.size > 0 && v.size < 2000000 || 'Image larger than 2MB',
 		],
-		imgRule2: [ v => !v || v.size > 0 && v.size < 2000000 || 'Image required' ]
+		imgRuleMod: [ v => !v || v.size > 0 && v.size < 2000000 || 'Image required' ]
 	}},
 
 	computed: {
@@ -106,6 +106,7 @@ export default {
 			.then(function() { console.log("Document successfully updated!"); })
 			.catch(function(error) { console.error("Error updating document:", error); });
 			
+				console.log("addWork", this.newWork)
 			store.dispatch("addWork", this.newWork);
 
 			this.reset()
@@ -117,6 +118,7 @@ export default {
 				await this.deleteImage(this.work)
 				await this.saveImage(this.work)
 			}
+			console.log(this.work.id)
 			db.collection("works").doc(this.work.id).update(this.work)
 				.then(function() { console.log("Document successfully updated!"); })
 				.catch(function(error) { console.error("Error updating document:", error); });
@@ -129,10 +131,6 @@ export default {
 		async deleteImage(file){
 			var desertRef = firebase.storage().ref().child(file.thumbFile);
 			await desertRef.delete()
-			.then(function() { 
-				file.thumbFile = ''
-				file.thumbURL = ''
-			})
 			.catch(function(error) { console.error("Error updating document: ", error) });
 		},
 

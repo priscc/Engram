@@ -44,7 +44,7 @@
 				:z-index="hover ? 500 : 5"
 				> 
 					<p v-if="hover" class="ma-0">{{i.title}}</p>
-					<p v-else> </p>
+					<p v-else class="ma-0">{{index +1}}</p>
 				</v-card>
 			</v-hover>
 

@@ -129,38 +129,38 @@ export default {
 
 
 
-			// // grabbing people
-			// db.collection('people').where('topicID', '==', tcID)
-			// 	.get().then(function(querySnapshot) {
-			// 		if (querySnapshot.docs.length == 0) querySnapshot = undefined
-			// 		querySnapshot.forEach(function(doc) {
-			// 			var entry = doc.data()
-			// 			entry.id = doc.id
-			// 			this.people.push(entry)
-			// 		}.bind(this));
-			// 	}.bind(this))
+			// grabbing people
+			db.collection('people').where('topicID', '==', tcID)
+				.get().then(function(querySnapshot) {
+					if (querySnapshot.docs.length == 0) querySnapshot = undefined
+					querySnapshot.forEach(function(doc) {
+						var entry = doc.data()
+						entry.id = doc.id
+						this.people.push(entry)
+					}.bind(this));
+				}.bind(this))
 
-			// // grabbing terms
-			// db.collection('terminology').where('topicID', 'array-contains', tcID)
-			// 	.get().then(function(querySnapshot) {
-			// 		if (querySnapshot.docs.length == 0) querySnapshot = undefined
-			// 		querySnapshot.forEach(function(doc) {
-			// 			this.terminology.push(doc.data())
-			// 		}.bind(this));
-			// 	}.bind(this))
-			// 	.then(function() {
-			// 		console.log('h', this.terminology)
-			// 		this.terminology.sort( (a, b) => a.term.localeCompare(b.term, 'fr', {ignorePunctuation: true}) );
-			// 	}.bind(this))
+			// grabbing terms
+			db.collection('terminology').where('topicID', 'array-contains', tcID)
+				.get().then(function(querySnapshot) {
+					if (querySnapshot.docs.length == 0) querySnapshot = undefined
+					querySnapshot.forEach(function(doc) {
+						this.terminology.push(doc.data())
+					}.bind(this));
+				}.bind(this))
+				.then(function() {
+					console.log('h', this.terminology)
+					this.terminology.sort( (a, b) => a.term.localeCompare(b.term, 'fr', {ignorePunctuation: true}) );
+				}.bind(this))
 
-			// // grabbing works
-			// db.collection('works').where('topicID', '==', tcID)
-			// 	.get().then(function(querySnapshot) {
-			// 		if (querySnapshot.docs.length == 0) querySnapshot = undefined
-			// 		querySnapshot.forEach(function(doc) {
-			// 			this.works.push(doc.data())
-			// 		}.bind(this));
-			// 	}.bind(this))
+			// grabbing works
+			db.collection('works').where('topicID', '==', tcID)
+				.get().then(function(querySnapshot) {
+					if (querySnapshot.docs.length == 0) querySnapshot = undefined
+					querySnapshot.forEach(function(doc) {
+						this.works.push(doc.data())
+					}.bind(this));
+				}.bind(this))
 		},
 
 		back () {

@@ -16,7 +16,7 @@
 			<v-img max-width="70px" min-width="70px" min-height="90px" class="profile" aspect-ratio="1" :src="figure.thumbURL"></v-img>
 			<h2 class="Subtitle-1 pt-3 pl-10 pr-9 d-flex align-center font-weight-bold px-5">{{figure.name}}  
 				<small class="pl-6 pr-3">({{figure.dateOfBirth}} - {{figure.dateOfDeath}})</small>
-				<small> {{figure.age}} yrs</small>
+				<small v-if="figure.dateOfBirth != '___'"> {{figure.age}} yrs</small>
 			</h2>
 		</v-col>
 	</v-row>

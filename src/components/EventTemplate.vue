@@ -6,34 +6,22 @@
 		</v-col>
 	</v-row>
 	
-	<!-- Tabs -->
-	<v-row>
-		<v-col class="pl-7">
-			<v-img aspect-ratio="1.2" width="150px" height="100px" src="@/assets/map.png" style="border: .5px solid lightgrey " ></v-img>
+	<v-row class="pb-5">
+		<v-col cols="4">
+			<v-img aspect-ratio="1.2" width="120px" height="70px" src="@/assets/green2Map.png" style="border: .5px solid lightgrey " ></v-img>
 		</v-col>
 		<v-col class="d-flex align-end">
 			<v-btn v-if="!timelineExpanded" height="20px" small block outlined color="orange darken-2" @click="[timelineExpanded = true]">
-				Expand Timeline
+			Expand Timeline
 			</v-btn>
 
 			<v-btn v-else small block outlined height="20px" color="orange darken-2" @click="[timelineExpanded = false, bottomNav = 0, model = 0]">
 				Collapse Timeline
 			</v-btn>
-
-
 		</v-col>
-		<v-col class="d-flex flex-column align-end" cols="4" >
-		 	<!-- **** change color of items?-->
-			<v-select v-if="timelineExpanded" v-model="bottomNav" dense :items="selects" style="min-width: 100%" label="Type of Events"></v-select>
-			<div  class="pt-6 d-flex flex-column align-end">
-				<!-- <p class="ma-0 caption">Expanded Timeline</p> -->
-				<!-- <v-switch class="ma-0" inset v-model="timelineExpanded" :value="timelineExpanded" color="orange" hide-details @change="[bottomNav = 0, model = 0]"></v-switch> -->
-			</div>
-		</v-col>
+		<v-col cols="4"></v-col>
 	</v-row>
 
-	
-	
 
 	<!-- Timeline -->
 	<v-row class="timeline pl-5 mt-2 mb-10">
@@ -45,10 +33,26 @@
 		</v-col>
 	</v-row>
 
-	<!-- Cards -->
-	<v-row>
-		<v-col></v-col>
 
+
+	<!-- Cards -->
+	<v-row v-if="timelineExpanded">
+		<v-col>
+			<v-expansion-panels flat>
+				<v-expansion-panel style="border: .5px solid lightgrey ">
+					<v-expansion-panel-header expand-icon="mdi-arrow-up-drop-circle-outline">List of Events</v-expansion-panel-header>
+					<v-expansion-panel-content>
+						<!-- <v-container class="pa-0">  -->
+							<!-- <v-row class="d-flex flex-wrap"> -->
+								<div cols="4" class="pa-0 mb-4" v-for="(event, i) in events" :key="i">
+									<p class="caption ma-0">({{i+1}}) {{event.title}}</p>
+								</div>
+							<!-- </v-row> -->
+							<!-- </v-container> -->
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+			</v-expansion-panels>
+		</v-col>
 		<v-col cols="8">
 			<v-card elevation="2" outlined>
 				<v-carousel v-model="model" show-arrows-on-hover height="100%" delimiters>
@@ -116,7 +120,7 @@
 				</v-carousel>
 			</v-card>
 		</v-col>
-		<v-col></v-col>
+		<!-- <v-col></v-col> -->
 	</v-row>
 </v-col>
 </template>

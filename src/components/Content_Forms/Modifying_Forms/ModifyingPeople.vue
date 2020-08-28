@@ -100,7 +100,7 @@ export default {
 		menu: false,
 		preview: '',
 		typeOfEvent: ['Cause', 'Turning Points', 'Effect'],
-		imgRule: [ v => !v || v.size > 0 && v.size < 2000000 || 'Image required']
+		imgRule: [ v => !v || v.size > 0 && v.size < 2000000 || 'Image larger than 2MB']
 	}},
 	computed: {
 		people() { return this.$store.state.people; },
@@ -183,6 +183,8 @@ export default {
 			Promise.all(promises)
 			.then( function(doc) { 
 				this.newResources.forEach(function(doc) {
+					doc.topicID = this.$store.state.topic.id
+					console.log(doc)
 					var ref = db.collection('resources').doc()
 					batch.set(ref, doc);
 				}.bind(this));

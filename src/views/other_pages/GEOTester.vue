@@ -129,7 +129,7 @@ export default {
 
 <style>
 	#app {
-		background: #222;
+		background: white;
 		font-family: sans-serif;
 	}
 	.border {
@@ -138,12 +138,12 @@ export default {
 		stroke-width: 1px;
 	}
 	.regions.selected {
-		fill: #222;
+		fill: #607D8B;
 		stroke: none;
 		transition: all 0.2s ease;
 	}
 	.regions.selected:hover {
-		fill: #d9edf7;
+		fill: #FF9800;
 		stroke: #d9edf7;
 		stroke-width: 1px;
 	}

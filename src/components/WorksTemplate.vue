@@ -39,13 +39,11 @@
 		<v-dialog v-model="overlay" width="500">
 			<v-card class="mx-auto d-flex pb-4" outlined>
 				<div>
-					<div>
-						<v-avatar class="ma-3" size="135" tile>
-						<v-img :src="workDialog.thumbURL" width="100%"></v-img>
-					</v-avatar>
 					<v-btn color="orange lighten-1" small fab absolute  right dark rounded  @click="overlay = false">
 						<v-icon dark>mdi-close</v-icon>
 					</v-btn>
+					<div height="100px" width="100px">
+						<v-img :src="workDialog.thumbURL" aspect-ratio="2.3"></v-img>
 					</div>
 					<div class="mr-1">
 						<v-card-title class="subtitle-1"><p class="preview">{{workDialog.title}}</p></v-card-title>

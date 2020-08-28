@@ -6,6 +6,12 @@
 			<v-col>
 				<!-- <h1 class="display-1">Add Content to a Topic</h1> -->
 				<blockquote class="blockquote pa-0">Select a topic below</blockquote>
+				<p class="caption pa-0">Reminder:
+					<br>(1) <u>Before</u> adding resources refresh the page
+					<br>(2) <u>Before</u> modifying anything, refresh page
+					<br>(3) If a date is unknown put 3 underscores ('___')
+					<br>(4) Resize Work images to have have an aspect ratio of 2.1 (21:10)
+				</p>
 			</v-col>
 		</v-row>
 		<!-- Drop down -->

@@ -238,6 +238,7 @@ export default {
 			Promise.all(promises)
 			.then( function(doc) { 
 				this.newResources.forEach(function(doc) {
+					doc.topicID = this.$store.state.topic.id
 					var ref = db.collection('resources').doc()
 					batch.set(ref, doc);
 				}.bind(this));

@@ -1,6 +1,19 @@
 <template>
 <v-container fluid class="px-12">
+
+
+	<!-- <div v-for="i in resources" :key="i">
+		<v-row v-if="!i.topicID" style="border:1px solid black">
+			<p>{{i.id}}
+			<br>
+			{{i.title}}</p>
+		</v-row>
+	</div> -->
+	
+
 	<v-row>
+		
+		
 		<v-col v-for="(period, index) in timePeriods" :key="index" cols="12" lg="6" md="6" class=" d-flex align-self-stretch" wrap color="purple" >	
 			<v-card class="mx-0" outlined width="100%">
 				<v-card-title class="subtitle-1 font-weight-bold pa-2 grey lighten-3 text-wrap title">{{ period.title }}</v-card-title>
@@ -31,10 +44,17 @@
 import router from "@/router";
 import { db, tc } from "@/main";
 import _ from 'lodash'
+import store from "@/store"
 export default {
 	data () { return {
-		timePeriods: []
+		timePeriods: [],
+		resources: []
 	}},
+	firestore() {
+		return {
+			resources: db.collection("resources"),
+		};
+	},
 	methods: {
 		async mountTopics(){
 			var tp = []
