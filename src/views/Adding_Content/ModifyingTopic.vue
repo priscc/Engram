@@ -31,6 +31,8 @@
 			</v-col>
 		</v-row>
 	</v-container>
+
+
 	<!-- mod events form -->
 	<v-dialog v-model="dialog" :width="width">
 		<v-card outlined>
@@ -45,8 +47,36 @@
 							</v-col>
 						</v-row>
 						<v-row>
-							<v-col>
+							<v-col class="py-0">
+								<v-expansion-panels>
+									<v-expansion-panel>
+										<v-expansion-panel-header>Time Period</v-expansion-panel-header>
+										<v-expansion-panel-content>
+											<v-radio-group v-model="topicDialog.timePeriod" :mandatory="false">
+												<v-radio label="Regional Interactions (1200 - 1450)" value="1"></v-radio>
+												<v-radio label="First Global Age (1450 - 1750)" value="2"></v-radio>
+												<v-radio label="'Revolutions & Industrialization (1750 - 1900)')" value="3"></v-radio>
+												<v-radio label="Modern Times (1900 - Present)" value="4"></v-radio>
+											</v-radio-group>
+										</v-expansion-panel-content>
+									</v-expansion-panel>
+								</v-expansion-panels>
+							</v-col>
+							<v-col class="d-flex justify-end align-center flex-row my-0">
+								<v-switch class="mt-0" v-model="topicDialog.disabled" inset></v-switch>
+								<p>Disable</p>
+							</v-col>
+						</v-row>
+					
+						<v-row class="pt-5">
+							<v-col cols="5">
 								<v-file-input dense v-model="topicDialog.thumbnail" accept="image/*" counter show-size label="Thumbnail" :placeholder="topicDialog.thumbFile" :rules="imgRule" clearable></v-file-input>
+							</v-col>
+							<v-col>
+								<v-text-field dense filled v-model="topicDialog.startDate" label="Start Date:" auto-fill="off" clearable></v-text-field>
+							</v-col>
+							<v-col>
+								<v-text-field dense filled v-model="topicDialog.endDate" label="End Date:" auto-fill="off" clearable></v-text-field>
 							</v-col>
 						</v-row>
 						<v-row>
@@ -60,9 +90,7 @@
 					<!-- mod event resources -->
 					<v-col v-if="addResources"cols="7">
 						<v-card outlined class="py-2 px-4" style="border-color: #AB47BC;" >
-
 							<v-expansion-panels multiple focusable>
-
 								<v-expansion-panel>
 									<v-expansion-panel-header>Videos</v-expansion-panel-header>
 									<v-expansion-panel-content>
@@ -99,14 +127,13 @@ export default {
 		videoPanel
 	},
 	data: function () { return {
-		// Dialog
 		dialog: false,
-		topicDialog: {},
+		topicDialog: {}, 
+			//contains {title:'', thumbnail:'', startDate:'', endDate:'', contentMD:''}
 		width: '750px',
 		newTopic: false,
 		addResources: false,
 		imgRule: [ v => !v || v.size > 0 && v.size < 2000000 || 'More than 2MB required'],
-		
 	}},
 	computed: {
 		topics() { return this.$store.state.allTopics; },
@@ -125,7 +152,6 @@ export default {
 				})
 			})
 			store.dispatch("setAllTopics", topics);
-
 
 			var res = []
 			await db.collection("resources").get().then( doc => {

@@ -51,11 +51,6 @@ const routes = [
       component: () => import('../views/Adding_Content/AddTopic.vue')
     },
     {
-      path: '/AddContent',
-      name: 'AddEvent',
-      component: () => import('../views/Adding_Content/AddContent.vue')
-    },
-    {
       path: '/ModifyingTopic',
       name: 'ModifyingTopic',
       component: () => import('../views/Adding_Content/ModifyingTopic.vue')
@@ -67,29 +62,9 @@ const routes = [
     },
   // Other tester Code
     {
-      path: '/blogShow',
-      name: 'blogShow',
-      component: () => import('../components/othercomponents/blogShow.vue')
-    },
-    {
-      path: '/Filter',
-      name: 'Filter',
-      component: () => import('../views/Filter.vue')
-    },
-    {
       path: '/GEOTester',
       name: 'GEOTester',
-      component: () => import('../views/other_pages/GEOTester.vue')
-    },
-    {
-      path: '/addBlog',
-      name: 'addBlog',
-      component: () => import('../components/othercomponents/addBlog.vue')
-    },
-    {
-      path: '/singleBlog',
-      name: 'singleBlog',
-      component: () => import('../components/othercomponents/singleBlog.vue')
+      component: () => import('../views/GEOTester.vue')
     }
 ]
 

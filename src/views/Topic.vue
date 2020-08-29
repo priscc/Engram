@@ -149,7 +149,6 @@ export default {
 					}.bind(this));
 				}.bind(this))
 				.then(function() {
-					console.log('h', this.terminology)
 					this.terminology.sort( (a, b) => a.term.localeCompare(b.term, 'fr', {ignorePunctuation: true}) );
 				}.bind(this))
 

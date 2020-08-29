@@ -1,7 +1,6 @@
 <template>
 <v-container fluid class="px-12">
 
-
 	<!-- <div v-for="i in resources" :key="i">
 		<v-row v-if="!i.topicID" style="border:1px solid black">
 			<p>{{i.id}}
@@ -10,17 +9,14 @@
 		</v-row>
 	</div> -->
 	
-
 	<v-row>
-		
-		
 		<v-col v-for="(period, index) in timePeriods" :key="index" cols="12" lg="6" md="6" class=" d-flex align-self-stretch" wrap color="purple" >	
 			<v-card class="mx-0" outlined width="100%">
-				<v-card-title class="subtitle-1 font-weight-bold pa-2 grey lighten-3 text-wrap title">{{ period.title }}</v-card-title>
+				<v-card-title class="subtitle-1 font-weight-bold pa-2 grey lighten-3 text-wrap title">{{ period.header }}</v-card-title>
 				<v-container class="py-0" fluid >
 					<v-row class="align-stretch">
-						<v-col v-for="(topic, i) in period.topicTitles" :key="i" lg="3" md="3" cols="2" class="pa-0 align-stretch">
-							<v-card class="mx-auto done" style="height: 170px" :to="`/Topic/${topic.topicID}`" >
+						<v-col v-for="(topic, i) in period.topics" :key="i" lg="3" md="3" cols="2" class="pa-0 align-stretch">
+							<v-card :disabled="topic.disabled" class="mx-auto done" style="height: 170px" :to="`/Topic/${topic.id}`" >
 								<div>
 									<v-responsive class="py-2 px-1" height="100px">
 										<v-img width="100%" :src="topic.thumbURL" aspect-ratio="1.2"></v-img>
@@ -47,24 +43,21 @@ import _ from 'lodash'
 import store from "@/store"
 export default {
 	data () { return {
-		timePeriods: [],
-		resources: []
+		timePeriods: [
+			{header:'Regional Interactions (1200 - 1450)', topics:[]},
+			{header:'First Global Age (1450 - 1750)', topics:[]},
+			{header:'Revolutions & Industrialization (1750 - 1900)', topics:[]},
+			{header:'Modern Times (1900 - Present)', topics:[]},
+		]
 	}},
-	firestore() {
-		return {
-			resources: db.collection("resources"),
-		};
-	},
 	methods: {
 		async mountTopics(){
-			var tp = []
-			await db.collection('timePeriods').get().then( function(snapshot) {
+			await db.collection('topics').get().then( function(snapshot) {
 				snapshot.forEach(doc => {
-					tp.push(doc.data())
+					var d = doc.data()
+					this.timePeriods[(d.timePeriod-1)].topics.push(d)
 				})
 			}.bind(this))
-			tp = _.sortBy(tp, [function(o) { return o.periodStart }]);
-			this.timePeriods = tp
 		}
 	},
 	mounted () {

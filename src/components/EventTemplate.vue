@@ -5,10 +5,9 @@
 			<h2 class="font-weight-light">Events of the {{topicObj.title}}</h2>
 		</v-col>
 	</v-row>
-	
-	<v-row class="pb-5">
+	<v-row>
 		<v-col cols="4">
-			<v-img aspect-ratio="1.2" width="120px" height="70px" src="@/assets/green2Map.png" style="border: .5px solid lightgrey " ></v-img>
+			<v-img aspect-ratio="1.2" width="120px" height="70px" src="@/assets/orangeMap.png" style="border: .5px solid lightgrey " ></v-img>
 		</v-col>
 		<v-col class="d-flex align-end">
 			<v-btn v-if="!timelineExpanded" height="20px" small block outlined color="orange darken-2" @click="[timelineExpanded = true]">
@@ -24,12 +23,11 @@
 
 
 	<!-- Timeline -->
-	<v-row class="timeline pl-5 mt-2 mb-10">
+	<v-row class="timeline pl-5 mt-7">
 		<v-col class="my-10"> 
+			<timeline-in-context v-if="!timelineExpanded" :events="events" :topicTitle="topicObj.title" :startDate="topicObj.startDate" :endDate="topicObj.endDate"></timeline-in-context>
 			
-			<timeline-in-context v-if="!timelineExpanded" :events="events" :topicTitle="topicObj.title"></timeline-in-context>
-			<timeline v-else :events="events" :bottomNav="bottomNav"></timeline>
-			
+			<timeline v-else :events="events" :bottomNav="bottomNav" :startDate="topicObj.startDate" :endDate="topicObj.endDate"></timeline>
 		</v-col>
 	</v-row>
 
@@ -37,40 +35,9 @@
 
 	<!-- Cards -->
 	<v-row v-if="timelineExpanded">
-		<v-col>
-			<v-expansion-panels flat>
-				<v-expansion-panel style="border: .5px solid lightgrey ">
-					<v-expansion-panel-header expand-icon="mdi-arrow-up-drop-circle-outline">List of Events</v-expansion-panel-header>
-					<v-expansion-panel-content>
-						<!-- <v-container class="pa-0">  -->
-							<!-- <v-row class="d-flex flex-wrap"> -->
-								<div cols="4" class="pa-0 mb-4" v-for="(event, i) in events" :key="i">
-									<p class="caption ma-0">({{i+1}}) {{event.title}}</p>
-								</div>
-							<!-- </v-row> -->
-							<!-- </v-container> -->
-					</v-expansion-panel-content>
-				</v-expansion-panel>
-			</v-expansion-panels>
-		</v-col>
 		<v-col cols="8">
 			<v-card elevation="2" outlined>
 				<v-carousel v-model="model" show-arrows-on-hover height="100%" delimiters>
-
-					<!-- First Card -->
-					<v-carousel-item>
-						<v-sheet light>
-							<v-container> 
-								<v-card class="mx-12 px-12 mb-10" flat tile>
-									<h3 class="">List of Events</h3>
-									<v-list-item-content  v-for="(event, i) in events" :key="i">
-										<v-list-item-title>{{event.date}} - {{event.title}}</v-list-item-title>
-									</v-list-item-content>
-								</v-card>
-							</v-container>
-						</v-sheet>
-					</v-carousel-item>
-
 					<!-- Other Event cards -->
 					<v-carousel-item v-for="(slide, i) in carouselEvents" :key="i">
 						<v-sheet light class="">
@@ -86,11 +53,10 @@
 												</v-row>
 												<v-row>
 													<v-col class="py-0">
-														<p class="mb-1 pl-2 subtitle-2 d-flex align-center font-weight-light"> - {{slide.date}} - </p> 
+														<p v-if="slide.endDate" class="mb-1 pl-2 subtitle-2 d-flex align-center font-weight-light"> ({{slide.startDate}} - {{slide.endDate}}) </p> 
+														<p v-else class="mb-1 pl-2 subtitle-2 d-flex align-center font-weight-light"> ({{slide.startDate}}) </p> 
 													</v-col>
 												</v-row>
-												
-
 											</v-col>
 											<v-col class="d-flex justify-end">
 												<v-btn rounded color="blue" :to="`/EventPage/${slide.id}`" dark>Learn More</v-btn>
@@ -120,7 +86,18 @@
 				</v-carousel>
 			</v-card>
 		</v-col>
-		<!-- <v-col></v-col> -->
+		<v-col>
+			<v-expansion-panels flat>
+				<v-expansion-panel style="border: .5px solid lightgrey ">
+					<v-expansion-panel-header expand-icon="mdi-arrow-down-drop-circle-outline">List of Events</v-expansion-panel-header>
+					<v-expansion-panel-content>
+						<div cols="4" class="pa-0 mb-4" v-for="(event, i) in events" :key="i">
+							<p class="caption ma-0">({{i+1}}) {{event.title}}</p>
+						</div>
+					</v-expansion-panel-content>
+				</v-expansion-panel>
+			</v-expansion-panels>
+		</v-col>
 	</v-row>
 </v-col>
 </template>
@@ -165,6 +142,9 @@ export default {
 	        get () { return store.state.timeline },
 	        set (value) { store.dispatch("eventTimeline", value) }
 	    }
+	},
+	mounted(){
+		this.timelineExpanded = false
 	}
 }
 </script>

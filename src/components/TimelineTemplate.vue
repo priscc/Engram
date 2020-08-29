@@ -22,12 +22,6 @@
 		</div>
 		
 		
-		<!-- bluegrey then when hover it is #FF7043 -->
-		<!-- 1) see blue grey dots with numbers && see 1st card menu (hover / click)
-			2) when hover turns border orange
-			3) when click has fixed card && border is orange
-			4) click on tabs dots turn color but has the orange/blue-grey border  -->
-		<!-- events -->
 		<div>
 			<v-hover
 			v-slot:default="{ hover }" v-for="(i, index) in dates" :key="index" 
@@ -37,9 +31,9 @@
 
 				<v-card
 				:elevation="hover ? 15 : 5" 
-				:id="`cardBorder${(index+1)}`"
+				:id="`cardBorder${index}`"
 				class="cardColor"
-				v-on:mouseover="model = (index+1)"
+				v-on:mouseover="model = index"
 				style="font-size: 12px; font-weight: 550;"
 				:z-index="hover ? 500 : 5"
 				> 
@@ -47,10 +41,7 @@
 					<p v-else class="ma-0">{{index +1}}</p>
 				</v-card>
 			</v-hover>
-
 		</div>
-
-
 	</div>
 </div>
 	
@@ -63,11 +54,13 @@ import store from "@/store";
 export default {
 	props:{
 		events: Array,
-		bottomNav: Number
+		bottomNav: Number,
+		startDate: String,
+		endDate: String
 	},
 	data () { return {
 		eventColors: this.$props.events,
-		prevHover: 1,
+		prevHover: 0,
 		hover: null, 
 		dates:[],
 		ticks: 0,
@@ -88,33 +81,24 @@ export default {
 	watch: {
 		model: function (e){
 			document.getElementById("cardBorder"+this.prevHover).style.border = "none";
-			if(e != 0){
-				document.getElementById("cardBorder"+e).style.border = "2px solid #FFA726";
+			
+			document.getElementById("cardBorder"+e).style.border = "2px solid #FFA726";
 				this.prevHover = e
-			}
 		},
 		bottomNav: function(ev) {
-			// console.log('bottomNav', ev)
-
 			this.eventColors.forEach( (doc, i) => {
-				
 				var circle = document.getElementById('cardBorder' + (i+1) )
-				
 				// Cause
 				if (doc.eventType == "Cause" && ev == 'Cause')
 					circle.style.backgroundColor = "#B388FF"  // *** PURPLE
-
 				//TP
 				else if (doc.eventType == "Turning Points" && ev == 'Turning Points')
 					circle.style.backgroundColor = "#80D8FF" // *** BLUE
-
 				//Effects
 				else if (doc.eventType == "Effect" && ev == 'Impact')
 					circle.style.backgroundColor = "#64DD17" // *** GREEN
-
 				else
 					circle.style.backgroundColor = "#607D8B" // **BLUEGREY
-				
 			})
 		}
 		
@@ -125,8 +109,8 @@ export default {
 
 			var ev = this.$props.events
 			
-			var max = Math.max.apply(null, ev.map( d => { return d.date }));
-			var min = Math.min.apply(null, ev.map( d => { return d.date }));
+			var max = new Date(this.$props.endDate).getFullYear(); 
+			var min = new Date(this.$props.startDate).getFullYear(); 
 			
 			this.maxDate = max = (parseInt(max/10, 10)+1)*10 // round up to the nearest 10
 			this.minDate = min = parseInt(min / 10, 10) * 10 // round down to the nearest 10
@@ -189,5 +173,8 @@ export default {
 <style type="text/css" scoped>
 	.cardColor{
 		background-color: #607D8B
+	}
+	#cardBorder0{
+		border: 2px solid #FFA726
 	}
 </style>

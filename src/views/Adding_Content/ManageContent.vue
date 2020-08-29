@@ -20,32 +20,6 @@
 					</template>
 				</v-hover>
 			</v-col>
-			<v-spacer></v-spacer>
-			<v-col cols="4" class="text-center">
-				<v-hover>
-					<template v-slot:default="{ hover }">
-						<v-card class="mx-auto" elevation="10" max-width="344" height="150" style="border: 1px solid white" color="teal lighten-3" to="/AddContent">
-							<!-- <v-img class="m-5" aspect-ratio="1.7" src="@/assets/adding_event.png"></v-img> -->
-							<v-card-text>
-								<v-icon>mdi-plus</v-icon>
-								<h2 class="title">Add Content</h2>
-								Adding content (events, people, terminology) to a selected 
-								topic
-							</v-card-text>
-							<v-fade-transition>
-								<v-overlay v-if="hover" absolute color="#036358" >
-									<v-icon>mdi-plus</v-icon>
-								</v-overlay>
-							</v-fade-transition>
-						</v-card>
-					</template>
-				</v-hover>
-			</v-col>
-			<v-spacer></v-spacer>
-		</v-row>
-
-
-		<v-row class="pt-5 mt-5">
 			<v-col cols="4" class="text-center">
 				<v-hover>
 					<template v-slot:default="{ hover }">

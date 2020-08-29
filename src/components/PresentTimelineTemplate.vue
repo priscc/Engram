@@ -24,30 +24,19 @@
 
 		<!-- events -->
 		<p class="ma-0 font-weight-medium font-italic"
-		style="font-size: 14px; position: absolute; top: -35px;"
+		style="font-size: 14px; position: absolute; top: -44px;"
 		v-bind:style="{ left: start + '%' }"
-		>{{topicTitle}}</p>
+		>{{topicTitle}} ({{startDate}}-{{endDate}})</p>
 		<div>
-			<!-- <v-hover
-			v-slot:default="{ hover }" 
-			class="px-2"
-			style="position: absolute; top: -5px; color: white;"
-			v-bind:style="{ left: start + '%' }">
-			:elevation="hover ? 15 : 10" -->
-				<v-card 
-				tile
-				class="cardColor d-flex justify-center align-center"
-				:width="width"
-				style="position: absolute; top: -7px; font-size: 10px; height: 15px"
-				v-bind:style="{ left: start + '%' }"
-				> 
-					<p v-if="hover" class="pa-0 ma-0 caption font-weight-medium">Expand</p>
-				</v-card>
-
-			<!-- @click="timeline = true"
-			</v-hover> -->
+			<v-card 
+			tile
+			class="cardColor d-flex justify-center align-center"
+			:width="`${width}%`"
+			style="position: absolute; top: -20px; height: 10px"
+			v-bind:style="{ left: start + '%' }"
+			>
+			</v-card>
 		</div>
-
 
 	</div>
 </div>
@@ -61,13 +50,11 @@ import store from "@/store";
 export default {
 	props:{
 		events: Array,
-		topicTitle: String
+		topicTitle: String,
+		startDate: String,
+		endDate: String
 	},
 	data () { return {
-		eventColors: this.$props.events,
-		prevHover: 1,
-		hover: null, 
-		dates:[],
 		ticks: 0,
 		tickSize: 0,
 		maxDate: 0,
@@ -89,21 +76,24 @@ export default {
 
 		calculatingDates () {
 
-			var ev = this.$props.events
 			
-			var max = Math.max.apply(null, ev.map( d => { return d.date }));
-			var min = Math.min.apply(null, ev.map( d => { return d.date }));
+			var max = new Date(this.$props.endDate).getFullYear(); 
+			var min = new Date(this.$props.startDate).getFullYear(); 
+			console.log(this.$props.endDate)
 			
 			this.maxDate = new Date().getFullYear(); 
-			this.minDate = 1000
+			this.minDate = 200
 
 			var total = this.total = this.maxDate - this.minDate
 
-			this.start = 100 - (((this.maxDate-min)/total) * 100)
-			this.width = (max - min)
-			// this.width = ( ( (max - min)/total ) * 100 )
+			var end = 100 - (((this.maxDate-max)/total) * 100)
 
-			this.ticks = 10
+			this.start = 100 - (((this.maxDate-min)/total) * 100)
+
+			this.width = end - this.start
+			console.log('width', end - this.start)
+
+			this.ticks = 18
 			this.tickSize = 100
 			
 		}
