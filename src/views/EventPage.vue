@@ -2,11 +2,10 @@
 <v-container class="px-12" fluid>
 
 	<v-row>
-		
 		<!-- Arrow -->
 		<v-col  style="max-width: 70px">
 			<v-avatar size="32">
-				<v-btn color="blue lighten-2" dark rounded style="height: 100%;" @click="back">
+				<v-btn color="orange lighten-1" dark rounded style="height: 100%;" @click="back">
 					<v-icon dark >mdi-arrow-left</v-icon>
 				</v-btn>
 			</v-avatar>
@@ -14,10 +13,10 @@
 
 		<!-- Header -->
 		<v-col class="d-flex flex-nowrap pt-0">
-			<v-img max-width="70px" min-width="70px" min-height="90px" class="profile" aspect-ratio="1" :src="event.thumbURL"></v-img>
-			<h2 class="pt-3 pl-10 pr-9 d-flex align-center font-weight-black px-5">{{event.title}}</h2>
-			<p v-if="event.endDate" class="pt-5 d-flex align-center font-italic caption mb-0"> ({{event.startDate}} - {{event.endDate}})</p>
-			<p v-else class="pt-5 d-flex align-center font-italic caption mb-0"> ({{event.startDate}})</p>
+			<v-img height="100%" max-width="200px" aspect-ratio="1.7" :src="event.thumbURL"></v-img> 
+			<h1 class="pt-3 pl-10 pr-9 d-flex align-end font-weight-black">{{event.title}}</h1>
+			<p v-if="event.endDate" class="pt-5 d-flex align-end font-italic mb-2"> ({{event.startDate}} - {{event.endDate}})</p>
+			<p v-else class="pt-5 d-flex align-end font-italic mb-2"> ({{event.startDate}})</p>
 		</v-col>
 	</v-row>
 
@@ -43,7 +42,7 @@
 
 
 <script>
-import { db } from '@/main'
+import { db, analytics } from '@/main'
 import resources from '@/components/Resources.vue'
 
 export default {
@@ -66,6 +65,7 @@ export default {
 				this.event = doc.data()
 			}.bind(this))
 
+
 			await db.collection('resources').where('parentID', '==', this.id).get().then(function(querySnapshot) {
 				console.log('here')
 					querySnapshot.forEach(function(doc) {
@@ -77,7 +77,8 @@ export default {
 		},
 
 		resourcesSort (){
-			console.log(this.resources)
+			analytics.logEvent('Event_Page', { event: this.event.title } );
+
 			var rArr = this.resources
 
 			rArr.forEach( r => {

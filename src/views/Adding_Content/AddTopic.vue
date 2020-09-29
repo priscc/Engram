@@ -4,7 +4,10 @@
 		<v-row class="blue-grey darken-2 white--text text-center">
 			<v-col>
 				<h1 class="display-1">Add a New Topic</h1>
-				<blockquote class="blockquote pa-0">Fill the following form to add topics and topics to the home web page</blockquote>
+				<blockquote class="blockquote pa-0 pb-4">Fill the following form to add topics and topics to the home web page</blockquote>
+				<p class="caption">Reminder: 
+					<br> (1) To register this topic, you still have to select the Time Period on the mod topic page & add an image
+				</p>
 			</v-col>
 		</v-row>
 		<!-- FORM -->

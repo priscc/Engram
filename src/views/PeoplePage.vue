@@ -15,8 +15,9 @@
 		<v-col class="d-flex flex-nowrap pt-0">
 			<v-img max-width="70px" min-width="70px" min-height="90px" class="profile" aspect-ratio="1" :src="figure.thumbURL"></v-img>
 			<h2 class="Subtitle-1 pt-3 pl-10 pr-9 d-flex align-center font-weight-bold px-5">{{figure.name}}  
-				<small class="pl-6 pr-3">({{figure.dateOfBirth}} - {{figure.dateOfDeath}})</small>
-				<small v-if="figure.dateOfBirth != '___'"> {{figure.age}} yrs</small>
+
+				<small class="pl-6 pr-3">( {{figure.dateOfBirth}} - {{figure.dateOfDeath}} )</small>
+				<small v-if="figure.dateOfBirth != '___' || figure.dateOfDeath != '___'"> {{figure.age}} yrs</small>
 			</h2>
 		</v-col>
 	</v-row>
@@ -64,7 +65,7 @@
 
 
 <script>
-import { db } from '@/main'
+import { db, analytics } from '@/main'
 import resources from '@/components/Resources.vue'
 
 export default {
@@ -86,6 +87,22 @@ export default {
 			await db.collection('people').doc(this.id).get().then(function(doc) {
 				var entry = doc.data()
 				entry.age = (new Date(entry.dateOfDeath).getFullYear()) - (new Date(entry.dateOfBirth).getFullYear())
+
+				if (entry.dateOfBirth.includes("BCE")){
+					var v1 = entry.dateOfBirth.replace(' BCE', '')
+					v1 = (new Date(v1).getFullYear() + 1) * -1
+					var v2
+					if (entry.dateOfDeath.includes("BCE")){
+						v2 = entry.dateOfDeath.replace(' BCE', '')
+						v2 = (new Date(v2).getFullYear() + 1) * -1
+					}
+
+					entry.age = v2 - v1
+				}
+				else{
+					entry.age = (new Date(entry.dateOfDeath).getFullYear()) - (new Date(entry.dateOfBirth).getFullYear())
+				}
+
 				this.figure = entry
 			}.bind(this))
 
@@ -100,6 +117,9 @@ export default {
 		},
 
 		resourcesSort (){
+
+			analytics.logEvent('People_Page', { event: this.figure.name  } );
+
 			var rArr = this.resources
 
 			rArr.forEach( r => {

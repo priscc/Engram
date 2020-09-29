@@ -45,14 +45,14 @@
 								v-model="term.term" label="Term" :placeholder="term.term" dense :rules="rule" required>
 							</v-text-field>
 							<v-text-field 
-								v-model="term.definition" label="Definition" :placeholder="term.definition" dense prepend-inner-icon="mdi-link mdi-rotate-315" :rules="rule" required>
+								v-model="term.definition" label="Definition" :placeholder="term.definition" :rules="rule" required>
 							</v-text-field>
 						</v-col>
 					</v-row>
 				</v-container>
 			</v-form>
 			<v-card-actions class="d-flex justify-end">
-				<v-btn class="white--text" color="green" @click="submit">Save</v-btn>
+				<v-btn class="white--text" color="green" @click="[dialog = false, submit()]">Save</v-btn>
 			</v-card-actions>
 		</v-card>
 	</v-dialog>
@@ -96,7 +96,7 @@ export default {
 				.catch(function(error) { console.error("Error updating document:", error); });
 			
 			store.dispatch("addTerm", t);
-			
+			this.newTerm = {}
 			this.reset()
 		},
 
@@ -110,7 +110,6 @@ export default {
 
 		reset () { 
 			this.term = {}
-			this.newTerm = {}
 			this.dialog = false
 			this.$refs.form.reset() 
 		},

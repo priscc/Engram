@@ -14,7 +14,6 @@
 				<p class="caption pt-3 mb-0 font-weight-medium">Add Event</p>
 				<p class="caption pt-0">(add resources after event is created)</p>
 			</v-col>
-			{{events.id}}
 			<!-- displaying current events -->
 			<v-col cols="4" v-for="(event, i) in events" :key="i">
 				<v-hover v-slot:default="{ hover }">
@@ -33,10 +32,9 @@
 	<!-- NEW events form -->
 	<v-dialog v-model="dialogNew" :width="width">
 		<v-card outlined>
-			<v-btn color="orange lighten-1" small fab absolute right dark rounded @click="reset()"><v-icon dark>mdi-close</v-icon></v-btn>
+			<v-btn color="orange lighten-1" small fab absolute right dark rounded @click="[dialogNew = false, reset()]"><v-icon dark>mdi-close</v-icon></v-btn>
 			<v-form ref="form" class="px-8 pt-8">
 				<v-row>
-					<!-- mod event content -->
 					<v-col class="pb-0">
 						<v-row>
 							<v-col>
@@ -45,13 +43,18 @@
 						</v-row>
 						<v-row>
 							<v-col>
-								<v-file-input dense v-model="eventDialogNew.thumbnail" accept="image/*" counter show-size label="Thumbnail" :rules="imgRule" clearable></v-file-input>
-							</v-col>
-							<v-col>
 								<v-text-field filled v-model="eventDialogNew.startDate" label="Birth:" placeholder="YYYY" auto-fill="off"></v-text-field>
 							</v-col>
 							<v-col>
 								<v-text-field filled v-model="eventDialogNew.endDate" label="Passing:" placeholder="YYYY" auto-fill="off"></v-text-field>
+							</v-col>
+						</v-row>
+						<v-row>
+							<v-col>
+								<v-file-input dense v-model="eventDialogNew.thumbnail" accept="image/*" counter show-size label="Thumbnail" :rules="imgRule" clearable></v-file-input>
+							</v-col>
+							<v-col>
+								<v-select dense v-model="eventDialogNew.eventType" :items="typeOfEvent" outlined label="Event Category:" clearable></v-select>
 							</v-col>
 						</v-row>
 						<v-row>
@@ -77,7 +80,6 @@
 			<v-btn color="orange lighten-1" small fab absolute right dark rounded @click="reset()"><v-icon dark>mdi-close</v-icon></v-btn>
 			<v-form ref="form" class="px-8 pt-8">
 				<v-row>
-					<!-- mod event content -->
 					<v-col class="pb-0">
 						<v-row>
 							<v-col>
@@ -86,17 +88,19 @@
 						</v-row>
 						<v-row>
 							<v-col>
-								<v-file-input dense v-model="eventDialog.thumbnail" accept="image/*" counter show-size label="Thumbnail" :placeholder="eventDialog.thumbFile" :rules="imgRule" clearable></v-file-input>
-							</v-col>
-							<v-col>
 								<v-text-field filled v-model="eventDialog.startDate" label="Start:" placeholder="YYYY" auto-fill="off"></v-text-field>
 							</v-col>
 							<v-col>
 								<v-text-field filled v-model="eventDialog.endDate" label="End:" placeholder="YYYY" auto-fill="off"></v-text-field>
 							</v-col>
-							<!-- <v-col> -->
-								<!-- <v-select dense v-model="eventDialog.eventType" :items="typeOfEvent"outlined label="Event Category:" :placeholder="eventDialog.eventType" clearable></v-select> -->
-							<!-- </v-col> -->
+						</v-row>
+						<v-row>
+							<v-col>
+								<v-file-input dense v-model="eventDialog.thumbnail" accept="image/*" counter show-size label="Thumbnail" :placeholder="eventDialog.thumbFile" :rules="imgRule" clearable></v-file-input>
+							</v-col>
+							<v-col>
+								<v-select dense v-model="eventDialog.eventType" :items="typeOfEvent" outlined label="Event Category:" :placeholder="eventDialog.eventType" clearable></v-select>
+							</v-col>
 						</v-row>
 						<v-row>
 							<v-col>
@@ -151,7 +155,7 @@ export default {
 		addResources: false,
 		menu: false,
 		preview: '',
-		typeOfEvent: ['Cause', 'Turning Point', 'Impact'],
+		typeOfEvent: ['None', 'Cause', 'Turning Point', 'Impact'],
 		imgRule: [ v => !v || v.size > 0 && v.size < 2000000 || 'Image required']
 	}},
 	computed: {
@@ -179,7 +183,7 @@ export default {
 			}
 			else{
 				if(this.eventDialog.thumbnail){
-					await this.deleteImage(this.eventDialog)
+					// await this.deleteImage(this.eventDialog)
 					await this.saveImage(this.eventDialog)
 				}
 

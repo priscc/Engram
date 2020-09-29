@@ -29,13 +29,46 @@
 		<v-col>
 			<v-card elevation="4" outlined style="border-color: #4CAF50">
 				<v-form ref="form" v-model="valid">
-					<v-container fluid class="py-0 px-2">
-						<v-row class="d-flex flex-column">
-							<v-col class="pb-0">
+					<v-container fluid class="py-2 px-5">
+						<v-row>
+							<v-col class="pb-0" cols="8">
+								<v-text-field 
+									v-model="article.newsSource" placeholder="News Source" 
+									dense :rules="rule" required>
+								</v-text-field>
+							</v-col>
+							<v-col class="d-flex justify-end align-center flex-row my-0">
+								<v-text-field 
+									v-model="article.published" placeholder="Published" 
+									dense>
+								</v-text-field>
+							</v-col>
+						</v-row>
+						<v-row>
+							<v-col class="pb-0" cols="8">
 								<v-text-field 
 									v-model="article.title" placeholder="Article title" 
-									dense style="width: 70%" :rules="rule" required>
+									dense :rules="rule" required>
 								</v-text-field>
+							</v-col>
+							<v-col class="d-flex justify-end align-center flex-row my-0">
+								<v-switch class="mt-0" v-model="article.relevantToday" inset></v-switch>
+								<p>Relevance Today</p>
+							</v-col>
+						</v-row>
+						<v-row>
+							<v-col class="pb-0">
+								<v-text-field 
+									v-model="article.summary" placeholder="Summary" 
+									dense :rules="rule" required>
+								</v-text-field>
+							</v-col>
+						</v-row>
+						<v-row>
+							<v-col>
+								<v-file-input dense v-model="article.thumbnail" accept="image/*" counter show-size label="Thumbnail" :placeholder="article.articleFile" :rules="imgRule" clearable></v-file-input>
+							</v-col>
+							<v-col>
 								<v-text-field 
 									v-model="article.url" placeholder="Article link"
 									dense prepend-inner-icon="mdi-link mdi-rotate-315" :rules="rule" required>
@@ -60,6 +93,8 @@
 
 <script type="text/javascript">
 import store from "@/store";
+import firebase from 'firebase'
+
 export default {
 	props: {
 		parentID: String,
@@ -67,10 +102,11 @@ export default {
 	},
 	data: function () {return {
 		add: true, //show form for adding new content
-		article: {}, //form creates objects -- {title:'', url:''}
+		article: {}, //form creates objects -- {title:'', url:'', relevantToday: Bool}
 		// Validation
 		valid: true,
-		rule: [ v => !!v || 'Required' ]
+		rule: [ v => !!v || 'Required' ],
+		imgRule: [ v => !v || v.size < 2000000 || 'More than 2MB required'],
 	}},
 
 	computed: {
@@ -87,7 +123,12 @@ export default {
 			store.dispatch("removeResource", resource);
 		},
 
-		addResource(){
+		async addResource(){
+			if(this.article.thumbnail){
+				await this.deleteImage(this.article)
+				await this.saveImage(this.article)
+			}
+
 			this.article.parentType = this.$props.parentType
 			this.article.resourceType = 'article'
 			this.article.parentID = this.$props.parentID
@@ -95,6 +136,27 @@ export default {
 			this.article = {}
 			this.reset()
 		},
+
+		//clears firebase storage - thumbFile - thumbURL
+		async deleteImage(file){
+			var desertRef = firebase.storage().ref().child(file.thumbnail.name);
+			await desertRef.delete()
+			.then(function() { 
+				file.articleFile = ''
+				file.articleURL = ''
+			})
+			.catch(function(error) { console.error("Error updating document: ", error) });
+		},
+
+		//updates firebase storeage - thumbFile - thumbURL - deletes thumbURL
+		async saveImage(file){
+			var storageRef = firebase.storage().ref().child(file.thumbnail.name)
+			await storageRef.put(file.thumbnail)
+			file.articleFile = file.thumbnail.name
+			file.articleURL = await storageRef.getDownloadURL()
+			delete file.thumbnail
+		},
+
 
 		reset() { this.$refs.form.reset() },
 		validate () { this.$refs.form.validate() },

@@ -31,14 +31,14 @@
 
 		<!-- Right Comps -->
 		<intro-template v-if="topicTab == 'Intro'" 
-			:resources="resources" :topicObj="topicObj"></intro-template>
+			:videos="videos" :articles="articles" :topicObj="topicObj"></intro-template>
 		<event-template v-else-if="topicTab == 'Events'" 
-			:events="events" :carouselEvents="carouselEvents" :topicObj="topicObj"></event-template>
+			:events="events" :causeEvents="causeEvents" :topicObj="topicObj"></event-template>
 		<terminology-template v-else-if="topicTab == 'Terminology'"  
 			:terminology="terminology" :topicObj="topicObj"></terminology-template>
 		<people-template v-else-if="topicTab == 'Historical People'" 
 			:people="people" :topicObj="topicObj"></people-template>
-		<works-template v-else-if="topicTab == 'Artifacts'" 
+		<works-template v-else-if="topicTab == 'Primary Sources'" 
 			:works="works" :topicObj="topicObj"></works-template>
 	</v-row>
 </v-container>
@@ -52,7 +52,7 @@ import eventTemplate from '@/components/EventTemplate.vue'
 import terminologyTemplate from '@/components/TerminologyTemplate.vue'
 import peopleTemplate from '@/components/PeopleTemplate.vue'
 import worksTemplate from '@/components/WorksTemplate.vue'
-import { db, tc } from "@/main";
+import { db, tc, analytics } from "@/main";
 import store from "@/store";
 export default {
 	components: {
@@ -65,12 +65,17 @@ export default {
 	data () { return {
 		id: this.$route.params.id,
 		topicObj: {},
-		events: [],
-		carouselEvents: [],
+		// Events
+			events: [],
+			causeEvents: [],
+		// Other Topic categories
 		people: [],
 		terminology: [],
 		works: [],
-		resources: [],
+		// Tesources
+			resources: [],
+			videos: [],
+			articles: [],
 
 		// Bottom Navbar
 		collapse: true,
@@ -79,9 +84,9 @@ export default {
 		items: [
 			{ title: 'Intro', icon: 'mdi-bookmark' },
 			{ title: 'Events', icon: 'mdi-clock-start' },
-			{ title: 'Terminology', icon: 'mdi-view-dashboard' },
 			{ title: 'Historical People', icon: 'mdi-account' },
-			{ title: 'Artifacts', icon: 'mdi-lightbulb-outline' }
+			{ title: 'Primary Sources', icon: 'mdi-lightbulb-outline' },
+			{ title: 'Terminology', icon: 'mdi-view-dashboard' }
 		]
 	}},
 	methods: {
@@ -95,36 +100,52 @@ export default {
 				return ref
 			}.bind(this))
 
+			analytics.logEvent('Topic_Intro', { topic: this.topicObj.title } );
 
 			// grabbing topic
-			db.collection('resources').where('parentID', '==', tcID)
-			.get().then(function(querySnapshot) {
+			db.collection('resources').where('parentID', '==', tcID).get()
+			.then(function(querySnapshot) {
 				querySnapshot.forEach(function(doc) {
 					this.resources.push(doc.data())
 				}.bind(this))
 			}.bind(this))
+			.then(function() {
+				this.videos = this.resources.filter( r => r.resourceType === 'video')
+				this.articles = this.resources.filter( r => r.resourceType === 'article')
+			}.bind(this))
 			store.dispatch("setResources", this.resources);
+			
 
 
-			var e = []
-			var e2 = []
 			// grabbing events
 			db.collection('events').where('topicID', '==', tcID)
 				.get().then(function(querySnapshot) {
 					querySnapshot.forEach(function(doc) {
 						var entry = doc.data()
 						entry.id = doc.id
-						entry.date = new Date(entry.startDate).getFullYear()
-						if (entry.date >= 999){
-							entry.date = entry.date+1
+						if (entry.startDate.includes("BCE")){
+							var  sDate = entry.startDate
+							var v = sDate.replace(' BCE', '')
+							entry.date = (new Date(v).getFullYear() + 1) * -1
 						}
-						e.push(entry)
-						e2.push(entry)
+						else{
+							entry.date = new Date(entry.startDate).getFullYear()
+						}
+						
+						if (entry.date >= 999){ entry.date = entry.date+1 }
+						
+						if(entry.eventType == 'Cause'){
+							this.causeEvents.push(entry)
+						} 
+						else{
+							this.events.push(entry)
+						}
 					}.bind(this));
 				}.bind(this))
 				.then(function(querySnapshot) {
-					// this.events = e.sort((x, y) => y.date - x.date);
-					this.events = this.carouselEvents = e2.sort((x, y) => x.date - y.date);
+					this.events = this.events.sort((x, y) => x.date - y.date);
+					this.causeEvents = this.causeEvents.sort((x, y) => x.date - y.date);
+					
 				}.bind(this))
 
 

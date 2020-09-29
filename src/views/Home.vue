@@ -38,30 +38,36 @@
 
 <script>
 import router from "@/router";
-import { db, tc } from "@/main";
+import { db, analytics } from "@/main";
 import _ from 'lodash'
 import store from "@/store"
 export default {
 	data () { return {
 		timePeriods: [
 			{header:'Regional Interactions (1200 - 1450)', topics:[]},
-			{header:'First Global Age (1450 - 1750)', topics:[]},
-			{header:'Revolutions & Industrialization (1750 - 1900)', topics:[]},
-			{header:'Modern Times (1900 - Present)', topics:[]},
+			{header:'First Global Age (1450 - 1750) [ COMING SOON in October ]', topics:[]},
+			{header:'Revolutions & Industrialization (1750 - 1900) [ COMING SOON in November ]', topics:[]},
+			{header:'Modern Times (1900 - Present) [ COMING SOON in December ]', topics:[]},
 		]
 	}},
-	methods: {
-		async mountTopics(){
-			await db.collection('topics').get().then( function(snapshot) {
-				snapshot.forEach(doc => {
-					var d = doc.data()
-					this.timePeriods[(d.timePeriod-1)].topics.push(d)
-				})
-			}.bind(this))
+	created() {
+
+		if (this.$store.state.dbTopics) {
+			analytics.logEvent('Home', { view_type: 'revisited' } );
+			this.timePeriods = this.$store.state.dbTopics
 		}
-	},
-	mounted () {
-		this.mountTopics()
+		else {
+			analytics.logEvent('Home', { view_type: 'origin' } );
+
+			db.collection('topics').get()
+				.then( function(snapshot) {
+					snapshot.forEach(doc => {
+						var d = doc.data()
+						this.timePeriods[(d.timePeriod-1)].topics.push(d)
+					})
+				}.bind(this))
+				.then( function(){ store.dispatch("dbTopics", this.timePeriods); }.bind(this))
+		}
 	}
 }
 </script>

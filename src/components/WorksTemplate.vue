@@ -2,7 +2,7 @@
 	<v-col>
 		<v-row class="text-center" style=" border-bottom: 1px solid #26A69A;"> 
 			<v-col class="pt-0">
-				<h2 class="font-weight-light">The {{topicObj.title}}</h2>
+				<h2 class="font-weight-light">Primary Sources of {{topicObj.title}} ({{topicObj.startDate}} - {{topicObj.endDate}})</h2>
 			</v-col>
 		</v-row>
 		<v-row class="pt-5">
@@ -23,7 +23,7 @@
 								<v-img :src="work.thumbURL" width="100%"></v-img>
 							</v-avatar>
 						</v-col>
-						<v-col class="py-0" style="min-height:150px ">
+						<v-col class="py-0" style="min-height:150px; ">
 							<v-card-subtitle class="preview truncateCaption pa-0 pl-3 pt-6 pr-6">
 								{{work.caption}}
 							</v-card-subtitle>
@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { db } from '@/main'
+import { analytics } from '@/main'
 export default {
 	props: {
 		topicObj: Object,
@@ -65,7 +65,10 @@ export default {
 	data () { return {
 		workDialog: {},
 		overlay: false,
-	}}
+	}},
+	mounted (){
+		analytics.logEvent('Topic_Works', { topic: this.$props.topicObj.title } );
+	}
 }
 </script>
 

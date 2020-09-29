@@ -3,7 +3,7 @@
 		<!-- *** HEADER -->
 		<v-row class="text-center" style=" border-bottom: 1px solid #26A69A;"> 
 			<v-col class="pt-0">
-				<h2 class="font-weight-light">Terms of the {{topicObj.title}}</h2>
+				<h2 class="font-weight-light">Terms of {{topicObj.title}} ({{topicObj.startDate}} - {{topicObj.endDate}})</h2>
 			</v-col>
 		</v-row>
 		<v-row>
@@ -19,19 +19,20 @@
 							</v-tooltip>
 					</v-col>
 				</v-row>
-			</v-col>
-			
-			
+			</v-col>	
 		</v-row>
 	</v-col>
 </template>
 
 <script>
-import { db } from '@/main'
+import { analytics } from '@/main'
 export default {
 	props: {
 		topicObj: Object,
 		terminology: Array
+	},
+	mounted (){
+		analytics.logEvent('Topic_Terminology', { topic: this.$props.topicObj.title } );
 	}
 }
 </script>

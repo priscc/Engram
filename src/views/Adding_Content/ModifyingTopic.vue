@@ -72,6 +72,11 @@
 							<v-col cols="5">
 								<v-file-input dense v-model="topicDialog.thumbnail" accept="image/*" counter show-size label="Thumbnail" :placeholder="topicDialog.thumbFile" :rules="imgRule" clearable></v-file-input>
 							</v-col>
+							<v-col cols="5">
+								<v-file-input dense v-model="topicDialog.mapThumbnail" accept="image/*" counter show-size label="Map Thumbnail" :placeholder="topicDialog.mapThumbFile" :rules="imgRule" clearable></v-file-input>
+							</v-col>
+						</v-row>
+						<v-row>
 							<v-col>
 								<v-text-field dense filled v-model="topicDialog.startDate" label="Start Date:" auto-fill="off" clearable></v-text-field>
 							</v-col>
@@ -97,6 +102,12 @@
 										<video-panel :parentID="topicDialog.id" :parentType="'topic'"></video-panel>
 									</v-expansion-panel-content>
 								</v-expansion-panel>
+								<v-expansion-panel>
+									<v-expansion-panel-header>Articles</v-expansion-panel-header>
+									<v-expansion-panel-content>
+										<article-panel :parentID="topicDialog.id" :parentType="'topic'"></article-panel>
+									</v-expansion-panel-content>
+								</v-expansion-panel>
 							</v-expansion-panels>
 
 							<v-card-actions class="d-flex justify-end">
@@ -120,16 +131,18 @@ import { db } from '@/main'
 import firebase from 'firebase'
 import store from "@/store"
 import videoPanel from '@/components/Content_Forms/Resource_Forms2/videoPanel.vue'
+import articlePanel from '@/components/Content_Forms/Resource_Forms2/articlePanel.vue'
 
 
 export default {
 	components:{
-		videoPanel
+		videoPanel,
+		articlePanel
 	},
 	data: function () { return {
 		dialog: false,
 		topicDialog: {}, 
-			//contains {title:'', thumbnail:'', startDate:'', endDate:'', contentMD:''}
+			//contains {title:'', thumbnail:'', mapThumbnail:'', startDate:'', endDate:'', contentMD:''}
 		width: '750px',
 		newTopic: false,
 		addResources: false,
@@ -183,27 +196,26 @@ export default {
 			// }
 			// else{
 				if(this.topicDialog.thumbnail){
-					console.log('in here')
-					// await this.deleteImage(this.topicDialog)
+					await this.deleteImage(this.topicDialog)
 					await this.saveImage(this.topicDialog)
 				}
+
+				if(this.topicDialog.mapThumbnail){
+					await this.deleteMapImage(this.topicDialog)
+					await this.saveMapImage(this.topicDialog)
+				}
 				
-				await db.collection("topics").doc(this.topicDialog.id).update(this.topicDialog)
+				await db.collection("topics").doc(this.topicDialog.id)
+				.update(this.topicDialog)
 				.then(function() { console.log("Topics successfully updated!"); })
 				.catch(function(error) { console.error("Error updating document:", error); });
 
-				console.log('1', this.topicDialog)
 
 				await db.collection("timePeriods").get().then( e => {
 					e.forEach( doc =>{
 						doc.data().topicTitles.forEach( (i, index) => {
-							console.log('in here', i)
 							if (i.topicID == this.topicDialog.id){
-								console.log('topicDialog in here', this.topicDialog)
-
 								var newI = { thumbURL: this.topicDialog.thumbURL, title: this.topicDialog.title, topicID: this.topicDialog.id }
-
-								console.log('newI', newI)
 								var arr = doc.data().topicTitles
 								arr.splice(index, 1, newI);
 
@@ -273,7 +285,26 @@ export default {
 			file.thumbFile = file.thumbnail.name
 			file.thumbURL = await storageRef.getDownloadURL()
 			delete file.thumbnail
-			console.log("img added", file)
+		},
+
+
+		// FOR ** MAP ** IMAGE //
+		async deleteMapImage(file){
+			var desertRef = firebase.storage().ref().child(file.mapThumbnail.name);
+			await desertRef.delete()
+			.then(function() { 
+				file.mapThumbFile = ''
+				file.mapThumbURL = ''
+			})
+			.catch(function(error) { console.error("Error updating document: ", error) });
+		},
+
+		async saveMapImage(file){
+			var storageRef = firebase.storage().ref().child(file.mapThumbnail.name)
+			await storageRef.put(file.mapThumbnail)
+			file.mapThumbFile = file.mapThumbnail.name
+			file.mapThumbURL = await storageRef.getDownloadURL()
+			delete file.mapThumbnail
 		},
 
 		reset () {

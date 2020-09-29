@@ -1,12 +1,18 @@
 <template>
 <div>
+	<div class="d-flex flex-row" 
+	style="border-top: 7px solid #FFCA28; position: relative; top: 3px"
+	v-bind:style="{ left: topicRange + '%', width: topicRangeW + '%'}"
+	>
+	</div>
 
-	<div class="d-flex flex-row"  style="border-top: .5px solid #607D8B; position: relative;">
+
+	<div class="d-flex flex-row"  style="border-top: .5px solid #78909C; position: relative;">
 		
 		<!-- ticks -->
 		<div
 			v-for="i in ticks +1"
-			style="border-left: 2px solid #607D8B;  position: absolute; top: -7px; height: 15px"
+			style="border-left: 2px solid #607D8B;  position: absolute; top: -9px; height: 16px"
 			v-bind:style="{ left: (( ( (i-1)*(tickSize) )*100) /total) + '%' }"
 			>
 		</div>
@@ -22,27 +28,30 @@
 		</div>
 		
 		
-		<div>
+		<!-- events -->
+		<div style="top: -70px;">
 			<v-hover
 			v-slot:default="{ hover }" v-for="(i, index) in dates" :key="index" 
 			class="px-2"
-			style="position: absolute; top: -30px;  border-radius: 25px; color: white;"
-			v-bind:style="{ left: i.tick + '%' }">
-
+			style="position: absolute; border-radius: 25px; color: white;"
+			v-bind:style="{ left: i.tick + '%', top: (i.stack * -20)-40 +'px'}"
+			>
 				<v-card
 				:elevation="hover ? 15 : 5" 
-				:id="`cardBorder${index}`"
+				:id="`cardBorder${(i.i-1)}`"
 				class="cardColor"
-				v-on:mouseover="model = index"
+				v-on:mouseover="model = (i.i-1)"
 				style="font-size: 12px; font-weight: 550;"
 				:z-index="hover ? 500 : 5"
-				> 
-					<p v-if="hover" class="ma-0">{{i.title}}</p>
-					<p v-else class="ma-0">{{index +1}}</p>
+				>
+					<p v-if="hover" class="pl-4 my-1 mx-2">{{i.date}} <br> {{i.title}}</p>
+					<p v-else class="ma-0">{{i.i}}</p>
 				</v-card>
 			</v-hover>
 		</div>
 	</div>
+
+	
 </div>
 	
 </template>
@@ -50,11 +59,10 @@
 
 <script>
 import store from "@/store";
-
+import _ from 'lodash'
 export default {
 	props:{
 		events: Array,
-		bottomNav: Number,
 		startDate: String,
 		endDate: String
 	},
@@ -68,12 +76,12 @@ export default {
 		maxDate: 0,
 		minDate: 0,
 		total: 0,
+		topicRange: 0,
+		topicRangeW: 0
 
 	}},
 	computed: {	
 		model: {
-			// get () { return ((this.eventColors.length-1)-store.state.eventModel)  },
-			// set (value) { store.dispatch("eventModal", ((this.eventColors.length+1)-value) ) }
 			get () { return store.state.eventModel  },
 			set (value) { store.dispatch("eventModal", value) }
 	    }
@@ -84,56 +92,61 @@ export default {
 			
 			document.getElementById("cardBorder"+e).style.border = "2px solid #FFA726";
 				this.prevHover = e
-		},
-		bottomNav: function(ev) {
-			this.eventColors.forEach( (doc, i) => {
-				var circle = document.getElementById('cardBorder' + (i+1) )
-				// Cause
-				if (doc.eventType == "Cause" && ev == 'Cause')
-					circle.style.backgroundColor = "#B388FF"  // *** PURPLE
-				//TP
-				else if (doc.eventType == "Turning Points" && ev == 'Turning Points')
-					circle.style.backgroundColor = "#80D8FF" // *** BLUE
-				//Effects
-				else if (doc.eventType == "Effect" && ev == 'Impact')
-					circle.style.backgroundColor = "#64DD17" // *** GREEN
-				else
-					circle.style.backgroundColor = "#607D8B" // **BLUEGREY
-			})
 		}
-		
 	},
 	methods:{
 
 		calculatingDates () {
 
 			var ev = this.$props.events
-			
-			var max = new Date(this.$props.endDate).getFullYear(); 
-			var min = new Date(this.$props.startDate).getFullYear(); 
-			
-			this.maxDate = max = (parseInt(max/10, 10)+1)*10 // round up to the nearest 10
-			this.minDate = min = parseInt(min / 10, 10) * 10 // round down to the nearest 10
 
+			// timeline range
+			var startDate = new Date(this.$props.startDate).getFullYear() + 1; 
+			var endDate = new Date(this.$props.endDate).getFullYear() + 2;
+			var max = this.maxDate = 1700;
+			var min = this.minDate = (Math.min.apply(null, ev.map( d => d.date ))) - 200
+			
+			if ( (endDate - startDate) < 200){
+				console.log('in here')
+				max = this.maxDate = endDate + 200
+			}
+			
+			if (min >= 1000 && min <= 1200){
+				min = this.minDate = 1000;
+			}
+			
 			var total = this.total = max - min
 
-			// console.log('total', total)
-			// console.log('max', max)
-			// console.log('min', min)
+			// toipc date range
+			this.topicRange = 100 - (((max - startDate)/total) * 100)
+			var topicMin = 100 - (((max - endDate)/total) * 100)
 
-			ev.forEach( d =>{
+			this.topicRangeW = topicMin - this.topicRange
+
+			ev.forEach( (d, i) => {
 				var dot = d.date
 				var x = 100 - (((max-dot)/total) * 100)
-				
-				this.dates.push( {title: d.title, tick: x} )
+				var last = _.last(this.dates)
+				i++
+				if (last && (x - last.tick <= 5) && last.stack < 3) {
+					this.dates.push( {i: i, title: d.title, date: dot, tick: x, stack: last.stack + 1} )
+				}
+				else{
+					this.dates.push( {i: i, title: d.title, date: dot, tick: x, stack: 0} )
+				}
 			})
 
+			_.reverse(this.dates);
 			
 
-			// // Calutating ticks
-			if (total >= 500){
+			// Calutating ticks
+			if (total >= 600){
 				this.ticks = Math.floor(total/100)
 				this.tickSize = 100
+			}
+			if (total >= 500){
+				this.ticks = Math.floor(total/50)
+				this.tickSize = 50
 			}
 			else if (total >= 250){
 				this.ticks = Math.floor(total/25)
