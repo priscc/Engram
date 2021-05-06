@@ -1,11 +1,88 @@
 <template>
-  <div id="app">
-    <div class="legend"></div>
+  <div id="app" style="background-color: black; height: 100%">
+    <h3>Developments</h3>
+
+    <v-card
+      elevation="24"
+      max-width="444"
+      class="mx-auto"
+      dark
+      style="position: absolute; left: 220px; top: 250px"
+    >
+      <v-system-bar dark class="d-flex align-center justify-end pr-4 py-3">
+        <v-avatar class="mr-1" color="indigo" size="17">
+          <v-icon class="ma-0" x-small>mdi-gavel</v-icon>
+        </v-avatar>
+        <v-avatar class="mr-1" color="orange" size="17">
+          <v-icon class="ma-0" x-small>mdi-currency-usd</v-icon>
+        </v-avatar>
+      </v-system-bar>
+
+      <v-carousel
+        show-arrows
+        delimiter-icon="mdi-minus"
+        height="300"
+        max-width="444"
+      >
+        <v-carousel-item v-for="(slide, i) in events" :key="i">
+          <v-sheet
+            height="88%"
+            width="350"
+            tile
+            class="d-flex align-stretch"
+            :style="{ 'background-image': `url(${slide.thumbURL})` }"
+            style="background-size: cover; background-size: 100% 100%"
+          >
+            <v-container
+              fluid
+              height="100%"
+              class="d-flex align-stretch cardCaptions"
+            >
+              <v-row>
+                <v-spacer></v-spacer>
+                <v-col cols="9" class="px-7">
+                  <h1 class="mt-5" style="word-break: normal" dark>
+                    {{ slide.startDate.date }}
+                  </h1>
+                  <h2 style="word-break: normal" dark>
+                    {{ slide.title }}
+                  </h2>
+                  <p class="mt-9 eventDescription caption">
+                    {{ slide.descriptionMD }} Slide
+                  </p>
+                </v-col>
+                <v-spacer></v-spacer>
+              </v-row>
+              <!-- <v-row>
+                <div class="display-3">{{ slide.title }} Slide</div>
+              </v-row> -->
+            </v-container>
+          </v-sheet>
+        </v-carousel-item>
+      </v-carousel>
+      <!-- FOR ADDING AUTHOR -->
+      <!-- <v-list two-line>
+        <v-list-item>
+          <v-list-item-avatar>
+            <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
+          </v-list-item-avatar>
+          <v-list-item-content>
+            <v-list-item-title>John Leider</v-list-item-title>
+            <v-list-item-subtitle>Author</v-list-item-subtitle>
+          </v-list-item-content>
+          <v-list-item-action>
+            <v-switch v-model="cycle" label="Cycle Slides" inset></v-switch>
+          </v-list-item-action>
+        </v-list-item>
+      </v-list> -->
+    </v-card>
+    <!-- <div class="legend pb-6"></div> -->
     <div class="view" id="map"></div>
   </div>
 </template>
 
 <script type="text/javascript">
+import storeTopic from "@/store/topic.js";
 import countries from "@/countries2.json";
 import * as d3 from "d3";
 import * as topojson from "topojson";
@@ -15,6 +92,16 @@ import * as topojson from "topojson";
 export default {
   data() {
     return {
+      url: `url("https://placekitten.com/1200/800")`,
+      colors: [
+        "green",
+        "secondary",
+        "yellow darken-4",
+        "red lighten-2",
+        "orange darken-1",
+      ],
+      cycle: false,
+      slides: ["First", "Second", "Third", "Fourth", "Fifth"],
       items: countries,
       data: [],
       sets: [
@@ -276,11 +363,13 @@ export default {
   },
   methods: {
     async primary() {
-      // d3.select(window).on("resize", this.resize);
+      d3.select(window).on("resize", this.resize);
 
-      var width = document.querySelector("#map").offsetWidth;
-      var mapRatio = 0.7;
-      var height = width * mapRatio;
+      // var width = document.querySelector("#map").offsetWidth;
+      var width = 1400;
+      // var mapRatio = 0.7;
+      // var height = width * mapRatio;
+      var height = 900;
 
       var projection = d3.geo
         .mercator()
@@ -297,7 +386,7 @@ export default {
         .classed("svg-container", true)
         .append("svg")
         .attr("preserveAspectRatio", "xMinYMin")
-        .attr("viewBox", "0 0 2000 2700")
+        .attr("viewBox", "0 0 2000 1200")
         .classed("svg-content-responsive", true)
         .append("g");
 
@@ -314,7 +403,8 @@ export default {
           )
         )
         .attr("class", "border")
-        .attr("d", path);
+        .attr("d", path)
+        .attr("fill", "#d9edf7");
 
       for (var i = 0; i < this.sets.length; i++) {
         svg
@@ -332,49 +422,34 @@ export default {
           .attr("class", "regions selected")
           .attr("d", path)
           .attr({ "data-name": this.sets[i].name })
-          .on("mouseover", function () {
-            var region = d3.select(this);
-            document.querySelector(".legend").innerText = region.attr(
-              "data-name"
-            );
-          })
-          .on("mouseout", function () {
-            document.querySelector(".legend").innerText = "";
-          });
+          .attr("fill", "#464646");
+        // .on("mouseover", function () {
+        //   var region = d3.select(this);
+        //   region.attr("fill", "#ff9800");
+        //   document.querySelector(".legend").innerText = region.attr(
+        //     "data-name"
+        //   );
+        // })
+        // .on("mouseout", function () {
+        //   var region = d3.select(this);
+        //   region.attr("fill", "#464646");
+        //   document.querySelector(".legend").innerText = "";
+        // });
       }
-      svg
-        .append("circle")
-        .attr("r", 5)
-        .attr("transform", function () {
-          console.log(projection([114.7022749972171, 42.01628289390362]));
-          return (
-            "translate(" +
-            projection([114.7022749972171, 42.01628289390362]) +
-            ")"
-          );
-        });
-      // var song = [
-      //   { lon: 114.7000004839849, lag: 42.02254999787689 },
-      //   { lon: 113.1672067240925, lat: 40.58903258718775 },
 
-      //   { lon: 108.5885758869572, lat: 38.01556166653811 },
-      //   { lon: 104.4627858529494, lat: 37.53921058237947 },
-      //   { lon: 102.1835644979335, lat: 34.91691173911467 },
-      // ];
       //This is the accessor function we talked about above
       var lineFunction = d3.svg
         .line()
         .x(function (d) {
-          var x = projection([d.lon, d.lat]);
+          var x = projection([d.lon, d.lat]); // [longitude, latitude] -- [x, y]
           return x[0];
         })
         .y(function (d) {
-          var x = projection([d.lon, d.lat]);
+          var x = projection([d.lon, d.lat]); // [longitude, latitude] -- [x, y]
           return x[1];
         })
         .interpolate("linear");
 
-      // [longitude, latitude] -- [x, y]
       var coordinates = [
         { lon: 114.7000004839849, lat: 42.02254999787689 },
         { lon: 113.1672067240925, lat: 40.58903258718775 },
@@ -406,9 +481,14 @@ export default {
       svg
         .append("path")
         .attr("d", lineFunction(coordinates))
-        .attr("stroke", "blue")
-        .attr("stroke-width", 2)
-        .attr("fill", "none");
+        // .attr("stroke", "blue")
+        // .attr("stroke-width", 2)
+        .attr("fill", "#BDFF00");
+    },
+  },
+  computed: {
+    events() {
+      return storeTopic.state.events;
     },
   },
   mounted() {
@@ -418,22 +498,50 @@ export default {
 </script>
 
 <style type="text/css" scoped>
+h3 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 30px;
+  font-weight: 620;
+  color: white;
+}
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 36px;
+  line-height: 0.8;
+  font-weight: 620;
+}
+h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 18px;
+  font-weight: 500;
+}
+.eventDescription {
+  overflow: hidden;
+  line-height: 1rem;
+  max-height: 5rem;
+  -webkit-box-orient: vertical;
+  display: block;
+  display: -webkit-box;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
+}
 .line {
   fill: none;
   stroke: red;
   stroke-width: 6;
 }
-#app {
-  background: white;
-  font-family: sans-serif;
+#map {
+  color: #464646;
 }
+
 .border {
-  fill: none;
-  stroke: #d9edf7;
+  fill: #464646;
+  stroke: #464646;
   stroke-width: 1px;
 }
 .regions.selected {
-  fill: #607d8b;
+  fill: #464646;
   stroke: none;
   transition: all 0.2s ease;
 }
@@ -444,14 +552,14 @@ export default {
 }
 .legend {
   height: 10px;
-  color: #ccc;
+  color: white;
   text-align: center;
 }
 .svg-container {
   display: inline-block;
   position: relative;
   width: 100%;
-  padding-bottom: 50%; /* aspect ratio */
+  max-height: 1000px;
   vertical-align: top;
   overflow: hidden;
   left: 10%;
@@ -460,5 +568,10 @@ export default {
   display: inline-block;
   position: absolute;
   top: 20px;
+}
+.cardCaptions {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 4px 8px;
+  color: white;
 }
 </style>

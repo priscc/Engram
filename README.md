@@ -1,4 +1,4 @@
-# ap-study-bit2
+# studybites_v2
 
 ## Project setup
 ```

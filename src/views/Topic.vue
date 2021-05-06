@@ -1,234 +1,110 @@
 <template>
-<v-container class="px-12" fluid height="100%">
-	<v-row>
-		<!-- Side bar tabs -->
-		<v-col class="topicsSideBar">
-			<v-row>
-				<v-col class="pt-0">
-					<v-avatar size="32">
-						<v-btn color="orange lighten-1" dark rounded style="height: 100%;" to="/">
-							<v-icon dark>mdi-arrow-left</v-icon>
-						</v-btn>
-					</v-avatar>
-				</v-col>
-			</v-row>
-
-			<v-card tile>
-				<v-list>
-					<v-list-item-group v-model="item" color="orange" >
-						<v-list-item class="py-1 mb-4" v-for="(item, i) in items" :key="i" @click="topicTab = item.title">
-							<v-list-item-icon class="mr-2 SideBar_icon">
-								<v-icon v-text="item.icon" small></v-icon>
-							</v-list-item-icon>
-							<v-list-item-content>
-								<v-list-item-title class="SideBar_text" v-text="item.title"></v-list-item-title>
-							</v-list-item-content>
-						</v-list-item>
-					</v-list-item-group>
-				</v-list>
-			</v-card>
-		</v-col>
-
-		<!-- Right Comps -->
-		<intro-template v-if="topicTab == 'Intro'" 
-			:videos="videos" :articles="articles" :topicObj="topicObj"></intro-template>
-		<event-template v-else-if="topicTab == 'Events'" 
-			:events="events" :causeEvents="causeEvents" :topicObj="topicObj"></event-template>
-		<terminology-template v-else-if="topicTab == 'Terminology'"  
-			:terminology="terminology" :topicObj="topicObj"></terminology-template>
-		<people-template v-else-if="topicTab == 'Historical People'" 
-			:people="people" :topicObj="topicObj"></people-template>
-		<works-template v-else-if="topicTab == 'Primary Sources'" 
-			:works="works" :topicObj="topicObj"></works-template>
-	</v-row>
-</v-container>
+  <div class="Topics" style="height: 100%">
+    <v-container fluid class="pb-0 pt-2">
+      <v-row>
+        <v-col cols="2" class="d-flex align-center">
+          <v-btn text @click="$router.go(-1)" :color="color">
+            <v-icon class="pr-1" small dark>
+              mdi-arrow-left-drop-circle-outline
+            </v-icon>
+            Back
+          </v-btn>
+        </v-col>
+        <v-col class="d-flex align-center">
+          <p class="page_header mb-0">{{ topic.title }}</p>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container fluid class="mb-10 ml-3">
+      <v-row>
+        <v-col cols="2" class="d-flex flex-column pt-5">
+          <v-btn
+            v-for="(t, index) in topicButtons"
+            :key="index"
+            rounded
+            :color="t.color"
+            class="my-1 text-none"
+            small
+            style="width: 120px"
+            @click="select(index)"
+            elevation="0"
+          >
+            <p class="buttons mb-0">{{ t.title }}</p>
+          </v-btn>
+        </v-col>
+        <v-col lg="10" md="10" cols="12" class="pa-0 pt-5">
+          <intro v-if="currentTopicComponent == 0"></intro>
+          <developments v-else-if="currentTopicComponent == 1"></developments>
+          <people v-else-if="currentTopicComponent == 2"></people>
+          <primarysources
+            v-else-if="currentTopicComponent == 3"
+          ></primarysources>
+          <terms v-else></terms>
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
-
-
 <script>
-import introTemplate from '@/components/IntroTemplate.vue'
-import eventTemplate from '@/components/EventTemplate.vue'
-import terminologyTemplate from '@/components/TerminologyTemplate.vue'
-import peopleTemplate from '@/components/PeopleTemplate.vue'
-import worksTemplate from '@/components/WorksTemplate.vue'
-import { db, tc, analytics } from "@/main";
 import store from "@/store";
+import storeTopic from "@/store/topic.js";
+import intro from "@/components/Intro.vue";
+import developments from "@/components/Developments.vue";
+import people from "@/components/People.vue";
+import primarysources from "@/components/PrimarySources.vue";
+import terms from "@/components/Terms.vue";
+
 export default {
-	components: {
-		introTemplate,
-		eventTemplate,
-		terminologyTemplate,
-		peopleTemplate,
-		worksTemplate
-	},
-	data () { return {
-		id: this.$route.params.id,
-		topicObj: {},
-		// Events
-			events: [],
-			causeEvents: [],
-		// Other Topic categories
-		people: [],
-		terminology: [],
-		works: [],
-		// Tesources
-			resources: [],
-			videos: [],
-			articles: [],
-
-		// Bottom Navbar
-		collapse: true,
-		topicTab: 'Intro',
-		item: 0,
-		items: [
-			{ title: 'Intro', icon: 'mdi-bookmark' },
-			{ title: 'Events', icon: 'mdi-clock-start' },
-			{ title: 'Historical People', icon: 'mdi-account' },
-			{ title: 'Primary Sources', icon: 'mdi-lightbulb-outline' },
-			{ title: 'Terminology', icon: 'mdi-view-dashboard' }
-		]
-	}},
-	methods: {
-		async grabTopic (){
-
-			// grabbing topic
-			var tcID = await db.collection('topics').doc(this.id).get().then(function(doc) {
-				var ref = doc.id
-				this.topicObj = doc.data()
-				this.topicObj.topicID = ref
-				return ref
-			}.bind(this))
-
-			analytics.logEvent('Topic_Intro', { topic: this.topicObj.title } );
-
-			// grabbing topic
-			db.collection('resources').where('parentID', '==', tcID).get()
-			.then(function(querySnapshot) {
-				querySnapshot.forEach(function(doc) {
-					this.resources.push(doc.data())
-				}.bind(this))
-			}.bind(this))
-			.then(function() {
-				this.videos = this.resources.filter( r => r.resourceType === 'video')
-				this.articles = this.resources.filter( r => r.resourceType === 'article')
-			}.bind(this))
-			store.dispatch("setResources", this.resources);
-			
-
-
-			// grabbing events
-			db.collection('events').where('topicID', '==', tcID)
-				.get().then(function(querySnapshot) {
-					querySnapshot.forEach(function(doc) {
-						var entry = doc.data()
-						entry.id = doc.id
-						if (entry.startDate.includes("BCE")){
-							var  sDate = entry.startDate
-							var v = sDate.replace(' BCE', '')
-							entry.date = (new Date(v).getFullYear() + 1) * -1
-						}
-						else{
-							entry.date = new Date(entry.startDate).getFullYear()
-						}
-						
-						if (entry.date >= 999){ entry.date = entry.date+1 }
-						
-						if(entry.eventType == 'Cause'){
-							this.causeEvents.push(entry)
-						} 
-						else{
-							this.events.push(entry)
-						}
-					}.bind(this));
-				}.bind(this))
-				.then(function(querySnapshot) {
-					this.events = this.events.sort((x, y) => x.date - y.date);
-					this.causeEvents = this.causeEvents.sort((x, y) => x.date - y.date);
-					
-				}.bind(this))
-
-
-
-			// grabbing people
-			db.collection('people').where('topicID', '==', tcID)
-				.get().then(function(querySnapshot) {
-					if (querySnapshot.docs.length == 0) querySnapshot = undefined
-					querySnapshot.forEach(function(doc) {
-						var entry = doc.data()
-						entry.id = doc.id
-						this.people.push(entry)
-					}.bind(this));
-				}.bind(this))
-
-			// grabbing terms
-			db.collection('terminology').where('topicID', 'array-contains', tcID)
-				.get().then(function(querySnapshot) {
-					if (querySnapshot.docs.length == 0) querySnapshot = undefined
-					querySnapshot.forEach(function(doc) {
-						this.terminology.push(doc.data())
-					}.bind(this));
-				}.bind(this))
-				.then(function() {
-					this.terminology.sort( (a, b) => a.term.localeCompare(b.term, 'fr', {ignorePunctuation: true}) );
-				}.bind(this))
-
-			// grabbing works
-			db.collection('works').where('topicID', '==', tcID)
-				.get().then(function(querySnapshot) {
-					if (querySnapshot.docs.length == 0) querySnapshot = undefined
-					querySnapshot.forEach(function(doc) {
-						this.works.push(doc.data())
-					}.bind(this));
-				}.bind(this))
-		},
-
-		back () {
-			console.log(this.$router.go(-1))
-		}
-	},
-	mounted(){
-		this.grabTopic()
-	}
-}
+  name: "Topics",
+  components: {
+    intro,
+    developments,
+    people,
+    primarysources,
+    terms,
+  },
+  computed: {
+    currentTopicComponent() {
+      return store.state.currentTopicComponent;
+    },
+    topicButtons() {
+      return store.state.topicButtons;
+    },
+    topic() {
+      return storeTopic.state.topic;
+    },
+    color() {
+      if (store.state.currentTopicComponent == 1) {
+        return "white";
+      } else {
+        return "black";
+      }
+    },
+  },
+  methods: {
+    select(i) {
+      store.dispatch("setTopicButton", i);
+    },
+  },
+  mounted() {
+    store.dispatch("setTopicButton", 0);
+  },
+};
 </script>
 
-
-
-
 <style type="text/css" scoped>
-	html {
-		scroll-behavior: smooth;
-	}
-	hr.vertical {
-		width: .5px;
-		background-color: silver;
-		height: 400px;
-		border: 2px solid silver;
-		border-radius: 2px;
-		margin-left: 25%;
-		margin-right: 25%;
-	}
-	.topicsSideBar{
-		max-width: 18% !important;
-		min-height: 100%;
-	}
-	.SideBar_text {
-		font-size: 13px;
-	}
-	@media screen and (max-width: 780px) {
-		.SideBar_icon{
-			max-width: 10%;
-		}
-		.SideBar_text {
-			font-size: 12px;
-		}
-	}
-	@media screen and (max-width: 425px) {
-		.topicsSideBar{
-			min-width: 100%;
-		}
-	}
-
-	/* inspired by: https://vuejsexamples.com/horizontal-timeline-with-vue-and-swiperjs/ */
+.buttons {
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: -0.5px;
+  font-size: 14px;
+  line-height: 18px;
+  font-weight: 700;
+}
+.page_header {
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: -0.5px;
+  font-size: 24px;
+  line-height: 28px;
+}
 </style>
