@@ -2,10 +2,8 @@
 # ap-study-bit
 
 ## Project setup
-#sometimes if your coming from switching branch remove node_modules
-```
-npm i vue-cli-plugin-bootstrap-vue
-```
+<<< sometimes it helps to remove node_modules first if there are missing packages you still have to download
+
 ```
 npm install
 ```
