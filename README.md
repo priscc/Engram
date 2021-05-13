@@ -1,7 +1,11 @@
-<<<<<<< HEAD
+
 # ap-study-bit
 
 ## Project setup
+#sometimes if your coming from switching branch remove node_modules
+```
+npm i vue-cli-plugin-bootstrap-vue
+```
 ```
 npm install
 ```
