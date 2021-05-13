@@ -1,0 +1,67 @@
+import Vue from "vue";
+import Vuex from "vuex";
+
+Vue.use(Vuex);
+
+export default new Vuex.Store({
+  state: {
+    timePeriodHeaders: [
+      {
+        header: "Regional Interactions",
+        subheader: "1250-1450",
+        color: "green",
+        timePeriod: 1,
+      },
+      {
+        header: "First Global Age",
+        subheader: "1250-1450",
+        color: "yellow",
+        timePeriod: 2,
+      },
+      {
+        header: "Revolutions & Industrialization",
+        subheader: "1750-1900",
+        color: "pink",
+        timePeriod: 3,
+      },
+      {
+        header: "Modern Times",
+        subheader: "1900-Present",
+        color: "blue",
+        timePeriod: 4,
+      },
+    ],
+    currentTimePeriod: 0,
+    currentTopicComponent: 0,
+    topicButtons: [
+      { title: "Intro", color: "pink" },
+      { title: "Developments", color: "grey lighten-3" },
+      { title: "People", color: "grey lighten-3" },
+      { title: "Sources", color: "grey lighten-3" },
+      { title: "Terms", color: "grey lighten-3" },
+    ],
+  },
+  mutations: {
+    selectedTimePeriod(state, i) {
+      state.currentTimePeriod = i;
+    },
+    topicButtonChange(state, i) {
+      state.topicButtons[state.currentTopicComponent].color = "grey lighten-3";
+      state.currentTopicComponent = i;
+      if (i == 0) state.topicButtons[i].color = "pink";
+      else if (i == 1) state.topicButtons[i].color = "purple";
+      else if (i == 2) state.topicButtons[i].color = "blue";
+      else if (i == 3) state.topicButtons[i].color = "yellow";
+      else if (i == 4) state.topicButtons[i].color = "green";
+    },
+  },
+  actions: {
+    setTimePeriod({ commit }, i) {
+      commit("selectedTimePeriod", i);
+    },
+    setTopicButton({ commit }, i) {
+      commit("topicButtonChange", i);
+    },
+  },
+  modules: {},
+});
