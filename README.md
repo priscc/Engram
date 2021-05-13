@@ -2,6 +2,9 @@
 
 ## Project setup
 ```
+npm i vue-cli-plugin-bootstrap-vue
+```
+```
 npm install
 ```
 
