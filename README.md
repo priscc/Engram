@@ -1,6 +1,7 @@
 # studybites_v2
 
 ## Project setup
+#sometimes if your coming from switching branch remove node_modules
 ```
 npm i vue-cli-plugin-bootstrap-vue
 ```
