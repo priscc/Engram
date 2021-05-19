@@ -39,7 +39,7 @@
         <v-col lg="7" md="7" cols="12">
           <h3 class="intro_headers mb-6">Resources</h3>
           <v-row>
-            <v-col v-for="video in videos" :key="video">
+            <v-col v-for="(video, index) in videos" :key="index">
               <iframe
                 width="440"
                 height="276"
@@ -56,7 +56,7 @@
           <h3 class="intro_headers mb-6">Influence Today</h3>
           <!-- <articles></articles> -->
           <v-row>
-            <v-col v-for="article in articles" :key="article">
+            <v-col v-for="(article, index) in articles" :key="index">
               <v-card outlined>
                 <div class="d-flex flex-no-wrap">
                   <v-avatar class="ma-3" size="120" tile>
