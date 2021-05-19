@@ -1,6 +1,7 @@
 # studybites_v2
 
 ## Project setup
+<<< sometimes it helps to remove node_modules first if there are missing packages you still have to download
 
 ```
 npm install
