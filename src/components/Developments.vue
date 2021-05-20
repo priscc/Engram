@@ -1,69 +1,78 @@
 <template>
   <div id="app" style="background-color: black; height: 100%">
-    <h3>Developments</h3>
-
-    <v-card
-      elevation="24"
-      max-width="444"
-      class="mx-auto"
-      dark
-      style="position: absolute; left: 220px; top: 250px"
-    >
-      <v-system-bar dark class="d-flex align-center justify-end pr-4 py-3">
-        <v-avatar class="mr-1" color="indigo" size="17">
-          <v-icon class="ma-0" x-small>mdi-gavel</v-icon>
-        </v-avatar>
-        <v-avatar class="mr-1" color="orange" size="17">
-          <v-icon class="ma-0" x-small>mdi-currency-usd</v-icon>
-        </v-avatar>
-      </v-system-bar>
-
-      <v-carousel
-        show-arrows
-        delimiter-icon="mdi-minus"
-        height="300"
-        max-width="444"
-        v-model="model"
-        @change="primary(model)"
-      >
-        <v-carousel-item v-for="(slide, i) in events" :key="i">
-          <v-sheet
-            height="88%"
-            width="350"
-            tile
-            class="d-flex align-stretch"
-            :style="{ 'background-image': `url(${slide.thumbURL})` }"
-            style="background-size: cover; background-size: 100% 100%"
+    <v-container fluid class="pt-0" style="background-color: black">
+      <v-row class="pt-0">
+        <v-col class="pt-0 pb-10">
+          <h3>Developments</h3>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col>
+          <v-card
+            elevation="24"
+            max-width="444"
+            class="mx-auto"
+            dark
+            style="position: absolute; left: 220px; top: 250px"
           >
-            <v-container
-              fluid
-              height="100%"
-              class="d-flex align-stretch cardCaptions"
+            <v-system-bar
+              dark
+              class="d-flex align-center justify-end pr-4 py-3"
             >
-              <v-row>
-                <v-spacer></v-spacer>
-                <v-col cols="9" class="px-7">
-                  <h1 class="mt-5" style="word-break: normal" dark>
-                    {{ slide.startDate.date }}
-                  </h1>
-                  <h2 style="word-break: normal" dark>
-                    {{ slide.title }}
-                  </h2>
-                  <p class="mt-9 eventDescription caption">
-                    {{ slide.descriptionMD }} Slide
-                  </p>
-                </v-col>
-                <v-spacer></v-spacer>
-              </v-row>
-              <!-- <v-row>
+              <v-avatar class="mr-1" color="indigo" size="17">
+                <v-icon class="ma-0" x-small>mdi-gavel</v-icon>
+              </v-avatar>
+              <v-avatar class="mr-1" color="orange" size="17">
+                <v-icon class="ma-0" x-small>mdi-currency-usd</v-icon>
+              </v-avatar>
+            </v-system-bar>
+
+            <v-carousel
+              show-arrows
+              delimiter-icon="mdi-minus"
+              height="300"
+              max-width="444"
+              v-model="model"
+              @change="primary(model)"
+            >
+              <v-carousel-item v-for="(slide, i) in events" :key="i">
+                <v-sheet
+                  height="88%"
+                  width="350"
+                  tile
+                  class="d-flex align-stretch"
+                  :style="{ 'background-image': `url(${slide.thumbURL})` }"
+                  style="background-size: cover; background-size: 100% 100%"
+                >
+                  <v-container
+                    fluid
+                    height="100%"
+                    class="d-flex align-stretch cardCaptions"
+                  >
+                    <v-row>
+                      <v-spacer></v-spacer>
+                      <v-col cols="9" class="px-7">
+                        <h1 class="mt-5" style="word-break: normal" dark>
+                          {{ slide.startDate.date }}
+                        </h1>
+                        <h2 style="word-break: normal" dark>
+                          {{ slide.title }}
+                        </h2>
+                        <p class="mt-9 eventDescription caption">
+                          {{ slide.descriptionMD }} Slide
+                        </p>
+                      </v-col>
+                      <v-spacer></v-spacer>
+                    </v-row>
+                    <!-- <v-row>
                 <div class="display-3">{{ slide.title }} Slide</div>
               </v-row> -->
-            </v-container>
-          </v-sheet>
-        </v-carousel-item>
-      </v-carousel>
-      <!-- FOR ADDING AUTHOR -->
-      <!-- <v-list two-line>
+                  </v-container>
+                </v-sheet>
+              </v-carousel-item>
+            </v-carousel>
+            <!-- FOR ADDING AUTHOR -->
+            <!-- <v-list two-line>
         <v-list-item>
           <v-list-item-avatar>
             <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
@@ -77,9 +86,12 @@
           </v-list-item-action>
         </v-list-item>
       </v-list> -->
-    </v-card>
-    <!-- <div class="legend pb-6"></div> -->
-    <div class="view" id="map"></div>
+          </v-card>
+          <!-- <div class="legend pb-6"></div> -->
+          <div class="view" id="map"></div>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
@@ -570,7 +582,6 @@ h2 {
 #map {
   color: #464646;
 }
-
 .border {
   fill: #464646;
   stroke: #464646;

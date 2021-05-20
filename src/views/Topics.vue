@@ -1,10 +1,9 @@
 <template>
   <div
     class="Topics"
-    :class="timePeriodHeaders.color"
-    style="height: 100%; color: black"
+    style="height: 100%; color: black; background-color: #f2f2f2"
   >
-    <v-container fluid class="mb-10">
+    <v-container fluid class="pl-10 mb-10">
       <v-row>
         <v-col>
           <v-btn text @click="$router.go(-1)">
@@ -18,25 +17,39 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container fluid style="padding-left: 7%; padding-right: 7%">
+    <v-container>
       <v-row>
         <v-col
+          cols="4"
           v-for="(topic, index) in topics"
           :key="index"
-          class="d-flex flex-column align-center pb-10"
+          class="d-flex flex-column align-center px-3"
+          style="padding-bottom: 90px"
         >
-          <v-hover v-slot="{ hover }">
-            <div
-              class="hey"
-              :class="{ 'on-hover': hover }"
-              @click="goTo(topic)"
+          <v-card
+            flat
+            class="card d-flex flex-column align-center"
+            width="100%"
+            @click="goTo(topic)"
+            style="background: none"
+          >
+            <v-card-title
+              class="topic_header"
+              style="word-break: normal; height: 100px"
             >
-              <p class="topic_header">{{ topic.title }}</p>
-              <v-avatar size="200">
-                <v-img :src="topic.topic_thumbURL"></v-img>
-              </v-avatar>
-            </div>
-          </v-hover>
+              {{ topic.title }}
+            </v-card-title>
+
+            <v-list-item class="grow">
+              <v-list-item-avatar color="grey darken-3" size="250">
+                <v-img
+                  class="elevation-6"
+                  alt=""
+                  :src="topic.topic_thumbURL"
+                ></v-img>
+              </v-list-item-avatar>
+            </v-list-item>
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
@@ -88,17 +101,14 @@ export default {
 </script>
 
 <style type="text/css" scoped>
-img {
-  border-radius: 50px;
-}
-.hey:not(.on-hover) {
-  opacity: 0.7;
+.card:hover {
+  opacity: 0.6;
 }
 .page_header {
   font-family: "Montserrat", sans-serif;
   letter-spacing: -0.5px;
-  font-size: 24px;
-  line-height: 28px;
+  font-size: 44px;
+  line-height: 46px;
 }
 .topic_header {
   min-height: 50px;

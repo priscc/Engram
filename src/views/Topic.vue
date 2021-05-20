@@ -1,17 +1,49 @@
 <template>
   <div class="Topics" style="height: 100%">
-    <v-container fluid class="pb-0 pt-2">
-      <v-row>
-        <v-col cols="2" class="d-flex align-center">
-          <v-btn text @click="$router.go(-1)" :color="color">
+    <v-container fluid class="pt-2">
+      <!-- For development page -->
+      <v-row
+        v-if="currentTopicComponent == 1"
+        class="white--text"
+        style="height: 140px"
+      >
+        <v-col cols="2" class="d-flex align-center u-non-blurred">
+          <v-btn text @click="$router.go(-1)" color="white">
             <v-icon class="pr-1" small dark>
               mdi-arrow-left-drop-circle-outline
             </v-icon>
             Back
           </v-btn>
         </v-col>
-        <v-col class="d-flex align-center">
-          <p class="page_header mb-0">{{ topic.title }}</p>
+        <v-col class="d-flex flex-column justify-center u-non-blurred">
+          <p class="caption">{{ timePeriodHeaders.header }}</p>
+          <p class="display-2 mb-0" style="line-height: 20px">
+            {{ topic.title }}
+          </p>
+        </v-col>
+      </v-row>
+      <!-- other pages -->
+      <v-row
+        v-else
+        class="background background-filter white--text"
+        style="height: 140px"
+        :style="{
+          'background-image': `url(${topic.topic_thumbURL})`,
+        }"
+      >
+        <v-col cols="2" class="d-flex align-center u-non-blurred">
+          <v-btn text @click="$router.go(-1)" color="white">
+            <v-icon class="pr-1" small dark>
+              mdi-arrow-left-drop-circle-outline
+            </v-icon>
+            Back
+          </v-btn>
+        </v-col>
+        <v-col class="d-flex flex-column justify-center u-non-blurred">
+          <p class="caption">{{ timePeriodHeaders.header }}</p>
+          <p class="display-2 mb-0" style="line-height: 20px">
+            {{ topic.title }}
+          </p>
         </v-col>
       </v-row>
     </v-container>
@@ -65,6 +97,9 @@ export default {
     terms,
   },
   computed: {
+    timePeriodHeaders() {
+      return store.state.timePeriodHeaders[store.state.currentTimePeriod];
+    },
     currentTopicComponent() {
       return store.state.currentTopicComponent;
     },
@@ -94,6 +129,30 @@ export default {
 </script>
 
 <style type="text/css" scoped>
+.background-filter::after {
+  -webkit-backdrop-filter: blur(
+    5px
+  ); /* Use for Safari 9+, Edge 17+ (not a mistake) and iOS Safari 9.2+ */
+  backdrop-filter: brightness(50%); /* Supported in Chrome 76 */
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+.background-filter {
+  position: relative;
+}
+.background {
+  background-size: cover;
+  background-position: right 15% bottom 55%;
+}
+/* Use for content that should not be blurred */
+.u-non-blurred {
+  position: relative;
+  z-index: 1;
+}
 .buttons {
   font-family: "Montserrat", sans-serif;
   letter-spacing: -0.5px;
@@ -104,7 +163,7 @@ export default {
 .page_header {
   font-family: "Montserrat", sans-serif;
   letter-spacing: -0.5px;
-  font-size: 24px;
-  line-height: 28px;
+  font-size: 34px;
+  line-height: 0px;
 }
 </style>

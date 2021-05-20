@@ -1,6 +1,6 @@
 <template>
   <div class="Terms" style="height: 100%">
-    <v-container class="pt-0">
+    <v-container fluid class="pt-0">
       <v-row class="pt-0">
         <v-col class="pt-0 pb-10">
           <h3>Terminology</h3>

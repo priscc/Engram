@@ -1,6 +1,6 @@
 <template>
   <div class="PrimarySources" style="height: 100%">
-    <v-container class="pt-0">
+    <v-container fluid class="pt-0">
       <v-row class="pt-0">
         <v-col class="pt-0">
           <h3>Primary Sources</h3>

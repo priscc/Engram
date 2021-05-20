@@ -1,6 +1,6 @@
 <template>
   <div class="People" style="height: 100%">
-    <v-container class="pt-0">
+    <v-container fluid class="pt-0">
       <v-row class="pt-0">
         <v-col class="pt-0">
           <h3>Historical People</h3>

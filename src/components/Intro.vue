@@ -18,10 +18,14 @@
           </div>
         </div>
       </div> -->
+      <v-row class="pt-0">
+        <v-col class="pt-0 pb-10">
+          <h3>Introduction</h3>
+        </v-col>
+      </v-row>
 
       <v-row>
         <v-col cols="5" class="pt-0">
-          <h3>Introduction</h3>
           <p class="intro_paragraph intro_content">
             {{ topic.introMD }}
           </p>

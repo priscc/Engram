@@ -43,13 +43,13 @@ export default {
         return "white";
       }
     },
-    textColor: function () {
-      if (store.state.currentTopicComponent == 1) {
-        return "white";
-      } else {
-        return "black";
-      }
-    },
+    // textColor: function () {
+    //   if (store.state.currentTopicComponent == 1) {
+    //     return "white";
+    //   } else {
+    //     return "black";
+    //   }
+    // },
   },
 };
 </script>
