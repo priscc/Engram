@@ -1,6 +1,6 @@
 <template>
   <v-row style="border-bottom: 1px solid lightgrey">
-    <v-col class="pl-0">
+    <v-col class="ml-7">
       <v-img
         :lazy-src="people.thumbURL"
         height="120"
@@ -16,12 +16,12 @@
         <p class="people_subheader mb-0">{{ people.age }}</p>
       </div>
     </v-col>
-    <v-col cols="7" class="people_content">
+    <v-col cols="6" class="people_content">
       <p>{{ people.mainMD }}</p>
     </v-col>
     <v-col cols="3" class="pa-0 pr-12 pb-7">
       <v-row v-for="(resource, i) in resources" :key="i">
-        <v-col>
+        <v-col v-if="i < 2">
           <iframe
             width="200"
             height="112"

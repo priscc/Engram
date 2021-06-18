@@ -7,7 +7,6 @@
         width="250"
         height="200"
         style="
-          border-radius: 100px 0px 0px 100px;
           background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWr7HYxo7FpH1dYPxMLrfxpt6jkyEEWG959hI22Zdx7WgDIB6a4ZTPHmQAWkQvyHEWI7Q&usqp=CAU);
           background-size: cover;
           background-size: 100% 100%;
@@ -35,7 +34,6 @@
         width="250"
         height="200"
         style="
-          border-radius: 0px 100px 100px 0px;
           background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWr7HYxo7FpH1dYPxMLrfxpt6jkyEEWG959hI22Zdx7WgDIB6a4ZTPHmQAWkQvyHEWI7Q&usqp=CAU);
           background-size: cover;
           background-size: 100% 100%;

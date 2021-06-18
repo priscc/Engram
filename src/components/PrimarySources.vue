@@ -6,7 +6,37 @@
           <h3>Primary Sources</h3>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row class="d-flex flex-column">
+        <ul v-for="(source, i) in sourcesComponent" :key="i">
+          <li>
+            <a :href="'#' + i">{{ source.title }}</a>
+          </li>
+        </ul>
+      </v-row>
+
+      <v-row
+        v-for="(source, i) in sourcesComponent"
+        :key="i"
+        class="d-flex flex-column"
+        :id="i"
+      >
+        <p class="source_header pt-16 mt-10 mb-0">{{ source.title }}</p>
+        <p><a @click="scrollToTop()">Top</a></p>
+        <v-img
+          v-if="source.thumbURL.length > 0"
+          class="text-center pt-16"
+          :lazy-src="source.thumbURL"
+          style="
+            /*height: auto;*/
+            width: auto;
+            max-width: 300px;
+            max-height: 300px;
+          "
+          :src="source.thumbURL"
+        ></v-img>
+        <p class="pt-3">{{ source.caption }}</p>
+      </v-row>
+      <!-- <v-row>
         <v-col cols="10">
           <v-expansion-panels inset hover flat>
             <v-expansion-panel v-for="(source, i) in sourcesComponent" :key="i">
@@ -35,7 +65,7 @@
             </v-expansion-panel>
           </v-expansion-panels>
         </v-col>
-      </v-row>
+      </v-row> -->
     </v-container>
   </div>
 </template>
@@ -50,16 +80,28 @@ export default {
       return storeTopic.state.sources;
     },
   },
+  methods: {
+    scrollToTop() {
+      window.scrollTo(0, 0);
+    },
+  },
 };
 </script>
 
 <style type="text/css" scoped>
+template {
+  scroll-behavior: smooth;
+}
 h3 {
   font-family: "Montserrat", sans-serif;
   font-size: 30px;
   font-weight: 620;
 }
-
+.source_header {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  font-weight: 500;
+}
 p {
   font-family: "Montserrat", sans-serif;
   font-size: 14px;

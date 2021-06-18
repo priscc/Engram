@@ -5,10 +5,11 @@
         <v-col class="pt-0">
           <h3>Historical People</h3>
           <v-container
-            class="my-12"
+            class="pt-12 card"
             v-for="(comp, i) in peopleComponent"
             :key="i"
             :people="comp"
+            @click="goTo(comp)"
           >
             <peopleprofile :people="comp"></peopleprofile>
           </v-container>
@@ -30,6 +31,12 @@ export default {
       return storeTopic.state.people;
     },
   },
+  methods: {
+    goTo(person) {
+      storeTopic.dispatch("personContent", person);
+      this.$router.push({ name: "Person", params: { id: person.name } });
+    },
+  },
 };
 </script>
 
@@ -38,5 +45,13 @@ h3 {
   font-family: "Montserrat", sans-serif;
   font-size: 30px;
   font-weight: 620;
+}
+.card {
+  opacity: 1;
+}
+.card:hover {
+  opacity: 0.7;
+  background-color: #eceff1;
+  cursor: pointer;
 }
 </style>

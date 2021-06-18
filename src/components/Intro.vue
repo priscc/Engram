@@ -38,9 +38,9 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container>
+    <v-container fluid class="mb-10 pt-0 pr-10">
       <v-row>
-        <v-col lg="7" md="7" cols="12">
+        <v-col lg="6" md="6" cols="12">
           <h3 class="intro_headers mb-6">Resources</h3>
           <v-row>
             <v-col v-for="(video, index) in videos" :key="index">
@@ -61,7 +61,7 @@
           <!-- <articles></articles> -->
           <v-row>
             <v-col v-for="(article, index) in articles" :key="index">
-              <v-card outlined>
+              <v-card outlined class="card" :href="article.url" target="_blank">
                 <div class="d-flex flex-no-wrap">
                   <v-avatar class="ma-3" size="120" tile>
                     <v-img style="border-radius: 7px" :src="article.thumbURL">
@@ -77,8 +77,8 @@
                   </div>
                 </div>
               </v-card>
-            </v-col></v-row
-          >
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
@@ -142,6 +142,13 @@ h5 {
   overflow: hidden !important;
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
+}
+.card {
+  opacity: 0.7;
+}
+.card:hover {
+  opacity: 1;
+  cursor: pointer;
 }
 div.intro_top {
   position: relative;

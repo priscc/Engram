@@ -2,29 +2,9 @@
   <div class="Topics" style="height: 100%">
     <v-container fluid class="pt-2">
       <!-- For development page -->
-      <v-row
-        v-if="currentTopicComponent == 1"
-        class="white--text"
-        style="height: 140px"
-      >
-        <v-col cols="2" class="d-flex align-center u-non-blurred">
-          <v-btn text @click="$router.go(-1)" color="white">
-            <v-icon class="pr-1" small dark>
-              mdi-arrow-left-drop-circle-outline
-            </v-icon>
-            Back
-          </v-btn>
-        </v-col>
-        <v-col class="d-flex flex-column justify-center u-non-blurred">
-          <p class="caption">{{ timePeriodHeaders.header }}</p>
-          <p class="display-2 mb-0" style="line-height: 20px">
-            {{ topic.title }}
-          </p>
-        </v-col>
-      </v-row>
+
       <!-- other pages -->
       <v-row
-        v-else
         class="background background-filter white--text"
         style="height: 140px"
         :style="{
@@ -66,12 +46,13 @@
         </v-col>
         <v-col lg="10" md="10" cols="12" class="pa-0 pt-5">
           <intro v-if="currentTopicComponent == 0"></intro>
-          <developments v-else-if="currentTopicComponent == 1"></developments>
-          <people v-else-if="currentTopicComponent == 2"></people>
+          <trends v-if="currentTopicComponent == 1"></trends>
+          <developments v-else-if="currentTopicComponent == 2"></developments>
+          <people v-else-if="currentTopicComponent == 3"></people>
           <primarysources
-            v-else-if="currentTopicComponent == 3"
+            v-else-if="currentTopicComponent == 4"
           ></primarysources>
-          <terms v-else></terms>
+          <terms v-else-if="currentTopicComponent == 5"></terms>
         </v-col>
       </v-row>
     </v-container>
@@ -82,6 +63,7 @@
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
 import intro from "@/components/Intro.vue";
+import trends from "@/components/Trends.vue";
 import developments from "@/components/Developments.vue";
 import people from "@/components/People.vue";
 import primarysources from "@/components/PrimarySources.vue";
@@ -91,6 +73,7 @@ export default {
   name: "Topics",
   components: {
     intro,
+    trends,
     developments,
     people,
     primarysources,
@@ -121,9 +104,6 @@ export default {
     select(i) {
       store.dispatch("setTopicButton", i);
     },
-  },
-  mounted() {
-    store.dispatch("setTopicButton", 0);
   },
 };
 </script>

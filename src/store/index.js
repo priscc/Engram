@@ -39,6 +39,7 @@ export default new Vuex.Store({
     currentTopicComponent: 0,
     topicButtons: [
       { title: "Intro", color: "pink" },
+      { title: "Trends", color: "grey lighten-3" },
       { title: "Developments", color: "grey lighten-3" },
       { title: "People", color: "grey lighten-3" },
       { title: "Sources", color: "grey lighten-3" },
@@ -53,10 +54,11 @@ export default new Vuex.Store({
       state.topicButtons[state.currentTopicComponent].color = "grey lighten-3";
       state.currentTopicComponent = i;
       if (i == 0) state.topicButtons[i].color = "pink";
-      else if (i == 1) state.topicButtons[i].color = "purple";
-      else if (i == 2) state.topicButtons[i].color = "blue";
-      else if (i == 3) state.topicButtons[i].color = "yellow";
-      else if (i == 4) state.topicButtons[i].color = "green";
+      else if (i == 1) state.topicButtons[i].color = "indigo";
+      else if (i == 2) state.topicButtons[i].color = "purple";
+      else if (i == 3) state.topicButtons[i].color = "blue";
+      else if (i == 4) state.topicButtons[i].color = "yellow";
+      else if (i == 5) state.topicButtons[i].color = "green";
     },
   },
   actions: {

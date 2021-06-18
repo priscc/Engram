@@ -1,152 +1,120 @@
 <template>
-  <div id="app" style="background-color: black; height: 100%">
-    <!-- <div
-      style="
-        position: fixed;
-        top: 80px;
-        right: 10px;
-        min-height: 570px;
-        min-width: 20px;
-        border: 1px solid white;
-      "
-    > -->
-    <!-- ticks -->
-    <!--  <div
-        v-for="i in ticks"
-        :key="i"
-        style="
-          border-left: 2px solid #607d8b;
-          position: absolute;
-          top: -9px;
-          height: 16px;
-        "
-        v-bind:style="{ top: ((i - 1) * 5 * 100) / 250 + '%' }"
-      ></div> -->
-    <!-- </div> -->
-
-    <v-container fluid class="pt-0" style="background-color: black">
-      <v-row class="pt-0">
-        <v-col class="pt-0 pb-0">
-          <h3>Developments</h3>
+  <div class="Event" style="height: 100%">
+    <v-container fluid class="pt-2">
+      <v-row
+        class="background background-filter white--text"
+        style="height: 140px"
+        :style="{
+          'background-image': `url(${event.thumbURL})`,
+        }"
+      >
+        <v-col cols="2" class="d-flex align-center u-non-blurred">
+          <v-btn text @click="back()" color="white">
+            <v-icon class="pr-1" small dark>
+              mdi-arrow-left-drop-circle-outline
+            </v-icon>
+            Back
+          </v-btn>
+        </v-col>
+        <v-col class="d-flex flex-column justify-center u-non-blurred">
+          <p class="caption">{{ timePeriodHeaders.header }}</p>
+          <p class="display-2 mb-0" style="line-height: 20px">
+            {{ topic.title }} > {{ event.title }}
+          </p>
         </v-col>
       </v-row>
+    </v-container>
+
+    <v-container fluid class="mb-10 pt-10 px-14">
       <v-row>
+        <v-col lg="7" md="7" sm="12">
+          <v-row class="d-flex justify-space-around ml-10 mr-5">
+            <v-col cols="8" class="pt-0">
+              <div class="view" id="map"></div>
+            </v-col>
+          </v-row>
+          <v-row class="d-flex justify-space-between ml-10 mr-5">
+            <v-col class="pt-5">
+              <p class="people_header mb-0">{{ event.title }}</p>
+              <p class="people_subheader mb-0">
+                ({{ event.startDate.date }} - {{ event.endDate.date }})
+              </p>
+              <p class="intro_paragraph intro_content pt-6">
+                {{ event.mainMD }} ss
+              </p>
+            </v-col>
+          </v-row>
+        </v-col>
         <v-col>
-          <v-card
-            outlined
-            elevation="24"
-            max-width="444"
-            class="mx-auto"
-            dark
-            style="position: absolute; left: 220px; top: 320px"
-          >
-            <v-carousel
-              show-arrows
-              delimiter-icon="mdi-minus"
-              height="250"
-              max-width="444"
-              v-model="model"
-              @change="primary(model)"
-            >
-              <v-carousel-item v-for="(slide, i) in events" :key="i">
-                <v-sheet
-                  height="83%"
-                  width="350"
-                  tile
-                  class="d-flex align-stretch"
-                  :style="{ 'background-image': `url(${slide.thumbURL})` }"
-                  style="background-size: cover; background-size: 100% 100%"
-                >
-                  <v-container
-                    fluid
-                    height="100%"
-                    class="d-flex align-stretch cardCaptions"
+          <v-row>
+            <v-col>
+              <!-- <h3 class="intro_headers mb-6">Resources</h3> -->
+              <v-row>
+                <v-col v-for="(video, index) in videos" :key="index">
+                  <iframe
+                    width="365"
+                    height="230"
+                    :src="'https://www.youtube.com/embed/' + video.url"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col>
+              <h3 class="intro_headers mb-6">Articles</h3>
+              <!-- <articles></articles> -->
+              <v-row>
+                <v-col v-for="(article, index) in articles" :key="index">
+                  <v-card
+                    outlined
+                    class="card"
+                    :href="article.url"
+                    target="_blank"
                   >
-                    <v-row>
-                      <v-col>
-                        <p class="mb-0">
-                          <small>{{ slide.theme }}</small>
-                        </p>
-                      </v-col>
-                    </v-row>
-                    <v-row>
-                      <v-spacer></v-spacer>
-                      <v-col cols="9" class="px-7">
-                        <h1 class="mt-3" style="word-break: normal" dark>
-                          {{ slide.startDate.date }}
-                        </h1>
-                        <h2 style="word-break: normal" dark>
-                          {{ slide.title }}
-                        </h2>
-                        <p
-                          class="mt-4 eventDescription caption"
-                          style="height: 5rem"
+                    <div class="d-flex flex-no-wrap">
+                      <v-avatar class="ma-3" size="120" tile>
+                        <v-img
+                          style="border-radius: 7px"
+                          :src="article.thumbURL"
                         >
-                          {{ slide.descriptionMD }}
-                        </p>
-                        <v-btn
-                          rounded
-                          outlined
-                          @click="goTo(slide)"
-                          style="
-                            float: right;
-                            background-color: lightgrey;
-                            opacity: 0.85;
-                          "
-                          x-small
-                          >Learn More</v-btn
-                        >
-                      </v-col>
-                      <v-spacer></v-spacer>
-                    </v-row>
-                  </v-container>
-                </v-sheet>
-              </v-carousel-item>
-            </v-carousel>
-            <!-- FOR ADDING AUTHOR -->
-            <!-- <v-list two-line>
-        <v-list-item>
-          <v-list-item-avatar>
-            <v-img src="https://cdn.vuetifyjs.com/images/john.png"></v-img>
-          </v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title>John Leider</v-list-item-title>
-            <v-list-item-subtitle>Author</v-list-item-subtitle>
-          </v-list-item-content>
-          <v-list-item-action>
-            <v-switch v-model="cycle" label="Cycle Slides" inset></v-switch>
-          </v-list-item-action>
-        </v-list-item>
-      </v-list> -->
-          </v-card>
-          <!-- <div class="legend pb-6"></div> -->
-          <div class="view" id="map"></div>
+                        </v-img>
+                      </v-avatar>
+                      <div>
+                        <v-card-title class="pl-2 mb-2">
+                          <h5>{{ article.title }}</h5>
+                        </v-card-title>
+                        <v-card-subtitle class="pl-2 caption article">
+                          {{ article.summary }}
+                        </v-card-subtitle>
+                      </div>
+                    </div>
+                  </v-card>
+                </v-col>
+              </v-row>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
 
-<script type="text/javascript">
+<script>
+import store from "@/store";
 import storeTopic from "@/store/topic.js";
 import countries from "@/countries2.json";
 import * as d3 from "d3";
 import * as topojson from "topojson";
 
-// inspired from: http://bl.ocks.org/wiesson/ef18dba71256d526eb42#license
-// OR https://gist.github.com/wiesson/ef18dba71256d526eb42?short_path=ca92d9d
 export default {
+  name: "Event",
   data() {
     return {
-      colors: [
-        "green",
-        "secondary",
-        "yellow darken-4",
-        "red lighten-2",
-        "orange darken-1",
-      ],
-      cycle: false,
-      slides: ["First", "Second", "Third", "Fourth", "Fifth"],
       items: countries,
       data: [],
       sets: [
@@ -404,17 +372,45 @@ export default {
       projection: null,
       path: null,
       svg: null,
-
       model: 0,
-      ticks: 0,
     };
   },
-  methods: {
-    goTo(event) {
-      storeTopic.dispatch("eventContent", event);
-      this.$router.push({ name: "Event", params: { id: event.title } });
+  computed: {
+    timePeriodHeaders() {
+      return store.state.timePeriodHeaders[store.state.currentTimePeriod];
     },
-
+    topic() {
+      return storeTopic.state.topic;
+    },
+    event() {
+      return storeTopic.state.event;
+    },
+    videos() {
+      var r = storeTopic.state.resources.filter(
+        (video) =>
+          video.parentID == this.event.id &&
+          video.resourceType == "video" &&
+          video.parentType == "event"
+      );
+      console.log("resources", r);
+      return r;
+    },
+    articles() {
+      var r = storeTopic.state.resources.filter(
+        (article) =>
+          article.parentID == this.event.id &&
+          article.resourceType == "article" &&
+          article.parentType == "event"
+      );
+      console.log("resources", r);
+      return r;
+    },
+  },
+  methods: {
+    back() {
+      storeTopic.dispatch("eventContentRESET");
+      this.$router.go(-1);
+    },
     async primary(model) {
       console.log("in primary", model);
 
@@ -486,18 +482,6 @@ export default {
           .attr("d", path)
           .attr({ "data-name": this.sets[i].name })
           .attr("fill", "#464646");
-        // .on("mouseover", function () {
-        //   var region = d3.select(this);
-        //   region.attr("fill", "#ff9800");
-        //   document.querySelector(".legend").innerText = region.attr(
-        //     "data-name"
-        //   );
-        // })
-        // .on("mouseout", function () {
-        //   var region = d3.select(this);
-        //   region.attr("fill", "#464646");
-        //   document.querySelector(".legend").innerText = "";
-        // });
       }
 
       //This is the accessor function we talked about above
@@ -514,52 +498,7 @@ export default {
         .interpolate("linear");
 
       // console.log("in map creator", this.events[model].coordinates);
-      var coordinates = this.events[model].coordinates;
-
-      // var coordinates = [
-      //   //   {
-      //   //     map: [
-      //   //       { lon: 99.53224852103409, lat: 36.9635628750092 },
-      //   //       { lon: 101.8388754146548, lat: 31.38238257894329 },
-      //   //       { lon: 111.0327506638422, lat: 32.68926261313212 },
-      //   //       { lon: 99.53224852103409, lat: 36.9635628750092 },
-      //   //     ],
-      //   //   },
-      //   //   {
-      //   //     map: [
-      //   //       { lon: 114.7000004839849, lat: 42.02254999787689 },
-      //   //       { lon: 118.3845903213028, lat: 39.36174581708054 },
-      //   //       { lon: 121.5839796969244, lat: 40.71770109427904 },
-      //   //       { lon: 114.7000004839849, lat: 42.02254999787689 },
-      //   //     ],
-      //   //   },
-      //   // ];
-      // var coordinates = [
-      //   { lon: 114.7000004839849, lat: 42.02254999787689 },
-      //   // { lon: 113.1672067240925, lat: 40.58903258718775 },
-      //   // { lon: 108.5885758869572, lat: 38.01556166653811 },
-      //   // { lon: 104.4627858529494, lat: 37.53921058237947 },
-      //   // { lon: 102.1835644979335, lat: 34.91691173911467 },
-      //   // { lon: 100.999099564981, lat: 33.99707385393174 },
-      //   // { lon: 97.18808307950999, lat: 32.3025788858757 },
-      //   // { lon: 95.66013730464984, lat: 29.09017865729048 },
-      //   // { lon: 98.57342394735846, lat: 28.2005605394243 },
-      //   // { lon: 101.8740222074411, lat: 26.13804480224899 },
-      //   // { lon: 104.9973476309196, lat: 24.53510765041384 },
-      //   // { lon: 106.6435046493752, lat: 22.50452433642101 },
-      //   // { lon: 109.5871716936629, lat: 21.25475605332846 },
-      //   // { lon: 116.4594192837376, lat: 22.9595454015056 },
-      //   // { lon: 120.818784551134, lat: 26.99130045205105 },
-      //   // { lon: 122.2920420167496, lat: 30.74267415824754 },
-      //   // { lon: 119.3883278138953, lat: 34.83517495263233 },
-      //   // { lon: 122.8639669075088, lat: 37.2223767144566 },
-      //   // { lon: 120.9378067497715, lat: 38.30397804622267 },
-      //   // { lon: 119.5893720324662, lat: 37.42414800444499 },
-      //   // { lon: 117.8742460402969, lat: 38.72758280400602 },
-      //   { lon: 118.3845903213028, lat: 39.36174581708054 },
-      //   { lon: 121.5839796969244, lat: 40.71770109427904 },
-      //   { lon: 114.7000004839849, lat: 42.02254999787689 },
-      // ];
+      var coordinates = this.event.coordinates;
 
       //The line SVG Path we draw
       if (coordinates) {
@@ -570,11 +509,6 @@ export default {
             .attr("fill", "#BDFF00");
         });
       }
-    },
-  },
-  computed: {
-    events() {
-      return storeTopic.state.events;
     },
   },
   mounted() {
@@ -588,29 +522,53 @@ h3 {
   font-family: "Montserrat", sans-serif;
   font-size: 30px;
   font-weight: 620;
-  color: white;
 }
-h1 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 36px;
-  line-height: 0.8;
-  font-weight: 620;
+h5 {
+  line-height: 1;
+  word-break: normal;
 }
-h2 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-}
-.eventDescription {
-  overflow: hidden;
-  line-height: 1rem;
-  max-height: 5rem;
-  -webkit-box-orient: vertical;
+.background-filter::after {
+  -webkit-backdrop-filter: blur(
+    5px
+  ); /* Use for Safari 9+, Edge 17+ (not a mistake) and iOS Safari 9.2+ */
+  backdrop-filter: brightness(50%); /* Supported in Chrome 76 */
+  content: "";
   display: block;
-  display: -webkit-box;
-  overflow: hidden !important;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 5;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+}
+.background-filter {
+  position: relative;
+}
+.background {
+  background-size: cover;
+  background-position: right 15% bottom 55%;
+}
+/* Use for content that should not be blurred */
+.u-non-blurred {
+  position: relative;
+  z-index: 1;
+}
+.page_header {
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: -0.5px;
+  font-size: 34px;
+  line-height: 0px;
+}
+.people_header {
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 550;
+}
+.people_subheader {
+  font-family: "Montserrat", sans-serif;
+  text-transform: uppercase;
+  font-size: 12px;
+  font-weight: 500;
+  color: grey;
 }
 .line {
   fill: none;
@@ -619,6 +577,14 @@ h2 {
 }
 #map {
   color: #464646;
+}
+
+.card {
+  opacity: 0.7;
+}
+.card:hover {
+  opacity: 1;
+  cursor: pointer;
 }
 .border {
   fill: #464646;
@@ -653,10 +619,5 @@ h2 {
   display: inline-block;
   position: absolute;
   top: 20px;
-}
-.cardCaptions {
-  background: rgba(0, 0, 0, 0.5);
-  padding: 4px 8px;
-  color: white;
 }
 </style>

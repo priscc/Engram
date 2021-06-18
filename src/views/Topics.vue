@@ -28,27 +28,30 @@
         >
           <v-card
             flat
-            class="card d-flex flex-column align-center"
+            class="card"
             width="100%"
             @click="goTo(topic)"
             style="background: none"
           >
             <v-card-title
-              class="topic_header"
-              style="word-break: normal; height: 100px"
+              class="topic_header d-flex flex-column justify-start align-center"
+              style="word-break: normal; height: 100px; font-size: 140%"
             >
               {{ topic.title }}
             </v-card-title>
-
-            <v-list-item class="grow">
-              <v-list-item-avatar color="grey darken-3" size="250">
-                <v-img
-                  class="elevation-6"
-                  alt=""
-                  :src="topic.topic_thumbURL"
-                ></v-img>
-              </v-list-item-avatar>
-            </v-list-item>
+            <v-container>
+              <v-row>
+                <v-col>
+                  <v-avatar color="grey darken-3" size="250">
+                    <v-img
+                      class="elevation-6"
+                      alt=""
+                      :src="topic.topic_thumbURL"
+                    ></v-img>
+                  </v-avatar>
+                </v-col>
+              </v-row>
+            </v-container>
           </v-card>
         </v-col>
       </v-row>
@@ -115,7 +118,6 @@ export default {
   text-align: center;
   font-family: "Montserrat", sans-serif;
   letter-spacing: -0.5px;
-  font-size: 30px;
   line-height: 28px;
   font-weight: 600;
 }
