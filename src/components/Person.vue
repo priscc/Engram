@@ -40,7 +40,13 @@
             </v-col>
             <v-col class="d-flex justify-end flex-column">
               <p class="people_header mb-0">{{ person.name }}</p>
-              <p class="people_subheader mb-0">
+              <p
+                v-if="person.dateOfPassing.date.length == 0"
+                class="people_subheader mb-0"
+              >
+                ({{ person.dateOfBirth.date }} - Present)
+              </p>
+              <p v-else class="people_subheader mb-0">
                 ({{ person.dateOfBirth.date }} -
                 {{ person.dateOfPassing.date }})
               </p>
@@ -49,7 +55,7 @@
           <v-row class="d-flex justify-space-between ml-10 mr-5">
             <v-col class="pt-5">
               <p class="intro_paragraph intro_content">
-                {{ person.mainMD }} ss
+                {{ person.mainMD }}
               </p>
             </v-col>
           </v-row>
@@ -74,7 +80,7 @@
             </v-col>
           </v-row>
           <v-row>
-            <v-col>
+            <v-col v-if="articles.length > 0">
               <h3 class="intro_headers mb-6">Articles</h3>
               <!-- <articles></articles> -->
               <v-row>

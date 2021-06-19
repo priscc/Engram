@@ -25,58 +25,71 @@
       </v-row>
 
       <v-row>
-        <v-col cols="5" class="pt-0">
-          <p class="intro_paragraph intro_content">
-            {{ topic.introMD }}
-          </p>
-        </v-col>
-        <v-col cols="7" class="d-flex justify-center">
-          <v-img
-            src="https://freevector-images.s3.amazonaws.com/uploads/vector/preview/31829/32563_dotted-worldmap-1.jpg"
-            width="100%"
-          ></v-img>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container fluid class="mb-10 pt-0 pr-10">
-      <v-row>
-        <v-col lg="6" md="6" cols="12">
-          <h3 class="intro_headers mb-6">Resources</h3>
+        <v-col cols="6" class="pt-0">
           <v-row>
-            <v-col v-for="(video, index) in videos" :key="index">
+            <v-img :src="topic.intro_thumbURL" width="100%"></v-img>
+          </v-row>
+          <v-row>
+            <v-col class="pt-0 pb-10">
+              <p class="intro_paragraph intro_content">
+                {{ topic.introMD }}
+              </p>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col class="pt-0">
+              <h3>Influence Today</h3>
+            </v-col>
+          </v-row>
+          <v-row>
+            <v-col v-for="(article, index) in articles" :key="index">
+              <v-card
+                outlined
+                class="card py-3 px-2"
+                :href="article.url"
+                target="_blank"
+              >
+                <div class="d-flex flex-no-wrap">
+                  <v-img
+                    width="150"
+                    height="105"
+                    style="border-radius: 7px"
+                    :src="article.thumbURL"
+                  >
+                  </v-img>
+
+                  <div class="pl-2">
+                    <v-card-title class="mb-2">
+                      <h5>{{ article.title }}</h5>
+                    </v-card-title>
+                    <v-card-subtitle class="caption article">
+                      {{ article.summary }}
+                    </v-card-subtitle>
+                  </div>
+                </div>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+        <v-col class="pt-0">
+          <!-- <v-row>
+            <h3 class="intro_headers mb-6">Resources</h3>
+          </v-row> -->
+          <v-row>
+            <v-col
+              v-for="(video, index) in videos"
+              :key="index"
+              class="d-flex justify-center pt-0"
+            >
               <iframe
-                width="440"
-                height="276"
+                width="340"
+                height="213"
                 :src="'https://www.youtube.com/embed/' + video.url"
                 title="YouTube video player"
                 frameborder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowfullscreen
               ></iframe>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col>
-          <h3 class="intro_headers mb-6">Influence Today</h3>
-          <!-- <articles></articles> -->
-          <v-row>
-            <v-col v-for="(article, index) in articles" :key="index">
-              <v-card outlined class="card" :href="article.url" target="_blank">
-                <div class="d-flex flex-no-wrap">
-                  <v-avatar class="ma-3" size="120" tile>
-                    <v-img style="border-radius: 7px" :src="article.thumbURL">
-                    </v-img>
-                  </v-avatar>
-                  <div>
-                    <v-card-title class="pl-2 mb-2">
-                      <h5>{{ article.title }}</h5>
-                    </v-card-title>
-                    <v-card-subtitle class="pl-2 caption article">
-                      {{ article.summary }}
-                    </v-card-subtitle>
-                  </div>
-                </div>
-              </v-card>
             </v-col>
           </v-row>
         </v-col>
@@ -144,10 +157,10 @@ h5 {
   -webkit-line-clamp: 3;
 }
 .card {
-  opacity: 0.7;
+  opacity: 1;
 }
 .card:hover {
-  opacity: 1;
+  opacity: 0.7;
   cursor: pointer;
 }
 div.intro_top {
@@ -167,7 +180,7 @@ div.intro_image {
 .intro_content {
   font-family: "Montserrat", sans-serif;
   font-size: 12px;
-  line-height: 14px;
+  line-height: 16px;
   font-weight: 500;
   /*position: relative;*/
   /*max-width: 35%;*/

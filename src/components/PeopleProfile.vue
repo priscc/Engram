@@ -1,6 +1,6 @@
 <template>
-  <v-row style="border-bottom: 1px solid lightgrey">
-    <v-col class="ml-7">
+  <v-row class="pt-6 pb-8" style="border-bottom: 1px solid lightgrey">
+    <v-col cols="2" class="ml-7 pt-0">
       <v-img
         :lazy-src="people.thumbURL"
         height="120"
@@ -10,18 +10,27 @@
       ></v-img>
       <div class="text-center" style="width: 120px">
         <p class="people_header mb-0">{{ people.name }}</p>
-        <p class="people_subheader mb-0">
+        <p
+          v-if="people.dateOfPassing.date.length == 0"
+          class="people_subheader mb-0"
+        >
+          ({{ people.dateOfBirth.date }} - Present)
+        </p>
+        <p v-else class="people_subheader mb-0">
           ({{ people.dateOfBirth.date }} - {{ people.dateOfPassing.date }})
         </p>
         <p class="people_subheader mb-0">{{ people.age }}</p>
       </div>
     </v-col>
-    <v-col cols="6" class="people_content">
-      <p>{{ people.mainMD }}</p>
+    <v-col
+      cols="6"
+      class="d-flex align-center people_content pl-11 pr-15 mb-10"
+    >
+      <p class="article mr-10">{{ people.mainMD }}</p>
     </v-col>
-    <v-col cols="3" class="pa-0 pr-12 pb-7">
+    <v-col cols="3" class="d-flex align-center pa-0 pr-12 pb-7">
       <v-row v-for="(resource, i) in resources" :key="i">
-        <v-col v-if="i < 2">
+        <v-col v-if="i < 1">
           <iframe
             width="200"
             height="112"
@@ -72,8 +81,17 @@ export default {
 .people_content {
   font-family: "Montserrat", sans-serif;
   font-size: 12px;
-  padding-left: 4%;
-  padding-right: 12%;
   font-weight: 500;
+}
+.article {
+  overflow: hidden;
+  line-height: 1rem;
+  max-height: 5rem;
+  -webkit-box-orient: vertical;
+  display: block;
+  display: -webkit-box;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
 }
 </style>

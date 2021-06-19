@@ -101,7 +101,7 @@ export default {
   name: "Trends",
   computed: {
     social() {
-      return storeTopic.state.trends.filter((i) => i.type == "social");
+      return storeTopic.state.trends.filter((i) => i.type == "society");
     },
     economic() {
       return storeTopic.state.trends.filter((i) => i.type == "economic");
@@ -110,7 +110,7 @@ export default {
       return storeTopic.state.trends.filter((i) => i.type == "technology");
     },
     government() {
-      return storeTopic.state.trends.filter((i) => i.type == "government");
+      return storeTopic.state.trends.filter((i) => i.type == "politics");
     },
     culture() {
       return storeTopic.state.trends.filter((i) => i.type == "culture");

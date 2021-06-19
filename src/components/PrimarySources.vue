@@ -6,7 +6,7 @@
           <h3>Primary Sources</h3>
         </v-col>
       </v-row>
-      <v-row class="d-flex flex-column">
+      <v-row class="d-flex flex-column pl-10">
         <ul v-for="(source, i) in sourcesComponent" :key="i">
           <li>
             <a :href="'#' + i">{{ source.title }}</a>
@@ -20,21 +20,36 @@
         class="d-flex flex-column"
         :id="i"
       >
-        <p class="source_header pt-16 mt-10 mb-0">{{ source.title }}</p>
-        <p><a @click="scrollToTop()">Top</a></p>
-        <v-img
-          v-if="source.thumbURL.length > 0"
-          class="text-center pt-16"
-          :lazy-src="source.thumbURL"
-          style="
-            /*height: auto;*/
-            width: auto;
-            max-width: 300px;
-            max-height: 300px;
-          "
-          :src="source.thumbURL"
-        ></v-img>
-        <p class="pt-3">{{ source.caption }}</p>
+        <v-col>
+          <v-row>
+            <v-col>
+              <p class="source_header pt-16 mt-10 mb-0">{{ source.title }}</p>
+              <p><a @click="scrollToTop()">^Top</a></p>
+            </v-col>
+          </v-row>
+          <v-row
+            class="mr-6 pb-2 pt-0 mt-0"
+            style="border-bottom: 1px solid lightgrey"
+          >
+            <v-col cols="6" class="mr-11 pt-0">
+              <p class="pt-3">{{ source.caption }}</p>
+            </v-col>
+            <v-col cols="4">
+              <v-img
+                v-if="source.thumbURL.length > 0"
+                class="text-center pt-16"
+                :lazy-src="source.thumbURL"
+                style="
+                  /*height: auto;*/
+                  width: auto;
+                  max-width: 300px;
+                  max-height: 300px;
+                "
+                :src="source.thumbURL"
+              ></v-img>
+            </v-col>
+          </v-row>
+        </v-col>
       </v-row>
       <!-- <v-row>
         <v-col cols="10">

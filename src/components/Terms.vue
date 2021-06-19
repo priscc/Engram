@@ -7,7 +7,7 @@
         </v-col>
       </v-row>
       <v-row
-        class="my-0"
+        class="my-0 pl-10"
         v-for="(comp, i) in termsComponent"
         :key="i"
         :people="comp"

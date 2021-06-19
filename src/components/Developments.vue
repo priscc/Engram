@@ -62,13 +62,13 @@
                     height="100%"
                     class="d-flex align-stretch cardCaptions"
                   >
-                    <v-row>
+                    <!--  <v-row>
                       <v-col>
                         <p class="mb-0">
                           <small>{{ slide.theme }}</small>
                         </p>
                       </v-col>
-                    </v-row>
+                    </v-row> -->
                     <v-row>
                       <v-spacer></v-spacer>
                       <v-col cols="9" class="px-7">

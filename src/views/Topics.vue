@@ -42,13 +42,14 @@
             <v-container>
               <v-row>
                 <v-col>
-                  <v-avatar color="grey darken-3" size="250">
-                    <v-img
-                      class="elevation-6"
-                      alt=""
-                      :src="topic.topic_thumbURL"
-                    ></v-img>
-                  </v-avatar>
+                  <div class="d-flex align-center">
+                    <v-avatar color="grey darken-3" size="250">
+                      <v-img
+                        class="elevation-6"
+                        :src="topic.topic_thumbURL"
+                      ></v-img>
+                    </v-avatar>
+                  </div>
                 </v-col>
               </v-row>
             </v-container>
@@ -120,5 +121,9 @@ export default {
   letter-spacing: -0.5px;
   line-height: 28px;
   font-weight: 600;
+}
+.topic_thumbnail {
+  background-size: cover;
+  background-position: right 15% bottom -5%;
 }
 </style>
