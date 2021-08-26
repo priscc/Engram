@@ -5,22 +5,11 @@
       <p class="term_text">{{ term.def }}</p>
     </v-col>
     <v-col lg="4" md="4" sm="6">
-      <v-card
-        flat
-        width="250"
-        height="200"
-        style="
-          background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWr7HYxo7FpH1dYPxMLrfxpt6jkyEEWG959hI22Zdx7WgDIB6a4ZTPHmQAWkQvyHEWI7Q&usqp=CAU);
-          background-size: cover;
-          background-size: 100% 100%;
-          opacity: 0.75;
-        "
-      >
+      <v-card flat height="200">
         <v-img
           v-if="term.thumbURL"
           :lazy-src="term.thumbURL"
-          width="250"
-          height="200"
+          height="100%"
           :src="term.thumbURL"
         >
         </v-img>

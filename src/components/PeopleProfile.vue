@@ -22,15 +22,12 @@
         <p class="people_subheader mb-0">{{ people.age }}</p>
       </div>
     </v-col>
-    <v-col
-      cols="6"
-      class="d-flex align-center people_content pl-11 pr-15 mb-10"
-    >
+    <v-col cols="6" class="people_content pt-5 pl-11 pr-15 mb-10">
       <p class="article mr-10">{{ people.mainMD }}</p>
     </v-col>
-    <v-col cols="3" class="d-flex align-center pa-0 pr-12 pb-7">
+    <v-col cols="3" class="pa-0 pr-12 pb-7">
       <v-row v-for="(resource, i) in resources" :key="i">
-        <v-col v-if="i < 1">
+        <v-col v-if="i < 2" class="py-1">
           <iframe
             width="200"
             height="112"

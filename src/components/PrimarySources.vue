@@ -43,7 +43,7 @@
                   /*height: auto;*/
                   width: auto;
                   max-width: 300px;
-                  max-height: 300px;
+                  max-height: 100%;
                 "
                 :src="source.thumbURL"
               ></v-img>

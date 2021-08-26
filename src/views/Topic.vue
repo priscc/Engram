@@ -1,15 +1,10 @@
 <template>
   <div class="Topics" style="height: 100%">
     <v-container fluid class="pt-2">
-      <!-- For development page -->
-
-      <!-- other pages -->
-      <v-row
-        class="background background-filter white--text"
+      <!-- <v-row
+        v-if="currentTopicComponent == 2"
+        class="white--text"
         style="height: 140px"
-        :style="{
-          'background-image': `url(${topic.topic_thumbURL})`,
-        }"
       >
         <v-col cols="2" class="d-flex align-center u-non-blurred">
           <v-btn text @click="$router.go(-1)" color="white">
@@ -22,6 +17,37 @@
         <v-col class="d-flex flex-column justify-center u-non-blurred">
           <p class="caption">{{ timePeriodHeaders.header }}</p>
           <p class="display-2 mb-0" style="line-height: 20px">
+            {{ topic.title }}
+          </p>
+        </v-col>
+      </v-row> -->
+      <!-- other pages -->
+      <!-- <v-row
+        v-else
+        class="background background-filter white--text"
+        style="height: 140px"
+        :style="{
+          'background-image': `url(${topic.topic_thumbURL})`,
+        }"
+      > -->
+      <v-row
+        class="background background-filter white--text"
+        style="height: 140px"
+        :style="{
+          'background-image': `url(${topic.topic_thumbURL})`,
+        }"
+      >
+        <v-col cols="2" class="d-flex align-center u-non-blurred">
+          <v-btn text @click="onClick" color="white">
+            <v-icon class="pr-1" small dark>
+              mdi-arrow-left-drop-circle-outline
+            </v-icon>
+            Back
+          </v-btn>
+        </v-col>
+        <v-col class="d-flex flex-column justify-center u-non-blurred">
+          <p class="caption">{{ timePeriodHeaders.header }}</p>
+          <p class="page_header mb-0" style="line-height: 20px">
             {{ topic.title }}
           </p>
         </v-col>
@@ -44,7 +70,7 @@
             <p class="buttons mb-0">{{ t.title }}</p>
           </v-btn>
         </v-col>
-        <v-col lg="10" md="10" cols="12" class="pa-0 pt-5">
+        <v-col class="pa-0 pt-5">
           <intro v-if="currentTopicComponent == 0"></intro>
           <trends v-if="currentTopicComponent == 1"></trends>
           <developments v-else-if="currentTopicComponent == 2"></developments>
@@ -103,6 +129,10 @@ export default {
   methods: {
     select(i) {
       store.dispatch("setTopicButton", i);
+    },
+    onClick() {
+      store.dispatch("setTopicButton", 0);
+      this.$router.go(-1);
     },
   },
 };

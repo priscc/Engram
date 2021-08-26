@@ -17,7 +17,7 @@
         </v-col>
       </v-row>
     </v-container>
-    <v-container>
+    <v-container fluid class="px-12">
       <v-row>
         <v-col
           cols="4"
@@ -41,16 +41,16 @@
             </v-card-title>
             <v-container>
               <v-row>
-                <v-col>
-                  <div class="d-flex align-center">
-                    <v-avatar color="grey darken-3" size="250">
-                      <v-img
-                        class="elevation-6"
-                        :src="topic.topic_thumbURL"
-                      ></v-img>
-                    </v-avatar>
-                  </div>
+                <v-spacer></v-spacer>
+                <v-col class="d-flex align-center">
+                  <v-avatar color="grey darken-3" size="250">
+                    <v-img
+                      class="elevation-6"
+                      :src="topic.topic_thumbURL"
+                    ></v-img>
+                  </v-avatar>
                 </v-col>
+                <v-spacer></v-spacer>
               </v-row>
             </v-container>
           </v-card>
@@ -121,9 +121,5 @@ export default {
   letter-spacing: -0.5px;
   line-height: 28px;
   font-weight: 600;
-}
-.topic_thumbnail {
-  background-size: cover;
-  background-position: right 15% bottom -5%;
 }
 </style>

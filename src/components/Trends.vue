@@ -1,6 +1,6 @@
 <template>
-  <div id="app" style="background-color: black; color: white; height: 100%">
-    <v-container fluid class="pt-0" style="background-color: black">
+  <div id="app" style="height: 100%">
+    <v-container fluid class="pt-0">
       <v-row class="pt-0">
         <v-col class="pt-0 pb-10">
           <h3>Trends</h3>
@@ -14,7 +14,7 @@
       <!-- Social -->
       <v-row v-if="social.length > 0">
         <v-col cols="5" class="pt-0">
-          <h3 style="color: #faff01">Social</h3>
+          <h4 class="orange--text">Social</h4>
           <p
             v-for="(i, index) in social[0].trends"
             :key="index"
@@ -27,7 +27,7 @@
       <!-- Economic -->
       <v-row v-if="economic.length > 0">
         <v-col cols="5" class="pt-0">
-          <h3 style="color: #16a175">Economic</h3>
+          <h4 style="color: #16a175">Economic</h4>
           <p
             v-for="(i, index) in economic[0].trends"
             :key="index"
@@ -40,7 +40,7 @@
       <!-- Technology -->
       <v-row v-if="technology.length > 0">
         <v-col cols="5" class="pt-0">
-          <h3 style="color: #8e826c">Technology</h3>
+          <h4 class="teal--text">Technology</h4>
           <p
             v-for="(i, index) in technology[0].trends"
             :key="index"
@@ -53,7 +53,7 @@
       <!-- Government -->
       <v-row v-if="government.length > 0">
         <v-col cols="5" class="pt-0">
-          <h3 style="color: #ff6263">Government</h3>
+          <h4 class="deep-purple--text">Government</h4>
           <p
             v-for="(i, index) in government[0].trends"
             :key="index"
@@ -66,7 +66,7 @@
       <!-- Culture -->
       <v-row v-if="culture.length > 0">
         <v-col cols="5" class="pt-0">
-          <h3 style="color: #3b4da6">Culture</h3>
+          <h4 style="color: #3b4da6">Culture</h4>
           <p
             v-for="(i, index) in culture[0].trends"
             :key="index"
@@ -79,7 +79,7 @@
       <!-- Environment -->
       <v-row v-if="environment.length > 0">
         <v-col cols="5" class="pt-0">
-          <h3 style="color: #b377ff">Environment</h3>
+          <h4 style="color: #b377ff">Environment</h4>
           <p
             v-for="(i, index) in environment[0].trends"
             :key="index"
@@ -126,6 +126,11 @@ export default {
 h3 {
   font-family: "Montserrat", sans-serif;
   font-size: 30px;
+  font-weight: 620;
+}
+h4 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 26px;
   font-weight: 620;
 }
 h5 {

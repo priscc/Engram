@@ -1,120 +1,133 @@
 <template>
-  <div class="Event" style="height: 100%">
-    <v-container fluid class="pt-2">
-      <v-row
-        class="background background-filter white--text"
-        style="height: 140px"
-        :style="{
-          'background-image': `url(${event.thumbURL})`,
-        }"
-      >
-        <v-col cols="2" class="d-flex align-center u-non-blurred">
-          <v-btn text @click="back()" color="white">
-            <v-icon class="pr-1" small dark>
-              mdi-arrow-left-drop-circle-outline
-            </v-icon>
-            Back
-          </v-btn>
-        </v-col>
-        <v-col class="d-flex flex-column justify-center u-non-blurred">
-          <p class="caption">{{ timePeriodHeaders.header }}</p>
-          <p class="page_header mb-0" style="line-height: 20px">
-            {{ topic.title }} > {{ event.title }}
-          </p>
+  <div id="app" style="background-color: black; height: 100%">
+    <v-container fluid class="pt-0" style="background-color: black">
+      <v-row class="pt-0">
+        <v-col class="pt-0 pb-0">
+          <h3>Developments</h3>
         </v-col>
       </v-row>
-    </v-container>
-
-    <v-container fluid class="mb-10 pt-10 px-14">
       <v-row>
-        <v-col lg="7" md="7" sm="12">
-          <v-row class="d-flex justify-space-around ml-10 mr-5">
-            <v-col cols="8" class="pt-0">
-              <div class="view" id="map"></div>
-            </v-col>
-          </v-row>
-          <v-row class="d-flex justify-space-between ml-10 mr-5">
-            <v-col class="pt-5">
-              <p class="people_header mb-0">{{ event.title }}</p>
-              <p class="people_subheader mb-0">
-                ({{ event.startDate.date }} - {{ event.endDate.date }})
-              </p>
-              <p class="intro_paragraph intro_content pt-6">
-                {{ event.mainMD }} ss
-              </p>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col>
-          <v-row>
-            <v-col>
-              <!-- <h3 class="intro_headers mb-6">Resources</h3> -->
-              <v-row>
-                <v-col v-for="(video, index) in videos" :key="index">
-                  <iframe
-                    width="365"
-                    height="230"
-                    :src="'https://www.youtube.com/embed/' + video.url"
-                    title="YouTube video player"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowfullscreen
-                  ></iframe>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
-          <v-row v-if="articles.lenght == 0">
-            <v-col>
-              <h3 class="intro_headers mb-6">Articles</h3>
-              <!-- <articles></articles> -->
-              <v-row>
-                <v-col v-for="(article, index) in articles" :key="index">
-                  <v-card
-                    outlined
-                    class="card"
-                    :href="article.url"
-                    target="_blank"
+        <v-col
+          cols="4"
+          class="d-flex align-start"
+          style="padding-top: 5%; opacity: 0.2"
+        >
+          <v-card outlined elevation="24" max-width="444" class="mx-auto" dark>
+            <v-carousel
+              show-arrows-on-hover
+              hide-delimiter-background
+              height="310"
+              max-width="444"
+              v-model="model"
+              @change="primary(model)"
+            >
+              <v-carousel-item v-for="(slide, i) in events" :key="i">
+                <v-sheet
+                  height="82%"
+                  width="350"
+                  tile
+                  class="d-flex align-stretch"
+                  :style="{ 'background-image': `url(${slide.thumbURL})` }"
+                  style="background-size: cover; background-size: 100% 100%"
+                >
+                  <v-container
+                    fluid
+                    height="100%"
+                    class="d-flex align-stretch cardCaptions"
                   >
-                    <div class="d-flex flex-no-wrap">
-                      <v-avatar class="ma-3" size="120" tile>
-                        <v-img
-                          style="border-radius: 7px"
-                          :src="article.thumbURL"
+                    <v-row>
+                      <v-spacer></v-spacer>
+                      <v-col cols="10" class="px-7">
+                        <h1
+                          class="mt-3 date_header"
+                          style="word-break: normal"
+                          dark
                         >
-                        </v-img>
-                      </v-avatar>
-                      <div>
-                        <v-card-title class="pl-2 mb-2">
-                          <h5>{{ article.title }}</h5>
-                        </v-card-title>
-                        <v-card-subtitle class="pl-2 caption article">
-                          {{ article.summary }}
-                        </v-card-subtitle>
-                      </div>
-                    </div>
-                  </v-card>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
+                          {{ slide.startDate.date }}
+                        </h1>
+                        <h2 style="word-break: normal" dark>
+                          {{ slide.title }}
+                        </h2>
+                        <p
+                          class="mt-4 eventDescription caption mb-0"
+                          style="height: 5rem"
+                        >
+                          {{ slide.descriptionMD }}
+                        </p>
+                        <v-btn
+                          rounded
+                          outlined
+                          @click="goTo(slide)"
+                          style="
+                            float: right;
+                            background-color: lightgrey;
+                            opacity: 0.85;
+                          "
+                          x-small
+                          >Learn More</v-btn
+                        >
+                      </v-col>
+                      <v-spacer></v-spacer>
+                    </v-row>
+                  </v-container>
+                </v-sheet>
+              </v-carousel-item>
+            </v-carousel>
+          </v-card>
         </v-col>
+        <v-col class="pa-0 pt-4">
+          <div id="map"></div>
+        </v-col>
+        <div
+          style="
+            position: relative;
+            background-color: purple;
+            top: -15%;
+            right: 20px;
+            min-height: 570px;
+            min-width: 20px;
+            border: 1px solid white;
+          "
+        >
+          <!-- ticks -->
+          <!--  <div
+        v-for="i in ticks"
+        :key="i"
+        style="
+          border-left: 2px solid #607d8b;
+          position: absolute;
+          top: -9px;
+          height: 16px;
+        "
+        v-bind:style="{ top: ((i - 1) * 5 * 100) / 250 + '%' }"
+      ></div> -->
+        </div>
       </v-row>
     </v-container>
   </div>
 </template>
 
-<script>
-import store from "@/store";
+<script type="text/javascript">
 import storeTopic from "@/store/topic.js";
 import countries from "@/countries2.json";
 import * as d3 from "d3";
 import * as topojson from "topojson";
+// import { db } from "@/main";
 
+// inspired from: http://bl.ocks.org/wiesson/ef18dba71256d526eb42#license
+// OR https://gist.github.com/wiesson/ef18dba71256d526eb42?short_path=ca92d9d
 export default {
-  name: "Event",
   data() {
     return {
+      colors: [
+        "green",
+        "secondary",
+        "yellow darken-4",
+        "red lighten-2",
+        "orange darken-1",
+      ],
+      cycle: false,
+      slides: ["First", "Second", "Third", "Fourth", "Fifth"],
       items: countries,
       data: [],
       sets: [
@@ -372,48 +385,18 @@ export default {
       projection: null,
       path: null,
       svg: null,
+
       model: 0,
+      ticks: 0,
     };
   },
-  computed: {
-    timePeriodHeaders() {
-      return store.state.timePeriodHeaders[store.state.currentTimePeriod];
-    },
-    topic() {
-      return storeTopic.state.topic;
-    },
-    event() {
-      return storeTopic.state.event;
-    },
-    videos() {
-      var r = storeTopic.state.resources.filter(
-        (video) =>
-          video.parentID == this.event.id &&
-          video.resourceType == "video" &&
-          video.parentType == "event"
-      );
-      console.log("resources", r);
-      return r;
-    },
-    articles() {
-      var r = storeTopic.state.resources.filter(
-        (article) =>
-          article.parentID == this.event.id &&
-          article.resourceType == "article" &&
-          article.parentType == "event"
-      );
-      console.log("resources", r);
-      return r;
-    },
-  },
   methods: {
-    back() {
-      storeTopic.dispatch("eventContentRESET");
-      this.$router.go(-1);
+    goTo(event) {
+      storeTopic.dispatch("eventContent", event);
+      this.$router.push({ name: "Event", params: { id: event.title } });
     },
-    async primary(model) {
-      console.log("in primary", model);
 
+    async primary(model) {
       let list = document.getElementById("map");
       if (list != null) {
         // As long as <ul> has a child node, remove it
@@ -482,6 +465,18 @@ export default {
           .attr("d", path)
           .attr({ "data-name": this.sets[i].name })
           .attr("fill", "#464646");
+        // .on("mouseover", function () {
+        //   var region = d3.select(this);
+        //   region.attr("fill", "#ff9800");
+        //   document.querySelector(".legend").innerText = region.attr(
+        //     "data-name"
+        //   );
+        // })
+        // .on("mouseout", function () {
+        //   var region = d3.select(this);
+        //   region.attr("fill", "#464646");
+        //   document.querySelector(".legend").innerText = "";
+        // });
       }
 
       //This is the accessor function we talked about above
@@ -498,7 +493,7 @@ export default {
         .interpolate("linear");
 
       // console.log("in map creator", this.events[model].coordinates);
-      var coordinates = this.event.coordinates;
+      var coordinates = this.events[model].coordinates;
 
       //The line SVG Path we draw
       if (coordinates) {
@@ -511,8 +506,52 @@ export default {
       }
     },
   },
+  computed: {
+    events() {
+      return storeTopic.state.events;
+    },
+  },
   mounted() {
     this.primary(0);
+    // db.collection("events")
+    //   .doc("5Tn7OMPpsa1drb4BRttZ")
+    //   .update({
+    //     coordinates: [
+    //       {
+    //         map: [
+    //           { lat: 41.53294682717789, lon: -6.279077242678561 },
+    //           { lat: 39.68067441525791, lon: -7.535531680230915 },
+    //           { lat: 39.06902389582937, lon: -6.976537381914025 },
+    //           { lat: 37.16797035838112, lon: -7.373266545896255 },
+    //           { lat: 36.68494739774833, lon: -6.458981780285312 },
+    //           { lat: 36.02068195292654, lon: -5.585557360365009 },
+    //           { lat: 36.41286617542071, lon: -5.195728302957563 },
+    //           { lat: 36.70560935223703, lon: -4.359585476291917 },
+    //           { lat: 36.74668382737676, lon: -2.173012918072439 },
+    //           { lat: 37.61929891737402, lon: -0.7528865684332375 },
+    //           { lat: 38.73422090573457, lon: 0.2239995306543463 },
+    //           { lat: 39.52948994290453, lon: -0.3128798541754829 },
+    //           { lat: 40.91373170574281, lon: 0.8068974196975787 },
+    //           { lat: 41.34363809841025, lon: 2.18251551002987 },
+    //           { lat: 41.92082174494061, lon: 3.241886256029634 },
+    //           { lat: 42.45076955866244, lon: 3.164554284141969 },
+    //           { lat: 42.4293323719125, lon: 1.438502119114156 },
+    //           { lat: 42.68908388890187, lon: 1.316044526314903 },
+    //           { lat: 42.86684867855923, lon: 0.7087663975545011 },
+    //           { lat: 42.70242060506381, lon: 0.7158024878953628 },
+    //           { lat: 42.71323604536578, lon: -0.0939438454747466 },
+    //           { lat: 42.9323940049625, lon: -0.7263477992466827 },
+    //           { lat: 43.07419480676536, lon: -1.432319259150545 },
+    //           { lat: 43.40563315986661, lon: -1.829149864106057 },
+    //           { lat: 43.30795951420829, lon: -2.156231164560329 },
+    //           { lat: 43.85659991945577, lon: -7.733561974349197 },
+    //           { lat: 43.21977924297414, lon: -9.489606986628324 },
+    //           { lat: 42.09900666301517, lon: -8.855638117833591 },
+    //           { lat: 41.53294682717789, lon: -6.279077242678561 },
+    //         ],
+    //       },
+    //     ],
+    //   });
   },
 };
 </script>
@@ -522,53 +561,29 @@ h3 {
   font-family: "Montserrat", sans-serif;
   font-size: 30px;
   font-weight: 620;
+  color: white;
 }
-h5 {
-  line-height: 1;
-  word-break: normal;
-}
-.background-filter::after {
-  -webkit-backdrop-filter: blur(
-    5px
-  ); /* Use for Safari 9+, Edge 17+ (not a mistake) and iOS Safari 9.2+ */
-  backdrop-filter: brightness(50%); /* Supported in Chrome 76 */
-  content: "";
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-}
-.background-filter {
-  position: relative;
-}
-.background {
-  background-size: cover;
-  background-position: right 15% bottom 55%;
-}
-/* Use for content that should not be blurred */
-.u-non-blurred {
-  position: relative;
-  z-index: 1;
-}
-.page_header {
+h1 {
   font-family: "Montserrat", sans-serif;
-  letter-spacing: -0.5px;
-  font-size: 34px;
-  line-height: 10px;
+  font-size: 36px;
+  line-height: 0.8;
+  font-weight: 620;
 }
-.people_header {
+h2 {
   font-family: "Montserrat", sans-serif;
-  text-transform: uppercase;
-  font-size: 14px;
-  font-weight: 550;
-}
-.people_subheader {
-  font-family: "Montserrat", sans-serif;
-  text-transform: uppercase;
-  font-size: 12px;
+  font-size: 18px;
   font-weight: 500;
-  color: grey;
+}
+.eventDescription {
+  font-size: 14px !important;
+  line-height: 1rem;
+  max-height: 5rem;
+  -webkit-box-orient: vertical;
+  display: block;
+  display: -webkit-box;
+  overflow: hidden !important;
+  text-overflow: ellipsis;
+  -webkit-line-clamp: 5;
 }
 .line {
   fill: none;
@@ -577,14 +592,6 @@ h5 {
 }
 #map {
   color: #464646;
-}
-
-.card {
-  opacity: 0.7;
-}
-.card:hover {
-  opacity: 1;
-  cursor: pointer;
 }
 .border {
   fill: #464646;
@@ -612,12 +619,20 @@ h5 {
   width: 100%;
   max-height: 1000px;
   vertical-align: top;
-  overflow: hidden;
-  left: 10%;
+  /*overflow: hidden;*/
 }
 .svg-content-responsive {
   display: inline-block;
   position: absolute;
   top: 20px;
+}
+.cardCaptions {
+  background: rgba(0, 0, 0, 0.6);
+  padding: 4px 6px;
+  color: white;
+}
+
+.date_header {
+  line-height: 100%;
 }
 </style>

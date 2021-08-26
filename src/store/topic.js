@@ -36,15 +36,22 @@ export default new Vuex.Store({
         .get()
         .then(
           function (querySnapshot) {
+            var ev = [];
             querySnapshot.forEach(
               function (doc) {
                 var entry = doc.data();
                 entry.id = doc.id;
-                state.events.push(entry);
+                entry.startDate.dateNum = Date.parse(entry.startDate.date);
+                ev.push(entry);
               }.bind(this)
             );
+            state.events = ev.sort(function (a, b) {
+              return a.startDate.dateNum - b.startDate.dateNum;
+            });
           }.bind(this)
         );
+
+      // console.log("events", state.events);
 
       // TRENDS
       db.collection("trends")

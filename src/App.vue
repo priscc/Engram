@@ -62,9 +62,8 @@ export default {
   computed: {
     bgColor: function () {
       if (
-        (store.state.currentTopicComponent == 2 &&
-          storeTopic.state.event.length == 0) ||
-        store.state.currentTopicComponent == 1
+        store.state.currentTopicComponent == 2 &&
+        storeTopic.state.event.length == 0
       ) {
         return "black";
       } else {
