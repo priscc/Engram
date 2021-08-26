@@ -5,12 +5,19 @@
       elevation="24"
       height="31%"
       width="34%"
-      v-model="model"
-      @change="primary(model)"
       dark
       style="position: fixed; top: 66%; left: 17%"
     >
-      <v-carousel height="100%" hide-delimiter-background show-arrows-on-hover>
+      <v-carousel
+        height="100%"
+        hide-delimiter-background
+        show-arrows-on-hover
+        v-model="model"
+        @change="
+          primary(model);
+          timelineEventDot(model);
+        "
+      >
         <v-carousel-item v-for="(slide, i) in events" :key="i">
           <v-sheet
             max-height="80%"
@@ -73,10 +80,10 @@
           <div v-for="i in ticks + 1" :key="i">
             <div
               style="
-                background-color: white;
-                border: 0.5px solid white;
+                border: 0.5px dotted none;
                 position: absolute;
                 min-width: 100%;
+                height: 1px;
               "
               v-bind:style="{
                 top: ((i - 1) * tickSize * 100) / diffYears + '%',
@@ -86,9 +93,33 @@
                 class="caption"
                 style="color: white; position: absolute; top: -9px; left: -40px"
               >
-                {{ minDate + i * tickSize }}
+                {{ minDate + (i - 1) * tickSize }}
               </p>
             </div>
+          </div>
+          <div
+            style="
+              border: 2px solid #bdff00;
+              min-width: 100%;
+              position: absolute;
+              top: 20px;
+            "
+            v-bind:style="{
+              top: ((eventTickDate - minDate) / diffYears) * 100 + '%',
+            }"
+          >
+            <p
+              class="caption"
+              style="
+                border: 1px solid #bdff00;
+                color: #bdff00;
+                position: absolute;
+                top: -9px;
+                left: -80px;
+              "
+            >
+              {{ eventTickDate }}
+            </p>
           </div>
         </div>
 
@@ -404,6 +435,7 @@ export default {
       ticks: 0,
       tickSize: 0,
       diffYears: 0,
+      eventTickDate: 0,
     };
   },
   methods: {
@@ -412,18 +444,25 @@ export default {
       this.$router.push({ name: "Event", params: { id: event.title } });
     },
 
+    timelineEventDot(model) {
+      this.eventTickDate = new Date(
+        this.events[model].startDate.dateNum
+      ).getFullYear();
+      console.log("timeline", this.eventTickDate);
+    },
+
     calculatingDates() {
       console.log("events", this.events);
 
-      this.minDate =
-        new Date(this.events[0].startDate.dateNum).getFullYear() - 10;
-
-      const date1 = new Date(this.events[0].startDate.dateNum);
-      const date2 = new Date(
-        this.events[this.events.length - 1].startDate.dateNum
-      );
-      const diffTime = Math.abs(date2 - date1);
-      this.diffYears = Math.ceil(diffTime / (1000 * 60 * 60 * 24 * 365)) + 10;
+      const date1 = (this.minDate =
+        new Date(this.events[0].startDate.dateNum).getFullYear() - 10);
+      const date2 =
+        new Date(
+          this.events[this.events.length - 1].startDate.dateNum
+        ).getFullYear() + 10;
+      console.log("date1", date1);
+      console.log("date2", date2);
+      this.diffYears = date2 - date1;
 
       // Calutating ticks
 
@@ -452,6 +491,7 @@ export default {
         // console.log('> 20', total)
       }
     },
+
     async primary(model) {
       let list = document.getElementById("map");
       if (list != null) {
@@ -520,19 +560,19 @@ export default {
           .attr("class", "regions selected")
           .attr("d", path)
           .attr({ "data-name": this.sets[i].name })
-          .attr("fill", "#464646");
-        // .on("mouseover", function () {
-        //   var region = d3.select(this);
-        //   region.attr("fill", "#ff9800");
-        //   document.querySelector(".legend").innerText = region.attr(
-        //     "data-name"
-        //   );
-        // })
-        // .on("mouseout", function () {
-        //   var region = d3.select(this);
-        //   region.attr("fill", "#464646");
-        //   document.querySelector(".legend").innerText = "";
-        // });
+          .attr("fill", "#464646")
+          .on("mouseover", function () {
+            var region = d3.select(this);
+            region.attr("fill", "#ff9800");
+            document.querySelector(".legend").innerText = region.attr(
+              "data-name"
+            );
+          })
+          .on("mouseout", function () {
+            var region = d3.select(this);
+            region.attr("fill", "#464646");
+            document.querySelector(".legend").innerText = "";
+          });
       }
 
       //This is the accessor function we talked about above
@@ -568,6 +608,9 @@ export default {
     },
   },
   mounted() {
+    this.eventTickDate = new Date(
+      this.events[0].startDate.dateNum
+    ).getFullYear();
     this.calculatingDates();
     this.primary(0);
 
