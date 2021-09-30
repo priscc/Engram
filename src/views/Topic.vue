@@ -56,19 +56,36 @@
     <v-container fluid class="mb-10 ml-3">
       <v-row>
         <v-col cols="2" class="d-flex flex-column pt-5">
-          <v-btn
-            v-for="(t, index) in topicButtons"
-            :key="index"
-            rounded
-            :color="t.color"
-            class="my-1 text-none"
-            small
-            style="width: 120px"
-            @click="select(index)"
-            elevation="0"
-          >
-            <p class="buttons mb-0">{{ t.title }}</p>
-          </v-btn>
+          <div v-for="(t, index) in topicButtons" :key="index">
+            <v-btn
+              v-if="t.title == 'Trends' && trends.length != 0"
+              rounded
+              :color="t.color"
+              class="my-1 text-none"
+              small
+              style="width: 120px"
+              @click="select(index)"
+              elevation="0"
+            >
+              <p class="buttons mb-0">
+                {{ t.title }}
+              </p>
+            </v-btn>
+            <v-btn
+              v-else-if="t.title != 'Trends'"
+              rounded
+              :color="t.color"
+              class="my-1 text-none"
+              small
+              style="width: 120px"
+              @click="select(index)"
+              elevation="0"
+            >
+              <p class="buttons mb-0">
+                {{ t.title }}
+              </p>
+            </v-btn>
+          </div>
         </v-col>
         <v-col class="pa-0 pt-5">
           <intro v-if="currentTopicComponent == 0"></intro>
@@ -105,6 +122,9 @@ export default {
     primarysources,
     terms,
   },
+  // data() {
+  //   return { topicButtons: [] };
+  // },
   computed: {
     timePeriodHeaders() {
       return store.state.timePeriodHeaders[store.state.currentTimePeriod];
@@ -114,6 +134,9 @@ export default {
     },
     topicButtons() {
       return store.state.topicButtons;
+    },
+    trends() {
+      return storeTopic.state.trends;
     },
     topic() {
       return storeTopic.state.topic;
@@ -134,6 +157,19 @@ export default {
       store.dispatch("setTopicButton", 0);
       this.$router.go(-1);
     },
+  },
+  mounted() {
+    // this.topicButtons = store.state.topicButtons;
+    // var t = storeTopic.state.trends;
+    // console.log("t", t);
+    // console.log("t", t.length);
+    // if (t.length === 0) {
+    //   this.topicButtons.filter(function (el) {
+    //     console.log(el.title);
+    //     return false;
+    //   });
+    // }
+    // console.log(this.topicButtons);
   },
 };
 </script>

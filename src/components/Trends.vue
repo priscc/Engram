@@ -13,7 +13,7 @@
 
       <!-- Social -->
       <v-row v-if="social.length > 0">
-        <v-col cols="5" class="pt-0">
+        <v-col cols="6" class="pt-0">
           <h4 class="orange--text">Social</h4>
           <p
             v-for="(i, index) in social[0].trends"
@@ -26,7 +26,7 @@
       </v-row>
       <!-- Economic -->
       <v-row v-if="economic.length > 0">
-        <v-col cols="5" class="pt-0">
+        <v-col cols="6" class="pt-0">
           <h4 style="color: #16a175">Economic</h4>
           <p
             v-for="(i, index) in economic[0].trends"
@@ -39,7 +39,7 @@
       </v-row>
       <!-- Technology -->
       <v-row v-if="technology.length > 0">
-        <v-col cols="5" class="pt-0">
+        <v-col cols="6" class="pt-0">
           <h4 class="teal--text">Technology</h4>
           <p
             v-for="(i, index) in technology[0].trends"
@@ -52,7 +52,7 @@
       </v-row>
       <!-- Government -->
       <v-row v-if="government.length > 0">
-        <v-col cols="5" class="pt-0">
+        <v-col cols="6" class="pt-0">
           <h4 class="deep-purple--text">Government</h4>
           <p
             v-for="(i, index) in government[0].trends"
@@ -65,7 +65,7 @@
       </v-row>
       <!-- Culture -->
       <v-row v-if="culture.length > 0">
-        <v-col cols="5" class="pt-0">
+        <v-col cols="6" class="pt-0">
           <h4 style="color: #3b4da6">Culture</h4>
           <p
             v-for="(i, index) in culture[0].trends"
@@ -78,7 +78,7 @@
       </v-row>
       <!-- Environment -->
       <v-row v-if="environment.length > 0">
-        <v-col cols="5" class="pt-0">
+        <v-col cols="6" class="pt-0">
           <h4 style="color: #b377ff">Environment</h4>
           <p
             v-for="(i, index) in environment[0].trends"

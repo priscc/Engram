@@ -36,11 +36,17 @@
           <v-row class="d-flex justify-space-between ml-10 mr-5">
             <v-col class="pt-5">
               <p class="people_header mb-0">{{ event.title }}</p>
-              <p class="people_subheader mb-0">
+              <p
+                v-if="event.endDate.date.length == 0"
+                class="people_subheader mb-0"
+              >
+                ({{ event.startDate.date }})
+              </p>
+              <p v-else class="people_subheader mb-0">
                 ({{ event.startDate.date }} - {{ event.endDate.date }})
               </p>
               <p class="intro_paragraph intro_content pt-6">
-                {{ event.mainMD }} ss
+                {{ event.mainMD }}
               </p>
             </v-col>
           </v-row>
@@ -64,36 +70,13 @@
               </v-row>
             </v-col>
           </v-row>
-          <v-row v-if="articles.lenght == 0">
+          <v-row v-if="articles.length != 0">
             <v-col>
               <h3 class="intro_headers mb-6">Articles</h3>
               <!-- <articles></articles> -->
-              <v-row>
-                <v-col v-for="(article, index) in articles" :key="index">
-                  <v-card
-                    outlined
-                    class="card"
-                    :href="article.url"
-                    target="_blank"
-                  >
-                    <div class="d-flex flex-no-wrap">
-                      <v-avatar class="ma-3" size="120" tile>
-                        <v-img
-                          style="border-radius: 7px"
-                          :src="article.thumbURL"
-                        >
-                        </v-img>
-                      </v-avatar>
-                      <div>
-                        <v-card-title class="pl-2 mb-2">
-                          <h5>{{ article.title }}</h5>
-                        </v-card-title>
-                        <v-card-subtitle class="pl-2 caption article">
-                          {{ article.summary }}
-                        </v-card-subtitle>
-                      </div>
-                    </div>
-                  </v-card>
+              <v-row v-for="(article, index) in articles" :key="index">
+                <v-col>
+                  <articlecomp :article="article"></articlecomp>
                 </v-col>
               </v-row>
             </v-col>
@@ -110,9 +93,11 @@ import storeTopic from "@/store/topic.js";
 import countries from "@/countries2.json";
 import * as d3 from "d3";
 import * as topojson from "topojson";
+import articlecomp from "./ArticleComponent.vue";
 
 export default {
   name: "Event",
+  components: { articlecomp },
   data() {
     return {
       items: countries,
@@ -578,7 +563,6 @@ h5 {
 #map {
   color: #464646;
 }
-
 .card {
   opacity: 0.7;
 }

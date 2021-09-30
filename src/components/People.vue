@@ -12,10 +12,8 @@
             class="pl-0 ml-0"
             v-for="(comp, i) in peopleComponent"
             :key="i"
-            :people="comp"
-            @click="goTo(comp)"
           >
-            <peopleprofile class="card" :people="comp"></peopleprofile>
+            <peopleprofile class="card" :person="comp"></peopleprofile>
           </v-container>
         </v-col>
       </v-row>
@@ -35,12 +33,6 @@ export default {
       return storeTopic.state.people;
     },
   },
-  methods: {
-    goTo(person) {
-      storeTopic.dispatch("personContent", person);
-      this.$router.push({ name: "Person", params: { id: person.name } });
-    },
-  },
 };
 </script>
 
@@ -50,12 +42,12 @@ h3 {
   font-size: 30px;
   font-weight: 620;
 }
-.card {
+/*.card {
   opacity: 1;
 }
 .card:hover {
   opacity: 0.7;
   background-color: #eceff1;
   cursor: pointer;
-}
+}*/
 </style>

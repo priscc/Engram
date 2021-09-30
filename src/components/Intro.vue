@@ -25,9 +25,11 @@
       </v-row>
 
       <v-row>
-        <v-col cols="6" class="pt-0">
+        <v-col lg="6" md="6" sm="12" class="pt-0">
           <v-row>
-            <v-img :src="topic.intro_thumbURL" width="100%"></v-img>
+            <v-col>
+              <v-img :src="topic.intro_thumbURL" width="90%"></v-img>
+            </v-col>
           </v-row>
           <v-row>
             <v-col class="pt-0 pb-10">
@@ -36,42 +38,18 @@
               </p>
             </v-col>
           </v-row>
-          <v-row>
+          <v-row v-if="articles.length != 0">
             <v-col class="pt-0">
-              <h3>Influence Today</h3>
+              <h3>Influences Seen Today</h3>
             </v-col>
           </v-row>
-          <v-row>
-            <v-col v-for="(article, index) in articles" :key="index">
-              <v-card
-                outlined
-                class="card py-3 px-2"
-                :href="article.url"
-                target="_blank"
-              >
-                <div class="d-flex flex-no-wrap">
-                  <v-img
-                    width="150"
-                    height="105"
-                    style="border-radius: 7px"
-                    :src="article.thumbURL"
-                  >
-                  </v-img>
-
-                  <div class="pl-2">
-                    <v-card-title class="mb-2">
-                      <h5>{{ article.title }}</h5>
-                    </v-card-title>
-                    <v-card-subtitle class="caption article">
-                      {{ article.summary }}
-                    </v-card-subtitle>
-                  </div>
-                </div>
-              </v-card>
+          <v-row v-for="(article, index) in articles" :key="index">
+            <v-col>
+              <articlecomp :article="article"></articlecomp>
             </v-col>
           </v-row>
         </v-col>
-        <v-col class="pt-0">
+        <v-col lg="5" md="5" sm="12" class="pt-0">
           <!-- <v-row>
             <h3 class="intro_headers mb-6">Resources</h3>
           </v-row> -->
@@ -79,11 +57,14 @@
             <v-col
               v-for="(video, index) in videos"
               :key="index"
-              class="d-flex justify-center pt-0"
+              class="d-flex justify-end pt-0"
+              lg="12"
+              md="12"
+              sm="3"
             >
               <iframe
-                width="340"
-                height="213"
+                width="380"
+                height="241"
                 :src="'https://www.youtube.com/embed/' + video.url"
                 title="YouTube video player"
                 frameborder="0"
@@ -99,11 +80,12 @@
 </template>
 
 <script>
-// import articles from "@/components/Articles.vue";
 import storeTopic from "@/store/topic.js";
+import articlecomp from "./ArticleComponent.vue";
 
 export default {
   name: "Intro",
+  components: { articlecomp },
   computed: {
     topic() {
       return storeTopic.state.topic;

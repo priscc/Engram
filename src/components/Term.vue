@@ -1,21 +1,24 @@
 <template>
-  <v-row>
-    <v-col cols="7" class="pr-16">
-      <p class="term_header">{{ term.term }}</p>
-      <p class="term_text">{{ term.def }}</p>
-    </v-col>
-    <v-col lg="4" md="4" sm="6">
-      <v-card flat height="200">
+  <div id="Term">
+    <v-card flat>
+      <div class="d-flex flex-no-wrap">
+        <!-- <v-avatar size="225" tile> -->
         <v-img
           v-if="term.thumbURL"
           :lazy-src="term.thumbURL"
-          height="100%"
           :src="term.thumbURL"
+          height="150"
+          max-width="250"
         >
         </v-img>
-      </v-card>
-    </v-col>
-  </v-row>
+        <!-- </v-avatar> -->
+        <div>
+          <v-card-title class="text-h5" v-text="term.term"></v-card-title>
+          <v-card-subtitle v-text="term.def"></v-card-subtitle>
+        </div>
+      </div>
+    </v-card>
+  </div>
 </template>
 
 <script>

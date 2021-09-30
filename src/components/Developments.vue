@@ -3,7 +3,7 @@
     <v-card
       outlined
       elevation="24"
-      height="31%"
+      height="35%"
       width="34%"
       dark
       style="position: fixed; top: 66%; left: 17%"
@@ -20,7 +20,7 @@
       >
         <v-carousel-item v-for="(slide, i) in events" :key="i">
           <v-sheet
-            max-height="80%"
+            max-height="88%"
             max-width="100%"
             tile
             class="d-flex flex-no-wrap justify-space-between align-stretch"
@@ -36,7 +36,14 @@
                   <h1 class="card_header" style="word-break: normal" dark>
                     {{ slide.title }}
                   </h1>
-                  <h2 style="word-break: normal" dark>
+                  <h2
+                    v-if="slide.endDate.date.length != 0"
+                    style="word-break: normal"
+                    dark
+                  >
+                    ({{ slide.startDate.date }} - {{ slide.endDate.date }})
+                  </h2>
+                  <h2 v-else style="word-break: normal" dark>
                     {{ slide.startDate.date }}
                   </h2>
                   <p
@@ -79,21 +86,29 @@
         <div class="timeline">
           <div v-for="i in ticks + 1" :key="i">
             <div
-              style="
-                border: 0.5px dotted none;
-                position: absolute;
-                min-width: 100%;
-                height: 1px;
-              "
+              style="position: absolute; min-width: 100%"
               v-bind:style="{
                 top: ((i - 1) * tickSize * 100) / diffYears + '%',
               }"
             >
               <p
+                v-if="ticks + 1 != i"
                 class="caption"
                 style="color: white; position: absolute; top: -9px; left: -40px"
               >
                 {{ minDate + (i - 1) * tickSize }}
+              </p>
+              <p
+                v-if="ticks + 1 == i"
+                class="caption font-weight-bold"
+                style="color: white; position: absolute; left: -75px"
+                v-bind:style="{
+                  top:
+                    ((new Date().getFullYear() - minDate) / diffYears) * 100 +
+                    '%',
+                }"
+              >
+                Modern Day
               </p>
             </div>
           </div>
@@ -103,19 +118,37 @@
               min-width: 100%;
               position: absolute;
               top: 20px;
+              background-color: #bdff00;
             "
             v-bind:style="{
               top: ((eventTickDate - minDate) / diffYears) * 100 + '%',
+              height: tickHeight + '%',
             }"
           >
             <p
-              class="caption"
+              v-if="eventEndTickDate != 0"
+              class="caption font-weight-bold text-grey px-2"
               style="
                 border: 1px solid #bdff00;
-                color: #bdff00;
                 position: absolute;
                 top: -9px;
-                left: -80px;
+                left: -135px;
+                background-color: #bdff00;
+                opacity: 0.8;
+              "
+            >
+              {{ eventTickDate }} - {{ eventEndTickDate }}
+            </p>
+            <p
+              v-else
+              class="caption font-weight-bold text-grey px-2"
+              style="
+                border: 1px solid #bdff00;
+                position: absolute;
+                top: -9px;
+                left: -90px;
+                background-color: #bdff00;
+                opacity: 0.8;
               "
             >
               {{ eventTickDate }}
@@ -435,7 +468,9 @@ export default {
       ticks: 0,
       tickSize: 0,
       diffYears: 0,
-      eventTickDate: 0,
+      eventTickDate: null,
+      eventEndTickDate: null,
+      tickHeight: 0,
     };
   },
   methods: {
@@ -445,30 +480,53 @@ export default {
     },
 
     timelineEventDot(model) {
-      this.eventTickDate = new Date(
-        this.events[model].startDate.dateNum
-      ).getFullYear();
-      console.log("timeline", this.eventTickDate);
+      console.log("in here", model);
+      this.eventTickDate = this.events[model].startDate.dateNum;
+      this.eventEndTickDate = this.events[model].endDate.dateNum;
+      if (this.eventEndTickDate != 0) {
+        this.tickHeight =
+          ((this.eventEndTickDate - this.minDate) / this.diffYears) * 100 -
+          ((this.eventTickDate - this.minDate) / this.diffYears) * 100;
+      } else {
+        this.tickHeight = 0;
+      }
     },
 
     calculatingDates() {
-      console.log("events", this.events);
-
-      const date1 = (this.minDate =
-        new Date(this.events[0].startDate.dateNum).getFullYear() - 10);
-      const date2 =
-        new Date(
-          this.events[this.events.length - 1].startDate.dateNum
-        ).getFullYear() + 10;
-      console.log("date1", date1);
-      console.log("date2", date2);
+      // const endingDatesMax = Math.max.apply(
+      //   Math,
+      //   this.events.map(function (o) {
+      //     return o.endDate.dateNum;
+      //   })
+      // );
+      // const startingDatesMax = Math.max.apply(
+      //   Math,
+      //   this.events.map(function (o) {
+      //     return o.startDate.dateNum;
+      //   })
+      // );
+      // var date2;
+      // if (endingDatesMax > startingDatesMax) {
+      //   date2 = endingDatesMax;
+      // } else {
+      //   date2 = startingDatesMax;
+      // }
+      const date2 = new Date().getFullYear();
+      const date1 =
+        Math.round((this.events[0].startDate.dateNum - 20) / 100) * 100;
+      this.minDate = date1;
       this.diffYears = date2 - date1;
 
       // Calutating ticks
-
-      if (this.diffYears >= 500) {
+      if (this.diffYears >= 2000) {
+        this.ticks = Math.floor(this.diffYears / 500);
+        this.tickSize = 500;
+      } else if (this.diffYears >= 1000) {
+        this.ticks = Math.floor(this.diffYears / 200);
+        this.tickSize = 200;
+      } else if (this.diffYears >= 500) {
         this.ticks = Math.floor(this.diffYears / 100);
-        this.tickSize = 1 - 0;
+        this.tickSize = 100;
       } else if (this.diffYears >= 250) {
         this.ticks = Math.floor(this.diffYears / 25);
         this.tickSize = 25;
@@ -608,9 +666,8 @@ export default {
     },
   },
   mounted() {
-    this.eventTickDate = new Date(
-      this.events[0].startDate.dateNum
-    ).getFullYear();
+    this.timelineEventDot(0);
+    // this.eventTickDate = this.events[0].startDate.dateNum;
     this.calculatingDates();
     this.primary(0);
 
@@ -723,7 +780,7 @@ h3 {
   background-color: purple;
   border: 1px solid white;
   min-width: 2%;
-  height: 24rem;
+  height: 23rem;
 }
 .cardCaptions {
   background: rgba(0, 0, 0, 0.8);

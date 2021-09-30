@@ -41,7 +41,36 @@ export default new Vuex.Store({
               function (doc) {
                 var entry = doc.data();
                 entry.id = doc.id;
-                entry.startDate.dateNum = Date.parse(entry.startDate.date);
+                //start year calculation
+                var parsedDate = Date.parse(entry.startDate.date);
+                if (parsedDate < -30610292638000) {
+                  parsedDate = new Date(parsedDate).getFullYear();
+                } else {
+                  if (entry.startDate.date.length <= 4) {
+                    parsedDate = new Date(parsedDate).getFullYear() + 1;
+                  } else {
+                    parsedDate = new Date(parsedDate).getFullYear();
+                  }
+                }
+                entry.startDate.dateNum = parsedDate;
+                //end year parsing
+                var parsedDateEnd = Date.parse(entry.endDate.date);
+                if (parsedDateEnd < -30610292638000) {
+                  parsedDateEnd = new Date(parsedDateEnd).getFullYear();
+                } else {
+                  if (entry.endDate.date.length <= 4) {
+                    parsedDateEnd = new Date(parsedDateEnd).getFullYear() + 1;
+                  } else {
+                    parsedDateEnd = new Date(parsedDateEnd).getFullYear();
+                  }
+                }
+                if (entry.endDate.date == "Modern Day") {
+                  parsedDateEnd = new Date().getFullYear();
+                } else if (isNaN(parsedDateEnd)) {
+                  parsedDateEnd = 0;
+                }
+
+                entry.endDate.dateNum = parsedDateEnd;
                 ev.push(entry);
               }.bind(this)
             );

@@ -85,30 +85,7 @@
               <!-- <articles></articles> -->
               <v-row>
                 <v-col v-for="(article, index) in articles" :key="index">
-                  <v-card
-                    outlined
-                    class="card"
-                    :href="article.url"
-                    target="_blank"
-                  >
-                    <div class="d-flex flex-no-wrap">
-                      <v-avatar class="ma-3" size="120" tile>
-                        <v-img
-                          style="border-radius: 7px"
-                          :src="article.thumbURL"
-                        >
-                        </v-img>
-                      </v-avatar>
-                      <div>
-                        <v-card-title class="pl-2 mb-2">
-                          <h5>{{ article.title }}</h5>
-                        </v-card-title>
-                        <v-card-subtitle class="pl-2 caption article">
-                          {{ article.summary }}
-                        </v-card-subtitle>
-                      </div>
-                    </div>
-                  </v-card>
+                  <articlecomp :article="article"></articlecomp>
                 </v-col>
               </v-row>
             </v-col>
@@ -122,9 +99,11 @@
 <script>
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
+import articlecomp from "./ArticleComponent.vue";
 
 export default {
   name: "Person",
+  components: { articlecomp },
   computed: {
     timePeriodHeaders() {
       return store.state.timePeriodHeaders[store.state.currentTimePeriod];
@@ -218,7 +197,6 @@ h5 {
   font-size: 34px;
   line-height: 0px;
 }
-
 .card {
   opacity: 0.7;
 }

@@ -6,7 +6,7 @@
           <h3>Primary Sources</h3>
         </v-col>
       </v-row>
-      <v-row class="d-flex flex-column pl-10">
+      <v-row class="d-flex flex-column pl-10 mb-10">
         <ul v-for="(source, i) in sourcesComponent" :key="i">
           <li>
             <a :href="'#' + i">{{ source.title }}</a>
@@ -20,67 +20,40 @@
         class="d-flex flex-column"
         :id="i"
       >
-        <v-col>
-          <v-row>
-            <v-col>
-              <p class="source_header pt-16 mt-10 mb-0">{{ source.title }}</p>
-              <p><a @click="scrollToTop()">^Top</a></p>
-            </v-col>
-          </v-row>
-          <v-row
-            class="mr-6 pb-2 pt-0 mt-0"
-            style="border-bottom: 1px solid lightgrey"
-          >
-            <v-col cols="6" class="mr-11 pt-0">
-              <p class="pt-3">{{ source.caption }}</p>
-            </v-col>
-            <v-col cols="4">
+        <v-col cols="10 py-7">
+          <v-card flat>
+            <div class="d-flex flex-no-wrap">
               <v-img
-                v-if="source.thumbURL.length > 0"
-                class="text-center pt-16"
+                v-if="source.thumbFile != 'placeHolderImg.png'"
                 :lazy-src="source.thumbURL"
-                style="
-                  /*height: auto;*/
-                  width: auto;
-                  max-width: 300px;
-                  max-height: 100%;
-                "
                 :src="source.thumbURL"
-              ></v-img>
-            </v-col>
-          </v-row>
+                height="175"
+                max-width="250"
+                class="mr-7"
+              >
+              </v-img>
+              <div>
+                <v-card-title
+                  class="text-h5 pt-0 pl-0"
+                  v-text="source.title"
+                ></v-card-title>
+
+                <v-card-subtitle
+                  class="pl-0"
+                  v-text="source.caption"
+                ></v-card-subtitle>
+              </div>
+            </div>
+          </v-card>
         </v-col>
       </v-row>
-      <!-- <v-row>
-        <v-col cols="10">
-          <v-expansion-panels inset hover flat>
-            <v-expansion-panel v-for="(source, i) in sourcesComponent" :key="i">
-              <v-expansion-panel-header
-                expand-icon=""
-                style="background-color: #ffd600; border-radius: 25px"
-              >
-                {{ source.title }}
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <v-container style="background-color: #ffea00">
-                  <v-img
-                    class="text-center pt-6"
-                    :lazy-src="source.thumbURL"
-                    style="
-                      /*height: auto;*/
-                      width: auto;
-                      max-width: 300px;
-                      max-height: 300px;
-                    "
-                    :src="source.thumbURL"
-                  ></v-img>
-                  <p class="pt-3">{{ source.caption }}</p>
-                </v-container>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
-        </v-col>
-      </v-row> -->
+      <div style="position: fixed; top: 85%; right: 0.3%">
+        <v-col class="d-flext justify-end">
+          <v-btn @click="scrollToTop()" fab icon x-large color="amber"
+            ><v-icon x-large>mdi-arrow-up-drop-circle-outline</v-icon></v-btn
+          ></v-col
+        >
+      </div>
     </v-container>
   </div>
 </template>

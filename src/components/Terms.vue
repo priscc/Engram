@@ -6,14 +6,11 @@
           <h3>Terminology</h3>
         </v-col>
       </v-row>
-      <v-row
-        class="my-0 pl-10"
-        v-for="(comp, i) in termsComponent"
-        :key="i"
-        :people="comp"
-      >
-        <v-col cols="11">
-          <term :term="comp" :id="i"></term>
+      <v-row v-for="(term, i) in termsComponent" :key="i">
+        <v-col cols="10">
+          <!-- <v-container fluid> -->
+          <term :term="term" :id="term.topiID"></term>
+          <!-- </v-container> -->
         </v-col>
       </v-row>
     </v-container>
