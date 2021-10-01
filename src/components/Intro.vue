@@ -28,7 +28,7 @@
         <v-col lg="6" md="6" sm="12" class="pt-0">
           <v-row>
             <v-col>
-              <v-img :src="topic.intro_thumbURL" width="90%"></v-img>
+              <v-img :src="topic.intro_thumbURL" aspect-ratio="1.7"></v-img>
             </v-col>
           </v-row>
           <v-row>
