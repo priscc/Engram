@@ -1,29 +1,37 @@
 <template>
   <v-app>
-    <v-app-bar app color="black" dark flat>
+    <v-app-bar
+      app
+      flat
+      dark
+      style="border-bottom: 0.2px grey solid; background-color: black"
+    >
       <v-container fluid>
         <v-row>
           <v-col class="d-flex justify-start">
-            <v-btn @click="home" text>
-              <v-img max-width="150" src="@/assets/logo_white.png"></v-img>
+            <v-btn @click="home" text style="opacity: 0.75">
+              <v-img
+                class="mr-1"
+                max-width="25"
+                src="@/assets/EngramLogo.png"
+              ></v-img
+              >Engram
             </v-btn>
           </v-col>
           <v-col class="d-flex justify-end mr-10">
             <v-btn
               @click="home"
-              class="d-flex align-end"
               text
-              style="text-transform: none; font-size: 20px; font-weight: 600"
+              style="text-transform: none; font-size: 16px; font-weight: bold"
             >
-              <p class="white--text mb-0">Home</p>
+              <p class="mb-0">Home</p>
             </v-btn>
             <v-btn
               @click="about"
-              class="d-flex align-end"
               text
-              style="text-transform: none; font-size: 20px; font-weight: 600"
+              style="text-transform: none; font-size: 16px; font-weight: bold"
             >
-              <p class="white--text mb-0">About</p>
+              <p class="mb-0">About</p>
             </v-btn>
             <!--  <v-btn to="GEO" text>
               <h3 class="white--text">GEO</h3>
