@@ -17,14 +17,27 @@
           Born: {{ person.dateOfBirth.date }}
         </p>
         <p v-else class="person_time mb-0">
-          Born: {{ person.dateOfBirth.date }} <br />
+          Born: {{ person.dateOfBirth.date }}
+          <small v-if="person.dateOfBirth.era == false">BC</small><br />
           Passing: {{ person.dateOfPassing.date }}
+          <small v-if="person.dateOfPassing.era == false">BC</small>
         </p>
         <p
-          v-if="person.dateOfPassing.date.length > 0"
+          v-if="
+            person.dateOfPassing.date.length > 0 && person.dateOfPassing.era
+          "
           class="person_subheader mb-0"
         >
           {{ person.dateOfPassing.date - person.dateOfBirth.date }} yrs
+        </p>
+        <p
+          v-else-if="
+            person.dateOfPassing.date.length > 0 &&
+            person.dateOfPassing.era == false
+          "
+          class="person_subheader mb-0"
+        >
+          {{ person.dateOfBirth.date - person.dateOfPassing.date }} yrs
         </p>
       </div>
     </v-col>
