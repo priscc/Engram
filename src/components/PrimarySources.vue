@@ -28,7 +28,7 @@
                 :lazy-src="source.thumbURL"
                 :src="source.thumbURL"
                 height="175"
-                max-width="250"
+                width="250"
                 class="mr-7"
               >
               </v-img>
@@ -49,10 +49,22 @@
       </v-row>
       <div style="position: fixed; top: 85%; right: 0.3%">
         <v-col class="d-flext justify-end">
-          <v-btn @click="scrollToTop()" fab icon x-large color="amber"
+          <!-- <v-btn @click="scrollToTop()" fab icon x-large color="amber"
             ><v-icon x-large>mdi-arrow-up-drop-circle-outline</v-icon></v-btn
-          ></v-col
-        >
+          > -->
+          <v-btn
+            @click="scrollToTop()"
+            class="mx-2"
+            fab
+            medium
+            dark
+            color="blue-grey lighten-2"
+          >
+            <v-icon medium>
+              mdi-arrow-up-thick
+            </v-icon>
+          </v-btn>
+        </v-col>
       </div>
     </v-container>
   </div>
