@@ -45,8 +45,12 @@
       <router-view></router-view>
       <!-- </transition> -->
     </v-main>
-    <v-footer app color="black">
-      <!-- -->
+    <v-footer
+      app
+      color="black"
+      class="py-0 grey--text text--darken-3 caption d-flex justify-center"
+    >
+      Engram 2021
     </v-footer>
   </v-app>
 </template>
