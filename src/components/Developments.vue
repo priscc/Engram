@@ -3,11 +3,12 @@
     <v-card
       outlined
       elevation="24"
-      height="35%"
+      height="50%"
       width="34%"
       dark
-      style="position: fixed; top: 66%; left: 17%"
+      style="position: fixed; top: 45%; left: 17%"
     >
+      <v-system-bar lights-out height="auto"> </v-system-bar>
       <v-carousel
         height="100%"
         hide-delimiter-background
@@ -20,7 +21,7 @@
       >
         <v-carousel-item v-for="(slide, i) in events" :key="i">
           <v-sheet
-            max-height="88%"
+            max-height="100%"
             max-width="100%"
             tile
             class="d-flex flex-no-wrap justify-space-between align-stretch"
@@ -28,6 +29,31 @@
             style="background-size: cover; background-size: 100% 100%"
           >
             <v-container fluid class="cardCaptions">
+              <v-row
+                style="background-color:black"
+                class="d-flex align-stretch pt-2 mb-2"
+              >
+                <v-col
+                  v-if="slide.theme.length > 0"
+                  class="d-flex flex-row flex-wrap align-center"
+                >
+                  <div class="caption pr-2">Themes:</div>
+                  <div
+                    v-for="i in slide.theme"
+                    :key="i"
+                    heigh="auto"
+                    width="auto"
+                    class=" px-4 ma-1"
+                    :style="{
+                      'border-color': eventTheme[i],
+                      'border-width': 1 + 'px',
+                    }"
+                    style=" font-size: 12px; border-radius: 25px; border: solid; "
+                  >
+                    {{ i }}
+                  </div>
+                </v-col>
+              </v-row>
               <v-row
                 dense
                 class="d-flex align-stretch ma-3 mx-xs-1 mx-md-8 mx-lg-16"
@@ -196,6 +222,15 @@ import * as topojson from "topojson";
 export default {
   data() {
     return {
+      eventTheme: {
+        Society: "#FF9800",
+        Politics: "#673AB7",
+        Environment: "#b377f",
+        Culture: "#3b4da6",
+        Economics: "#16a175",
+        Technology: "#009688",
+        Independent: "grey",
+      },
       colors: [
         "green",
         "secondary",
@@ -203,8 +238,6 @@ export default {
         "red lighten-2",
         "orange darken-1",
       ],
-      cycle: false,
-      slides: ["First", "Second", "Third", "Fourth", "Fifth"],
       items: countries,
       data: [],
       sets: [
@@ -593,7 +626,7 @@ export default {
         .datum(
           topojson.merge(
             w,
-            w.objects.units.geometries.filter(function (d) {
+            w.objects.units.geometries.filter(function(d) {
               return d.id !== "ATA"; // Sorry Antarctica
             })
           )
@@ -609,7 +642,7 @@ export default {
             topojson.merge(
               w,
               w.objects.units.geometries.filter(
-                function (d) {
+                function(d) {
                   return this.sets[i].set.has(d.id);
                 }.bind(this)
               )
@@ -618,29 +651,29 @@ export default {
           .attr("class", "regions selected")
           .attr("d", path)
           .attr({ "data-name": this.sets[i].name })
-          .attr("fill", "#464646")
-          .on("mouseover", function () {
-            var region = d3.select(this);
-            region.attr("fill", "#ff9800");
-            document.querySelector(".legend").innerText = region.attr(
-              "data-name"
-            );
-          })
-          .on("mouseout", function () {
-            var region = d3.select(this);
-            region.attr("fill", "#464646");
-            document.querySelector(".legend").innerText = "";
-          });
+          .attr("fill", "#464646");
+        // .on("mouseover", function() {
+        //   var region = d3.select(this);
+        //   region.attr("fill", "#ff9800");
+        //   document.querySelector(".legend").innerText = region.attr(
+        //     "data-name"
+        //   );
+        // })
+        // .on("mouseout", function() {
+        //   var region = d3.select(this);
+        //   region.attr("fill", "#464646");
+        //   document.querySelector(".legend").innerText = "";
+        // });
       }
 
       //This is the accessor function we talked about above
       var lineFunction = d3.svg
         .line()
-        .x(function (d) {
+        .x(function(d) {
           var x = projection([d.lon, d.lat]); // [longitude, latitude] -- [x, y]
           return x[0];
         })
-        .y(function (d) {
+        .y(function(d) {
           var x = projection([d.lon, d.lat]); // [longitude, latitude] -- [x, y]
           return x[1];
         })
@@ -651,10 +684,12 @@ export default {
 
       //The line SVG Path we draw
       if (coordinates) {
-        coordinates.forEach((i) => {
+        Object.keys(coordinates).forEach((map) => {
           svg
             .append("path")
-            .attr("d", lineFunction(i.map))
+            .attr("d", lineFunction(coordinates[map]))
+            .attr("stroke", "red")
+            .attr("stroke-width", 2)
             .attr("fill", "#BDFF00");
         });
       }
@@ -670,46 +705,6 @@ export default {
     // this.eventTickDate = this.events[0].startDate.dateNum;
     this.calculatingDates();
     this.primary(0);
-
-    // db.collection("events")
-    //   .doc("5Tn7OMPpsa1drb4BRttZ")
-    //   .update({
-    //     coordinates: [
-    //       {
-    //         map: [
-    //           { lat: 41.53294682717789, lon: -6.279077242678561 },
-    //           { lat: 39.68067441525791, lon: -7.535531680230915 },
-    //           { lat: 39.06902389582937, lon: -6.976537381914025 },
-    //           { lat: 37.16797035838112, lon: -7.373266545896255 },
-    //           { lat: 36.68494739774833, lon: -6.458981780285312 },
-    //           { lat: 36.02068195292654, lon: -5.585557360365009 },
-    //           { lat: 36.41286617542071, lon: -5.195728302957563 },
-    //           { lat: 36.70560935223703, lon: -4.359585476291917 },
-    //           { lat: 36.74668382737676, lon: -2.173012918072439 },
-    //           { lat: 37.61929891737402, lon: -0.7528865684332375 },
-    //           { lat: 38.73422090573457, lon: 0.2239995306543463 },
-    //           { lat: 39.52948994290453, lon: -0.3128798541754829 },
-    //           { lat: 40.91373170574281, lon: 0.8068974196975787 },
-    //           { lat: 41.34363809841025, lon: 2.18251551002987 },
-    //           { lat: 41.92082174494061, lon: 3.241886256029634 },
-    //           { lat: 42.45076955866244, lon: 3.164554284141969 },
-    //           { lat: 42.4293323719125, lon: 1.438502119114156 },
-    //           { lat: 42.68908388890187, lon: 1.316044526314903 },
-    //           { lat: 42.86684867855923, lon: 0.7087663975545011 },
-    //           { lat: 42.70242060506381, lon: 0.7158024878953628 },
-    //           { lat: 42.71323604536578, lon: -0.0939438454747466 },
-    //           { lat: 42.9323940049625, lon: -0.7263477992466827 },
-    //           { lat: 43.07419480676536, lon: -1.432319259150545 },
-    //           { lat: 43.40563315986661, lon: -1.829149864106057 },
-    //           { lat: 43.30795951420829, lon: -2.156231164560329 },
-    //           { lat: 43.85659991945577, lon: -7.733561974349197 },
-    //           { lat: 43.21977924297414, lon: -9.489606986628324 },
-    //           { lat: 42.09900666301517, lon: -8.855638117833591 },
-    //           { lat: 41.53294682717789, lon: -6.279077242678561 },
-    //         ],
-    //       },
-    //     ],
-    //   });
   },
 };
 </script>

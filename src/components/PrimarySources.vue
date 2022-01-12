@@ -9,7 +9,7 @@
       <v-row class="d-flex flex-column pl-10 mb-10">
         <ul v-for="(source, i) in sourcesComponent" :key="i">
           <li>
-            <a :href="'#' + i">{{ source.title }}</a>
+            <a @click="scrolltoWork(i)">{{ source.title }}</a>
           </li>
         </ul>
       </v-row>
@@ -20,7 +20,7 @@
         class="d-flex flex-column"
         :id="i"
       >
-        <v-col cols="10 py-7">
+        <v-col cols="10 pt-15">
           <v-card flat>
             <div class="d-flex flex-no-wrap">
               <v-img
@@ -48,21 +48,23 @@
         </v-col>
       </v-row>
       <div style="position: fixed; top: 85%; right: 0.3%">
-        <v-col class="d-flext justify-end">
+        <v-col class="d-flex justify-end">
           <!-- <v-btn @click="scrollToTop()" fab icon x-large color="amber"
             ><v-icon x-large>mdi-arrow-up-drop-circle-outline</v-icon></v-btn
           > -->
           <v-btn
             @click="scrollToTop()"
-            class="mx-2"
+            class="d-flex flex-column mx-2"
             fab
             medium
             dark
             color="blue-grey lighten-2"
+            style="font-size: 8px"
           >
             <v-icon medium>
               mdi-arrow-up-thick
             </v-icon>
+            Top
           </v-btn>
         </v-col>
       </div>
@@ -81,8 +83,14 @@ export default {
     },
   },
   methods: {
+    scrolltoWork(id) {
+      document
+        .getElementById(id)
+
+        .scrollIntoView({ block: "center", behavior: "smooth" });
+    },
     scrollToTop() {
-      window.scrollTo(0, 0);
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
   },
 };

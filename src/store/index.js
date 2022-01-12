@@ -8,14 +8,14 @@ export default new Vuex.Store({
     timePeriodHeaders: [
       {
         header: "Regional Interactions",
-        subheader: "1250-1450",
+        subheader: "1200-1450",
         color: "green",
         timePeriod: 1,
         img: "RegionalInteractions.png",
       },
       {
         header: "First Global Age",
-        subheader: "1250-1450",
+        subheader: "1450-1750",
         color: "yellow",
         timePeriod: 2,
         img: "FirstGlobalAge.png",

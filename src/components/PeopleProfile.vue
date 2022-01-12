@@ -1,15 +1,17 @@
 <template>
   <v-row class="pt-6 pb-8" style="border-bottom: 1px solid lightgrey">
-    <v-col cols="2" class="ml-7 pt-0">
+    <v-col cols="2" class=" ml-7 pt-0 px-0">
       <v-img
         :lazy-src="person.thumbURL"
-        height="120"
-        width="120"
+        height="160"
+        width="160"
         :src="person.thumbURL"
-        style="border-radius: 50%"
+        style="border-radius: 10%"
       ></v-img>
-      <div class="text-center" style="width: 130px">
-        <p class="person_header mb-0">{{ person.name }}</p>
+      <div>
+        <p class="person_header mb-2" style="font-size: 13px;">
+          {{ person.name }}
+        </p>
         <p
           v-if="person.dateOfPassing.date.length == 0"
           class="person_time mb-0"
@@ -33,7 +35,7 @@
         <p
           v-else-if="
             person.dateOfPassing.date.length > 0 &&
-            person.dateOfPassing.era == false
+              person.dateOfPassing.era == false
           "
           class="person_subheader mb-0"
         >
