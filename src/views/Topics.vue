@@ -82,9 +82,9 @@ export default {
         .where("timePeriod", "==", this.timePeriodHeaders.timePeriod)
         .get()
         .then(
-          function (querySnapshot) {
+          function(querySnapshot) {
             querySnapshot.forEach(
-              function (doc) {
+              function(doc) {
                 var entry = doc.data();
                 entry.id = doc.id;
                 this.topics.push(entry);
@@ -95,7 +95,7 @@ export default {
     },
     goTo(topic) {
       storeTopic.dispatch("topicContent", topic);
-      this.$router.push({ name: "Topic", params: { id: topic.title } });
+      this.$router.push({ name: "Topic", params: { topic: topic.id } });
     },
   },
   mounted() {

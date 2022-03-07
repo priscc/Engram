@@ -1,4 +1,6 @@
 import Vue from "vue";
+// import { createRouter, createWebHistory } from "vue-router";
+
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
@@ -21,14 +23,15 @@ const routes = [
     name: "About",
     component: About,
   },
+  //Home > Topic
   {
-    path: "/Topics",
-    name: "Topics",
+    path: "/Period/:period",
+    name: "Period",
     component: Topics,
   },
   {
-    // individual topics
-    path: "/Topic/:id",
+    // Home > Topics > Topic
+    path: "/Period/:period/Topic/:topic",
     name: "Topic",
     component: Topic,
   },
@@ -49,9 +52,16 @@ const routes = [
   },
 ];
 
+// const router = createRouter({
+//   history: createWebHistory(),
+//   mode: "history",
+//   base: process.env.BASE_URL,
+//   routes,
+// });
+
 const router = new VueRouter({
   mode: "history",
-  base: process.env.BASE_URL,
+  // base: process.env.BASE_URL,
   routes,
 });
 

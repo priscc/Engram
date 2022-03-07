@@ -19,8 +19,9 @@ export default new Vuex.Store({
   mutations: {
     updatedTopicContent(state, i) {
       console.log("i", i);
-      console.log("topic", state.topic);
+
       state.topic = i;
+      console.log("topic", state.topic);
 
       // CONTENT CLEAR
       state.events = [];
@@ -35,10 +36,10 @@ export default new Vuex.Store({
         .where("topicID", "array-contains-any", [state.topic.id])
         .get()
         .then(
-          function (querySnapshot) {
+          function(querySnapshot) {
             var ev = [];
             querySnapshot.forEach(
-              function (doc) {
+              function(doc) {
                 var entry = doc.data();
                 entry.id = doc.id;
                 //start year calculation
@@ -74,7 +75,7 @@ export default new Vuex.Store({
                 ev.push(entry);
               }.bind(this)
             );
-            state.events = ev.sort(function (a, b) {
+            state.events = ev.sort(function(a, b) {
               return a.startDate.dateNum - b.startDate.dateNum;
             });
           }.bind(this)
@@ -87,9 +88,9 @@ export default new Vuex.Store({
         .where("topicID", "array-contains-any", [state.topic.id])
         .get()
         .then(
-          function (querySnapshot) {
+          function(querySnapshot) {
             querySnapshot.forEach(
-              function (doc) {
+              function(doc) {
                 console.log(doc.data());
                 state.trends.push(doc.data());
               }.bind(this)
@@ -102,9 +103,9 @@ export default new Vuex.Store({
         .where("topicID", "array-contains-any", [state.topic.id])
         .get()
         .then(
-          function (querySnapshot) {
+          function(querySnapshot) {
             querySnapshot.forEach(
-              function (doc) {
+              function(doc) {
                 var entry = doc.data();
                 entry.id = doc.id;
                 state.people.push(entry);
@@ -118,9 +119,9 @@ export default new Vuex.Store({
         .where("topicID", "array-contains-any", [state.topic.id])
         .get()
         .then(
-          function (querySnapshot) {
+          function(querySnapshot) {
             querySnapshot.forEach(
-              function (doc) {
+              function(doc) {
                 state.sources.push(doc.data());
               }.bind(this)
             );
@@ -132,9 +133,9 @@ export default new Vuex.Store({
         .where("topicID", "array-contains-any", [state.topic.id])
         .get()
         .then(
-          function (querySnapshot) {
+          function(querySnapshot) {
             querySnapshot.forEach(
-              function (doc) {
+              function(doc) {
                 state.terms.push(doc.data());
               }.bind(this)
             );
@@ -146,9 +147,9 @@ export default new Vuex.Store({
         .where("topicID", "array-contains-any", [state.topic.id])
         .get()
         .then(
-          function (querySnapshot) {
+          function(querySnapshot) {
             querySnapshot.forEach(
-              function (doc) {
+              function(doc) {
                 state.resources.push(doc.data());
               }.bind(this)
             );

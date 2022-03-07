@@ -88,6 +88,7 @@
           </div>
         </v-col>
         <v-col class="pa-0 pt-5">
+          <!-- make the  currentTopicComponent stored in the router-->
           <intro v-if="currentTopicComponent == 0"></intro>
           <trends v-if="currentTopicComponent == 1"></trends>
           <developments v-else-if="currentTopicComponent == 2"></developments>
@@ -111,6 +112,7 @@ import developments from "@/components/Developments.vue";
 import people from "@/components/People.vue";
 import primarysources from "@/components/PrimarySources.vue";
 import terms from "@/components/Terms.vue";
+import { db } from "@/main";
 
 export default {
   name: "Topics",
@@ -127,6 +129,11 @@ export default {
   // },
   computed: {
     timePeriodHeaders() {
+      console.log(
+        "tset",
+        store.state.currentTimePeriod,
+        store.state.timePeriodHeaders[store.state.currentTimePeriod]
+      );
       return store.state.timePeriodHeaders[store.state.currentTimePeriod];
     },
     currentTopicComponent() {
@@ -158,18 +165,22 @@ export default {
       this.$router.go(-1);
     },
   },
-  mounted() {
-    // this.topicButtons = store.state.topicButtons;
-    // var t = storeTopic.state.trends;
-    // console.log("t", t);
-    // console.log("t", t.length);
-    // if (t.length === 0) {
-    //   this.topicButtons.filter(function (el) {
-    //     console.log(el.title);
-    //     return false;
-    //   });
-    // }
-    // console.log(this.topicButtons);
+  async mounted() {
+    store.dispatch("setTimePeriod", this.$route.params.period);
+
+    var newTopic = await db
+      .collection("topics")
+      .doc(this.$route.params.topic)
+      .get()
+      .then(
+        function(querySnapshot) {
+          var entry = querySnapshot.data();
+          entry.id = querySnapshot.id;
+          console.log("entry.id", entry.id);
+          return entry;
+        }.bind(this)
+      );
+    storeTopic.dispatch("topicContent", newTopic);
   },
 };
 </script>
