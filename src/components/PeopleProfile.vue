@@ -95,7 +95,10 @@ export default {
   methods: {
     goTo() {
       storeTopic.dispatch("personContent", this.person);
-      this.$router.push({ name: "Person", params: { id: this.person.name } });
+      this.$router.push({
+        name: "Person",
+        params: { person: this.person.name },
+      });
     },
   },
 };

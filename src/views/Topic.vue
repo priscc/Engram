@@ -58,7 +58,6 @@
         <v-col cols="2" class="d-flex flex-column pt-5">
           <div v-for="(t, index) in topicButtons" :key="index">
             <v-btn
-              v-if="t.title == 'Trends' && trends.length != 0"
               rounded
               :color="t.color"
               class="my-1 text-none"
@@ -71,7 +70,7 @@
                 {{ t.title }}
               </p>
             </v-btn>
-            <v-btn
+            <!--   <v-btn
               v-else-if="t.title != 'Trends'"
               rounded
               :color="t.color"
@@ -84,7 +83,7 @@
               <p class="buttons mb-0">
                 {{ t.title }}
               </p>
-            </v-btn>
+            </v-btn> -->
           </div>
         </v-col>
         <v-col class="pa-0 pt-5">
@@ -129,11 +128,6 @@ export default {
   // },
   computed: {
     timePeriodHeaders() {
-      console.log(
-        "tset",
-        store.state.currentTimePeriod,
-        store.state.timePeriodHeaders[store.state.currentTimePeriod]
-      );
       return store.state.timePeriodHeaders[store.state.currentTimePeriod];
     },
     currentTopicComponent() {
@@ -159,6 +153,7 @@ export default {
   methods: {
     select(i) {
       store.dispatch("setTopicButton", i);
+      this.$router.replace({ name: "Topic", params: { category: i } });
     },
     onClick() {
       store.dispatch("setTopicButton", 0);
@@ -176,11 +171,12 @@ export default {
         function(querySnapshot) {
           var entry = querySnapshot.data();
           entry.id = querySnapshot.id;
-          console.log("entry.id", entry.id);
           return entry;
         }.bind(this)
       );
     storeTopic.dispatch("topicContent", newTopic);
+
+    store.dispatch("setTopicButton", this.$route.params.category);
   },
 };
 </script>

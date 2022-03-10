@@ -31,17 +31,17 @@ const routes = [
   },
   {
     // Home > Topics > Topic
-    path: "/Period/:period/Topic/:topic",
+    path: "/Period/:period/Topic/:topic/:category",
     name: "Topic",
     component: Topic,
   },
   {
-    path: "/Event/:id",
+    path: "/Period/:period/Topic/:topic/:category/Event/:event",
     name: "Event",
     component: Event,
   },
   {
-    path: "/Figure/:id",
+    path: "/Period/:period/Topic/:topic/:category/Figure/:person",
     name: "Person",
     component: Person,
   },

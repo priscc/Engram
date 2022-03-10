@@ -509,11 +509,11 @@ export default {
   methods: {
     goTo(event) {
       storeTopic.dispatch("eventContent", event);
-      this.$router.push({ name: "Event", params: { id: event.title } });
+      console.log("event", event.id);
+      this.$router.push({ name: "Event", params: { event: event.id } });
     },
 
     timelineEventDot(model) {
-      console.log("in here", model);
       this.eventTickDate = this.events[model].startDate.dateNum;
       this.eventEndTickDate = this.events[model].endDate.dateNum;
       if (this.eventEndTickDate != 0) {
@@ -681,9 +681,9 @@ export default {
 
       // console.log("in map creator", this.events[model].coordinates);
       var coordinates = this.events[model].coordinates;
-
+      console.log("coordinates", coordinates);
       //The line SVG Path we draw
-      if (coordinates) {
+      if (coordinates.length > 0) {
         Object.keys(coordinates).forEach((map) => {
           svg
             .append("path")
@@ -701,10 +701,10 @@ export default {
     },
   },
   mounted() {
+    this.primary(0);
     this.timelineEventDot(0);
     // this.eventTickDate = this.events[0].startDate.dateNum;
     this.calculatingDates();
-    this.primary(0);
   },
 };
 </script>

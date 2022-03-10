@@ -95,7 +95,10 @@ export default {
     },
     goTo(topic) {
       storeTopic.dispatch("topicContent", topic);
-      this.$router.push({ name: "Topic", params: { topic: topic.id } });
+      this.$router.push({
+        name: "Topic",
+        params: { topic: topic.id, category: 0 },
+      });
     },
   },
   mounted() {

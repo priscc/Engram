@@ -94,6 +94,7 @@ import countries from "@/countries2.json";
 import * as d3 from "d3";
 import * as topojson from "topojson";
 import articlecomp from "./ArticleComponent.vue";
+import { db } from "@/main";
 
 export default {
   name: "Event",
@@ -394,7 +395,15 @@ export default {
   methods: {
     back() {
       storeTopic.dispatch("eventContentRESET");
-      this.$router.go(-1);
+      this.$router.push({
+        name: "Topic",
+        params: {
+          period: this.$route.params.period,
+          topic: this.$route.params.topic,
+          category: this.$route.params.category,
+        },
+      });
+      // this.$router.go(-1);
     },
     async primary(model) {
       console.log("in primary", model);
@@ -441,7 +450,7 @@ export default {
         .datum(
           topojson.merge(
             w,
-            w.objects.units.geometries.filter(function (d) {
+            w.objects.units.geometries.filter(function(d) {
               return d.id !== "ATA"; // Sorry Antarctica
             })
           )
@@ -457,7 +466,7 @@ export default {
             topojson.merge(
               w,
               w.objects.units.geometries.filter(
-                function (d) {
+                function(d) {
                   return this.sets[i].set.has(d.id);
                 }.bind(this)
               )
@@ -472,11 +481,11 @@ export default {
       //This is the accessor function we talked about above
       var lineFunction = d3.svg
         .line()
-        .x(function (d) {
+        .x(function(d) {
           var x = projection([d.lon, d.lat]); // [longitude, latitude] -- [x, y]
           return x[0];
         })
-        .y(function (d) {
+        .y(function(d) {
           var x = projection([d.lon, d.lat]); // [longitude, latitude] -- [x, y]
           return x[1];
         })
@@ -496,7 +505,39 @@ export default {
       }
     },
   },
-  mounted() {
+  async mounted() {
+    console.log("mounted");
+    store.dispatch("setTimePeriod", this.$route.params.period);
+
+    var newTopic = await db
+      .collection("topics")
+      .doc(this.$route.params.topic)
+      .get()
+      .then(
+        function(querySnapshot) {
+          var entry = querySnapshot.data();
+          entry.id = querySnapshot.id;
+          return entry;
+        }.bind(this)
+      );
+    storeTopic.dispatch("topicContent", newTopic);
+
+    var newEvent = await db
+      .collection("events")
+      .doc(this.$route.params.event)
+      .get()
+      .then(
+        function(querySnapshot) {
+          var entry = querySnapshot.data();
+          entry.id = querySnapshot.id;
+          return entry;
+        }.bind(this)
+      );
+    console.log(newEvent.id);
+    console.log(storeTopic.state.resources);
+
+    storeTopic.dispatch("eventContent", newEvent);
+
     this.primary(0);
   },
 };
