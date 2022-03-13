@@ -11,6 +11,7 @@
           max-width="250"
         >
         </v-img>
+        <v-card v-else color="grey" height="150" max-width="250"> </v-card>
         <!-- </v-avatar> -->
         <div>
           <v-card-title class="text-h5" v-text="term.term"></v-card-title>

@@ -1,23 +1,6 @@
 <template>
   <div class="Intro" style="height: 100%">
     <v-container fluid class="mb-10 pt-0">
-      <!-- OLD INTRO / IMG Layout -->
-      <!-- <div class="intro_top">
-        <v-img
-          class="intro_image"
-          src="https://freevector-images.s3.amazonaws.com/uploads/vector/preview/31829/32563_dotted-worldmap-1.jpg"
-          aspect-ratio="1.7"
-        ></v-img>
-        <div class="intro_content">
-          <h3 class="mb-12">Introduction</h3>
-          <div class="intro_paragraph">
-            {{ toipcComponent }}
-            <p>
-              {{ toipcComponent.introMD }}
-            </p>
-          </div>
-        </div>
-      </div> -->
       <v-row class="pt-0">
         <v-col class="pt-0 pb-10">
           <h3>Introduction</h3>
@@ -97,7 +80,6 @@ export default {
           video.resourceType == "video" &&
           video.parentType == "topic"
       );
-      console.log("resources", r);
       return r;
     },
     articles() {
@@ -107,7 +89,6 @@ export default {
           article.resourceType == "article" &&
           article.parentType == "topic"
       );
-      console.log("resources", r);
       return r;
     },
   },

@@ -683,7 +683,8 @@ export default {
       var coordinates = this.events[model].coordinates;
       console.log("coordinates", coordinates);
       //The line SVG Path we draw
-      if (coordinates.length > 0) {
+      if (coordinates != null) {
+        console.log("in here");
         Object.keys(coordinates).forEach((map) => {
           svg
             .append("path")

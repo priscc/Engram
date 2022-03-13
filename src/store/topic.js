@@ -18,8 +18,6 @@ export default new Vuex.Store({
   },
   mutations: {
     updatedTopicContent(state, i) {
-      console.log("i", i);
-
       state.topic = i;
       console.log("topic", state.topic);
 
@@ -81,8 +79,6 @@ export default new Vuex.Store({
           }.bind(this)
         );
 
-      // console.log("events", state.events);
-
       // TRENDS
       db.collection("trends")
         .where("topicID", "array-contains-any", [state.topic.id])
@@ -91,7 +87,6 @@ export default new Vuex.Store({
           function(querySnapshot) {
             querySnapshot.forEach(
               function(doc) {
-                console.log(doc.data());
                 state.trends.push(doc.data());
               }.bind(this)
             );
@@ -157,14 +152,12 @@ export default new Vuex.Store({
         );
     },
     eventContent(state, i) {
-      console.log("updating content", i);
       state.event = i;
     },
     eventRESET(state) {
       state.event = [];
     },
     personContent(state, i) {
-      console.log("updating content", i);
       state.person = i;
     },
     personRESET(state) {

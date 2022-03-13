@@ -100,6 +100,7 @@
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
 import articlecomp from "./ArticleComponent.vue";
+import { db } from "@/main";
 
 export default {
   name: "Person",
@@ -140,6 +141,37 @@ export default {
       storeTopic.dispatch("personContentRESET");
       this.$router.go(-1);
     },
+  },
+  async mounted() {
+    console.log("mounted");
+    store.dispatch("setTimePeriod", this.$route.params.period);
+
+    var newTopic = await db
+      .collection("topics")
+      .doc(this.$route.params.topic)
+      .get()
+      .then(
+        function(querySnapshot) {
+          var entry = querySnapshot.data();
+          entry.id = querySnapshot.id;
+          return entry;
+        }.bind(this)
+      );
+    storeTopic.dispatch("topicContent", newTopic);
+
+    var newProfile = await db
+      .collection("people")
+      .doc(this.$route.params.person)
+      .get()
+      .then(
+        function(querySnapshot) {
+          var entry = querySnapshot.data();
+          entry.id = querySnapshot.id;
+          return entry;
+        }.bind(this)
+      );
+
+    storeTopic.dispatch("personContent", newProfile);
   },
 };
 </script>

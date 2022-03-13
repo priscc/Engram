@@ -46,21 +46,12 @@
             >
               <p class="mb-0">Add Content</p>
             </v-btn>
-            <!--  <v-text-field
-              @focus="searchClosed = false"
-              @blur="searchClosed = true"
-              dense
-              filled
-              rounded
-              placeholder="Search Anything"
-              prepend-inner-icon="mdi-magnify"
-              class="expanding-search mt-1"
-              :class="{ closed: searchClosed }"
-            >
-            </v-text-field> -->
             <v-autocomplete
+              :items="searchItems"
+              item-text="title"
+              item-value="id"
+              return-object
               v-model="search"
-              :items="items"
               prepend-inner-icon="mdi-magnify"
               placeholder="Search Anything"
               flat
@@ -125,14 +116,30 @@ export default {
   data() {
     return {
       searchClosed: true,
-      loading: false,
-      items: [],
       searchItems: [],
-      searched: {},
       search: null,
-      select: null,
     };
   },
+  watch: {
+    search: function(val) {
+      console.log("watching search", val);
+      if (val != null) {
+        store.dispatch("setTimePeriod", this.search.timePeriod);
+        storeTopic.dispatch("topicContent", this.search.document);
+        store.dispatch("setTopicButton", 0);
+
+        this.$router.push({
+          name: "Topic",
+          params: {
+            period: this.search.timePeriod,
+            topic: this.search.document.id,
+            category: 0,
+          },
+        });
+      }
+    },
+  },
+
   methods: {
     grabbingSearch() {
       db.collection("topics")
@@ -141,20 +148,28 @@ export default {
           function(querySnapshot) {
             querySnapshot.docs.map((doc) => {
               this.searchItems.push({
-                id: doc.data().id,
+                document: doc.data(),
                 collection: "topics",
-                title: doc.data().title,
+                title: "Topic: " + doc.data().title,
+                timePeriod: doc.data().timePeriod - 1,
               });
-              this.items.push("Topic: " + doc.data().title);
             });
           }.bind(this)
-        )
-        .then();
-      console.log(this.items);
-      // this.searchItems.forEach((element) => {
-      //   console.log(element);
-      //   this.items.push(element.title);
-      // });
+        );
+      // db.collection("events")
+      //   .get()
+      //   .then(
+      //     function(querySnapshot) {
+      //       querySnapshot.docs.map((doc) => {
+      //         this.searchItems.push({
+      //           document: doc.data(),
+      //           collection: "events",
+      //           title: "Event: " + doc.data().title,
+      //           timePeriod: doc.data().timePeriod - 1,
+      //         });
+      //       });
+      //     }.bind(this)
+      //   );
     },
     home() {
       store.dispatch("setTopicButton", 0);
@@ -177,13 +192,6 @@ export default {
         return "white";
       }
     },
-    // textColor: function () {
-    //   if (store.state.currentTopicComponent == 1) {
-    //     return "white";
-    //   } else {
-    //     return "black";
-    //   }
-    // },
   },
   mounted() {
     this.grabbingSearch();
