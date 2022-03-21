@@ -19,7 +19,7 @@ export default new Vuex.Store({
   mutations: {
     updatedTopicContent(state, i) {
       state.topic = i;
-      console.log("topic", state.topic);
+      console.log("topic.js update", state.topic);
 
       // CONTENT CLEAR
       state.events = [];
@@ -117,7 +117,9 @@ export default new Vuex.Store({
           function(querySnapshot) {
             querySnapshot.forEach(
               function(doc) {
-                state.sources.push(doc.data());
+                var entry = doc.data();
+                entry.id = doc.id;
+                state.sources.push(entry);
               }.bind(this)
             );
           }.bind(this)

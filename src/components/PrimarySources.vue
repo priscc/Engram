@@ -9,7 +9,7 @@
       <v-row class="d-flex flex-column pl-10 mb-10">
         <ul v-for="(source, i) in sourcesComponent" :key="i">
           <li>
-            <a @click="scrolltoWork(i)">{{ source.title }}</a>
+            <a @click="scrolltoWork(source.id)">{{ source.title }}</a>
           </li>
         </ul>
       </v-row>
@@ -18,9 +18,8 @@
         v-for="(source, i) in sourcesComponent"
         :key="i"
         class="d-flex flex-column"
-        :id="i"
       >
-        <v-col cols="10 pt-15">
+        <v-col :id="source.id" cols="10 pt-15">
           <v-card flat>
             <div class="d-flex flex-no-wrap">
               <v-img

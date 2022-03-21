@@ -123,25 +123,123 @@ export default {
   watch: {
     search: function(val) {
       console.log("watching search", val);
-      if (val != null) {
-        store.dispatch("setTimePeriod", this.search.timePeriod);
-        storeTopic.dispatch("topicContent", this.search.document);
-        store.dispatch("setTopicButton", 0);
-
-        this.$router.push({
-          name: "Topic",
-          params: {
-            period: this.search.timePeriod,
-            topic: this.search.document.id,
-            category: 0,
-          },
-        });
+      if (val.collection == "topics") {
+        this.topicSearch();
+      } else if (val.collection == "events") {
+        this.eventSearch(val);
+      } else if (val.collection == "people") {
+        this.peopleSearch(val);
+      } else if (val.collection == "works") {
+        this.primarysourceSearch();
+      } else if (val.collection == "terminology") {
+        this.termSearch();
       }
     },
   },
 
   methods: {
-    grabbingSearch() {
+    topicSearch() {
+      store.dispatch("setTimePeriod", this.search.timePeriod);
+      storeTopic.dispatch("topicContent", this.search.document);
+      store.dispatch("setTopicButton", 0);
+      this.$router.push({
+        name: "Topic",
+        params: {
+          period: this.search.timePeriod,
+          topic: this.search.document.id,
+          category: 0,
+        },
+      });
+    },
+    async eventSearch(val) {
+      var v = await this.grabbingTopic();
+      val.topic = v;
+      val.timePeriod = v.timePeriod - 1;
+
+      store.dispatch("setTimePeriod", val.timePeriod);
+      storeTopic.dispatch("topicContent", val.topic);
+      store.dispatch("setTopicButton", 2);
+      storeTopic.dispatch("eventContent", val.document);
+      this.$router.push({
+        name: "Event",
+        params: {
+          period: val.timePeriod,
+          topic: val.topic,
+          category: 2,
+          event: val.document.id,
+        },
+      });
+    },
+    async peopleSearch(val) {
+      console.log("people search", val);
+
+      var v = await this.grabbingTopic();
+      val.topic = v;
+      val.timePeriod = v.timePeriod - 1;
+
+      store.dispatch("setTimePeriod", val.timePeriod);
+      storeTopic.dispatch("topicContent", val.topic);
+      store.dispatch("setTopicButton", 3);
+      storeTopic.dispatch("personContent", val.document);
+
+      console.log("people search", val);
+      this.$router.push({
+        name: "Person",
+        params: {
+          period: val.timePeriod,
+          topic: val.topicID,
+          category: 3,
+          person: val.document.id,
+        },
+      });
+    },
+    async primarysourceSearch() {
+      var v = await this.grabbingTopic();
+      this.search.topic = v;
+      this.search.timePeriod = v.timePeriod - 1;
+
+      store.dispatch("setTimePeriod", this.search.timePeriod);
+      storeTopic.dispatch("topicContent", this.search.topic);
+      store.dispatch("setTopicButton", 4);
+      this.$router.push({
+        name: "Topic",
+        params: {
+          period: this.search.timePeriod,
+          topic: this.search.topic.id,
+          category: 4,
+        },
+      });
+    },
+    async termSearch() {
+      var v = await this.grabbingTopic();
+      this.search.topic = v;
+      this.search.timePeriod = v.timePeriod - 1;
+
+      store.dispatch("setTimePeriod", this.search.timePeriod);
+      storeTopic.dispatch("topicContent", this.search.topic);
+      store.dispatch("setTopicButton", 5);
+      this.$router.push({
+        name: "Topic",
+        params: {
+          period: this.search.timePeriod,
+          topic: this.search.topic.id,
+          category: 5,
+        },
+      });
+    },
+    grabbingTopic() {
+      return db
+        .collection("topics")
+        .doc(this.search.topicID)
+        .get()
+        .then(
+          function(doc) {
+            return doc.data();
+          }.bind(this)
+        );
+    },
+    async grabbingSearch() {
+      console.log("grabbing autofill search items");
       db.collection("topics")
         .get()
         .then(
@@ -156,20 +254,62 @@ export default {
             });
           }.bind(this)
         );
-      // db.collection("events")
-      //   .get()
-      //   .then(
-      //     function(querySnapshot) {
-      //       querySnapshot.docs.map((doc) => {
-      //         this.searchItems.push({
-      //           document: doc.data(),
-      //           collection: "events",
-      //           title: "Event: " + doc.data().title,
-      //           timePeriod: doc.data().timePeriod - 1,
-      //         });
-      //       });
-      //     }.bind(this)
-      //   );
+      db.collection("events")
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.docs.map((doc) => {
+              this.searchItems.push({
+                document: doc.data(),
+                collection: "events",
+                title: "Event: " + doc.data().title,
+                topicID: doc.data().topicID[0],
+              });
+            });
+          }.bind(this)
+        );
+      db.collection("people")
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.docs.map((doc) => {
+              this.searchItems.push({
+                document: doc.data(),
+                collection: "people",
+                title: "People: " + doc.data().name,
+                topicID: doc.data().topicID[0],
+              });
+            });
+          }.bind(this)
+        );
+      db.collection("works")
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.docs.map((doc) => {
+              this.searchItems.push({
+                document: doc.data(),
+                collection: "works",
+                title: "Primary Source: " + doc.data().title,
+                topicID: doc.data().topicID[0],
+              });
+            });
+          }.bind(this)
+        );
+      db.collection("terminology")
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.docs.map((doc) => {
+              this.searchItems.push({
+                document: doc.data(),
+                collection: "terminology",
+                title: "Term: " + doc.data().term,
+                topicID: doc.data().topicID[0],
+              });
+            });
+          }.bind(this)
+        );
     },
     home() {
       store.dispatch("setTopicButton", 0);
