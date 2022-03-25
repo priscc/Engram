@@ -46,7 +46,7 @@
           </v-btn>
         </v-col>
         <v-col class="d-flex flex-column justify-center u-non-blurred">
-          <p class="caption">{{ timePeriodHeaders.header }}</p>
+          <p class="caption">Time Period: {{ timePeriodHeaders.header }}</p>
           <p class="page_header mb-0" style="line-height: 20px">
             {{ topic.title }}
           </p>

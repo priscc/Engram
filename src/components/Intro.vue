@@ -37,6 +37,7 @@
             <h3 class="intro_headers mb-6">Resources</h3>
           </v-row> -->
           <v-row>
+            <v-col><h4>Videos:</h4></v-col>
             <v-col
               v-for="(video, index) in videos"
               :key="index"

@@ -3,26 +3,47 @@
     <v-card
       outlined
       elevation="24"
-      height="50%"
-      width="34%"
+      height="auto"
+      width="27%"
       dark
-      style="position: fixed; top: 45%; left: 17%"
+      style="position: fixed; top: 49%; left: 17%"
     >
-      <v-system-bar lights-out height="auto"> </v-system-bar>
       <v-carousel
+        class="myCarousel"
         height="100%"
-        hide-delimiter-background
-        show-arrows-on-hover
         v-model="model"
         @change="
           primary(model);
           timelineEventDot(model);
         "
       >
+        <template v-slot:prev="{ on, attrs }">
+          <v-icon
+            style="left: -20px; "
+            v-bind="attrs"
+            v-on="on"
+            large
+            dark
+            class="carousel-arrow"
+          >
+            mdi-chevron-left</v-icon
+          >
+        </template>
+        <template v-slot:next="{ on, attrs }">
+          <v-icon
+            style="right: -20px; "
+            v-bind="attrs"
+            v-on="on"
+            large
+            dark
+            class="carousel-arrow"
+          >
+            mdi-chevron-right</v-icon
+          >
+        </template>
         <v-carousel-item v-for="(slide, i) in events" :key="i">
           <v-sheet
-            max-height="100%"
-            max-width="100%"
+            width="100%"
             tile
             class="d-flex flex-no-wrap justify-space-between align-stretch"
             :style="{ 'background-image': `url(${slide.thumbURL})` }"
@@ -30,55 +51,57 @@
           >
             <v-container fluid class="cardCaptions">
               <v-row
-                style="background-color:black"
-                class="d-flex align-stretch pt-2 mb-2"
-              >
-                <v-col
-                  v-if="slide.theme.length > 0"
-                  class="d-flex flex-row flex-wrap align-center"
-                >
-                  <div class="caption pr-2">Themes:</div>
-                  <div
-                    v-for="i in slide.theme"
-                    :key="i"
-                    heigh="auto"
-                    width="auto"
-                    class=" px-4 ma-1"
-                    :style="{
-                      'border-color': eventTheme[i],
-                      'border-width': 1 + 'px',
-                    }"
-                    style=" font-size: 12px; border-radius: 25px; border: solid; "
-                  >
-                    {{ i }}
-                  </div>
-                </v-col>
-              </v-row>
-              <v-row
                 dense
-                class="d-flex align-stretch ma-3 mx-xs-1 mx-md-8 mx-lg-16"
+                class="d-flex align-stretch ma-3 mx-xs-1 mx-md-3 mx-lg-7"
               >
-                <v-col class="d-flex flex-column">
-                  <h1 class="card_header" style="word-break: normal" dark>
-                    {{ slide.title }}
-                  </h1>
-                  <h2
-                    v-if="slide.endDate.date.length != 0"
-                    style="word-break: normal"
+                <v-col>
+                  <h1
+                    class="card_header"
+                    style="font-size: 22px; word-break: normal"
                     dark
                   >
-                    ({{ slide.startDate.date }} - {{ slide.endDate.date }})
-                  </h2>
-                  <h2 v-else style="word-break: normal" dark>
-                    {{ slide.startDate.date }}
-                  </h2>
+                    {{ slide.title }}
+                  </h1>
+                  <div class=" mt-1 mb-4">
+                    <h2
+                      v-if="slide.endDate.date.length != 0"
+                      style="word-break: normal "
+                      class="light-green--text text--lighten-2"
+                      dark
+                    >
+                      ({{ slide.startDate.date }} - {{ slide.endDate.date }})
+                    </h2>
+                    <h2
+                      v-else
+                      style="word-break: normal"
+                      class="light-green--text text--lighten-2"
+                      dark
+                    >
+                      ({{ slide.startDate.date }})
+                    </h2>
+                  </div>
                   <p
                     class="mt-4 mr-4 card_Description caption mb-0"
                     style="height: 3rem"
                   >
                     {{ slide.descriptionMD }}
                   </p>
-                  <v-card-actions class="pl-0 pt-4">
+                  <v-card-text v-if="slide.theme.length > 0" class="px-0">
+                    <div
+                      class="d-flex flex-row caption flex-wrap card_themes font-weight-thin"
+                      color="blue-grey"
+                    >
+                      Themes:
+                      <div
+                        v-for="i in slide.theme"
+                        :key="i"
+                        class="d-flex flex-column pl-1 "
+                      >
+                        {{ i }},
+                      </div>
+                    </div>
+                  </v-card-text>
+                  <v-card-actions class="d-flex justify-end pl-0 pt-4 mb-10">
                     <v-btn
                       @click="goTo(slide)"
                       color="light-green lighten-2"
@@ -145,6 +168,7 @@
               position: absolute;
               top: 20px;
               background-color: #bdff00;
+
             "
             v-bind:style="{
               top: ((eventTickDate - minDate) / diffYears) * 100 + '%',
@@ -161,6 +185,7 @@
                 left: -135px;
                 background-color: #bdff00;
                 opacity: 0.8;
+                border: 1px solid white;
               "
             >
               {{ eventTickDate }} - {{ eventEndTickDate }}
@@ -602,8 +627,9 @@ export default {
 
       var projection = d3.geo
         .mercator()
+        .center([0, 5])
         .scale(width / 1.5 / Math.PI)
-        .rotate([-1, 0])
+        .rotate([-10, 0])
         .translate([width / 1.5, (height * 1.35) / 2])
         .precision(0.1);
 
@@ -752,6 +778,7 @@ h3 {
   stroke: #d9edf7;
   stroke-width: 1px;
 }
+
 .legend {
   height: 10px;
   color: white;
@@ -779,12 +806,12 @@ h3 {
   height: 23rem;
 }
 .cardCaptions {
-  background: rgba(0, 0, 0, 0.8);
+  background: rgba(0, 0, 0, 0.86);
   padding: 4px 6px;
   color: white;
 }
 .card_header {
-  line-height: 100%;
+  line-height: 110%;
 }
 .card_Description {
   font-size: 14px !important;
@@ -796,5 +823,13 @@ h3 {
   overflow: hidden !important;
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
+}
+.card_themes {
+  font-size: 12px !important;
+  line-height: 1rem;
+  max-height: 3rem;
+}
+.carousel-arrow:hover {
+  color: grey;
 }
 </style>
