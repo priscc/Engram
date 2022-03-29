@@ -6,7 +6,7 @@
     <v-container fluid class="pl-10 mb-10">
       <v-row>
         <v-col>
-          <v-btn text @click="$router.go(-1)">
+          <v-btn text to="/">
             <v-icon class="d-flex align-center pr-1" small dark>
               mdi-arrow-left-drop-circle-outline
             </v-icon>
@@ -33,12 +33,19 @@
             @click="goTo(topic)"
             style="background: none"
           >
-            <v-card-title
-              class="topic_header d-flex flex-column justify-start align-center"
-              style="word-break: normal; height: 100px; font-size: 140%"
-            >
-              {{ topic.title }}
-            </v-card-title>
+            <div style=" height: 100px; ">
+              <v-card-title
+                class="pb-0 topic_header d-flex flex-column justify-start align-center"
+                style="word-break: normal;font-size: 140%"
+              >
+                {{ topic.title }}
+              </v-card-title>
+              <v-card-title
+                class="pt-0 d-flex flex-column justify-start align-center"
+              >
+                ({{ topic.timespan }})
+              </v-card-title>
+            </div>
             <v-container>
               <v-row>
                 <v-spacer></v-spacer>
@@ -78,6 +85,7 @@ export default {
   },
   methods: {
     topic() {
+      var topics = [];
       db.collection("topics")
         .where("timePeriod", "==", this.timePeriodHeaders.timePeriod)
         .get()
@@ -87,9 +95,18 @@ export default {
               function(doc) {
                 var entry = doc.data();
                 entry.id = doc.id;
-                this.topics.push(entry);
+                topics.push(entry);
               }.bind(this)
             );
+            this.topics = topics.sort(function(a, b) {
+              if (a.timespan && b.timespan) {
+                var a1 = new Date(a.timespan.substring(0, 4));
+                var a2 = a1.getFullYear();
+                var b1 = new Date(b.timespan.substring(0, 4));
+                var b2 = b1.getFullYear();
+                return a2 - b2;
+              }
+            });
           }.bind(this)
         );
     },
@@ -102,6 +119,8 @@ export default {
     },
   },
   mounted() {
+    console.log("mounted in topics", this.$route.params.period);
+    store.dispatch("setTimePeriod", this.$route.params.period);
     this.topic();
   },
 };

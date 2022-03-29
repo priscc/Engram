@@ -4,7 +4,7 @@
       <v-row class="pt-0">
         <v-col class="pt-0 pb-10">
           <h3>Trends</h3>
-          <p class="subtitle">
+          <p class="subtitle caption">
             The following ‘Trends’ are meant to aid in your understanding of
             threads that connect inside each topic.
           </p>

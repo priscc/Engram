@@ -1,63 +1,117 @@
 <template>
   <div class="Intro" style="height: 100%">
-    <v-container fluid class="mb-10 pt-0">
-      <v-row class="pt-0">
-        <v-col class="pt-0 pb-10">
-          <h3>Introduction</h3>
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col lg="6" md="6" sm="12" class="pt-0">
-          <v-row>
-            <v-col>
-              <v-img :src="topic.intro_thumbURL" aspect-ratio="1.7"></v-img>
-            </v-col>
-          </v-row>
-          <v-row>
+    <v-dialog v-model="dialog" width="90%">
+      <template v-slot:activator="{ on, attrs }">
+        <v-container fluid class="mb-10 pt-0">
+          <v-row class="pt-0">
             <v-col class="pt-0 pb-10">
-              <p class="intro_paragraph intro_content">
-                {{ topic.introMD }}
-              </p>
+              <h3>Introduction</h3>
             </v-col>
           </v-row>
-          <v-row v-if="articles.length != 0">
-            <v-col class="pt-0">
-              <h3>Influences Seen Today</h3>
-            </v-col>
-          </v-row>
-          <v-row v-for="(article, index) in articles" :key="index">
-            <v-col>
-              <articlecomp :article="article"></articlecomp>
-            </v-col>
-          </v-row>
-        </v-col>
-        <v-col lg="5" md="5" sm="12" class="pt-0 pl-7">
+
           <v-row>
-            <v-col><h4>Videos:</h4></v-col>
-          </v-row>
-          <v-row class="mt-0">
-            <v-col
-              v-for="(video, index) in videos"
-              :key="index"
-              lg="12"
-              md="12"
-              sm="3"
-            >
-              <iframe
-                width="380"
-                height="241"
-                :src="'https://www.youtube.com/embed/' + video.url"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
+            <v-col lg="6" md="6" sm="12" class="pt-0">
+              <v-row>
+                <v-col>
+                  <v-img :src="topic.intro_thumbURL" aspect-ratio="1.7"></v-img>
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col class="pt-0 pb-10">
+                  <p class="intro_paragraph intro_content">
+                    {{ topic.introMD }}
+                  </p>
+                </v-col>
+              </v-row>
+              <v-row v-if="articles.length != 0">
+                <v-col class="pt-0">
+                  <h3>Influences Seen Today</h3>
+                </v-col>
+              </v-row>
+              <v-row v-for="(article, index) in articles" :key="index">
+                <v-col>
+                  <articlecomp :article="article"></articlecomp>
+                </v-col>
+              </v-row>
+            </v-col>
+            <v-col lg="5" md="5" sm="12" class="pt-0 pl-7">
+              <v-row class="d-flex align-end mb-6">
+                <h4>Videos:</h4>
+
+                <p
+                  class="mb-0 pl-2 blue--text caption "
+                  dark
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  View all
+                </p>
+                <!-- </v-col> -->
+              </v-row>
+              <v-row class="mt-0">
+                <v-col
+                  v-for="(video, index) in videos"
+                  :key="index"
+                  lg="12"
+                  md="12"
+                  sm="3"
+                >
+                  <iframe
+                    v-if="index < 3"
+                    width="380"
+                    height="241"
+                    :src="'https://www.youtube.com/embed/' + video.url"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen
+                  ></iframe>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
-        </v-col>
-      </v-row>
-    </v-container>
+        </v-container>
+      </template>
+
+      <v-card>
+        <v-card-title class="text-h5 grey lighten-2">
+          Videos
+        </v-card-title>
+
+        <v-card-text>
+          <v-container>
+            <v-row class="mt-0">
+              <v-col
+                v-for="(video, index) in videos"
+                :key="index"
+                lg="4"
+                md="4"
+                sm="12"
+              >
+                <iframe
+                  width="380"
+                  height="241"
+                  :src="'https://www.youtube.com/embed/' + video.url"
+                  title="YouTube video player"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="primary" text @click="dialog = false">
+            Close
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -67,6 +121,9 @@ import articlecomp from "./ArticleComponent.vue";
 
 export default {
   name: "Intro",
+  data() {
+    return { dialog: false };
+  },
   components: { articlecomp },
   computed: {
     topic() {

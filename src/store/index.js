@@ -38,9 +38,9 @@ export default new Vuex.Store({
     currentTimePeriod: 0,
     currentTopicComponent: 0,
     topicButtons: [
-      { title: "Intro", color: "pink" },
-      { title: "Trends", color: "grey lighten-3" },
       { title: "Developments", color: "grey lighten-3" },
+      { title: "Summary", color: "pink" },
+      { title: "Trends", color: "grey lighten-3" },
       { title: "People", color: "grey lighten-3" },
       { title: "Sources", color: "grey lighten-3" },
       { title: "Terms", color: "grey lighten-3" },
