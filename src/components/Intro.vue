@@ -32,16 +32,14 @@
             </v-col>
           </v-row>
         </v-col>
-        <v-col lg="5" md="5" sm="12" class="pt-0">
-          <!-- <v-row>
-            <h3 class="intro_headers mb-6">Resources</h3>
-          </v-row> -->
+        <v-col lg="5" md="5" sm="12" class="pt-0 pl-7">
           <v-row>
             <v-col><h4>Videos:</h4></v-col>
+          </v-row>
+          <v-row class="mt-0">
             <v-col
               v-for="(video, index) in videos"
               :key="index"
-              class="d-flex justify-end pt-0"
               lg="12"
               md="12"
               sm="3"

@@ -29,13 +29,144 @@ export default new Vuex.Store({
       state.terms = [];
       state.resources = [];
 
-      // EVENTS
-      db.collection("events")
+      // TRENDS
+      db.collection("trends")
         .where("topicID", "array-contains-any", [state.topic.id])
         .get()
         .then(
           function(querySnapshot) {
-            var ev = [];
+            querySnapshot.forEach(
+              function(doc) {
+                state.trends.push(doc.data());
+              }.bind(this)
+            );
+          }.bind(this)
+        );
+
+      // HISTORICAL FIGURES
+      var p = [];
+      db.collection("people")
+        .where("topicID", "array-contains-any", [state.topic.id])
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                var entry = doc.data();
+                entry.id = doc.id;
+                p.push(entry);
+              }.bind(this)
+            );
+            const people = p.sort(function(a, b) {
+              if (a.name < b.name) {
+                return -1;
+              }
+              if (a.name > b.name) {
+                return 1;
+              }
+              return 0;
+            });
+            state.people = people;
+          }.bind(this)
+        );
+
+      // PRIMARY SOURCES
+      var s = [];
+      db.collection("works")
+        .where("topicID", "array-contains-any", [state.topic.id])
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                var entry = doc.data();
+                entry.id = doc.id;
+                s.push(entry);
+              }.bind(this)
+            );
+            const sources = s.sort(function(a, b) {
+              if (a.title < b.title) {
+                return -1;
+              }
+              if (a.title > b.title) {
+                return 1;
+              }
+              return 0;
+            });
+            state.sources = sources;
+          }.bind(this)
+        );
+
+      // TERMS
+      var t = [];
+      db.collection("terminology")
+        .where("topicID", "array-contains-any", [state.topic.id])
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                t.push(doc.data());
+              }.bind(this)
+            );
+            const terms = t.sort(function(a, b) {
+              if (a.term < b.term) {
+                return -1;
+              }
+              if (a.term > b.term) {
+                return 1;
+              }
+              return 0;
+            });
+            state.terms = terms;
+          }.bind(this)
+        );
+
+      // RESOURCES
+      db.collection("resources")
+        .where("topicID", "array-contains-any", [state.topic.id])
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                state.resources.push(doc.data());
+              }.bind(this)
+            );
+          }.bind(this)
+        );
+    },
+    updatedEvents(state, events) {
+      state.events = events;
+      console.log("topic.js events", state.events);
+    },
+
+    eventContent(state, i) {
+      state.event = i;
+    },
+    eventRESET(state) {
+      state.event = [];
+    },
+    personContent(state, i) {
+      state.person = i;
+    },
+    personRESET(state) {
+      state.person = [];
+    },
+  },
+  actions: {
+    topicContent({ commit }, i) {
+      commit("updatedTopicContent", i);
+    },
+    async eventsContent({ commit, state }) {
+      // EVENTS
+      var ev = [];
+      await db
+        .collection("events")
+        .where("topicID", "array-contains-any", [state.topic.id])
+        .get()
+        .then(
+          function(querySnapshot) {
             querySnapshot.forEach(
               function(doc) {
                 var entry = doc.data();
@@ -73,102 +204,12 @@ export default new Vuex.Store({
                 ev.push(entry);
               }.bind(this)
             );
-            state.events = ev.sort(function(a, b) {
+            const events = ev.sort(function(a, b) {
               return a.startDate.dateNum - b.startDate.dateNum;
             });
+            commit("updatedEvents", events);
           }.bind(this)
         );
-
-      // TRENDS
-      db.collection("trends")
-        .where("topicID", "array-contains-any", [state.topic.id])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                state.trends.push(doc.data());
-              }.bind(this)
-            );
-          }.bind(this)
-        );
-
-      // HISTORICAL FIGURES
-      db.collection("people")
-        .where("topicID", "array-contains-any", [state.topic.id])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                var entry = doc.data();
-                entry.id = doc.id;
-                state.people.push(entry);
-              }.bind(this)
-            );
-          }.bind(this)
-        );
-
-      // PRIMARY SOURCES
-      db.collection("works")
-        .where("topicID", "array-contains-any", [state.topic.id])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                var entry = doc.data();
-                entry.id = doc.id;
-                state.sources.push(entry);
-              }.bind(this)
-            );
-          }.bind(this)
-        );
-
-      // TERMS
-      db.collection("terminology")
-        .where("topicID", "array-contains-any", [state.topic.id])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                state.terms.push(doc.data());
-              }.bind(this)
-            );
-          }.bind(this)
-        );
-
-      // RESOURCES
-      db.collection("resources")
-        .where("topicID", "array-contains-any", [state.topic.id])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                state.resources.push(doc.data());
-              }.bind(this)
-            );
-          }.bind(this)
-        );
-    },
-    eventContent(state, i) {
-      state.event = i;
-    },
-    eventRESET(state) {
-      state.event = [];
-    },
-    personContent(state, i) {
-      state.person = i;
-    },
-    personRESET(state) {
-      state.person = [];
-    },
-  },
-  actions: {
-    topicContent({ commit }, i) {
-      commit("updatedTopicContent", i);
     },
     eventContent({ commit }, i) {
       commit("eventContent", i);

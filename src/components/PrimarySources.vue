@@ -57,8 +57,9 @@
             fab
             medium
             dark
-            color="blue-grey lighten-2"
-            style="font-size: 8px"
+            color="amber accent-3"
+            style="font-size: 10px"
+            outlined
           >
             <v-icon medium>
               mdi-arrow-up-thick

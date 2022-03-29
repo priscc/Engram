@@ -17,8 +17,8 @@
           </v-btn>
         </v-col>
         <v-col class="d-flex flex-column justify-center u-non-blurred">
-          <p class="caption">{{ timePeriodHeaders.header }}</p>
-          <p class="page_header mb-0" style="line-height: 20px">
+          <p class="caption">Time Period: {{ timePeriodHeaders.header }}</p>
+          <p class="page_header mb-0" style="line-height: 30px">
             {{ topic.title }} > {{ event.title }}
           </p>
         </v-col>
@@ -27,24 +27,25 @@
 
     <v-container fluid class="mb-10 pt-10 px-14">
       <v-row>
-        <v-col lg="7" md="7" sm="12">
-          <v-row class="d-flex justify-space-around ml-10 mr-5">
-            <v-col cols="8" class="pt-0">
-              <div class="view" id="map"></div>
+        <v-col lg="7" md="7" sm="12" class="pl-10 pr-5">
+          <v-row class="d-flex " style="background: lightblue ">
+            <v-col class="pt-0">
+              <div id="map"></div>
             </v-col>
           </v-row>
-          <v-row class="d-flex justify-space-between ml-10 mr-5">
+          <v-row class="d-flex justify-space-between ">
             <v-col class="pt-5">
               <p class="people_header mb-0">{{ event.title }}</p>
               <p
-                v-if="event.endDate.date.length == 0"
+                v-if="endDate == null || endDate.length == 0"
                 class="people_subheader mb-0"
               >
-                ({{ event.startDate.date }})
+                ({{ startDate }})
               </p>
               <p v-else class="people_subheader mb-0">
-                ({{ event.startDate.date }} - {{ event.endDate.date }})
+                ({{ startDate }} - {{ endDate }})
               </p>
+
               <p class="intro_paragraph intro_content pt-6">
                 {{ event.mainMD }}
               </p>
@@ -52,8 +53,9 @@
           </v-row>
         </v-col>
         <v-col>
-          <v-row>
+          <v-row v-if="videos.length > 0" class="mt-0">
             <v-col>
+              <h4 class="intro_headers mb-6">Videos:</h4>
               <!-- <h3 class="intro_headers mb-6">Resources</h3> -->
               <v-row>
                 <v-col v-for="(video, index) in videos" :key="index">
@@ -70,9 +72,9 @@
               </v-row>
             </v-col>
           </v-row>
-          <v-row v-if="articles.length != 0">
+          <v-row v-if="articles.length > 0">
             <v-col>
-              <h3 class="intro_headers mb-6">Articles</h3>
+              <h4 class="intro_headers mb-6">Articles:</h4>
               <!-- <articles></articles> -->
               <v-row v-for="(article, index) in articles" :key="index">
                 <v-col>
@@ -358,7 +360,8 @@ export default {
       projection: null,
       path: null,
       svg: null,
-      model: 0,
+      startDate: null,
+      endDate: null,
     };
   },
   computed: {
@@ -378,7 +381,7 @@ export default {
           video.resourceType == "video" &&
           video.parentType == "event"
       );
-      console.log("resources", r);
+
       return r;
     },
     articles() {
@@ -388,7 +391,7 @@ export default {
           article.resourceType == "article" &&
           article.parentType == "event"
       );
-      console.log("resources", r);
+
       return r;
     },
   },
@@ -403,11 +406,8 @@ export default {
           category: this.$route.params.category,
         },
       });
-      // this.$router.go(-1);
     },
-    async primary(model) {
-      console.log("in primary", model);
-
+    async primary() {
       let list = document.getElementById("map");
       if (list != null) {
         // As long as <ul> has a child node, remove it
@@ -418,16 +418,14 @@ export default {
 
       d3.select(window).on("resize", this.resize);
 
-      // var width = document.querySelector("#map").offsetWidth;
       var width = 1400;
-      // var mapRatio = 0.7;
-      // var height = width * mapRatio;
-      var height = 900;
+      var height = 700;
 
       var projection = d3.geo
         .mercator()
+        .center([0, 5])
         .scale(width / 1.5 / Math.PI)
-        .rotate([-1, 0])
+        .rotate([-10, 0])
         .translate([width / 1.5, (height * 1.35) / 2])
         .precision(0.1);
 
@@ -439,7 +437,7 @@ export default {
         .classed("svg-container", true)
         .append("svg")
         .attr("preserveAspectRatio", "xMinYMin")
-        .attr("viewBox", "0 0 2000 1200")
+        .attr("viewBox", "0 0 2000 850")
         .classed("svg-content-responsive", true)
         .append("g");
 
@@ -478,7 +476,6 @@ export default {
           .attr("fill", "#464646");
       }
 
-      //This is the accessor function we talked about above
       var lineFunction = d3.svg
         .line()
         .x(function(d) {
@@ -491,54 +488,56 @@ export default {
         })
         .interpolate("linear");
 
-      // console.log("in map creator", this.events[model].coordinates);
       var coordinates = this.event.coordinates;
 
-      //The line SVG Path we draw
-      if (coordinates) {
-        coordinates.forEach((i) => {
+      if (coordinates != null) {
+        Object.keys(coordinates).forEach((map) => {
           svg
             .append("path")
-            .attr("d", lineFunction(i.map))
+            .attr("d", lineFunction(coordinates[map]))
+            .attr("stroke", "red")
+            .attr("stroke-width", 2)
             .attr("fill", "#BDFF00");
         });
       }
     },
   },
   async mounted() {
-    console.log("mounted");
-    store.dispatch("setTimePeriod", this.$route.params.period);
+    if (Object.keys(storeTopic.state.topic).length === 0) {
+      store.dispatch("setTimePeriod", this.$route.params.period);
 
-    var newTopic = await db
-      .collection("topics")
-      .doc(this.$route.params.topic)
-      .get()
-      .then(
-        function(querySnapshot) {
-          var entry = querySnapshot.data();
-          entry.id = querySnapshot.id;
-          return entry;
-        }.bind(this)
-      );
-    storeTopic.dispatch("topicContent", newTopic);
+      var newTopic = await db
+        .collection("topics")
+        .doc(this.$route.params.topic)
+        .get()
+        .then(
+          function(querySnapshot) {
+            var entry = querySnapshot.data();
+            entry.id = querySnapshot.id;
+            return entry;
+          }.bind(this)
+        );
 
-    var newEvent = await db
-      .collection("events")
-      .doc(this.$route.params.event)
-      .get()
-      .then(
-        function(querySnapshot) {
-          var entry = querySnapshot.data();
-          entry.id = querySnapshot.id;
-          return entry;
-        }.bind(this)
-      );
-    console.log(newEvent.id);
-    console.log(storeTopic.state.resources);
+      storeTopic.dispatch("topicContent", newTopic);
 
-    storeTopic.dispatch("eventContent", newEvent);
+      var newEvent = await db
+        .collection("events")
+        .doc(this.$route.params.event)
+        .get()
+        .then(
+          function(querySnapshot) {
+            var entry = querySnapshot.data();
+            entry.id = querySnapshot.id;
+            return entry;
+          }.bind(this)
+        );
 
-    this.primary(0);
+      storeTopic.dispatch("eventContent", newEvent);
+    }
+
+    this.startDate = this.event.startDate.date;
+    this.endDate = this.event.endDate.date;
+    this.primary();
   },
 };
 </script>
@@ -634,8 +633,8 @@ h5 {
 .svg-container {
   display: inline-block;
   position: relative;
-  width: 100%;
-  max-height: 1000px;
+  width: 120%;
+  max-height: 1700px;
   vertical-align: top;
   overflow: hidden;
   left: 10%;

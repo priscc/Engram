@@ -1,35 +1,6 @@
 <template>
   <div class="Topics" style="height: 100%">
     <v-container fluid class="pt-2">
-      <!-- <v-row
-        v-if="currentTopicComponent == 2"
-        class="white--text"
-        style="height: 140px"
-      >
-        <v-col cols="2" class="d-flex align-center u-non-blurred">
-          <v-btn text @click="$router.go(-1)" color="white">
-            <v-icon class="pr-1" small dark>
-              mdi-arrow-left-drop-circle-outline
-            </v-icon>
-            Back
-          </v-btn>
-        </v-col>
-        <v-col class="d-flex flex-column justify-center u-non-blurred">
-          <p class="caption">{{ timePeriodHeaders.header }}</p>
-          <p class="display-2 mb-0" style="line-height: 20px">
-            {{ topic.title }}
-          </p>
-        </v-col>
-      </v-row> -->
-      <!-- other pages -->
-      <!-- <v-row
-        v-else
-        class="background background-filter white--text"
-        style="height: 140px"
-        :style="{
-          'background-image': `url(${topic.topic_thumbURL})`,
-        }"
-      > -->
       <v-row
         class="background background-filter white--text"
         style="height: 140px"
@@ -38,7 +9,7 @@
         }"
       >
         <v-col cols="2" class="d-flex align-center u-non-blurred">
-          <v-btn text @click="onClick" color="white">
+          <v-btn text @click="back" color="white">
             <v-icon class="pr-1" small dark>
               mdi-arrow-left-drop-circle-outline
             </v-icon>
@@ -66,9 +37,7 @@
               @click="select(index)"
               elevation="0"
             >
-              <p class="buttons mb-0">
-                {{ t.title }}
-              </p>
+              <p class="buttons mb-0">{{ t.title }}</p>
             </v-btn>
             <!--   <v-btn
               v-else-if="t.title != 'Trends'"
@@ -105,6 +74,7 @@
 <script>
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
+// import { mapGetters } from "vuex";
 import intro from "@/components/Intro.vue";
 import trends from "@/components/Trends.vue";
 import developments from "@/components/Developments.vue";
@@ -123,10 +93,8 @@ export default {
     primarysources,
     terms,
   },
-  // data() {
-  //   return { topicButtons: [] };
-  // },
   computed: {
+    // ...mapGetters("index", ["timePeriodHeaders"]),
     timePeriodHeaders() {
       return store.state.timePeriodHeaders[store.state.currentTimePeriod];
     },
@@ -155,27 +123,30 @@ export default {
       store.dispatch("setTopicButton", i);
       this.$router.replace({ name: "Topic", params: { category: i } });
     },
-    onClick() {
+    back() {
       store.dispatch("setTopicButton", 0);
-      this.$router.go(-1);
+      this.$router.push({
+        name: "Period",
+        params: { period: this.$route.params.period },
+      });
     },
   },
   async mounted() {
-    store.dispatch("setTimePeriod", this.$route.params.period);
-
-    var newTopic = await db
-      .collection("topics")
-      .doc(this.$route.params.topic)
-      .get()
-      .then(
-        function(querySnapshot) {
-          var entry = querySnapshot.data();
-          entry.id = querySnapshot.id;
-          return entry;
-        }.bind(this)
-      );
-    storeTopic.dispatch("topicContent", newTopic);
-
+    if (Object.keys(storeTopic.state.topic).length === 0) {
+      store.dispatch("setTimePeriod", this.$route.params.period);
+      var newTopic = await db
+        .collection("topics")
+        .doc(this.$route.params.topic)
+        .get()
+        .then(
+          function(querySnapshot) {
+            var entry = querySnapshot.data();
+            entry.id = querySnapshot.id;
+            return entry;
+          }.bind(this)
+        );
+      storeTopic.dispatch("topicContent", newTopic);
+    }
     store.dispatch("setTopicButton", this.$route.params.category);
   },
 };

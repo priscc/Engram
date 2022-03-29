@@ -13,8 +13,8 @@
         height="100%"
         v-model="model"
         @change="
-          primary(model);
-          timelineEventDot(model);
+          primary();
+          timelineEventDot();
         "
       >
         <template v-slot:prev="{ on, attrs }">
@@ -52,7 +52,7 @@
             <v-container fluid class="cardCaptions">
               <v-row
                 dense
-                class="d-flex align-stretch ma-3 mx-xs-1 mx-md-3 mx-lg-7"
+                class="d-flex align-stretch ma-3 mx-xs-5 mx-md-7 mx-lg-7"
               >
                 <v-col>
                   <h1
@@ -62,23 +62,23 @@
                   >
                     {{ slide.title }}
                   </h1>
-                  <div class=" mt-1 mb-4">
-                    <h2
+                  <div class=" mt-2 mb-4">
+                    <h1
                       v-if="slide.endDate.date.length != 0"
-                      style="word-break: normal "
-                      class="light-green--text text--lighten-2"
+                      style="font-size: 16px; word-break: normal "
+                      class="card_header light-green--text text--lighten-2"
                       dark
                     >
                       ({{ slide.startDate.date }} - {{ slide.endDate.date }})
-                    </h2>
-                    <h2
+                    </h1>
+                    <h1
                       v-else
-                      style="word-break: normal"
-                      class="light-green--text text--lighten-2"
+                      style="font-size: 16px; word-break: normal"
+                      class="card_header light-green--text text--lighten-2"
                       dark
                     >
                       ({{ slide.startDate.date }})
-                    </h2>
+                    </h1>
                   </div>
                   <p
                     class="mt-4 mr-4 card_Description caption mb-0"
@@ -88,8 +88,7 @@
                   </p>
                   <v-card-text v-if="slide.theme.length > 0" class="px-0">
                     <div
-                      class="d-flex flex-row caption flex-wrap card_themes font-weight-thin"
-                      color="blue-grey"
+                      class="d-flex flex-row card_Description caption flex-wrap"
                     >
                       Themes:
                       <div
@@ -534,44 +533,31 @@ export default {
   methods: {
     goTo(event) {
       storeTopic.dispatch("eventContent", event);
-      console.log("event", event.id);
+      console.log("learn more about event", event.id);
       this.$router.push({ name: "Event", params: { event: event.id } });
     },
 
-    timelineEventDot(model) {
-      this.eventTickDate = this.events[model].startDate.dateNum;
-      this.eventEndTickDate = this.events[model].endDate.dateNum;
-      if (this.eventEndTickDate != 0) {
-        this.tickHeight =
-          ((this.eventEndTickDate - this.minDate) / this.diffYears) * 100 -
-          ((this.eventTickDate - this.minDate) / this.diffYears) * 100;
-      } else {
-        this.tickHeight = 0;
+    timelineEventDot() {
+      var model = this.model;
+
+      if (this.events[model]) {
+        this.eventTickDate = this.events[model].startDate.dateNum;
+        this.eventEndTickDate = this.events[model].endDate.dateNum;
+        if (this.eventEndTickDate != 0) {
+          this.tickHeight =
+            ((this.eventEndTickDate - this.minDate) / this.diffYears) * 100 -
+            ((this.eventTickDate - this.minDate) / this.diffYears) * 100;
+        } else {
+          this.tickHeight = 0;
+        }
       }
     },
 
     calculatingDates() {
-      // const endingDatesMax = Math.max.apply(
-      //   Math,
-      //   this.events.map(function (o) {
-      //     return o.endDate.dateNum;
-      //   })
-      // );
-      // const startingDatesMax = Math.max.apply(
-      //   Math,
-      //   this.events.map(function (o) {
-      //     return o.startDate.dateNum;
-      //   })
-      // );
-      // var date2;
-      // if (endingDatesMax > startingDatesMax) {
-      //   date2 = endingDatesMax;
-      // } else {
-      //   date2 = startingDatesMax;
-      // }
       const date2 = new Date().getFullYear();
       const date1 =
-        Math.round((this.events[0].startDate.dateNum - 20) / 100) * 100;
+        Math.round((this.events[this.model].startDate.dateNum - 20) / 100) *
+        100;
       this.minDate = date1;
       this.diffYears = date2 - date1;
 
@@ -588,27 +574,22 @@ export default {
       } else if (this.diffYears >= 250) {
         this.ticks = Math.floor(this.diffYears / 25);
         this.tickSize = 25;
-        // console.log('> 100', total)
       } else if (this.diffYears >= 100) {
         this.ticks = Math.floor(this.diffYears / 10);
         this.tickSize = 10;
-        // console.log('> 100', total)
       } else if (this.diffYears >= 50) {
         this.ticks = Math.floor(this.diffYears / 10);
         this.tickSize = 10;
-        // console.log('> 50', total)
       } else if (this.diffYears >= 20) {
         this.ticks = Math.floor(this.diffYears / 5);
         this.tickSize = 5;
-        // console.log('> 50', total)
       } else {
         this.ticks = Math.floor(this.diffYears / 2);
         this.tickSize = 2;
-        // console.log('> 20', total)
       }
     },
 
-    async primary(model) {
+    async primary() {
       let list = document.getElementById("map");
       if (list != null) {
         // As long as <ul> has a child node, remove it
@@ -619,10 +600,7 @@ export default {
 
       d3.select(window).on("resize", this.resize);
 
-      // var width = document.querySelector("#map").offsetWidth;
       var width = 1400;
-      // var mapRatio = 0.7;
-      // var height = width * mapRatio;
       var height = 800;
 
       var projection = d3.geo
@@ -692,7 +670,6 @@ export default {
         // });
       }
 
-      //This is the accessor function we talked about above
       var lineFunction = d3.svg
         .line()
         .x(function(d) {
@@ -705,20 +682,20 @@ export default {
         })
         .interpolate("linear");
 
-      // console.log("in map creator", this.events[model].coordinates);
-      var coordinates = this.events[model].coordinates;
-      console.log("coordinates", coordinates);
-      //The line SVG Path we draw
-      if (coordinates != null) {
-        console.log("in here");
-        Object.keys(coordinates).forEach((map) => {
-          svg
-            .append("path")
-            .attr("d", lineFunction(coordinates[map]))
-            .attr("stroke", "red")
-            .attr("stroke-width", 2)
-            .attr("fill", "#BDFF00");
-        });
+      var model = this.model;
+
+      if (this.events[model]) {
+        var coordinates = this.events[model].coordinates;
+        if (coordinates != null) {
+          Object.keys(coordinates).forEach((map) => {
+            svg
+              .append("path")
+              .attr("d", lineFunction(coordinates[map]))
+              .attr("stroke", "red")
+              .attr("stroke-width", 2)
+              .attr("fill", "#BDFF00");
+          });
+        }
       }
     },
   },
@@ -727,11 +704,13 @@ export default {
       return storeTopic.state.events;
     },
   },
-  mounted() {
-    this.primary(0);
-    this.timelineEventDot(0);
-    // this.eventTickDate = this.events[0].startDate.dateNum;
+  async mounted() {
+    await storeTopic.dispatch("eventsContent");
+    console.log("mounted events");
+    this.model = 0;
+    this.primary();
     this.calculatingDates();
+    this.timelineEventDot();
   },
 };
 </script>
@@ -824,11 +803,7 @@ h3 {
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
 }
-.card_themes {
-  font-size: 12px !important;
-  line-height: 1rem;
-  max-height: 3rem;
-}
+
 .carousel-arrow:hover {
   color: grey;
 }

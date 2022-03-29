@@ -41,14 +41,13 @@
             <v-col class="d-flex justify-end flex-column">
               <p class="people_header mb-0">{{ person.name }}</p>
               <p
-                v-if="person.dateOfPassing.date.length == 0"
+                v-if="dateOfPassing == null || dateOfPassing.length == 0"
                 class="people_subheader mb-0"
               >
-                ({{ person.dateOfBirth.date }} - Present)
+                Date of Birth: {{ dateOfBirth }}
               </p>
               <p v-else class="people_subheader mb-0">
-                ({{ person.dateOfBirth.date }} -
-                {{ person.dateOfPassing.date }})
+                ({{ dateOfBirth }} - {{ dateOfPassing }})
               </p>
             </v-col>
           </v-row>
@@ -61,8 +60,9 @@
           </v-row>
         </v-col>
         <v-col>
-          <v-row>
+          <v-row v-if="videos.length > 0" class="mt-0">
             <v-col>
+              <h4 class="intro_headers mb-6">Videos:</h4>
               <!-- <h3 class="intro_headers mb-6">Resources</h3> -->
               <v-row>
                 <v-col v-for="(video, index) in videos" :key="index">
@@ -81,7 +81,7 @@
           </v-row>
           <v-row>
             <v-col v-if="articles.length > 0">
-              <h3 class="intro_headers mb-6">Articles</h3>
+              <h4 class="intro_headers mb-6">Articles:</h4>
               <!-- <articles></articles> -->
               <v-row>
                 <v-col v-for="(article, index) in articles" :key="index">
@@ -105,6 +105,12 @@ import { db } from "@/main";
 export default {
   name: "Person",
   components: { articlecomp },
+  data() {
+    return {
+      dateOfBirth: null,
+      dateOfPassing: null,
+    };
+  },
   computed: {
     timePeriodHeaders() {
       return store.state.timePeriodHeaders[store.state.currentTimePeriod];
@@ -122,7 +128,7 @@ export default {
           video.resourceType == "video" &&
           video.parentType == "people"
       );
-      console.log("resources", r);
+
       return r;
     },
     articles() {
@@ -132,7 +138,7 @@ export default {
           article.resourceType == "article" &&
           article.parentType == "people"
       );
-      console.log("resources", r);
+
       return r;
     },
   },
@@ -143,35 +149,38 @@ export default {
     },
   },
   async mounted() {
-    console.log("mounted");
-    store.dispatch("setTimePeriod", this.$route.params.period);
+    if (Object.keys(storeTopic.state.topic).length === 0) {
+      store.dispatch("setTimePeriod", this.$route.params.period);
 
-    var newTopic = await db
-      .collection("topics")
-      .doc(this.$route.params.topic)
-      .get()
-      .then(
-        function(querySnapshot) {
-          var entry = querySnapshot.data();
-          entry.id = querySnapshot.id;
-          return entry;
-        }.bind(this)
-      );
-    storeTopic.dispatch("topicContent", newTopic);
+      var newTopic = await db
+        .collection("topics")
+        .doc(this.$route.params.topic)
+        .get()
+        .then(
+          function(querySnapshot) {
+            var entry = querySnapshot.data();
+            entry.id = querySnapshot.id;
+            return entry;
+          }.bind(this)
+        );
+      storeTopic.dispatch("topicContent", newTopic);
 
-    var newProfile = await db
-      .collection("people")
-      .doc(this.$route.params.person)
-      .get()
-      .then(
-        function(querySnapshot) {
-          var entry = querySnapshot.data();
-          entry.id = querySnapshot.id;
-          return entry;
-        }.bind(this)
-      );
+      var newProfile = await db
+        .collection("people")
+        .doc(this.$route.params.person)
+        .get()
+        .then(
+          function(querySnapshot) {
+            var entry = querySnapshot.data();
+            entry.id = querySnapshot.id;
+            return entry;
+          }.bind(this)
+        );
 
-    storeTopic.dispatch("personContent", newProfile);
+      storeTopic.dispatch("personContent", newProfile);
+    }
+    this.dateOfBirth = this.person.dateOfBirth.date;
+    this.dateOfPassing = this.person.dateOfPassing.date;
   },
 };
 </script>

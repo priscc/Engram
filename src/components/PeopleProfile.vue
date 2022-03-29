@@ -88,14 +88,13 @@ export default {
           resource.resourceType === "video"
         );
       });
-      console.log("resources", r);
       return r;
     },
   },
   methods: {
     goTo() {
       storeTopic.dispatch("personContent", this.person);
-      console.log("person", this.person);
+      console.log("learn more about person", this.person);
       this.$router.push({
         name: "Person",
         params: { person: this.person.id },

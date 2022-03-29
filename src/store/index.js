@@ -46,6 +46,10 @@ export default new Vuex.Store({
       { title: "Terms", color: "grey lighten-3" },
     ],
   },
+  getters: {
+    timePeriodHeaders: (state) =>
+      state.timePeriodHeaders[state.currentTimePeriod],
+  },
   mutations: {
     selectedTimePeriod(state, i) {
       state.currentTimePeriod = i;
