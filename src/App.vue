@@ -1,109 +1,53 @@
 <template>
   <v-app>
     <v-app-bar
+      height="100%"
       app
       flat
       dark
-      style="border-bottom: 0.2px grey solid; background-color: black"
+      style="border-bottom: 0.2px grey solid; background-color: black; border-top: 1px solid white; border-bottom: 1px solid white"
     >
-      <v-container fluid>
-        <v-row>
-          <v-col class="d-flex justify-start">
-            <v-btn @click="home" text style="opacity: 0.75">
-              <v-img
-                class="mr-1"
-                max-width="25"
-                src="@/assets/EngramLogo.png"
-              ></v-img
-              >Engram
-            </v-btn>
-          </v-col>
-
-          <v-col cols="7" class="d-flex justify-end align-center mr-10">
-            <v-btn
-              @click="home"
-              text
-              style="text-transform: none; font-size: 16px; font-weight: bold"
-            >
-              <p class="mb-0">Home</p>
-            </v-btn>
-            <v-btn
-              @click="about"
-              text
-              style="text-transform: none; font-size: 16px; font-weight: bold"
-            >
-              <p class="mb-0">About</p>
-            </v-btn>
-            <v-btn
-              text
-              style="text-transform: none; font-size: 16px; font-weight: bold"
-            >
-              <p class="mb-0">Packets</p>
-            </v-btn>
-            <v-btn
-              text
-              style="text-transform: none; font-size: 16px; font-weight: bold"
-            >
-              <p class="mb-0">Add Content</p>
-            </v-btn>
-            <v-autocomplete
-              :items="searchItems"
-              item-text="title"
-              item-value="id"
-              return-object
-              v-model="search"
-              prepend-inner-icon="mdi-magnify"
-              placeholder="Search Anything"
-              flat
-              dense
-              clearable
-              append-icon=""
-              hide-details
-              hide-no-data
-              filled
-              @focus="searchClosed = false"
-              @blur="searchClosed = true"
-              class="expanding-search"
-              :class="{ closed: searchClosed && !search }"
-            ></v-autocomplete>
-          </v-col>
-        </v-row>
-
-        <!--  <v-row>
-          <v-col cols="3">
-            <v-text-field
-              hide-details
-              rounded
-              outlined
-              dense
-              filled
-              append-icon="mdi-magnify"
-              single-line
-            >
-              <v-autocomplete
-                clearable
-                dense
-                rounded
-                solo-inverted
-                label="Search Anything"
-              ></v-autocomplete>
-            </v-text-field>
-          </v-col>
-        </v-row> -->
-      </v-container>
+      <v-toolbar-title
+        class="white--text 
+            mb-0"
+        style="font-family: 'Montserrat', sans-serif; font-size: 34px; font-weight: 750"
+      >
+        AP World History Units
+      </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-autocomplete
+        :items="searchItems"
+        item-text="title"
+        item-value="id"
+        return-object
+        v-model="search"
+        prepend-inner-icon="mdi-magnify"
+        placeholder="Search Anything"
+        flat
+        dense
+        clearable
+        append-icon=""
+        hide-details
+        hide-no-data
+        filled
+        @focus="searchClosed = false"
+        @blur="searchClosed = true"
+        class="mr-10 expanding-search"
+        :class="{ closed: searchClosed && !search }"
+      ></v-autocomplete>
     </v-app-bar>
-    <v-main :style="{ 'background-color': bgColor }">
+    <v-main :style="{ 'background-color': bgColor }" style="min-height: 100%">
       <!-- <transition name="slide-fade"> -->
       <router-view></router-view>
       <!-- </transition> -->
     </v-main>
-    <v-footer
+    <!--  <v-footer
       app
       color="black"
       class="py-0 grey--text text--darken-3 caption d-flex justify-center"
     >
       Engram 2021
-    </v-footer>
+    </v-footer> -->
   </v-app>
 </template>
 
@@ -141,13 +85,13 @@ export default {
     topicSearch() {
       store.dispatch("setTimePeriod", this.search.timePeriod);
       storeTopic.dispatch("topicContent", this.search.document);
-      store.dispatch("setTopicButton", 0);
+      store.dispatch("setTopicButton", 1);
       this.$router.push({
         name: "Topic",
         params: {
           period: this.search.timePeriod,
           topic: this.search.document.id,
-          category: 0,
+          category: 1,
         },
       });
     },
@@ -158,14 +102,14 @@ export default {
 
       store.dispatch("setTimePeriod", val.timePeriod);
       storeTopic.dispatch("topicContent", val.topic);
-      store.dispatch("setTopicButton", 2);
+      store.dispatch("setTopicButton", 0);
       storeTopic.dispatch("eventContent", val.document);
       this.$router.push({
         name: "Event",
         params: {
           period: val.timePeriod,
           topic: val.topic,
-          category: 2,
+          category: 0,
           event: val.document.id,
         },
       });
@@ -341,6 +285,8 @@ export default {
 
 <style lang="sass">
 @import "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+
+
 
 
 .v-input.expanding-search

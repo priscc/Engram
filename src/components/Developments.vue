@@ -6,7 +6,7 @@
       height="auto"
       width="27%"
       dark
-      style="position: fixed; top: 49%; left: 17%"
+      style="position: absolute; top: 39%; left: 17%"
     >
       <v-carousel
         class="myCarousel"

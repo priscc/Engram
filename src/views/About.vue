@@ -1,6 +1,6 @@
 <template>
 	<div class="about">
-		<v-container class="pt-16 mt-16">
+		<v-container class="pt-16 mt-16" style="color: white">
 			<v-row>
 				<v-col cols="10">
 					<h1 class="pt-6">About</h1>

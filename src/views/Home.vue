@@ -1,17 +1,15 @@
 <template>
   <div class="Home" style="height: 100%">
-    <v-container fluid style="background-color: black">
+    <!--  <v-container fluid style="background-color: black">
       <v-row>
         <v-col class="d-flex justify-start">
-          <!-- <v-card dark tile> -->
           <p class="page_header white--text pl-8">AP World History Units</p>
-          <!-- </v-card> -->
         </v-col>
       </v-row>
-    </v-container>
+    </v-container> -->
     <v-container
       fluid
-      style="height: 100%"
+      style="min-height: 100%"
       class="d-flex align-strech flex-column"
     >
       <v-row>
@@ -19,7 +17,7 @@
           v-for="(timePeriod, index) in timePeriodHeaders"
           :key="index"
           class="d-flex flex-column justify-start pa-0 topic"
-          style="border: none"
+          style="border: none; background-repeat: no-repeat; background-size: cover;"
           :style="{
             'background-image':
               'url(' + require(`@/assets/${timePeriod.img}`) + ')',

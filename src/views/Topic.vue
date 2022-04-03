@@ -111,7 +111,7 @@ export default {
       return storeTopic.state.topic;
     },
     color() {
-      if (store.state.currentTopicComponent == 1) {
+      if (store.state.currentTopicComponent == 0) {
         return "white";
       } else {
         return "black";
