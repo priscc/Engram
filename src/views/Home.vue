@@ -1,17 +1,8 @@
 <template>
-  <div class="Home" style="height: 90%;">
-    <v-container fluid style="background-color: black">
-      <v-row>
-        <v-col class="d-flex justify-start ">
-          <p class="page_header white--text pl-8 my-3">
-            AP World History Units
-          </p>
-        </v-col>
-      </v-row>
-    </v-container>
+  <div class="Home" style="height: 100%;">
     <v-container
       fluid
-      style="height: 95%"
+      style="height: 100%"
       class="d-flex align-self-strech flex-column"
     >
       <v-row class="d-flex align-strech">

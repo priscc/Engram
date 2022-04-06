@@ -5,16 +5,16 @@
       flat
       dark
       style="border-bottom: 0.2px grey solid; background-color: black; border-bottom: thin solid grey"
-      class="d-flex justify-end"
     >
-      <!-- <v-toolbar-title
+      <v-toolbar-title
+        v-if="this.$router.currentRoute.path == '/'"
         class="white--text 
             mb-0"
         style="font-family: 'Montserrat', sans-serif; font-size: 34px; font-weight: 750"
       >
         AP World History Units
       </v-toolbar-title>
-      <v-spacer></v-spacer> -->
+      <v-spacer></v-spacer>
       <v-autocomplete
         :items="searchItems"
         item-text="title"
