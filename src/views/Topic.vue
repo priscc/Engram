@@ -57,9 +57,9 @@
         </v-col>
         <v-col class="pa-0 pt-5">
           <!-- make the  currentTopicComponent stored in the router-->
-          <intro v-if="currentTopicComponent == 1"></intro>
-          <trends v-if="currentTopicComponent == 2"></trends>
-          <developments v-else-if="currentTopicComponent == 0"></developments>
+          <intro v-if="currentTopicComponent == 0"></intro>
+          <trends v-if="currentTopicComponent == 1"></trends>
+          <developments v-else-if="currentTopicComponent == 2"></developments>
           <people v-else-if="currentTopicComponent == 3"></people>
           <primarysources
             v-else-if="currentTopicComponent == 4"

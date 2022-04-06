@@ -1,22 +1,24 @@
 <template>
-  <div class="Home" style="height: 100%">
-    <!--  <v-container fluid style="background-color: black">
+  <div class="Home" style="height: 90%;">
+    <v-container fluid style="background-color: black">
       <v-row>
-        <v-col class="d-flex justify-start">
-          <p class="page_header white--text pl-8">AP World History Units</p>
+        <v-col class="d-flex justify-start ">
+          <p class="page_header white--text pl-8 my-3">
+            AP World History Units
+          </p>
         </v-col>
       </v-row>
-    </v-container> -->
+    </v-container>
     <v-container
       fluid
-      style="min-height: 100%"
-      class="d-flex align-strech flex-column"
+      style="height: 95%"
+      class="d-flex align-self-strech flex-column"
     >
-      <v-row>
+      <v-row class="d-flex align-strech">
         <v-col
           v-for="(timePeriod, index) in timePeriodHeaders"
           :key="index"
-          class="d-flex flex-column justify-start pa-0 topic"
+          class="d-flex flex-column justify-start  pa-0 topic"
           style="border: none; background-repeat: no-repeat; background-size: cover;"
           :style="{
             'background-image':

@@ -1,20 +1,20 @@
 <template>
-  <v-app>
+  <v-app style="height: 100%">
     <v-app-bar
-      height="100%"
       app
       flat
       dark
-      style="border-bottom: 0.2px grey solid; background-color: black; border-top: 1px solid white; border-bottom: 1px solid white"
+      style="border-bottom: 0.2px grey solid; background-color: black; border-bottom: thin solid grey"
+      class="d-flex justify-end"
     >
-      <v-toolbar-title
+      <!-- <v-toolbar-title
         class="white--text 
             mb-0"
         style="font-family: 'Montserrat', sans-serif; font-size: 34px; font-weight: 750"
       >
         AP World History Units
       </v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-spacer></v-spacer> -->
       <v-autocomplete
         :items="searchItems"
         item-text="title"
@@ -36,7 +36,7 @@
         :class="{ closed: searchClosed && !search }"
       ></v-autocomplete>
     </v-app-bar>
-    <v-main :style="{ 'background-color': bgColor }" style="min-height: 100%">
+    <v-main :style="{ 'background-color': bgColor }">
       <!-- <transition name="slide-fade"> -->
       <router-view></router-view>
       <!-- </transition> -->
@@ -85,13 +85,13 @@ export default {
     topicSearch() {
       store.dispatch("setTimePeriod", this.search.timePeriod);
       storeTopic.dispatch("topicContent", this.search.document);
-      store.dispatch("setTopicButton", 1);
+      store.dispatch("setTopicButton", 0);
       this.$router.push({
         name: "Topic",
         params: {
           period: this.search.timePeriod,
           topic: this.search.document.id,
-          category: 1,
+          category: 0,
         },
       });
     },
@@ -102,21 +102,19 @@ export default {
 
       store.dispatch("setTimePeriod", val.timePeriod);
       storeTopic.dispatch("topicContent", val.topic);
-      store.dispatch("setTopicButton", 0);
+      store.dispatch("setTopicButton", 2);
       storeTopic.dispatch("eventContent", val.document);
       this.$router.push({
         name: "Event",
         params: {
           period: val.timePeriod,
           topic: val.topic,
-          category: 0,
+          category: 2,
           event: val.document.id,
         },
       });
     },
     async peopleSearch(val) {
-      console.log("people search", val);
-
       var v = await this.grabbingTopic();
       val.topic = v;
       val.timePeriod = v.timePeriod - 1;
@@ -126,7 +124,6 @@ export default {
       store.dispatch("setTopicButton", 3);
       storeTopic.dispatch("personContent", val.document);
 
-      console.log("people search", val);
       this.$router.push({
         name: "Person",
         params: {
@@ -268,8 +265,8 @@ export default {
   computed: {
     bgColor: function() {
       if (
-        store.state.currentTopicComponent == 0 &&
-        storeTopic.state.event.length == 0
+        store.state.currentTopicComponent == 2 ||
+        Object.keys(storeTopic.state.topic).length === 0
       ) {
         return "black";
       } else {
@@ -293,7 +290,7 @@ export default {
   border: 1px solid white
   border-radius: 50px
   .v-input__control
-    width: 350px
+    width: 550px
   &.closed
     max-width: 45px
     border: none !important
