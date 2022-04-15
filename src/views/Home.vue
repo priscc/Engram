@@ -46,9 +46,12 @@ export default {
   methods: {
     expand(i) {
       console.log("selected timePeriod", i);
-
+      store.dispatch("setTimePeriod", i);
       this.$router.push({ name: "Period", params: { period: i } });
     },
+  },
+  mounted() {
+    store.dispatch("setTimePeriod", null);
   },
 };
 </script>

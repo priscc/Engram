@@ -1,6 +1,6 @@
 <template>
-  <div class="Topics" style="height: 100%">
-    <v-container fluid class="pt-2">
+  <div class="Topic" style="height: 100%">
+    <v-container fluid>
       <v-row
         class="background background-filter white--text"
         style="height: 140px"

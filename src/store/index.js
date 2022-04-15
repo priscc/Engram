@@ -35,7 +35,7 @@ export default new Vuex.Store({
         img: "Modern.png",
       },
     ],
-    currentTimePeriod: 0,
+    currentTimePeriod: null,
     currentTopicComponent: 0,
     topicButtons: [
       { title: "Summary", color: "pink" },

@@ -1,53 +1,115 @@
 <template>
-  <v-app style="height: 100%">
+  <v-app>
     <v-app-bar
-      app
       flat
       dark
-      style="border-bottom: 0.2px grey solid; background-color: black; border-bottom: thin solid grey"
+      style="background-color: black; max-height: 130px !important;  min-height: 130px !important"
+      class="pt-2 pr-2"
     >
-      <v-toolbar-title
-        v-if="this.$router.currentRoute.path == '/'"
-        class="white--text 
-            mb-0"
-        style="font-family: 'Montserrat', sans-serif; font-size: 34px; font-weight: 750"
-      >
-        AP World History Units
+      <v-toolbar-title>
+        <v-btn @click="home" text style="text-transform: none;">
+          <v-img
+            class="mr-2"
+            max-width="33"
+            src="@/assets/EngramLogo.png"
+          ></v-img>
+          <h2 class="logo_btn">Engram</h2>
+        </v-btn>
       </v-toolbar-title>
+
       <v-spacer></v-spacer>
-      <v-autocomplete
-        :items="searchItems"
-        item-text="title"
-        item-value="id"
-        return-object
-        v-model="search"
-        prepend-inner-icon="mdi-magnify"
-        placeholder="Search Anything"
-        flat
-        dense
-        clearable
-        append-icon=""
-        hide-details
-        hide-no-data
-        filled
-        @focus="searchClosed = false"
-        @blur="searchClosed = true"
-        class="mr-10 expanding-search"
-        :class="{ closed: searchClosed && !search }"
-      ></v-autocomplete>
+      <v-btn @click="home" text style="text-transform: none;">
+        <h2 class="navbar_btn">
+          Home
+        </h2>
+      </v-btn>
+      <v-btn @click="about" text style="text-transform: none;">
+        <h2 class="navbar_btn">About</h2>
+      </v-btn>
+      <!--  <v-btn text style="text-transform: none;">
+        <h2 class="navbar_btn">
+          <a
+            href="https://www.engramlearn.store/"
+            class="mb-0"
+            style="color: white; text-decoration: none"
+          >
+            Packets
+          </a>
+        </h2>
+      </v-btn> -->
+      <v-btn @click="packets" text style="text-transform: none;">
+        <h2 class="navbar_btn">Packets</h2>
+      </v-btn>
+      <!--  <v-btn
+        text
+        style="text-transform: none; font-size: 16px; font-weight: bold"
+      >
+        <p class="mb-0">Add Content</p>
+      </v-btn> -->
+      <template v-slot:extension v-if="stateTimePeriod != -1">
+        <v-container fluid class="px-4 pt-4">
+          <v-row>
+            <v-col>
+              <h1
+                v-if="stateTimePeriod == null"
+                class="white--text mb-0"
+                style="font-family: 'Montserrat', sans-serif; font-size: 34px; font-weight: 750"
+              >
+                AP World History Units
+              </h1>
+            </v-col>
+            <v-col class=" d-flex align-center justify-end">
+              <v-autocomplete
+                :items="searchItems"
+                item-text="title"
+                item-value="id"
+                return-object
+                v-model="search"
+                prepend-inner-icon="mdi-magnify"
+                placeholder="Search Anything"
+                flat
+                dense
+                clearable
+                append-icon=""
+                hide-details
+                hide-no-data
+                filled
+                @focus="searchClosed = false"
+                @blur="searchClosed = true"
+                class="expanding-search"
+                :class="{ closed: searchClosed && !search }"
+              >
+              </v-autocomplete>
+            </v-col>
+          </v-row>
+        </v-container>
+      </template>
     </v-app-bar>
     <v-main :style="{ 'background-color': bgColor }">
       <!-- <transition name="slide-fade"> -->
       <router-view></router-view>
       <!-- </transition> -->
     </v-main>
-    <!--  <v-footer
-      app
-      color="black"
-      class="py-0 grey--text text--darken-3 caption d-flex justify-center"
-    >
-      Engram 2021
-    </v-footer> -->
+    <v-footer app color="black" class="py-0 grey--text caption d-flex row-flex">
+      <v-container>
+        <v-row>
+          <v-col class="d-flex row-flex justify-center pb-1">
+            <v-icon small color="grey">mdi-facebook</v-icon>
+            <div class="mx-2"></div>
+            <v-icon small color="grey">mdi-twitter</v-icon>
+            <div class="mx-2"></div>
+            <v-icon small color="grey">mdi-instagram</v-icon>
+          </v-col>
+        </v-row>
+        <v-row class="mt-0">
+          <v-col class="d-flex justify-center">
+            <p class="mb-0" style="font-size: 9px">
+              &copy; 2022 by Engram
+            </p>
+          </v-col>
+        </v-row>
+      </v-container>
+    </v-footer>
   </v-app>
 </template>
 
@@ -179,7 +241,7 @@ export default {
           }.bind(this)
         );
     },
-    async grabbingSearch() {
+    async grabbingSearch2() {
       console.log("grabbing autofill search items");
       db.collection("topics")
         .get()
@@ -252,6 +314,16 @@ export default {
           }.bind(this)
         );
     },
+    async grabbingSearch() {
+      db.collection("searchBar")
+        .doc("bESicXCl5B8APjFo5TAI")
+        .get()
+        .then(
+          function(doc) {
+            this.searchItems = doc.data().searchItems;
+          }.bind(this)
+        );
+    },
     home() {
       store.dispatch("setTopicButton", 0);
       storeTopic.dispatch("eventContentRESET");
@@ -261,8 +333,15 @@ export default {
       store.dispatch("setTopicButton", 0);
       this.$router.push("/about");
     },
+    packets() {
+      store.dispatch("setTopicButton", 0);
+      this.$router.push("/packets");
+    },
   },
   computed: {
+    stateTimePeriod: function() {
+      return store.state.currentTimePeriod;
+    },
     bgColor: function() {
       if (
         store.state.currentTopicComponent == 2 ||
@@ -275,6 +354,7 @@ export default {
     },
   },
   mounted() {
+    // this.grabbingSearch2();
     this.grabbingSearch();
   },
 };
@@ -303,6 +383,17 @@ export default {
       border-style: none !important
       border-width: none !important
 
+.navbar_btn
+  font-family: "Montserrat", sans-serif
+  font-size: 16px
+  font-weight: 750
+  letter-spacing: 0px
+
+.logo_btn
+  font-family: "Montserrat", sans-serif
+  font-size: 16px
+  font-weight: 500
+  letter-spacing: 0px
 
 
 // *.slide-fade-enter-active {

@@ -20,7 +20,9 @@
     <v-container fluid class="px-12">
       <v-row>
         <v-col
-          cols="4"
+          lg="4"
+          md="4"
+          sm="12"
           v-for="(topic, index) in topics"
           :key="index"
           class="d-flex flex-column align-center px-3"

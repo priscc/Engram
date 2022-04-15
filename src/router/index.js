@@ -4,6 +4,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import About from "../views/About.vue";
+import Packets from "../views/Packets.vue";
 import Topics from "../views/Topics.vue";
 import Topic from "../views/Topic.vue";
 import Event from "../components/Event.vue";
@@ -22,6 +23,11 @@ const routes = [
     path: "/about",
     name: "About",
     component: About,
+  },
+  {
+    path: "/packets",
+    name: "Packets",
+    component: Packets,
   },
   //Home > Topic
   {
