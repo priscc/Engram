@@ -7,7 +7,7 @@
       <v-row>
         <v-col>
           <v-btn text to="/">
-            <v-icon class="d-flex align-center pr-1" small dark>
+            <v-icon class="pr-1" small dark>
               mdi-arrow-left-drop-circle-outline
             </v-icon>
             Back

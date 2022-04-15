@@ -3,7 +3,7 @@
     <v-app-bar
       flat
       dark
-      style="background-color: black; max-height: 130px !important;  min-height: 130px !important"
+      style="background-color: black; max-height: 130px !important;  min-height: 80px !important"
       class="pt-2 pr-2"
     >
       <v-toolbar-title>
@@ -26,63 +26,53 @@
       <v-btn @click="about" text style="text-transform: none;">
         <h2 class="navbar_btn">About</h2>
       </v-btn>
-      <!--  <v-btn text style="text-transform: none;">
-        <h2 class="navbar_btn">
-          <a
-            href="https://www.engramlearn.store/"
-            class="mb-0"
-            style="color: white; text-decoration: none"
-          >
-            Packets
-          </a>
-        </h2>
-      </v-btn> -->
+
       <v-btn @click="packets" text style="text-transform: none;">
         <h2 class="navbar_btn">Packets</h2>
       </v-btn>
+      <v-autocomplete
+        :items="searchItems"
+        item-text="title"
+        item-value="id"
+        return-object
+        v-model="search"
+        prepend-inner-icon="mdi-magnify"
+        placeholder="Search Anything"
+        flat
+        dense
+        clearable
+        append-icon=""
+        hide-details
+        hide-no-data
+        filled
+        @focus="searchClosed = false"
+        @blur="searchClosed = true"
+        class="expanding-search"
+        :class="{ closed: searchClosed && !search }"
+      >
+      </v-autocomplete>
       <!--  <v-btn
         text
         style="text-transform: none; font-size: 16px; font-weight: bold"
       >
         <p class="mb-0">Add Content</p>
       </v-btn> -->
-      <template v-slot:extension v-if="stateTimePeriod != -1">
-        <v-container fluid class="px-4 pt-4">
-          <v-row>
-            <v-col>
-              <h1
-                v-if="stateTimePeriod == null"
-                class="white--text mb-0"
-                style="font-family: 'Montserrat', sans-serif; font-size: 34px; font-weight: 750"
-              >
-                AP World History Units
-              </h1>
-            </v-col>
-            <v-col class=" d-flex align-center justify-end">
-              <v-autocomplete
-                :items="searchItems"
-                item-text="title"
-                item-value="id"
-                return-object
-                v-model="search"
-                prepend-inner-icon="mdi-magnify"
-                placeholder="Search Anything"
-                flat
-                dense
-                clearable
-                append-icon=""
-                hide-details
-                hide-no-data
-                filled
-                @focus="searchClosed = false"
-                @blur="searchClosed = true"
-                class="expanding-search"
-                :class="{ closed: searchClosed && !search }"
-              >
-              </v-autocomplete>
-            </v-col>
-          </v-row>
-        </v-container>
+      <template
+        v-slot:extension
+        v-if="stateTimePeriod != -1 && stateTimePeriod == null"
+      >
+        <!-- <v-container fluid class="px-4 pt-4"> -->
+        <!-- <v-row> -->
+        <!-- <v-col> -->
+        <h1
+          class="white--text mb-0"
+          style="font-family: 'Montserrat', sans-serif; font-size: 34px; font-weight: 750"
+        >
+          AP World History Units
+        </h1>
+        <!-- </v-col> -->
+        <!-- </v-row> -->
+        <!-- </v-container> -->
       </template>
     </v-app-bar>
     <v-main :style="{ 'background-color': bgColor }">
