@@ -27,7 +27,7 @@
                 :lazy-src="source.thumbURL"
                 :src="source.thumbURL"
                 height="175"
-                width="250"
+                max-width="250"
                 class="mr-7"
               >
               </v-img>

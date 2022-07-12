@@ -74,7 +74,6 @@
 <script>
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
-// import { mapGetters } from "vuex";
 import intro from "@/components/Intro.vue";
 import trends from "@/components/Trends.vue";
 import developments from "@/components/Developments.vue";

@@ -64,6 +64,10 @@ export default new Vuex.Store({
       else if (i == 4) state.topicButtons[i].color = "yellow";
       else if (i == 5) state.topicButtons[i].color = "green";
     },
+    CHANGE_currentTopicComponent(state, i) {
+      console.log("in here");
+      state.currentTopicComponent = i;
+    },
   },
   actions: {
     setTimePeriod({ commit }, i) {

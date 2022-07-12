@@ -3,7 +3,6 @@
     <v-container fluid class="pt-2">
       <v-row
         class="background background-filter white--text"
-        style="height: 140px"
         :style="{
           'background-image': `url(${topic.topic_thumbURL})`,
         }"
@@ -18,7 +17,7 @@
         </v-col>
         <v-col class="d-flex flex-column justify-center u-non-blurred">
           <p class="caption">{{ timePeriodHeaders.header }}</p>
-          <p class="display-2 mb-0" style="line-height: 20px">
+          <p class="display-2 mb-0" style="line-height: 100%">
             {{ topic.title }} > {{ person.name }}
           </p>
         </v-col>

@@ -3,7 +3,6 @@
     <v-container fluid class="pt-2">
       <v-row
         class="background background-filter white--text"
-        style="height: 140px"
         :style="{
           'background-image': `url(${event.thumbURL})`,
         }"
@@ -18,7 +17,7 @@
         </v-col>
         <v-col class="d-flex flex-column justify-center u-non-blurred">
           <p class="caption">Time Period: {{ timePeriodHeaders.header }}</p>
-          <p class="page_header mb-0" style="line-height: 30px">
+          <p class="page_header mb-0" style="line-height: 100%">
             {{ topic.title }} > {{ event.title }}
           </p>
         </v-col>
@@ -511,6 +510,7 @@ export default {
     },
   },
   async mounted() {
+    store.commit("CHANGE_currentTopicComponent", 0);
     if (Object.keys(storeTopic.state.topic).length === 0) {
       store.dispatch("setTimePeriod", this.$route.params.period);
 
