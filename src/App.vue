@@ -87,12 +87,32 @@
             <v-icon small color="grey">mdi-facebook</v-icon>
             <div class="mx-2"></div>
             <v-icon small color="grey">mdi-twitter</v-icon>
-            <div class="mx-2"></div>
-            <v-icon small color="grey">mdi-instagram</v-icon>
+
+            <v-btn
+              href="https://instagram.com/engram_notes?igshid=YmMyMTA2M2Y="
+              icon
+              color="grey"
+              target="_blank"
+            >
+              <v-icon small>
+                mdi-instagram
+              </v-icon>
+            </v-btn>
           </v-col>
         </v-row>
-        <v-row class="mt-0">
-          <v-col class="d-flex justify-center">
+        <v-row class="my-0 py-0">
+          <v-col class="d-flex row-flex justify-center py-0">
+            <div
+              @click="privacypolicy()"
+              class="text-decoration-underline py-0 my-0"
+              style="font-size: 9px; color: grey;"
+            >
+              Privacy Policy
+            </div>
+          </v-col>
+        </v-row>
+        <v-row class="my-0 py-0">
+          <v-col class="d-flex justify-center py-0">
             <p class="mb-0" style="font-size: 9px">
               &copy; 2022 by Engram
             </p>
@@ -111,6 +131,7 @@ export default {
   name: "App",
   data() {
     return {
+      sheet: false,
       searchClosed: true,
       searchItems: [],
       search: null,
@@ -318,6 +339,10 @@ export default {
       store.dispatch("setTopicButton", 0);
       storeTopic.dispatch("eventContentRESET");
       this.$router.push("/");
+    },
+    privacypolicy() {
+      store.dispatch("setTopicButton", 0);
+      this.$router.push("/privacypolicy");
     },
     about() {
       store.dispatch("setTopicButton", 0);

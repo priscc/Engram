@@ -46,9 +46,13 @@
                 ({{ startDate }} - {{ endDate }})
               </p>
 
-              <p class="intro_paragraph intro_content pt-6">
+              <!--  <p class="intro_paragraph intro_content pt-6">
                 {{ event.mainMD }}
-              </p>
+              </p> -->
+              <div
+                class="intro_paragraph intro_content pt-6"
+                id="editor-container"
+              ></div>
             </v-col>
           </v-row>
         </v-col>
@@ -97,6 +101,10 @@ import * as d3 from "d3";
 import * as topojson from "topojson";
 import articlecomp from "./ArticleComponent.vue";
 import { db } from "@/main";
+import Quill from "quill";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.bubble.css";
+import "quill/dist/quill.snow.css";
 
 export default {
   name: "Event",
@@ -533,6 +541,16 @@ export default {
         );
 
       storeTopic.dispatch("eventContent", newEvent);
+    }
+
+    var v = this.event;
+
+    if (typeof v.mainMD != "string") {
+      var quill = new Quill("#editor-container");
+      quill.setContents(v.mainMD);
+    } else {
+      var e = document.getElementById("editor-container");
+      e.innerText = v.mainMD;
     }
 
     this.startDate = this.event.startDate.date;

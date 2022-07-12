@@ -3,6 +3,7 @@ import Vue from "vue";
 
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
+import PrivacyPolicy from "../views/PrivacyPolicy.vue";
 import About from "../views/About.vue";
 import Packets from "../views/Packets.vue";
 import Topics from "../views/Topics.vue";
@@ -18,6 +19,11 @@ const routes = [
     path: "/",
     name: "Home",
     component: Home,
+  },
+  {
+    path: "/privacypolicy",
+    name: "PrivacyPolicy",
+    component: PrivacyPolicy,
   },
   {
     path: "/about",

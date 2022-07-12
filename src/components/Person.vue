@@ -53,9 +53,13 @@
           </v-row>
           <v-row class="d-flex justify-space-between ml-10 mr-5">
             <v-col class="pt-5">
-              <p class="intro_paragraph intro_content">
+              <!-- <p class="intro_paragraph intro_content">
                 {{ person.mainMD }}
-              </p>
+              </p> -->
+              <div
+                class="intro_paragraph intro_content"
+                id="editor-container"
+              ></div>
             </v-col>
           </v-row>
         </v-col>
@@ -101,6 +105,10 @@ import store from "@/store";
 import storeTopic from "@/store/topic.js";
 import articlecomp from "./ArticleComponent.vue";
 import { db } from "@/main";
+import Quill from "quill";
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.bubble.css";
+import "quill/dist/quill.snow.css";
 
 export default {
   name: "Person",
@@ -178,6 +186,16 @@ export default {
         );
 
       storeTopic.dispatch("personContent", newProfile);
+    }
+
+    var v = this.person;
+
+    if (typeof v.mainMD != "string") {
+      var quill = new Quill("#editor-container");
+      quill.setContents(v.mainMD);
+    } else {
+      var e = document.getElementById("editor-container");
+      e.innerText = v.mainMD;
     }
     this.dateOfBirth = this.person.dateOfBirth.date;
     this.dateOfPassing = this.person.dateOfPassing.date;
