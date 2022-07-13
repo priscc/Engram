@@ -432,7 +432,7 @@ export default {
         .mercator()
         .center([0, 5])
         .scale(width / 1.5 / Math.PI)
-        .rotate([-10, 0])
+        .rotate([-11, 0])
         .translate([width / 1.5, (height * 1.35) / 2])
         .precision(0.1);
 

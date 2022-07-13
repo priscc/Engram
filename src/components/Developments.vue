@@ -605,11 +605,11 @@ export default {
 
       var projection = d3.geo
         .mercator()
-        .center([0, 5])
+        .center([0, 9])
         .scale(width / 1.5 / Math.PI)
-        .rotate([-10, 0])
+        .rotate([-11, 0])
         .translate([width / 1.5, (height * 1.35) / 2])
-        .precision(0.1);
+        .precision(0.5);
 
       var path = d3.geo.path().projection(projection);
 
