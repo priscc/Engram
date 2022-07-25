@@ -27,9 +27,9 @@
         <h2 class="navbar_btn">About</h2>
       </v-btn>
 
-      <v-btn @click="packets" text style="text-transform: none;">
+      <!-- <v-btn @click="packets" text style="text-transform: none;">
         <h2 class="navbar_btn">Packets</h2>
-      </v-btn>
+      </v-btn> -->
       <v-autocomplete
         :items="searchItems"
         item-text="title"

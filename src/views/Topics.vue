@@ -6,7 +6,7 @@
     <v-container fluid class="pl-10 mb-10">
       <v-row>
         <v-col>
-          <v-btn text to="/">
+          <v-btn text @click="back">
             <v-icon class="pr-1" small dark>
               mdi-arrow-left-drop-circle-outline
             </v-icon>
@@ -86,6 +86,12 @@ export default {
     },
   },
   methods: {
+    back() {
+      // store.dispatch("setTopicButton", 0);
+      this.$router.push({
+        name: "Home",
+      });
+    },
     topic() {
       var topics = [];
       db.collection("topics")

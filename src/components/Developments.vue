@@ -125,6 +125,7 @@
       <v-row class="pt-0">
         <v-col class="pt-0 pb-0">
           <h3>Developments</h3>
+          <p class="legend"></p>
         </v-col>
       </v-row>
       <v-row>
@@ -513,6 +514,14 @@ export default {
           ]),
         },
       ],
+      markers: [
+        { corsica: [{ lon: 9.083, lat: 42.149 }] }, // corsica
+        { nice: [{ lon: 7.26, lat: 43.71 }] }, // nice
+        { Paris: [{ lon: 2.349, lat: 48.864 }] }, // Paris
+        { Hossegor: [{ lon: -1.397, lat: 43.664 }] }, // Hossegor
+        { Lille: [{ lon: 3.075, lat: 50.64 }] }, // Lille
+        { Morlaix: [{ lon: -3.83, lat: 58 }] }, // Morlaix
+      ],
       width: null,
       mapRatio: null,
       height: null,
@@ -688,15 +697,85 @@ export default {
         var coordinates = this.events[model].coordinates;
         if (coordinates != null) {
           Object.keys(coordinates).forEach((map) => {
-            svg
-              .append("path")
-              .attr("d", lineFunction(coordinates[map]))
-              .attr("stroke", "red")
-              .attr("stroke-width", 2)
-              .attr("fill", "#BDFF00");
+            console.log("in foreach " + map, " ", coordinates[map].length);
+            if (coordinates[map].length > 1) {
+              svg
+                .append("path")
+                .attr("d", lineFunction(coordinates[map]))
+                .attr("stroke", "red")
+                .attr("stroke-width", 2)
+                .attr("fill", "#BDFF00")
+                .on("mouseover", function() {
+                  var region = d3.select(this);
+                  region.attr("fill", "#ff9800");
+                  document.querySelector(".legend").innerText = map;
+                })
+                .on("mouseout", function() {
+                  var region = d3.select(this);
+                  region.attr("fill", "#BDFF00");
+                  document.querySelector(".legend").innerText = "";
+                });
+            } else {
+              svg
+                .selectAll("myCircles")
+                .data(coordinates[map])
+                .enter()
+                .append("circle")
+                .attr("cx", function(d) {
+                  return projection([d.lon, d.lat])[0];
+                })
+                .attr("cy", function(d) {
+                  return projection([d.lon, d.lat])[1];
+                })
+                .attr("r", 10)
+                .style("fill", "#BDFF00")
+                .attr("stroke", "red")
+                .attr("stroke-width", 4)
+                // .attr("fill-opacity", 0.4)
+                .on("mouseover", function() {
+                  // console.log("bleep", this);
+                  var region = d3.select(this);
+                  region.attr("fill", "#ff9800");
+                  document.querySelector(".legend").innerText = map;
+                })
+                .on("mouseout", function() {
+                  var region = d3.select(this);
+                  region.attr("fill", "#BDFF00");
+                  document.querySelector(".legend").innerText = "";
+                });
+            }
           });
         }
       }
+
+      // Add circles:
+      svg
+        .selectAll("myCircles")
+        .data(this.markers)
+        .enter()
+        .append("circle")
+        .attr("cx", function(d) {
+          return projection([d.lon, d.lat])[0];
+        })
+        .attr("cy", function(d) {
+          return projection([d.lon, d.lat])[1];
+        })
+        .attr("r", 14)
+        .style("fill", "69b3a2")
+        .attr("stroke", "#69b3a2")
+        .attr("stroke-width", 3)
+        // .attr("fill-opacity", 0.4)
+        .on("mouseover", function() {
+          // console.log("bleep", this);
+          var region = d3.select(this);
+          region.attr("fill", "#ff9800");
+          document.querySelector(".legend").innerText = "bleep";
+        })
+        .on("mouseout", function() {
+          var region = d3.select(this);
+          region.attr("fill", "#464646");
+          document.querySelector(".legend").innerText = "";
+        });
     },
   },
   computed: {

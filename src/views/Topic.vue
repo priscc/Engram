@@ -131,6 +131,7 @@ export default {
     },
   },
   async mounted() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     if (Object.keys(storeTopic.state.topic).length === 0) {
       store.dispatch("setTimePeriod", this.$route.params.period);
       var newTopic = await db
