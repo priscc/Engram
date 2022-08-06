@@ -82,7 +82,7 @@
     </v-main>
     <v-footer app color="black" class="py-0 grey--text caption d-flex row-flex">
       <v-container>
-        <v-row>
+        <!-- <v-row>
           <v-col class="d-flex row-flex justify-center pb-1">
             <v-icon small color="grey">mdi-facebook</v-icon>
             <div class="mx-2"></div>
@@ -99,8 +99,8 @@
               </v-icon>
             </v-btn>
           </v-col>
-        </v-row>
-        <v-row class="my-0 py-0">
+        </v-row> -->
+        <!--  <v-row class="my-0 py-0">
           <v-col class="d-flex row-flex justify-center py-0">
             <div
               @click="privacypolicy()"
@@ -110,7 +110,7 @@
               Privacy Policy
             </div>
           </v-col>
-        </v-row>
+        </v-row> -->
         <v-row class="my-0 py-0">
           <v-col class="d-flex justify-center py-0">
             <p class="mb-0" style="font-size: 9px">
