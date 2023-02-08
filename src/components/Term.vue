@@ -1,58 +1,25 @@
 <template>
-  <v-row class="d-flex justify-center">
-    <v-col lg="4" md="4" sm="6">
-      <v-card
-        v-if="id % 2 == 0"
-        flat
-        width="250"
-        height="200"
-        style="
-          border-radius: 100px 0px 0px 100px;
-          background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWr7HYxo7FpH1dYPxMLrfxpt6jkyEEWG959hI22Zdx7WgDIB6a4ZTPHmQAWkQvyHEWI7Q&usqp=CAU);
-          background-size: cover;
-          background-size: 100% 100%;
-          opacity: 0.75;
-        "
-      >
+  <div id="Term">
+    <v-card flat>
+      <div class="d-flex flex-no-wrap">
+        <!-- <v-avatar size="225" tile> -->
         <v-img
           v-if="term.thumbURL"
           :lazy-src="term.thumbURL"
-          width="250"
-          height="200"
           :src="term.thumbURL"
+          height="150"
+          max-width="250"
         >
         </v-img>
-      </v-card>
-    </v-col>
-    <v-col lg="4" md="4" sm="6">
-      <p class="term_header">{{ term.term }}</p>
-      <p class="term_text">{{ term.def }}</p>
-    </v-col>
-    <v-col lg="4" md="4" sm="6">
-      <v-card
-        v-if="id % 2 != 0"
-        flat
-        width="250"
-        height="200"
-        style="
-          border-radius: 0px 100px 100px 0px;
-          background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWr7HYxo7FpH1dYPxMLrfxpt6jkyEEWG959hI22Zdx7WgDIB6a4ZTPHmQAWkQvyHEWI7Q&usqp=CAU);
-          background-size: cover;
-          background-size: 100% 100%;
-          opacity: 0.75;
-        "
-      >
-        <v-img
-          v-if="term.thumbURL"
-          :lazy-src="term.thumbURL"
-          width="250"
-          height="200"
-          :src="term.thumbURL"
-        >
-        </v-img>
-      </v-card>
-    </v-col>
-  </v-row>
+        <v-card v-else color="grey" height="150" max-width="250"> </v-card>
+        <!-- </v-avatar> -->
+        <div>
+          <v-card-title class="text-h5" v-text="term.term"></v-card-title>
+          <v-card-subtitle v-text="term.def"></v-card-subtitle>
+        </div>
+      </div>
+    </v-card>
+  </div>
 </template>
 
 <script>

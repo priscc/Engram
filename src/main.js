@@ -4,6 +4,8 @@ import router from "./router";
 import store from "./store";
 import vuetify from "./plugins/vuetify";
 import firebase from "firebase/app";
+// import { getPerformance } from "firebase/performance";
+// import "firebase/performance";
 import "firebase/firestore";
 // vuefire
 
@@ -20,6 +22,9 @@ export const db = firebase
 		measurementId: "G-8XJMW8N6QS",
 	})
 	.firestore();
+
+// Initialize Performance Monitoring and get a reference to the service
+// const perf = firebase.performance();
 
 new Vue({
 	router,

@@ -1,19 +1,16 @@
 <template>
   <div class="Terms" style="height: 100%">
-    <v-container class="pt-0">
+    <v-container fluid class="pt-0">
       <v-row class="pt-0">
         <v-col class="pt-0 pb-10">
           <h3>Terminology</h3>
         </v-col>
       </v-row>
-      <v-row
-        class="my-0"
-        v-for="(comp, i) in termsComponent"
-        :key="i"
-        :people="comp"
-      >
-        <v-col cols="11">
-          <term :term="comp" :id="i"></term>
+      <v-row v-for="(term, i) in termsComponent" :key="i">
+        <v-col cols="10">
+          <!-- <v-container fluid> -->
+          <term :term="term" :id="term.topiID"></term>
+          <!-- </v-container> -->
         </v-col>
       </v-row>
     </v-container>

@@ -1,42 +1,132 @@
 <template>
   <div
     class="Topics"
-    :class="timePeriodHeaders.color"
-    style="height: 100%; color: black"
+    style="height: 100%; color: black; background-color: #f2f2f2"
   >
-    <v-container fluid class="mb-10">
+    <v-container fluid class="pl-10 mb-10">
       <v-row>
         <v-col>
-          <v-btn text @click="$router.go(-1)">
-            <v-icon class="d-flex align-center pr-1" small dark>
+          <v-btn text @click="back">
+            <v-icon class="pr-1" small dark>
               mdi-arrow-left-drop-circle-outline
             </v-icon>
             Back
           </v-btn>
-          <p class="page_header pl-5 mb-0">{{ timePeriodHeaders.header }}</p>
-          <p class="page_header pl-5">{{ timePeriodHeaders.subheader }}</p>
+          <v-row class="d-flex v-col justify-space-between px-12 pt-12">
+            <p class="page_header">{{ timePeriodHeaders.header }}</p>
+            <p class="page_header font-weight-light font-italic">{{ timePeriodHeaders.subheader }}</p>
+          </v-row>
+              <!-- <p class="page_header pl-5">{{ timePeriodHeaders.unitTitles }}</p> -->
         </v-col>
       </v-row>
     </v-container>
-    <v-container fluid style="padding-left: 7%; padding-right: 7%">
-      <v-row>
+    <v-container v-if="timePeriodHeaders.timePeriod == 4" fluid class="px-12">
+      <v-row
+        v-for="(unit, index) in test"
+        :key="index"
+        style="padding-bottom: 100px"
+      >
+        <v-col>
+          <v-row class="pb-0">
+            <v-col class="d-flex justify-center pb-0">
+              <p class="topic_header font-weight-medium mb-0" style="word-break: normal;font-size: 140%">{{ unit.unitHeader }}</p>
+            </v-col>
+          </v-row>
+          <v-row>
+            <!-- <p class="page_header pl-5">{{ unit.topics }}</p> -->
+            <v-col
+              lg="4"
+              md="4"
+              sm="12"
+              v-for="(topic, index) in unit.topics"
+              :key="index"
+              class="d-flex align-left px-3"
+            >
+              <v-card
+                flat
+                class="card"
+                width="100%"
+                @click="goTo(topic)"
+                style="background: none"
+              >
+                <div style=" height: 100px; ">
+                  <v-card-title
+                    class="pb-0 topic_header d-flex flex-column justify-start align-center"
+                    style="word-break: normal;font-size: 140%"
+                  >
+                    {{ topic.title }}
+                  </v-card-title>
+                  <v-card-title
+                    class="pt-0 topic_header d-flex flex-column justify-start align-center"
+                  >
+                    ({{ topic.timespan }})
+                  </v-card-title>
+                </div>
+                <v-container>
+                  <v-row>
+                    <v-spacer></v-spacer>
+                    <v-col class="d-flex align-center">
+                      <v-avatar color="grey darken-3" size="250">
+                        <v-img
+                          class="elevation-6"
+                          :src="topic.topic_thumbURL"
+                        ></v-img>
+                      </v-avatar>
+                    </v-col>
+                    <v-spacer></v-spacer>
+                  </v-row>
+                </v-container>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container v-else fluid class="px-12">
+      <v-row style="padding-bottom: 100px">
         <v-col
+          lg="4"
+          md="4"
+          sm="12"
           v-for="(topic, index) in topics"
           :key="index"
-          class="d-flex flex-column align-center pb-10"
+          class="d-flex align-left px-3"
         >
-          <v-hover v-slot="{ hover }">
-            <div
-              class="hey"
-              :class="{ 'on-hover': hover }"
-              @click="goTo(topic)"
-            >
-              <p class="topic_header">{{ topic.title }}</p>
-              <v-avatar size="200">
-                <v-img :src="topic.topic_thumbURL"></v-img>
-              </v-avatar>
+          <v-card
+            flat
+            class="card"
+            width="100%"
+            @click="goTo(topic)"
+            style="background: none"
+          >
+            <div style=" height: 100px; ">
+              <v-card-title
+                class="pb-0 topic_header d-flex flex-column justify-start align-center"
+                style="word-break: normal;font-size: 140%"
+              >
+                {{ topic.title }}
+              </v-card-title>
+              <v-card-title
+                class="pt-0 topic_header d-flex flex-column justify-start align-center"
+              >
+                ({{ topic.timespan }})
+              </v-card-title>
             </div>
-          </v-hover>
+            <v-container>
+              <v-row>
+                <v-spacer></v-spacer>
+                <v-col class="d-flex align-center">
+                  <v-avatar color="grey darken-3" size="250">
+                    <v-img
+                      class="elevation-6"
+                      :src="topic.topic_thumbURL"
+                    ></v-img>
+                  </v-avatar>
+                </v-col>
+                <v-spacer></v-spacer>
+              </v-row>
+            </v-container>
+          </v-card>
         </v-col>
       </v-row>
     </v-container>
@@ -51,6 +141,8 @@ export default {
   name: "Topics",
   data() {
     return {
+      units: {},
+      test: [],
       topics: [],
     };
   },
@@ -60,53 +152,115 @@ export default {
     },
   },
   methods: {
+    myProducts() {
+      const keys = Object.keys(this.units);
+
+      keys.forEach(
+        function(element) {
+          var unitHeader = element;
+          var topics = [];
+          if (this.units[element].length != 0) topics = this.units[element];
+          console.log("HI", unitHeader, topics);
+          var obj = {};
+          obj["unitHeader"] = unitHeader;
+          obj["topics"] = topics;
+          this.test.push(obj);
+        }.bind(this)
+      );
+      console.log("UNITS", this.test);
+    },
+    back() {
+      // store.dispatch("setTopicButton", 0);
+      this.$router.push({
+        name: "Home",
+      });
+    },
     topic() {
+      var topics = [];
+      this.timePeriodHeaders.unitTitles.forEach(
+        function(element) {
+          this.units[element] = [];
+        }.bind(this)
+      );
       db.collection("topics")
         .where("timePeriod", "==", this.timePeriodHeaders.timePeriod)
         .get()
         .then(
-          function (querySnapshot) {
+          function(querySnapshot) {
             querySnapshot.forEach(
-              function (doc) {
+              function(doc) {
                 var entry = doc.data();
                 entry.id = doc.id;
-                this.topics.push(entry);
+                topics.push(entry);
               }.bind(this)
             );
+            this.topics = topics.sort(function(a, b) {
+              if (a.timespan && b.timespan) {
+                var a1 = new Date(a.timespan.substring(0, 4));
+                var a2 = a1.getFullYear();
+                var b1 = new Date(b.timespan.substring(0, 4));
+                var b2 = b1.getFullYear();
+                return a2 - b2;
+              }
+            });
+
+            if (this.timePeriodHeaders.timePeriod == 4) {
+              this.topics.forEach(
+                function(element) {
+                  const keys = Object.keys(this.units);
+                  if (keys.includes(element.unit)) {
+                    console.log(element.unit, this.units[element.unit]);
+                    console.log("THS", element);
+
+                    this.units[element.unit].push(element);
+                  }
+                }.bind(this)
+              );
+              this.myProducts();
+            }
           }.bind(this)
         );
     },
     goTo(topic) {
       storeTopic.dispatch("topicContent", topic);
-      this.$router.push({ name: "Topic", params: { id: topic.title } });
+      this.$router.push({
+        name: "Topic",
+        params: { topic: topic.id, category: 0 },
+      });
     },
   },
   mounted() {
+    console.log("mounted in topics", this.$route.params.period);
+    store.dispatch("setTimePeriod", this.$route.params.period);
     this.topic();
   },
 };
 </script>
 
 <style type="text/css" scoped>
-img {
-  border-radius: 50px;
-}
-.hey:not(.on-hover) {
-  opacity: 0.7;
+.card:hover {
+  opacity: 0.6;
 }
 .page_header {
   font-family: "Montserrat", sans-serif;
+  letter-spacing: -0.3px;
+  font-size: 40px;
+  line-height: 46px;
+}
+.page_unitHeader {
+  font-family: "Montserrat", sans-serif;
   letter-spacing: -0.5px;
-  font-size: 24px;
-  line-height: 28px;
+  font-size: 20px;
+  line-height: 46px;
+  /*font-weight: 600;*/
+  /*text-decoration: underline;*/
 }
 .topic_header {
   min-height: 50px;
   text-align: center;
   font-family: "Montserrat", sans-serif;
   letter-spacing: -0.5px;
-  font-size: 30px;
   line-height: 28px;
-  font-weight: 600;
+  /*font-weight: 600;*/
 }
 </style>

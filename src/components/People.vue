@@ -1,16 +1,19 @@
 <template>
   <div class="People" style="height: 100%">
-    <v-container class="pt-0">
+    <v-container fluid class="pt-0">
       <v-row class="pt-0">
-        <v-col class="pt-0">
+        <v-col class="pt-0 pb-10">
           <h3>Historical People</h3>
+        </v-col>
+      </v-row>
+      <v-row class="pt-0 pl-0 ml-0">
+        <v-col class="pt-0">
           <v-container
-            class="my-12"
+            class="pl-0 ml-0"
             v-for="(comp, i) in peopleComponent"
             :key="i"
-            :people="comp"
           >
-            <peopleprofile :people="comp"></peopleprofile>
+            <peopleprofile class="card" :person="comp"></peopleprofile>
           </v-container>
         </v-col>
       </v-row>
