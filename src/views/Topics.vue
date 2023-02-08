@@ -12,21 +12,85 @@
             </v-icon>
             Back
           </v-btn>
-          <p class="page_header pl-5 mb-0">{{ timePeriodHeaders.header }}</p>
-          <p class="page_header pl-5">{{ timePeriodHeaders.subheader }}</p>
+          <v-row class="d-flex v-col justify-space-between px-12 pt-12">
+            <p class="page_header">{{ timePeriodHeaders.header }}</p>
+            <p class="page_header font-weight-light font-italic">{{ timePeriodHeaders.subheader }}</p>
+          </v-row>
+              <!-- <p class="page_header pl-5">{{ timePeriodHeaders.unitTitles }}</p> -->
         </v-col>
       </v-row>
     </v-container>
-    <v-container fluid class="px-12">
-      <v-row>
+    <v-container v-if="timePeriodHeaders.timePeriod == 4" fluid class="px-12">
+      <v-row
+        v-for="(unit, index) in test"
+        :key="index"
+        style="padding-bottom: 100px"
+      >
+        <v-col>
+          <v-row class="pb-0">
+            <v-col class="d-flex justify-center pb-0">
+              <p class="topic_header font-weight-medium mb-0" style="word-break: normal;font-size: 140%">{{ unit.unitHeader }}</p>
+            </v-col>
+          </v-row>
+          <v-row>
+            <!-- <p class="page_header pl-5">{{ unit.topics }}</p> -->
+            <v-col
+              lg="4"
+              md="4"
+              sm="12"
+              v-for="(topic, index) in unit.topics"
+              :key="index"
+              class="d-flex align-left px-3"
+            >
+              <v-card
+                flat
+                class="card"
+                width="100%"
+                @click="goTo(topic)"
+                style="background: none"
+              >
+                <div style=" height: 100px; ">
+                  <v-card-title
+                    class="pb-0 topic_header d-flex flex-column justify-start align-center"
+                    style="word-break: normal;font-size: 140%"
+                  >
+                    {{ topic.title }}
+                  </v-card-title>
+                  <v-card-title
+                    class="pt-0 topic_header d-flex flex-column justify-start align-center"
+                  >
+                    ({{ topic.timespan }})
+                  </v-card-title>
+                </div>
+                <v-container>
+                  <v-row>
+                    <v-spacer></v-spacer>
+                    <v-col class="d-flex align-center">
+                      <v-avatar color="grey darken-3" size="250">
+                        <v-img
+                          class="elevation-6"
+                          :src="topic.topic_thumbURL"
+                        ></v-img>
+                      </v-avatar>
+                    </v-col>
+                    <v-spacer></v-spacer>
+                  </v-row>
+                </v-container>
+              </v-card>
+            </v-col>
+          </v-row>
+        </v-col>
+      </v-row>
+    </v-container>
+    <v-container v-else fluid class="px-12">
+      <v-row style="padding-bottom: 100px">
         <v-col
           lg="4"
           md="4"
           sm="12"
           v-for="(topic, index) in topics"
           :key="index"
-          class="d-flex flex-column align-center px-3"
-          style="padding-bottom: 90px"
+          class="d-flex align-left px-3"
         >
           <v-card
             flat
@@ -43,7 +107,7 @@
                 {{ topic.title }}
               </v-card-title>
               <v-card-title
-                class="pt-0 d-flex flex-column justify-start align-center"
+                class="pt-0 topic_header d-flex flex-column justify-start align-center"
               >
                 ({{ topic.timespan }})
               </v-card-title>
@@ -77,6 +141,8 @@ export default {
   name: "Topics",
   data() {
     return {
+      units: {},
+      test: [],
       topics: [],
     };
   },
@@ -86,6 +152,23 @@ export default {
     },
   },
   methods: {
+    myProducts() {
+      const keys = Object.keys(this.units);
+
+      keys.forEach(
+        function(element) {
+          var unitHeader = element;
+          var topics = [];
+          if (this.units[element].length != 0) topics = this.units[element];
+          console.log("HI", unitHeader, topics);
+          var obj = {};
+          obj["unitHeader"] = unitHeader;
+          obj["topics"] = topics;
+          this.test.push(obj);
+        }.bind(this)
+      );
+      console.log("UNITS", this.test);
+    },
     back() {
       // store.dispatch("setTopicButton", 0);
       this.$router.push({
@@ -94,6 +177,12 @@ export default {
     },
     topic() {
       var topics = [];
+      this.timePeriodHeaders.unitTitles.forEach(
+        function(element) {
+          this.units[element] = [];
+        }.bind(this)
+      );
+
       db.collection("topics")
         .where("timePeriod", "==", this.timePeriodHeaders.timePeriod)
         .get()
@@ -115,6 +204,21 @@ export default {
                 return a2 - b2;
               }
             });
+
+            if (this.timePeriodHeaders.timePeriod == 4) {
+              this.topics.forEach(
+                function(element) {
+                  const keys = Object.keys(this.units);
+                  if (keys.includes(element.unit)) {
+                    console.log(element.unit, this.units[element.unit]);
+                    console.log("THS", element);
+
+                    this.units[element.unit].push(element);
+                  }
+                }.bind(this)
+              );
+              this.myProducts();
+            }
           }.bind(this)
         );
     },
@@ -140,9 +244,17 @@ export default {
 }
 .page_header {
   font-family: "Montserrat", sans-serif;
-  letter-spacing: -0.5px;
-  font-size: 44px;
+  letter-spacing: -0.3px;
+  font-size: 40px;
   line-height: 46px;
+}
+.page_unitHeader {
+  font-family: "Montserrat", sans-serif;
+  letter-spacing: -0.5px;
+  font-size: 20px;
+  line-height: 46px;
+  /*font-weight: 600;*/
+  /*text-decoration: underline;*/
 }
 .topic_header {
   min-height: 50px;
@@ -150,6 +262,6 @@ export default {
   font-family: "Montserrat", sans-serif;
   letter-spacing: -0.5px;
   line-height: 28px;
-  font-weight: 600;
+  /*font-weight: 600;*/
 }
 </style>

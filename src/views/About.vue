@@ -8,7 +8,7 @@
 				>
 					Engram is a site developed to tackle the abstract,
 					overwhelming, and complex nature of social studies using
-					intuitive UI and design theories. This site provides online
+					design. This site provides online
 					instruction and study notes (soon to come) concentrated on
 					social studies education with a focus on AP World History.
 				</p>
@@ -25,14 +25,29 @@
 					Engram's focus is to improve the accessibility of how
 					historical content can be received. This site experiments
 					with how an interactive web interface can enhance historical
-					content and contextualize our past within our present. While
-					everyday digital experiences are becoming progressively more
-					intuitive, interactive, and personalized, most of education
-					does not reflect this societal changes. Engram carefully
-					crafts a UI experience that has the capacity to present
-					historical information in new and diverse ways, making
-					knowledge more accessible for everyone.
+					content. As everyday digital experiences are becoming progressively more
+					intuitive, interactive, and personalized, we are looking to
+					explore how these societal changes can elevate our current
+					education system.
 				</p>
+				<!-- 
+				Engram is a site developed to tackle the abstract,
+					overwhelming, and complex nature of social studies using
+					intuitive UI and design theories. This site provides online
+					instruction and study notes (soon to come) concentrated on
+					social studies education with a focus on AP World History.
+
+				Engram's focus is to improve the accessibility of how
+					historical content can be received. This site experiments
+					with how an interactive web interface can enhance historical
+					content and contextualize our past within our present. As
+					everyday digital experiences are becoming progressively more
+					intuitive, interactive, and personalized, we are looking to
+					explore how these societal changes can elevate our current
+					education system. Engram carefully crafts a UI experience
+					that has the capacity to present historical information in
+					new and diverse ways, making knowledge more accessible for
+					everyone. -->
 				<!-- 
 
 					version from 6/622
