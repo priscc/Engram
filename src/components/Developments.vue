@@ -1,4 +1,4 @@
-<template>
+f<template>
   <div id="app" style="background-color: black; height: 100%">
     <v-card
       outlined
@@ -701,17 +701,17 @@ export default {
                 .attr("d", lineFunction(coordinates[map]))
                 .attr("stroke", "red")
                 .attr("stroke-width", 2)
-                .attr("fill", "#BDFF00")
-                .on("mouseover", function() {
-                  var region = d3.select(this);
-                  region.attr("fill", "#ff9800");
-                  document.querySelector(".legend").innerText = map;
-                })
-                .on("mouseout", function() {
-                  var region = d3.select(this);
-                  region.attr("fill", "#BDFF00");
-                  document.querySelector(".legend").innerText = "";
-                });
+                .attr("fill", "#BDFF00");
+                // .on("mouseover", function() {
+                //   var region = d3.select(this);
+                //   region.attr("fill", "#ff9800");
+                //   document.querySelector(".legend").innerText = map;
+                // })
+                // .on("mouseout", function() {
+                //   var region = d3.select(this);
+                //   region.attr("fill", "#BDFF00");
+                //   document.querySelector(".legend").innerText = "";
+                // });
             } else {
               svg
                 .selectAll("myCircles")
@@ -727,19 +727,19 @@ export default {
                 .attr("r", 10)
                 .style("fill", "#BDFF00")
                 .attr("stroke", "red")
-                .attr("stroke-width", 4)
+                .attr("stroke-width", 4);
                 // .attr("fill-opacity", 0.4)
-                .on("mouseover", function() {
-                  // console.log("bleep", this);
-                  var region = d3.select(this);
-                  region.attr("fill", "#ff9800");
-                  document.querySelector(".legend").innerText = map;
-                })
-                .on("mouseout", function() {
-                  var region = d3.select(this);
-                  region.attr("fill", "#BDFF00");
-                  document.querySelector(".legend").innerText = "";
-                });
+                // .on("mouseover", function() {
+                //   // console.log("bleep", this);
+                //   var region = d3.select(this);
+                //   region.attr("fill", "#ff9800");
+                //   document.querySelector(".legend").innerText = map;
+                // })
+                // .on("mouseout", function() {
+                //   var region = d3.select(this);
+                //   region.attr("fill", "#BDFF00");
+                //   document.querySelector(".legend").innerText = "";
+                // });
             }
           });
         }
@@ -760,19 +760,19 @@ export default {
         .attr("r", 14)
         .style("fill", "69b3a2")
         .attr("stroke", "#69b3a2")
-        .attr("stroke-width", 3)
+        .attr("stroke-width", 3);
         // .attr("fill-opacity", 0.4)
-        .on("mouseover", function() {
-          // console.log("bleep", this);
-          var region = d3.select(this);
-          region.attr("fill", "#ff9800");
-          document.querySelector(".legend").innerText = "bleep";
-        })
-        .on("mouseout", function() {
-          var region = d3.select(this);
-          region.attr("fill", "#464646");
-          document.querySelector(".legend").innerText = "";
-        });
+        // .on("mouseover", function() {
+        //   // console.log("bleep", this);
+        //   var region = d3.select(this);
+        //   region.attr("fill", "#ff9800");
+        //   document.querySelector(".legend").innerText = "bleep";
+        // })
+        // .on("mouseout", function() {
+        //   var region = d3.select(this);
+        //   region.attr("fill", "#464646");
+        //   document.querySelector(".legend").innerText = "";
+        // });
     },
   },
   computed: {

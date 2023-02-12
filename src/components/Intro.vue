@@ -35,9 +35,9 @@
                 <v-col class="d-flex column-flex align-center">
                   <h4>Videos:</h4>
                   <p
+                    v-bind="attrs"
                     class="mb-0 pl-2 blue--text caption "
                     dark
-                    v-bind="attrs"
                     v-on="on"
                   >
                     View all

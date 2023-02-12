@@ -1,15 +1,20 @@
-import Vue from "vue";
-import App from "./App.vue";
+import { createApp } from 'vue'
+import App from './App.vue'
 import router from "./router";
-import store from "./store";
-import vuetify from "./plugins/vuetify";
+import store from "./store/index";
 import firebase from "firebase/app";
 // import { getPerformance } from "firebase/performance";
 // import "firebase/performance";
 import "firebase/firestore";
 // vuefire
+// Vuetify
+// import 'vuetify/styles';
+import { createVuetify } from 'vuetify';
+// import * as components from 'vuetify/components';
+// import * as directives from 'vuetify/directives';
 
-Vue.config.productionTip = false;
+
+const vuetify = createVuetify();
 
 export const db = firebase
 	.initializeApp({
@@ -19,16 +24,16 @@ export const db = firebase
 		storageBucket: "ap-studybites.appspot.com",
 		messagingSenderId: "386062840730",
 		appId: "1:386062840730:web:5f3a0c6b23f0be15220023",
-		measurementId: "G-8XJMW8N6QS",
-	})
-	.firestore();
+		measurementId: "G-8XJMW8N6QS"
+	}).firestore();
 
 // Initialize Performance Monitoring and get a reference to the service
 // const perf = firebase.performance();
 
-new Vue({
-	router,
-	store,
-	vuetify,
-	render: (h) => h(App),
-}).$mount("#app");
+// createApp({store, router, vuetify,render: (h) => h(App),}).mount('#app');
+const app = createApp(App)
+app.use(store);
+app.use(router);
+app.use(vuetify);
+// app.config.productionTip = false;
+app.mount('#app');
