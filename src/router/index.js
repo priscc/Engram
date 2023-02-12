@@ -1,7 +1,4 @@
-import Vue from "vue";
-// import { createRouter, createWebHistory } from "vue-router";
-
-import VueRouter from "vue-router";
+import { createRouter, createWebHistory } from 'vue-router'
 import Home from "../views/Home.vue";
 import PrivacyPolicy from "../views/PrivacyPolicy.vue";
 import About from "../views/About.vue";
@@ -12,7 +9,6 @@ import Event from "../components/Event.vue";
 import Person from "../components/Person.vue";
 import GEO from "../views/GEOTester.vue";
 
-Vue.use(VueRouter);
 
 const routes = [
   {
@@ -64,17 +60,9 @@ const routes = [
   },
 ];
 
-// const router = createRouter({
-//   history: createWebHistory(),
-//   mode: "history",
-//   base: process.env.BASE_URL,
-//   routes,
-// });
+const router = createRouter({
+  history: createWebHistory(process.env.BASE_URL),
+  routes
+})
 
-const router = new VueRouter({
-  mode: "history",
-  // base: process.env.BASE_URL,
-  routes,
-});
-
-export default router;
+export default router
