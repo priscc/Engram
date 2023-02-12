@@ -1,6 +1,9 @@
-import { createStore } from 'vuex'
+import Vue from "vue";
+import Vuex from "vuex";
 
-const store = createStore({
+Vue.use(Vuex);
+
+export default new Vuex.Store({
   state: {
     timePeriodHeaders: [
       {
@@ -93,5 +96,3 @@ const store = createStore({
   },
   modules: {},
 });
-
-export default store

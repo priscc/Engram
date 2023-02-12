@@ -1,18 +1,15 @@
-import { createApp } from 'vue'
+import Vue from "vue";
 import App from "./App.vue";
 import router from "./router";
-import store from "./store/index";
+import store from "./store";
+import vuetify from "./plugins/vuetify";
 import firebase from "firebase/app";
 // import { getPerformance } from "firebase/performance";
 // import "firebase/performance";
 import "firebase/firestore";
-// Vuetify
-import 'vuetify/styles'
-import { createVuetify } from 'vuetify'
-import * as components from 'vuetify/components'
-import * as directives from 'vuetify/directives'
+// vuefire
 
-
+Vue.config.productionTip = false;
 
 export const db = firebase
 	.initializeApp({
@@ -29,23 +26,9 @@ export const db = firebase
 // Initialize Performance Monitoring and get a reference to the service
 // const perf = firebase.performance();
 
-const vuetify = createVuetify({
-  components,
-  directives,
-})
-
-// new Vue({
-// 	router,
-// 	store,
-// 	vuetify,
-// 	render: (h) => h(App),
-// })
-
-const app = createApp(App);
-// app.config.productionTip = false;
-app.use(store);
-app.use(router);
-app.use(vuetify);
-app.mount('#app');
-
-
+new Vue({
+	router,
+	store,
+	vuetify,
+	render: (h) => h(App),
+}).$mount("#app");

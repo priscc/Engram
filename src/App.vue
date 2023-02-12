@@ -30,7 +30,7 @@
       <!-- <v-btn @click="packets" text style="text-transform: none;">
         <h2 class="navbar_btn">Packets</h2>
       </v-btn> -->
-      <!-- <v-autocomplete
+      <v-autocomplete
         :items="searchItems"
         item-text="title"
         item-value="id"
@@ -50,7 +50,7 @@
         class="expanding-search"
         :class="{ closed: searchClosed && !search }"
       >
-      </v-autocomplete> -->
+      </v-autocomplete>
       <!--  <v-btn
         text
         style="text-transform: none; font-size: 16px; font-weight: bold"
@@ -126,141 +126,215 @@
 <script>
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
-// import { db } from "@/main";
+import { db } from "@/main";
 export default {
   name: "App",
   data() {
     return {
-      // searchClosed: true,
-      // searchItems: [],
-      // search: null,
+      sheet: false,
+      searchClosed: true,
+      searchItems: [],
+      search: null,
     };
   },
   watch: {
-    // search: function(val) {
-    //   console.log("watching search", val);
-    //   if (val.collection == "topics") {
-    //     this.topicSearch();
-    //   } else if (val.collection == "events") {
-    //     this.eventSearch(val);
-    //   } else if (val.collection == "people") {
-    //     this.peopleSearch(val);
-    //   } else if (val.collection == "works") {
-    //     this.primarysourceSearch();
-    //   } else if (val.collection == "terminology") {
-    //     this.termSearch();
-    //   }
-    // },
+    search: function(val) {
+      console.log("watching search", val);
+      if (val.collection == "topics") {
+        this.topicSearch();
+      } else if (val.collection == "events") {
+        this.eventSearch(val);
+      } else if (val.collection == "people") {
+        this.peopleSearch(val);
+      } else if (val.collection == "works") {
+        this.primarysourceSearch();
+      } else if (val.collection == "terminology") {
+        this.termSearch();
+      }
+    },
   },
 
   methods: {
-    // topicSearch() {
-    //   store.dispatch("setTimePeriod", this.search.timePeriod);
-    //   storeTopic.dispatch("topicContent", this.search.document);
-    //   store.dispatch("setTopicButton", 0);
-    //   this.$router.push({
-    //     name: "Topic",
-    //     params: {
-    //       period: this.search.timePeriod,
-    //       topic: this.search.document.id,
-    //       category: 0,
-    //     },
-    //   });
-    // },
-    // async eventSearch(val) {
-    //   var v = await this.grabbingTopic();
-    //   val.topic = v;
-    //   val.timePeriod = v.timePeriod - 1;
+    topicSearch() {
+      store.dispatch("setTimePeriod", this.search.timePeriod);
+      storeTopic.dispatch("topicContent", this.search.document);
+      store.dispatch("setTopicButton", 0);
+      this.$router.push({
+        name: "Topic",
+        params: {
+          period: this.search.timePeriod,
+          topic: this.search.document.id,
+          category: 0,
+        },
+      });
+    },
+    async eventSearch(val) {
+      var v = await this.grabbingTopic();
+      val.topic = v;
+      val.timePeriod = v.timePeriod - 1;
 
-    //   store.dispatch("setTimePeriod", val.timePeriod);
-    //   storeTopic.dispatch("topicContent", val.topic);
-    //   store.dispatch("setTopicButton", 2);
-    //   storeTopic.dispatch("eventContent", val.document);
-    //   this.$router.push({
-    //     name: "Event",
-    //     params: {
-    //       period: val.timePeriod,
-    //       topic: val.topic,
-    //       category: 2,
-    //       event: val.document.id,
-    //     },
-    //   });
-    // },
-    // async peopleSearch(val) {
-    //   var v = await this.grabbingTopic();
-    //   val.topic = v;
-    //   val.timePeriod = v.timePeriod - 1;
+      store.dispatch("setTimePeriod", val.timePeriod);
+      storeTopic.dispatch("topicContent", val.topic);
+      store.dispatch("setTopicButton", 2);
+      storeTopic.dispatch("eventContent", val.document);
+      this.$router.push({
+        name: "Event",
+        params: {
+          period: val.timePeriod,
+          topic: val.topic,
+          category: 2,
+          event: val.document.id,
+        },
+      });
+    },
+    async peopleSearch(val) {
+      var v = await this.grabbingTopic();
+      val.topic = v;
+      val.timePeriod = v.timePeriod - 1;
 
-    //   store.dispatch("setTimePeriod", val.timePeriod);
-    //   storeTopic.dispatch("topicContent", val.topic);
-    //   store.dispatch("setTopicButton", 3);
-    //   storeTopic.dispatch("personContent", val.document);
+      store.dispatch("setTimePeriod", val.timePeriod);
+      storeTopic.dispatch("topicContent", val.topic);
+      store.dispatch("setTopicButton", 3);
+      storeTopic.dispatch("personContent", val.document);
 
-    //   this.$router.push({
-    //     name: "Person",
-    //     params: {
-    //       period: val.timePeriod,
-    //       topic: val.topicID,
-    //       category: 3,
-    //       person: val.document.id,
-    //     },
-    //   });
-    // },
-    // async primarysourceSearch() {
-    //   var v = await this.grabbingTopic();
-    //   this.search.topic = v;
-    //   this.search.timePeriod = v.timePeriod - 1;
+      this.$router.push({
+        name: "Person",
+        params: {
+          period: val.timePeriod,
+          topic: val.topicID,
+          category: 3,
+          person: val.document.id,
+        },
+      });
+    },
+    async primarysourceSearch() {
+      var v = await this.grabbingTopic();
+      this.search.topic = v;
+      this.search.timePeriod = v.timePeriod - 1;
 
-    //   store.dispatch("setTimePeriod", this.search.timePeriod);
-    //   storeTopic.dispatch("topicContent", this.search.topic);
-    //   store.dispatch("setTopicButton", 4);
-    //   this.$router.push({
-    //     name: "Topic",
-    //     params: {
-    //       period: this.search.timePeriod,
-    //       topic: this.search.topic.id,
-    //       category: 4,
-    //     },
-    //   });
-    // },
-    // async termSearch() {
-    //   var v = await this.grabbingTopic();
-    //   this.search.topic = v;
-    //   this.search.timePeriod = v.timePeriod - 1;
+      store.dispatch("setTimePeriod", this.search.timePeriod);
+      storeTopic.dispatch("topicContent", this.search.topic);
+      store.dispatch("setTopicButton", 4);
+      this.$router.push({
+        name: "Topic",
+        params: {
+          period: this.search.timePeriod,
+          topic: this.search.topic.id,
+          category: 4,
+        },
+      });
+    },
+    async termSearch() {
+      var v = await this.grabbingTopic();
+      this.search.topic = v;
+      this.search.timePeriod = v.timePeriod - 1;
 
-    //   store.dispatch("setTimePeriod", this.search.timePeriod);
-    //   storeTopic.dispatch("topicContent", this.search.topic);
-    //   store.dispatch("setTopicButton", 5);
-    //   this.$router.push({
-    //     name: "Topic",
-    //     params: {
-    //       period: this.search.timePeriod,
-    //       topic: this.search.topic.id,
-    //       category: 5,
-    //     },
-    //   });
-    // },
-    // grabbingTopic() {
-    //   return db
-    //     .collection("topics")
-    //     .doc(this.search.topicID)
-    //     .get()
-    //     .then(
-    //       function(doc) {
-    //         return doc.data();
-    //       }.bind(this)
-    //     );
-    // },
-    // async grabbingSearch() {
-    //   db.collection("searchBar")
-    //     .doc("bESicXCl5B8APjFo5TAI")
-    //     .get()
-    //     .then(
-    //       function(doc) {
-    //         this.searchItems = doc.data().searchItems;
-    //       }.bind(this)
-    //     );
-    // },
+      store.dispatch("setTimePeriod", this.search.timePeriod);
+      storeTopic.dispatch("topicContent", this.search.topic);
+      store.dispatch("setTopicButton", 5);
+      this.$router.push({
+        name: "Topic",
+        params: {
+          period: this.search.timePeriod,
+          topic: this.search.topic.id,
+          category: 5,
+        },
+      });
+    },
+    grabbingTopic() {
+      return db
+        .collection("topics")
+        .doc(this.search.topicID)
+        .get()
+        .then(
+          function(doc) {
+            return doc.data();
+          }.bind(this)
+        );
+    },
+    async grabbingSearch2() {
+      console.log("grabbing autofill search items");
+      db.collection("topics")
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.docs.map((doc) => {
+              this.searchItems.push({
+                document: doc.data(),
+                collection: "topics",
+                title: "Topic: " + doc.data().title,
+                timePeriod: doc.data().timePeriod - 1,
+              });
+            });
+          }.bind(this)
+        );
+      db.collection("events")
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.docs.map((doc) => {
+              this.searchItems.push({
+                document: doc.data(),
+                collection: "events",
+                title: "Event: " + doc.data().title,
+                topicID: doc.data().topicID[0],
+              });
+            });
+          }.bind(this)
+        );
+      db.collection("people")
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.docs.map((doc) => {
+              this.searchItems.push({
+                document: doc.data(),
+                collection: "people",
+                title: "People: " + doc.data().name,
+                topicID: doc.data().topicID[0],
+              });
+            });
+          }.bind(this)
+        );
+      db.collection("works")
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.docs.map((doc) => {
+              this.searchItems.push({
+                document: doc.data(),
+                collection: "works",
+                title: "Primary Source: " + doc.data().title,
+                topicID: doc.data().topicID[0],
+              });
+            });
+          }.bind(this)
+        );
+      db.collection("terminology")
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.docs.map((doc) => {
+              this.searchItems.push({
+                document: doc.data(),
+                collection: "terminology",
+                title: "Term: " + doc.data().term,
+                topicID: doc.data().topicID[0],
+              });
+            });
+          }.bind(this)
+        );
+    },
+    async grabbingSearch() {
+      db.collection("searchBar")
+        .doc("bESicXCl5B8APjFo5TAI")
+        .get()
+        .then(
+          function(doc) {
+            this.searchItems = doc.data().searchItems;
+          }.bind(this)
+        );
+    },
     home() {
       store.dispatch("setTopicButton", 0);
       storeTopic.dispatch("eventContentRESET");
@@ -295,7 +369,8 @@ export default {
     },
   },
   mounted() {
-    // this.grabbingSearch();
+    // this.grabbingSearch2();
+    this.grabbingSearch();
   },
 };
 </script>

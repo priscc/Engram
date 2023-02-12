@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@vue/compat": "^3.1.0-0",
+    "@vue/cli-plugin-babel": "^5.0.8",
     "core-js": "^3.6.5",
     "d3": "^3.5.17",
     "d3-array": "^2.12.1",
@@ -20,21 +20,19 @@
     "firestore": "^1.1.6",
     "topojson": "^3.0.2",
     "version-check": "^1.2.0",
-    "vue": "^3.1.0-0",
+    "vue": "^2.6.11",
     "vue-d3-geo": "^0.4.6",
     "vue-quill": "^1.5.1",
+    "vue-router": "^3.5.3",
     "vue-youtube-embed": "^2.2.2",
     "vuefire": "^2.2.5",
-    "vuetify": "^3.1.4",
-    "vue-router": "^4.0.0-0",
-    "vuex": "^4.0.2"
+    "vuex": "^3.4.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-eslint": "^5.0.8",
-    "@vue/cli-plugin-router": "~5.0.8",
-    "@vue/cli-plugin-vuex": "~5.0.8",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
     "@vue/cli-service": "^5.0.8",
-    "@vue/compiler-sfc": "^3.1.0-0",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.32.0",
@@ -46,6 +44,7 @@
     "eslint-plugin-vue": "^7.19.1",
     "prettier": "^1.19.1",
     "sass": "^1.32.0",
-    "sass-loader": "^10.0.0"
+    "sass-loader": "^10.0.0",
+    "vue-template-compiler": "^2.6.11"
   }
 }

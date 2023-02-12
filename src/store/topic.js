@@ -1,7 +1,10 @@
+import Vue from "vue";
+import Vuex from "vuex";
 import { db } from "@/main";
-import { createStore } from 'vuex'
 
-const store = createStore({
+Vue.use(Vuex);
+
+export default new Vuex.Store({
   state: {
     topic: {},
     events: [],
@@ -223,4 +226,3 @@ const store = createStore({
   },
   modules: {},
 });
-export default store
