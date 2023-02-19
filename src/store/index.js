@@ -6,10 +6,10 @@ export const store = createStore({
       {
         header: "Regional Interactions",
         subheader: "1200-1450",
-        unitTitles: [
-          "Unit 1: The Global Tapestry",
-          "Unit 2: Networks of Exchange",
-        ],
+        unitTitles: {
+          "Unit 1: The Global Tapestry": [],
+          "Unit 2: Networks of Exchange": []
+        },
         color: "green",
         timePeriod: 1,
         img: "RegionalInteractions.png",
@@ -17,10 +17,10 @@ export const store = createStore({
       {
         header: "First Global Age",
         subheader: "1450-1750",
-        unitTitles: [
-          "Unit 3: Land-Based Empires",
-          "Unit 4: Transoceanic Interconnections",
-        ],
+        unitTitles: {
+          "Unit 3: Land-Based Empires": [],
+          "Unit 4: Transoceanic Interconnections": []
+        },
         color: "yellow",
         timePeriod: 2,
         img: "FirstGlobalAge.png",
@@ -28,10 +28,10 @@ export const store = createStore({
       {
         header: "Revolutions & Industrialization",
         subheader: "1750-1900",
-        unitTitles: [
-          "Unit 5: Revolutions",
-          "Unit 6: Consequences of Industrialization",
-        ],
+        unitTitles: {
+          "Unit 5: Revolutions": [],
+          "Unit 6: Consequences of Industrialization": []
+        },
         color: "pink",
         timePeriod: 3,
         img: "Rev&Indus.png",
@@ -39,11 +39,11 @@ export const store = createStore({
       {
         header: "Modern Times",
         subheader: "1900-Present",
-        unitTitles: [
-          "Unit 7: Global Conflict",
-          "Unit 8: Cold War and Decolonization",
-          "Unit 9: Globalization",
-        ],
+        unitTitles: {
+          "Unit 7: Global Conflict": [],
+          "Unit 8: Cold War and Decolonization": [],
+          "Unit 9: Globalization": []
+        },
         color: "blue",
         timePeriod: 4,
         img: "Modern.png",
