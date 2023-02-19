@@ -2,7 +2,7 @@ import { db } from "@/main";
 import { createStore } from 'vuex'
 
 
-export default createStore({
+export const storeTopic = createStore({
   state: {
     topic: {},
     events: [],
@@ -224,3 +224,5 @@ export default createStore({
   },
   modules: {},
 });
+
+export default storeTopic

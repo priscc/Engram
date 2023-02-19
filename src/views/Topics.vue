@@ -1,40 +1,44 @@
 <template>
-  <div
-    class="Topics"
-    style="height: 100%; color: black; background-color: #f2f2f2"
-  >
-    <v-container fluid class="pl-10 mb-10">
-      <v-row>
-        <v-col>
-          <v-btn text @click="back">
-            <v-icon class="pr-1" small dark>
+  <div>
+    <b-container fluid class="pl-10 mb-10">
+      <b-row>
+        <b-col>
+          <b-btn text @click="back">
+            <b-icon class="pr-1" small dark>
               mdi-arrow-left-drop-circle-outline
-            </v-icon>
+            </b-icon>
             Back
-          </v-btn>
-          <v-row class="d-flex v-col justify-space-between px-12 pt-12">
+          </b-btn>
+          <b-row class="d-flex b-col justify-space-between px-12 pt-12">
             <p class="page_header">{{ timePeriodHeaders.header }}</p>
-            <p class="page_header font-weight-light font-italic">{{ timePeriodHeaders.subheader }}</p>
-          </v-row>
-              <!-- <p class="page_header pl-5">{{ timePeriodHeaders.unitTitles }}</p> -->
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container v-if="timePeriodHeaders.timePeriod == 4" fluid class="px-12">
-      <v-row
+            <p class="page_header font-weight-light font-italic">
+              {{ timePeriodHeaders.subheader }}
+            </p>
+          </b-row>
+          <!-- <p class="page_header pl-5">{{ timePeriodHeaders.unitTitles }}</p> -->
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container v-if="timePeriodHeaders.timePeriod == 4" fluid class="px-12">
+      <b-row
         v-for="(unit, index) in test"
         :key="index"
         style="padding-bottom: 100px"
       >
-        <v-col>
-          <v-row class="pb-0">
-            <v-col class="d-flex justify-center pb-0">
-              <p class="topic_header font-weight-medium mb-0" style="word-break: normal;font-size: 140%">{{ unit.unitHeader }}</p>
-            </v-col>
-          </v-row>
-          <v-row>
+        <b-col>
+          <b-row class="pb-0">
+            <b-col class="d-flex justify-center pb-0">
+              <p
+                class="topic_header font-weight-medium mb-0"
+                style="word-break: normal;font-size: 140%"
+              >
+                {{ unit.unitHeader }}
+              </p>
+            </b-col>
+          </b-row>
+          <b-row>
             <!-- <p class="page_header pl-5">{{ unit.topics }}</p> -->
-            <v-col
+            <b-col
               lg="4"
               md="4"
               sm="12"
@@ -42,7 +46,7 @@
               :key="index"
               class="d-flex align-left px-3"
             >
-              <v-card
+              <b-card
                 flat
                 class="card"
                 width="100%"
@@ -50,41 +54,41 @@
                 style="background: none"
               >
                 <div style=" height: 100px; ">
-                  <v-card-title
+                  <b-card-title
                     class="pb-0 topic_header d-flex flex-column justify-start align-center"
                     style="word-break: normal;font-size: 140%"
                   >
                     {{ topic.title }}
-                  </v-card-title>
-                  <v-card-title
+                  </b-card-title>
+                  <b-card-title
                     class="pt-0 topic_header d-flex flex-column justify-start align-center"
                   >
                     ({{ topic.timespan }})
-                  </v-card-title>
+                  </b-card-title>
                 </div>
-                <v-container>
-                  <v-row>
-                    <v-spacer></v-spacer>
-                    <v-col class="d-flex align-center">
-                      <v-avatar color="grey darken-3" size="250">
-                        <v-img
+                <b-container>
+                  <b-row>
+                    <b-spacer></b-spacer>
+                    <b-col class="d-flex align-center">
+                      <b-avatar color="grey darken-3" size="250">
+                        <b-img
                           class="elevation-6"
                           :src="topic.topic_thumbURL"
-                        ></v-img>
-                      </v-avatar>
-                    </v-col>
-                    <v-spacer></v-spacer>
-                  </v-row>
-                </v-container>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container v-else fluid class="px-12">
-      <v-row style="padding-bottom: 100px">
-        <v-col
+                        ></b-img>
+                      </b-avatar>
+                    </b-col>
+                    <b-spacer></b-spacer>
+                  </b-row>
+                </b-container>
+              </b-card>
+            </b-col>
+          </b-row>
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container b-else fluid class="px-12">
+      <b-row style="padding-bottom: 100px">
+        <b-col
           lg="4"
           md="4"
           sm="12"
@@ -92,7 +96,7 @@
           :key="index"
           class="d-flex align-left px-3"
         >
-          <v-card
+          <b-card
             flat
             class="card"
             width="100%"
@@ -100,36 +104,36 @@
             style="background: none"
           >
             <div style=" height: 100px; ">
-              <v-card-title
+              <b-card-title
                 class="pb-0 topic_header d-flex flex-column justify-start align-center"
                 style="word-break: normal;font-size: 140%"
               >
                 {{ topic.title }}
-              </v-card-title>
-              <v-card-title
+              </b-card-title>
+              <b-card-title
                 class="pt-0 topic_header d-flex flex-column justify-start align-center"
               >
                 ({{ topic.timespan }})
-              </v-card-title>
+              </b-card-title>
             </div>
-            <v-container>
-              <v-row>
-                <v-spacer></v-spacer>
-                <v-col class="d-flex align-center">
-                  <v-avatar color="grey darken-3" size="250">
-                    <v-img
+            <b-container>
+              <b-row>
+                <b-spacer></b-spacer>
+                <b-col class="d-flex align-center">
+                  <b-avatar color="grey darken-3" size="250">
+                    <b-img
                       class="elevation-6"
                       :src="topic.topic_thumbURL"
-                    ></v-img>
-                  </v-avatar>
-                </v-col>
-                <v-spacer></v-spacer>
-              </v-row>
-            </v-container>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-container>
+                    ></b-img>
+                  </b-avatar>
+                </b-col>
+                <b-spacer></b-spacer>
+              </b-row>
+            </b-container>
+          </b-card>
+        </b-col>
+      </b-row>
+    </b-container>
   </div>
 </template>
 
@@ -241,6 +245,7 @@ export default {
 .card:hover {
   opacity: 0.6;
 }
+/*}
 .page_header {
   font-family: "Montserrat", sans-serif;
   letter-spacing: -0.3px;
@@ -253,14 +258,14 @@ export default {
   font-size: 20px;
   line-height: 46px;
   /*font-weight: 600;*/
-  /*text-decoration: underline;*/
-}
-.topic_header {
+/*text-decoration: underline;*/
+/*}*/
+/*.topic_header {
   min-height: 50px;
   text-align: center;
   font-family: "Montserrat", sans-serif;
   letter-spacing: -0.5px;
   line-height: 28px;
   /*font-weight: 600;*/
-}
+/*}*/
 </style>

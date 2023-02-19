@@ -12,9 +12,19 @@ import "firebase/firestore";
 import { createVuetify } from 'vuetify';
 // import * as components from 'vuetify/components';
 // import * as directives from 'vuetify/directives';
+import { BootstrapVue } from 'bootstrap-vue'
+import { BootstrapIconsPlugin } from 'bootstrap-icons-vue';
 
 
-const vuetify = createVuetify();
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'bootstrap-icons/font/bootstrap-icons.css'
+
+
+const vuetify = createVuetify({
+//   components,
+//   directives,
+})
 
 export const db = firebase
 	.initializeApp({
@@ -35,5 +45,7 @@ const app = createApp(App)
 app.use(store);
 app.use(router);
 app.use(vuetify);
+app.use(BootstrapVue);
+app.use(BootstrapIconsPlugin);
 // app.config.productionTip = false;
 app.mount('#app');
