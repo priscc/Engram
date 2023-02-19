@@ -19,74 +19,8 @@
         </b-col>
       </b-row>
     </b-container>
-    <b-container v-if="timePeriodHeaders.timePeriod == 4" fluid class="px-12">
-      <b-row
-        v-for="(unit, index) in test"
-        :key="index"
-        style="padding-bottom: 100px"
-      >
-        <b-col>
-          <b-row class="pb-0">
-            <b-col class="d-flex justify-center pb-0">
-              <p
-                class="topic_header font-weight-medium mb-0"
-                style="word-break: normal;font-size: 140%"
-              >
-                {{ unit.unitHeader }}
-              </p>
-            </b-col>
-          </b-row>
-          <b-row>
-            <!-- <p class="page_header pl-5">{{ unit.topics }}</p> -->
-            <b-col
-              lg="4"
-              md="4"
-              sm="12"
-              v-for="(topic, index) in unit.topics"
-              :key="index"
-              class="d-flex align-left px-3"
-            >
-              <b-card
-                flat
-                class="card"
-                width="100%"
-                @click="goTo(topic)"
-                style="background: none"
-              >
-                <div style=" height: 100px; ">
-                  <b-card-title
-                    class="pb-0 topic_header d-flex flex-column justify-start align-center"
-                    style="word-break: normal;font-size: 140%"
-                  >
-                    {{ topic.title }}
-                  </b-card-title>
-                  <b-card-title
-                    class="pt-0 topic_header d-flex flex-column justify-start align-center"
-                  >
-                    ({{ topic.timespan }})
-                  </b-card-title>
-                </div>
-                <b-container>
-                  <b-row>
-                    <b-spacer></b-spacer>
-                    <b-col class="d-flex align-center">
-                      <b-avatar color="grey darken-3" size="250">
-                        <b-img
-                          class="elevation-6"
-                          :src="topic.topic_thumbURL"
-                        ></b-img>
-                      </b-avatar>
-                    </b-col>
-                    <b-spacer></b-spacer>
-                  </b-row>
-                </b-container>
-              </b-card>
-            </b-col>
-          </b-row>
-        </b-col>
-      </b-row>
-    </b-container>
-    <b-container b-else fluid class="px-12">
+    
+    <b-container fluid class="px-12">
       <b-row style="padding-bottom: 100px">
         <b-col
           lg="4"
@@ -208,20 +142,6 @@ export default {
               }
             });
 
-            if (this.timePeriodHeaders.timePeriod == 4) {
-              this.topics.forEach(
-                function(element) {
-                  const keys = Object.keys(this.units);
-                  if (keys.includes(element.unit)) {
-                    console.log(element.unit, this.units[element.unit]);
-                    console.log("THS", element);
-
-                    this.units[element.unit].push(element);
-                  }
-                }.bind(this)
-              );
-              this.myProducts();
-            }
           }.bind(this)
         );
     },

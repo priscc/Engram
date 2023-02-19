@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 
-export default createStore({
+export const store = createStore({
   state: {
     timePeriodHeaders: [
       {
@@ -49,7 +49,7 @@ export default createStore({
         img: "Modern.png",
       },
     ],
-    currentTimePeriod: null,
+    currentTimePeriod: 0,
     currentTopicComponent: 0,
     topicButtons: [
       { title: "Summary", color: "pink" },
@@ -66,6 +66,7 @@ export default createStore({
   },
   mutations: {
     selectedTimePeriod(state, i) {
+       i = parseInt(i) - 1
       state.currentTimePeriod = i;
     },
     topicButtonChange(state, i) {
@@ -93,3 +94,5 @@ export default createStore({
   },
   modules: {},
 });
+
+export default store
