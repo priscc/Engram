@@ -30,28 +30,68 @@
 			padding-top: 10px
 			text-align: center
 
-
 //UNIT HEADER
+.unit
+	display: flex
+	align-items: center
+	text-align: center
+	padding-bottom: 50px
+
 .unit_header 
 	min-height: 50px
-	text-align: center
 	font-family: "Montserrat", sans-serif
 	letter-spacing: -0.5px
 	font-size: 24px
 	line-height: 28px
-	// font-weight: 600
-
 
 //CARDS
-.card:hover
-	opacity: 0.6
-// .page_unitHeader 
-// 	font-family: "Montserrat", sans-serif
-// 	letter-spacing: -0.5px
-// 	font-size: 20px
-// 	line-height: 46px
-// 	font-weight: 600
-// 	text-decoration: underline
+.card
+	height: 250px
+	border-radius: 25%
+	position: relative
+	margin: 10px
+	&:hover
+		opacity: 0.6
+		cursor: pointer
+
+.card_image
+	display: block
+	object-fit: cover
+	width: 100%
+	height: 100%
+	border-radius: 25%
+
+.overlay 
+	position: absolute
+	background: rgba(57, 57, 57, 0.5)
+	display: flex
+	align-items: center
+	justify-content: center
+	flex-direction: column
+	border-radius: 25%
+
+.overlay_2
+	inset: 0
+
+.card_header
+	word-break: normal
+	font-family: "Montserrat", sans-serif
+	letter-spacing: -0.5px
+	font-size: 24px
+	margin-bottom: 0px
+	font-weight: 600
+	color: #f2f2f2
+
+.card_subheader
+	word-break: normal
+	font-family: "Montserrat", sans-serif
+	letter-spacing: -0.5px
+	font-size: 20px
+	font-weight: 500
+	color: #f2f2f2
+
+
+
 
 
 

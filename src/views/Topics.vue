@@ -11,12 +11,11 @@
         }}</b-col>
       </b-row>
 
-      <b-row v-for="unit in units" :key="unit.id" style="padding-bottom: 100px">
+      <b-row v-for="unit in units" :key="unit.id" class="unit">
         <b-col>
           <p class="unit_header">
             {{ unit.unitHeader }}
           </p>
-
           <b-row>
             <b-col
               lg="4"
@@ -24,43 +23,14 @@
               sm="12"
               v-for="topic in unit.topics"
               :key="topic.id"
-              class="d-flex align-left px-3"
             >
-              <b-card
-                flat
-                class="card"
-                width="100%"
-                @click="goTo(topic)"
-                style="background: none"
-              >
-                <div style=" height: 100px; ">
-                  <b-card-title
-                    class="pb-0 topic_header d-flex flex-column justify-start align-center"
-                    style="word-break: normal;font-size: 140%"
-                  >
-                    {{ topic.title }}
-                  </b-card-title>
-                  <b-card-title
-                    class="pt-0 topic_header d-flex flex-column justify-start align-center"
-                  >
-                    ({{ topic.timespan }})
-                  </b-card-title>
-                </div>
-                <b-container>
-                  <b-row>
-                    <b-spacer></b-spacer>
-                    <b-col class="d-flex align-center">
-                      <b-avatar color="grey darken-3" size="250">
-                        <b-img
-                          class="elevation-6"
-                          :src="topic.topic_thumbURL"
-                        ></b-img>
-                      </b-avatar>
-                    </b-col>
-                    <b-spacer></b-spacer>
-                  </b-row>
-                </b-container>
-              </b-card>
+              <div class="card" @click="goTo(topic)">
+                <b-img class="card_image" :src="topic.topic_thumbURL"></b-img>
+                <div class="overlay overlay_2">
+                <p class="card_header">{{ topic.title }}</p>
+                <p class="card_subheader">({{ topic.timespan }})</p>
+              </div>
+              </div>
             </b-col>
           </b-row>
         </b-col>
@@ -135,9 +105,11 @@ export default {
   mounted() {
     store.dispatch("setTimePeriod", this.$route.params.period);
     var o = 0;
-    Object.keys(this.timePeriodHeaders.unitTitles).forEach(function(unit) {
-      if (this.timePeriodHeaders.unitTitles[unit].topics.length > 0) o++;
-    }.bind(this));
+    Object.keys(this.timePeriodHeaders.unitTitles).forEach(
+      function(unit) {
+        if (this.timePeriodHeaders.unitTitles[unit].topics.length > 0) o++;
+      }.bind(this)
+    );
     this.units = this.timePeriodHeaders.unitTitles;
     if (o == 0) this.topic();
   },
