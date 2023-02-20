@@ -18,8 +18,9 @@
           </p>
           <b-row>
             <b-col
+              xl="3"
               lg="4"
-              md="4"
+              md="6"
               sm="12"
               v-for="topic in unit.topics"
               :key="topic.id"
@@ -27,9 +28,9 @@
               <div class="card" @click="goTo(topic)">
                 <b-img class="card_image" :src="topic.topic_thumbURL"></b-img>
                 <div class="overlay overlay_2">
-                <p class="card_header">{{ topic.title }}</p>
-                <p class="card_subheader">({{ topic.timespan }})</p>
-              </div>
+                  <p class="card_header">{{ topic.title }}</p>
+                  <p class="card_subheader">({{ topic.timespan }})</p>
+                </div>
               </div>
             </b-col>
           </b-row>

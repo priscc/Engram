@@ -61,7 +61,7 @@ export default {
       searchClosed: true,
       searchItems: [],
       search: null,
-      windowHeight: window.innerHeight,
+      windowHeight: 0,
     };
   },
   // watch: {
@@ -208,6 +208,7 @@ export default {
     // },
   },
   mounted() {
+    this.windowHeight = window.innerHeight
     // this.grabbingSearch();
   },
 };
