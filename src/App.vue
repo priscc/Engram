@@ -2,7 +2,7 @@
   <div>
     <div class="navbar_styling">
       <b-navbar toggleable="md" type="dark">
-        <b-navbar-brand @click="home">
+        <b-navbar-brand @click="home" class="logo">
           <img class="logo_img" src="@/assets/EngramLogo.png" />
           <span class="logo_btn">Engram</span>
         </b-navbar-brand>
@@ -18,21 +18,13 @@
           </b-navbar-nav>
         </b-collapse>
       </b-navbar>
-      <b-container fluid>
-        <b-row
-          v-if="stateTimePeriod != -1 && stateTimePeriod == null"
-          class="site_header"
-        >
-          AP World History Units
-        </b-row>
-      </b-container>
     </div>
     <div :style="{ 'min-height': windowHeight + 'px' }">
       <router-view></router-view>
     </div>
     <div class="footer">
       <b-container fluid>
-        <!-- <b-row>
+        <b-row>
           <b-col>
             <b-icon-facebook class="footer-icon" />
             <b-icon-twitter class="footer-icon" />
@@ -48,7 +40,7 @@
               Privacy Policy
             </div>
           </b-col>
-        </b-row> -->
+        </b-row>
         <b-row>
           <b-col>&copy; 2022 by Engram</b-col>
         </b-row>
@@ -211,9 +203,9 @@ export default {
     },
   },
   computed: {
-    stateTimePeriod: function() {
-      return store.state.currentTimePeriod;
-    },
+    // stateTimePeriod: function() {
+    //   return store.state.currentTimePeriod;
+    // },
   },
   mounted() {
     // this.grabbingSearch();
@@ -221,6 +213,5 @@ export default {
 };
 </script>
 
-<style scoped>
-@import "@/assets/css/main.sass";
+<style lang="sass" scoped src="@/assets/css/main.sass">
 </style>

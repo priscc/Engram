@@ -1,9 +1,12 @@
 <template>
   <div>
+    <div class="site_header">
+      AP World History Units
+    </div>
     <b-container fluid class="home_page">
       <b-row class="periods">
         <b-col
-          v-for="(timePeriod) in timePeriodHeaders"
+          v-for="timePeriod in timePeriodHeaders"
           :key="timePeriod.id"
           class="period"
           :style="{
@@ -22,7 +25,6 @@
 
 <script>
 import store from "@/store";
-import "@/assets/css/main.sass";
 export default {
   computed: {
     timePeriodHeaders() {
@@ -40,3 +42,5 @@ export default {
   },
 };
 </script>
+
+<style lang="sass" scoped src="@/assets/css/main.sass"></style>
