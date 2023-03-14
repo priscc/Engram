@@ -3,6 +3,8 @@ import App from './App.vue'
 import router from "./router";
 import store from "./store/index";
 import firebase from "firebase/app";
+import { QuillEditor } from '@vueup/vue-quill'
+import '@vueup/vue-quill/dist/vue-quill.snow.css';
 // import { getPerformance } from "firebase/performance";
 // import "firebase/performance";
 import "firebase/firestore";
@@ -47,5 +49,6 @@ app.use(router);
 app.use(vuetify);
 app.use(BootstrapVue);
 app.use(BootstrapIconsPlugin);
+app.component('QuillEditor', QuillEditor)
 // app.config.productionTip = false;
 app.mount('#app');

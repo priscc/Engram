@@ -17,9 +17,6 @@ export const storeTopic = createStore({
   mutations: {
     updatedTopicContent(state, i) {
       state.topic = i;
-      console.log("topic.js update", state.topic);
-
-      // CONTENT CLEAR
       state.events = [];
       state.trends = [];
       state.people = [];
@@ -27,7 +24,6 @@ export const storeTopic = createStore({
       state.terms = [];
       state.resources = [];
 
-      // TRENDS
       db.collection("trends")
         .where("topicID", "array-contains-any", [state.topic.id])
         .get()
@@ -41,7 +37,6 @@ export const storeTopic = createStore({
           }.bind(this)
         );
 
-      // HISTORICAL FIGURES
       var p = [];
       db.collection("people")
         .where("topicID", "array-contains-any", [state.topic.id])
@@ -68,7 +63,6 @@ export const storeTopic = createStore({
           }.bind(this)
         );
 
-      // PRIMARY SOURCES
       var s = [];
       db.collection("works")
         .where("topicID", "array-contains-any", [state.topic.id])
@@ -95,7 +89,6 @@ export const storeTopic = createStore({
           }.bind(this)
         );
 
-      // TERMS
       var t = [];
       db.collection("terminology")
         .where("topicID", "array-contains-any", [state.topic.id])
@@ -120,7 +113,6 @@ export const storeTopic = createStore({
           }.bind(this)
         );
 
-      // RESOURCES
       db.collection("resources")
         .where("topicID", "array-contains-any", [state.topic.id])
         .get()

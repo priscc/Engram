@@ -19,7 +19,7 @@
         </b-collapse>
       </b-navbar>
     </div>
-    <div :style="{ 'min-height': windowHeight + 'px' }">
+    <div>
       <router-view></router-view>
     </div>
     <div class="footer">
@@ -55,15 +55,13 @@ import storeTopic from "@/store/topic.js";
 // import { db } from "@/main";
 export default {
   name: "App",
-  data() {
-    return {
-      sheet: false,
-      searchClosed: true,
-      searchItems: [],
-      search: null,
-      windowHeight: 0,
-    };
-  },
+  // data() {
+  //   return {
+  //     searchClosed: true,
+  //     searchItems: [],
+  //     search: null,
+  //   };
+  // },
   // watch: {
   //   search: function(val) {
   //     console.log("watching search", val);
@@ -202,17 +200,15 @@ export default {
       this.$router.push("/privacypolicy");
     },
   },
-  computed: {
-    // stateTimePeriod: function() {
-    //   return store.state.currentTimePeriod;
-    // },
-  },
-  mounted() {
-    this.windowHeight = window.innerHeight
-    // this.grabbingSearch();
-  },
+  // computed: {
+  //   stateTimePeriod: function() {
+  //     return store.state.currentTimePeriod;
+  //   },
+  // },
+  // mounted() {
+  //   this.grabbingSearch();
+  // },
 };
 </script>
 
-<style lang="sass" scoped src="@/assets/css/main.sass">
-</style>
+<style lang="sass" scoped src="@/assets/css/main.sass"></style>

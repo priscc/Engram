@@ -33,7 +33,6 @@ export default {
   },
   methods: {
     expand(i) {
-      store.dispatch("setTimePeriod", i.timePeriod);
       this.$router.push({ name: "Period", params: { period: i.timePeriod } });
     },
   },

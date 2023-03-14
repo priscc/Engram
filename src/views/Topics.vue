@@ -42,7 +42,6 @@
 
 <script>
 import store from "@/store";
-import storeTopic from "@/store/topic.js";
 import { db } from "@/main";
 export default {
   name: "Topics",
@@ -96,23 +95,19 @@ export default {
       this.$router.push({ name: "Home" });
     },
     goTo(topic) {
-      storeTopic.dispatch("topicContent", topic);
       this.$router.push({
         name: "Topic",
         params: { topic: topic.id, category: 0 },
       });
     },
   },
-  mounted() {
+  created() {
     store.dispatch("setTimePeriod", this.$route.params.period);
-    var o = 0;
-    Object.keys(this.timePeriodHeaders.unitTitles).forEach(
-      function(unit) {
-        if (this.timePeriodHeaders.unitTitles[unit].topics.length > 0) o++;
-      }.bind(this)
-    );
     this.units = this.timePeriodHeaders.unitTitles;
-    if (o == 0) this.topic();
+    var v = Object.keys(this.units).filter((unit) => this.units[unit].topics.length > 0);
+    console.log(v);
+    if (v.length == 0)
+      this.topic();
   },
 };
 </script>
