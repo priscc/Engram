@@ -10,7 +10,7 @@
         </b-row>
 
         <b-row>
-          <!-- <b-col lg="6" md="6" sm="12" class="pt-0">
+          <b-col lg="6" md="6" sm="12" class="pt-0">
             <b-row>
               <b-col class="pb-10">
                 <b-img
@@ -18,23 +18,19 @@
                   :src="topic.intro_thumbURL"
                   aspect-ratio="1.7"
                   width="200px"
-                ></b-img> -->
-                <div
-                  class="intro_paragraph intro_content"
-
-                  id="editor-container"
-                ></div>
-                <p>{{topic}}</p>
-             <!--  </b-col>
+                ></b-img>
+                <p>{{ topic }}</p>
+                <div v-html="intro"></div>
+              </b-col>
             </b-row>
-          </b-col> -->
+          </b-col>
           <!-- <b-col lg="5" md="5" sm="12" class="pt-0 pl-7"> -->
-            <!-- <b-row> -->
-            <!-- <b-col> -->
-            <!-- <b-img :src="topic.intro_thumbURL" aspect-ratio="1.7"></b-img> -->
-            <!-- </b-col> -->
-            <!-- </b-row> -->
-            <!-- <b-row class="d-flex align-end pt-0">
+          <!-- <b-row> -->
+          <!-- <b-col> -->
+          <!-- <b-img :src="topic.intro_thumbURL" aspect-ratio="1.7"></b-img> -->
+          <!-- </b-col> -->
+          <!-- </b-row> -->
+          <!-- <b-row class="d-flex align-end pt-0">
               <b-col class="d-flex column-flex align-center">
                 <h4>Videos:</h4>
                 <p
@@ -68,7 +64,7 @@
                 ></iframe>
               </b-col>
             </b-row> -->
-            <!--            <b-row v-if="articles.length != 0">
+          <!--            <b-row v-if="articles.length != 0">
                 <b-col class="pt-0">
                   <h4>Articles: Influences Seen Today</h4>
                 </b-col>
@@ -139,39 +135,32 @@ export default {
   //   return { dialog: false };
   // },
   // components: { articlecomp },
-  // computed: {
-  //   topic() {
-  //     return storeTopic.state.topic;
-  //   },
-  //   videos() {
-  //     var r = storeTopic.state.resources.filter(
-  //       (video) =>
-  //         video.parentID == this.topic.id &&
-  //         video.resourceType == "video" &&
-  //         video.parentType == "topic"
-  //     );
-  //     return r;
-  //   },
-  //   articles() {
-  //     var r = storeTopic.state.resources.filter(
-  //       (article) =>
-  //         article.parentID == this.topic.id &&
-  //         article.resourceType == "article" &&
-  //         article.parentType == "topic"
-  //     );
-  //     return r;
-  //   },
-  // },
-  mounted() {
-    var v = this.topic;
-    console.log('in intro mounted', v)
-    if (typeof v.introMD != "string") {
-      var quill = new Quill("#editor-container");
-      quill.setContents(v.introMD);
-    } else {
-      var e = document.getElementById("editor-container");
-      e.innerText = v.introMD;
-    }
+  computed: {
+    intro() {
+      var inputDelta = this.topic.introMD;
+      var tempCont = document.createElement("div");
+      var quill = new Quill(tempCont);
+      quill.setContents(inputDelta);
+      return tempCont.getElementsByClassName("ql-editor")[0].innerHTML;
+    },
+    // videos() {
+    //   var r = storeTopic.state.resources.filter(
+    //     (video) =>
+    //       video.parentID == this.topic.id &&
+    //       video.resourceType == "video" &&
+    //       video.parentType == "topic"
+    //   );
+    //   return r;
+    // },
+    //   articles() {
+    //     var r = storeTopic.state.resources.filter(
+    //       (article) =>
+    //         article.parentID == this.topic.id &&
+    //         article.resourceType == "article" &&
+    //         article.parentType == "topic"
+    //     );
+    //     return r;
+    //   },
   },
 };
 </script>

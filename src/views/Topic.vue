@@ -129,9 +129,7 @@ export default {
   },
   methods: {
     async topicFinder() {
-      
       store.dispatch("setTimePeriod", this.$route.params.period);
-
       var newTopic
       await db.collection("topics")
         .doc(this.$route.params.topic)
@@ -144,7 +142,6 @@ export default {
             storeTopic.dispatch("topicContent", newTopic);
           }.bind(this)
         );
-      
     },
     select(i) {
       store.dispatch("setTopicButton", i);
