@@ -781,7 +781,7 @@ export default {
     },
   },
   async mounted() {
-    await storeTopic.dispatch("eventsContent");
+    await storeTopic.dispatch("setEvents");
     console.log("mounted events");
     this.model = 0;
     this.primary();

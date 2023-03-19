@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="App">
     <div class="navbar_styling">
       <b-navbar toggleable="md" type="dark">
         <b-navbar-brand @click="home" class="logo">

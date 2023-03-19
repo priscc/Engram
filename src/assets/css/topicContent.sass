@@ -1,0 +1,254 @@
+@import "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,1000,2000,3000,4000,5000,6000,7000,8000,9001,1001,2001,3001,4001,5001,6001,7001,8001,900&display=swap"
+
+
+// BANNER IMAGE
+.background 
+	background-size: cover
+	background-position: right 15% bottom 52%
+	height: 150px
+	padding-top: 20px
+
+.background_filter 
+	position: relative
+	&:after 
+		-webkit-backdrop-filter: blur(5px) /* Use for Safari 9+, Edge 17+ (not a mistake) and iOS Safari 9.2+ */
+		backdrop-filter: brightness(50%) /* Supported in Chrome 76 */
+		content: ""
+		display: block
+		position: absolute
+		width: 100%
+		height: 100%
+		top: 0
+
+.u-non-blurred 
+	position: relative
+	z-index: 1
+
+
+// BANNER TEXT
+.back_button
+	color: white
+	&:hover
+		opacity: 0.5
+		cursor: pointer
+
+@media (max-width: 425px) 
+	.back_button
+		padding-bottom: 20px
+	.background
+		min-height: 250px
+
+.banner_timeperiod_header
+	font-family: "Montserrat", sans-serif
+	letter-spacing: -0.5px
+	font-size: 16px
+	margin-bottom: 0px
+	text-decoration: underline
+	text-decoration-thickness: .9px
+	color: white
+
+.banner_unit_header
+	font-family: "Montserrat", sans-serif
+	letter-spacing: -0.5px
+	font-size: 16px
+	font-style: italic
+	color: white
+
+.banner_header
+	font-family: "Montserrat", sans-serif
+	letter-spacing: -0.5px
+	font-size: 34px
+	line-height: 35px
+	color: white
+
+
+// CATEGORY BUTTONS
+.category_button 
+	font-family: "Montserrat", sans-serif
+	letter-spacing: -0.5px
+	font-size: 14px
+	line-height: 30px
+	font-weight: 700
+	background-color: #B19CD9
+	color: white
+	border-radius: 10px
+	margin-bottom: 10px
+	padding-left: 10px
+	min-width: 130px
+	&:hover
+		opacity: 0.5
+		cursor: pointer
+
+
+// HEADERS
+.title
+	font-family: "Montserrat", sans-serif
+	font-size: 30px
+	font-weight: 620
+	margin-bottom:10px
+
+.subtitle
+	font-family: "Montserrat", sans-serif
+	font-size: 14px
+	font-weight: light
+
+.header-1
+	font-family: "Montserrat", sans-serif
+	font-size: 24px
+	font-weight: 620
+
+.header-2
+	font-family: "Montserrat", sans-serif
+	font-size: 16px
+	font-weight: 500
+	word-break: normal
+
+.text
+	font-family: "Montserrat", sans-serif
+	font-size: 16px
+	font-weight: 400
+
+
+//INTRO
+.intro_image
+	width: 100%
+	height: auto
+
+.view_all
+	font-family: "Montserrat", sans-serif
+	font-size: 12px
+	display: flex
+	align-items: end
+	justify-content: end
+	color: blue
+	text-decoration: underline
+	&:hover
+		opacity: 0.5
+		cursor: pointer
+
+.intro_iframe 
+	min-width: 100%
+	max-width: 100%
+	height: 100%
+	aspect-ratio: 16 / 9
+
+// PEOPLE
+.person_profile
+	padding-bottom: 25px
+
+.person_info
+	min-width: 220px
+	max-width: 220px
+
+.person_header
+	font-family: "Montserrat", sans-serif
+	text-transform: uppercase
+	font-size: 14px
+	font-weight: 550
+
+.person_time
+	font-family: "Montserrat", sans-serif
+	font-size: 12px
+	font-weight: 550
+	margin-bottom: 0px
+
+.person_subheader
+	font-family: "Montserrat", sans-serif
+	text-transform: uppercase
+	font-size: 12px
+	font-weight: 500
+	color: grey
+
+.person_description
+	overflow: hidden
+	line-height: 1.2rem
+	max-height: 6rem
+	-webkit-box-orient: vertical
+	display: block
+	display: -webkit-box
+	overflow: hidden !important
+	text-overflow: ellipsis
+	-webkit-line-clamp: 5
+
+.person_iframe
+	min-width: 100%
+	width: 100%
+	height: 100%
+	aspect-ratio: 16 / 9
+	padding-bottom: 5px
+
+
+// ARTICLES
+.article
+	font-family: "Montserrat", sans-serif
+	.card-title
+		font-size: 20px
+	
+.article_summary
+	margin-top: 5px
+	font-family: "Montserrat", sans-serif
+	overflow: hidden
+	line-height: 1.2rem
+	max-height: 3.5rem
+	-webkit-box-orient: vertical
+	display: block
+	display: -webkit-box
+	overflow: hidden !important
+	text-overflow: ellipsis
+	-webkit-line-clamp: 3
+
+.article_link
+	display: flex
+	justify-content: end
+	&:hover
+		opacity: 0.5
+		cursor: pointer
+
+// event CARDS
+// .card
+// 	height: 250px
+// 	border-radius: 25%
+// 	position: relative
+// 	margin: 4px 0px
+// 	&:hover
+// 		opacity: 0.6
+// 		cursor: pointer
+
+
+		
+// .card_image
+// 	display: block
+// 	object-fit: cover
+// 	width: 100%
+// 	height: 100%
+// 	border-radius: 25%
+
+// .overlay 
+// 	position: absolute
+// 	background: rgba(57, 57, 57, 0.55)
+// 	display: flex
+// 	align-items: center
+// 	justify-content: center
+// 	flex-direction: column
+// 	border-radius: 25%
+
+// .overlay_2
+// 	inset: 0
+
+// .card_header
+// 	word-break: normal
+// 	font-family: "Montserrat", sans-serif
+// 	letter-spacing: -0.5px
+// 	font-size: 24px
+// 	margin-bottom: 0px
+// 	font-weight: 600
+// 	color: #f2f2f2
+// 	padding: 0px 25px
+
+// .card_subheader
+// 	word-break: normal
+// 	font-family: "Montserrat", sans-serif
+// 	letter-spacing: -0.5px
+// 	font-size: 20px
+// 	font-weight: 500
+// 	color: #f2f2f2

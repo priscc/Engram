@@ -13,7 +13,7 @@
             'background-image':
               'url(' + require(`@/assets/${timePeriod.img}`) + ')',
           }"
-          @click="expand(timePeriod)"
+          @click="next(timePeriod)"
         >
           <p class="period_header">{{ timePeriod.header }}</p>
           <p class="period_subheader">{{ timePeriod.subheader }}</p>
@@ -32,12 +32,9 @@ export default {
     },
   },
   methods: {
-    expand(i) {
+    next(i) {
       this.$router.push({ name: "Period", params: { period: i.timePeriod } });
     },
-  },
-  mounted() {
-    store.dispatch("setTimePeriod", 0);
   },
 };
 </script>
