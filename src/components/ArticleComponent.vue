@@ -1,15 +1,23 @@
 <template>
   <div id="Article">
-    <b-card :img-src="article.thumbURL" img-alt="Image" img-top class="article">
-      <b-card-title>{{ article.title }}</b-card-title>
-      <b-card-sub-title>
-        {{ article.newsSource }} | {{ article.published }}
-      </b-card-sub-title>
-      <b-card-text class="article_summary">
-        {{ article.summary }}
-      </b-card-text>
-      <a :href="article.url" target="_blank" class="article_link"> Go To</a>
-    </b-card>
+    <div class="article">
+      <b-img
+        v-if="article.thumbURL && article.thumbFile != 'placeHolderImg.png'"
+        :src="article.thumbURL"
+        alt="Image"
+        class="article_image"
+      ></b-img>
+      <div class="article_content">
+        <div class="article_title">{{ article.title }}</div>
+        <div class="article_subtitle">
+          {{ article.newsSource }} | {{ article.published }}
+        </div>
+        <div class="article_summary">
+          {{ article.summary }}
+        </div>
+        <a :href="article.url" target="_blank" class="article_link">Go To</a>
+      </div>
+    </div>
   </div>
 </template>
 

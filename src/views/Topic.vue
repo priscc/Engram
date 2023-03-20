@@ -27,7 +27,7 @@
       <b-row class="pt-5">
         <b-col lg="2" md="2" sm="12" class="d-flex flex-column">
           <div v-for="(button, index) in topicButtons" :key="index">
-            <div class="category_button" @click="select(index)">
+            <div class="category_button" @click="loadCategory(index)">
               {{ button }}
             </div>
           </div>
@@ -38,10 +38,10 @@
           <trends v-else-if="currentTopicComponent == 1"></trends>
           <!-- <developments v-else-if="currentTopicComponent == 2"></developments> -->
           <people v-else-if="currentTopicComponent == 3"></people>
-          <!-- <primarysources
+          <primarysources
             v-else-if="currentTopicComponent == 4"
-          ></primarysources> -->
-          <!-- <terms v-else-if="currentTopicComponent == 5"></terms> -->
+          ></primarysources>
+          <terms v-else-if="currentTopicComponent == 5"></terms>
         </b-col>
       </b-row>
     </b-container>
@@ -55,8 +55,8 @@ import intro from "@/components/Intro.vue";
 import trends from "@/components/Trends.vue";
 // import developments from "@/components/Developments.vue";
 import people from "@/components/People.vue";
-// import primarysources from "@/components/PrimarySources.vue";
-// import terms from "@/components/Terms.vue";
+import primarysources from "@/components/PrimarySources.vue";
+import terms from "@/components/Terms.vue";
 import { db } from "@/main";
 
 export default {
@@ -66,8 +66,8 @@ export default {
     trends,
     // developments,
     people,
-    // primarysources,
-    // terms,
+    primarysources,
+    terms,
   },
   data() {
     return {
@@ -109,16 +109,16 @@ export default {
           }.bind(this)
         );
     },
-    select(i) {
-      store.dispatch("setTopicButton", i);
-      this.$router.replace({ name: "Topic", params: { category: i } });
-    },
     back() {
       store.dispatch("setTopicButton", 0);
       this.$router.push({
         name: "Period",
         params: { period: this.$route.params.period },
       });
+    },
+    loadCategory(i) {
+      store.dispatch("setTopicButton", i);
+      this.$router.replace({ name: "Topic", params: { category: i } });
     },
   },
   mounted() {

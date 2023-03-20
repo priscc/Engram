@@ -43,8 +43,8 @@
           </div>
         </b-col>
         <b-col lg="6" md="12" sm="12" class="pb-2">
-          <p class="text person_description">{{ person.mainMD }}</p>
-          <b-button size="sm" @click="goTo()">Learn More</b-button>
+          <div class="text person_description" v-html="content"></div>
+          <b-button class="person_link" size="sm" @click="goTo()">Learn More</b-button>
         </b-col>
         <b-col >
           <b-row v-for="(resource, i) in resources" :key="i">
@@ -66,12 +66,24 @@
 
 <script>
 import storeTopic from "@/store/topic.js";
+import * as Quill from "quill";
 export default {
   name: "PeopleProfile",
   props: {
     person: Object,
   },
   computed: {
+    content() {
+      var inputDelta = this.person.mainMD;
+      var tempCont = document.createElement("div");
+      if (typeof inputDelta === "string" || inputDelta instanceof String) {
+        return (tempCont.innerHTML = inputDelta);
+      } else {
+        var quill = new Quill(tempCont);
+        quill.setContents(inputDelta);
+        return tempCont.getElementsByClassName("ql-editor")[0].innerHTML;
+      }
+    },
     resources() {
       var r = storeTopic.state.peopleResources.filter((resource) => {
         return (

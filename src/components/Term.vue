@@ -1,24 +1,24 @@
 <template>
   <div id="Term">
-    <v-card flat>
+    <b-card flat>
       <div class="d-flex flex-no-wrap">
-        <!-- <v-avatar size="225" tile> -->
-        <v-img
+        <!-- <b-avatar size="225" tile> -->
+        <b-img
           v-if="term.thumbURL"
           :lazy-src="term.thumbURL"
           :src="term.thumbURL"
           height="150"
           max-width="250"
         >
-        </v-img>
-        <v-card v-else color="grey" height="150" max-width="250"> </v-card>
-        <!-- </v-avatar> -->
+        </b-img>
+        <b-card v-else color="grey" height="150" max-width="250"> </b-card>
+        <!-- </b-avatar> -->
         <div>
-          <v-card-title class="text-h5" v-text="term.term"></v-card-title>
-          <v-card-subtitle v-text="term.def"></v-card-subtitle>
+          <div>{{term.term}}</div>
+          <div>{{term.def}}</div>
         </div>
       </div>
-    </v-card>
+    </b-card>
   </div>
 </template>
 

@@ -1,41 +1,62 @@
 <template>
-  <div class="Terms" style="height: 100%">
-    <v-container fluid class="pt-0">
-      <v-row class="pt-0">
-        <v-col class="pt-0 pb-10">
-          <h3>Terminology</h3>
-        </v-col>
-      </v-row>
-      <v-row v-for="(term, i) in termsComponent" :key="i">
-        <v-col cols="10">
-          <!-- <v-container fluid> -->
-          <term :term="term" :id="term.topiID"></term>
-          <!-- </v-container> -->
-        </v-col>
-      </v-row>
-    </v-container>
+  <div class="Terms">
+    <b-container fluid>
+      <b-row>
+        <div class="title">Primary Sources</div>
+      </b-row>
+      <b-row v-for="(term, i) in termsComponent" :key="i">
+        <b-col :id="term.topiID" cols="11">
+          <b-card>
+            <b-container fluid>
+              <b-row>
+                <b-col xl="2" lg="3" md="4" sm="4">
+                  <b-img
+                    v-if="term.thumbURL"
+                    :src="term.thumbURL"
+                    class="term_image"
+                  >
+                  </b-img>
+                </b-col>
+                <b-col xl="6" lg="7" md="8" sm="12">
+                  <div class="header-2">{{ term.term }}</div>
+                  <div class="text">{{ term.def }}</div>
+                </b-col>
+              </b-row>
+            </b-container>
+          </b-card>
+        </b-col>
+      </b-row>
+      <div class="top_button">
+        <b-col>
+          <b-button size="small" @click="top()">
+            <b-icon-caret-up aria-hidden="true" /> Top
+          </b-button>
+        </b-col>
+      </div>
+    </b-container>
   </div>
 </template>
 
 <script>
 import storeTopic from "@/store/topic.js";
-import term from "@/components/Term.vue";
 
 export default {
   name: "Terms",
-  components: { term },
   computed: {
     termsComponent() {
       return storeTopic.state.terms;
     },
   },
+  methods: {
+    top() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
+  },
+  mounted() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    storeTopic.dispatch("setToipcTerms", this.$route.params.topic);
+  },
 };
 </script>
 
-<style type="text/css" scoped>
-h3 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 30px;
-  font-weight: 620;
-}
-</style>
+<style lang="sass" scoped src="@/assets/css/topicContent.sass"></style>

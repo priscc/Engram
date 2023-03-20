@@ -115,11 +115,11 @@ export const storeTopic = createStore({
           }.bind(this)
         );
     },
-    retrieveSources(state) {
+    retrieveSources(state, i) {
       state.sources = [];
       var s = [];
       db.collection("works")
-        .where("topicID", "array-contains-any", [state.topic.id])
+        .where("topicID", "array-contains-any", [i])
         .get()
         .then(
           function(querySnapshot) {
@@ -143,11 +143,11 @@ export const storeTopic = createStore({
           }.bind(this)
         );
     },
-    retrieveTerms(state) {
+    retrieveTerms(state, i) {
       state.terms = [];
       var t = [];
       db.collection("terminology")
-        .where("topicID", "array-contains-any", [state.topic.id])
+        .where("topicID", "array-contains-any", [i])
         .get()
         .then(
           function(querySnapshot) {
@@ -234,8 +234,12 @@ export const storeTopic = createStore({
     setTopicPeople({ commit }, i) {
       commit("retrievePeople", i);
     },
-    //setTopicSource
-    //setTopicTerm
+    setTopicSources({ commit }, i) {
+      commit("retrieveSources", i);
+    },
+    setToipcTerms({ commit }, i) {
+      commit("retrieveTerms", i);
+    },
     setToipcResources({ commit }, i) {
       commit("retrieveToipcResources", i);
     },

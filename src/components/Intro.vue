@@ -15,7 +15,7 @@
         </b-col>
         <b-col lg="4" md="5" sm="12">
           <b-row>
-            <b-col> <div class="header-2">Videos:</div> </b-col>
+            <b-col> <div class="header-3">Videos:</div> </b-col>
             <b-col>
               <div v-b-modal.modal-1 class="view_all" @click="showModal">
                 View all
@@ -88,9 +88,13 @@ export default {
     intro() {
       var inputDelta = this.topic.introMD;
       var tempCont = document.createElement("div");
-      var quill = new Quill(tempCont);
-      quill.setContents(inputDelta);
-      return tempCont.getElementsByClassName("ql-editor")[0].innerHTML;
+      if (typeof inputDelta === "string" || inputDelta instanceof String) {
+        return (tempCont.innerHTML = inputDelta);
+      } else {
+        var quill = new Quill(tempCont);
+        quill.setContents(inputDelta);
+        return tempCont.getElementsByClassName("ql-editor")[0].innerHTML;
+      }
     },
     videos() {
       var r = storeTopic.state.topicResources.filter(
@@ -112,6 +116,7 @@ export default {
     },
   },
   mounted() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
     storeTopic.dispatch("setToipcResources", this.$route.params.topic);
   },
 };
