@@ -2,7 +2,7 @@
   <div>
     <b-container style="background-color: black;" fluid>
       <b-row>
-        <div class="title">Introduction</div>
+        <div class="title">Events</div>
       </b-row>
       <b-row >
         <b-col class="p-0" cols="4"><eventcard :events="events"></eventcard></b-col>
