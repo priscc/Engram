@@ -1,12 +1,13 @@
 <template>
   <div>
     <div>
+      <div style="display: none">
+        {{ model }} (do not remove div, required to rended computed property
+      </div>
       <p class="legend"></p>
-{{model}}
+
       <div style="background-color: black; height: 100%" id="map"></div>
     </div>
-
-    <!-- {{events}} -->
   </div>
 </template>
 
@@ -318,8 +319,8 @@ export default {
   watch: {
     events: {
       handler(newVal) {
-        console.log('mounting map', newVal)
-        if (newVal.length > 0 ) {
+        console.log("mounting map", newVal);
+        if (newVal.length > 0) {
           this.primary(this.model);
         }
       },
@@ -328,7 +329,7 @@ export default {
   },
   methods: {
     primary(ev) {
-      console.log("in Event primary ", ev)
+      console.log("in Event primary ", ev);
       let list = document.getElementById("map");
       if (list != null) {
         // As long as <ul> has a child node, remove it
@@ -510,7 +511,7 @@ export default {
   computed: {
     model() {
       console.log("map eventIndex", storeTopic.state.eventIndex);
-      
+
       return this.primary(storeTopic.state.eventIndex);
     },
   },
