@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="site_header">
-      AP World History Units
+      (APWH) World History Units
     </div>
     <b-container fluid class="home_page">
       <b-row class="periods">

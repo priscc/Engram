@@ -1,5 +1,5 @@
 <template>
-  <div id="Topic">
+  <div id="Topic" style="background-color: black;">
     <b-container fluid>
       <b-row
         class="background background_filter"
@@ -36,7 +36,7 @@
           <!-- make the  currentTopicComponent stored in the router-->
           <intro v-if="currentTopicComponent == 0" :topic="topic"></intro>
           <trends v-else-if="currentTopicComponent == 1"></trends>
-          <!-- <developments v-else-if="currentTopicComponent == 2"></developments> -->
+          <developments v-else-if="currentTopicComponent == 2"></developments>
           <people v-else-if="currentTopicComponent == 3"></people>
           <primarysources
             v-else-if="currentTopicComponent == 4"
@@ -53,7 +53,7 @@ import store from "@/store";
 import storeTopic from "@/store/topic.js";
 import intro from "@/components/Intro.vue";
 import trends from "@/components/Trends.vue";
-// import developments from "@/components/Developments.vue";
+import developments from "@/components/Developments.vue";
 import people from "@/components/People.vue";
 import primarysources from "@/components/PrimarySources.vue";
 import terms from "@/components/Terms.vue";
@@ -64,7 +64,7 @@ export default {
   components: {
     intro,
     trends,
-    // developments,
+    developments,
     people,
     primarysources,
     terms,
@@ -74,7 +74,7 @@ export default {
       topicButtons: [
         "Introduction",
         "Trends",
-        "Developments",
+        "Events",
         "People",
         "Sources",
         "Terms",
@@ -123,7 +123,9 @@ export default {
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    console.log("mounted topic")
     if (Object.keys(storeTopic.state.topic).length === 0) {
+      console.log("reloading topic")
       this.topicFinder();
     }
     store.dispatch("setTopicButton", this.$route.params.category);

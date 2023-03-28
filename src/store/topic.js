@@ -13,17 +13,21 @@ export const storeTopic = createStore({
     eventResources: [],
     peopleResources: [],
     event: [],
+    eventIndex: 0,
     person: [],
   },
   mutations: {
+    //good
     retrieveTopicContent(state, i) {
       state.topic = i;
     },
-    retrieveEvents(state) {
+    //good
+    retrieveEvents(state, i) {
+      console.log("i", i);
       state.events = [];
       var ev = [];
       db.collection("events")
-        .where("topicID", "array-contains-any", [state.topic.id])
+        .where("topicID", "array-contains-any", [i])
         .get()
         .then(
           function(querySnapshot) {
@@ -64,14 +68,17 @@ export const storeTopic = createStore({
                 ev.push(entry);
               }.bind(this)
             );
+            console.log(ev)
             const events = ev.sort(function(a, b) {
               return a.startDate.dateNum - b.startDate.dateNum;
             });
             // commit("updatedEvents", events); // need to call action event update
             console.log(events);
+            state.events = events
           }.bind(this)
         );
     },
+    //good
     retrieveTrends(state, i) {
       state.trends = [];
       db.collection("trends")
@@ -87,6 +94,7 @@ export const storeTopic = createStore({
           }.bind(this)
         );
     },
+    //good
     retrievePeople(state, i) {
       state.people = [];
       var p = [];
@@ -115,6 +123,7 @@ export const storeTopic = createStore({
           }.bind(this)
         );
     },
+    //good
     retrieveSources(state, i) {
       state.sources = [];
       var s = [];
@@ -143,6 +152,7 @@ export const storeTopic = createStore({
           }.bind(this)
         );
     },
+    //good
     retrieveTerms(state, i) {
       state.terms = [];
       var t = [];
@@ -169,6 +179,7 @@ export const storeTopic = createStore({
           }.bind(this)
         );
     },
+    //good
     retrieveToipcResources(state, i) {
       state.topicResources = [];
       db.collection("resources")
@@ -185,9 +196,11 @@ export const storeTopic = createStore({
           }.bind(this)
         );
     },
+    //good
     retrieveEventResources(state) {
       state.eventResources = [];
     },
+    //good
     retrievePeopleResources(state, i) {
       state.peopleResources = [];
       db.collection("resources")
@@ -204,59 +217,68 @@ export const storeTopic = createStore({
           }.bind(this)
         );
     },
+    //todo
     updatedEvents(state, events) {
       state.events = events;
       console.log("topic.js events", state.events);
     },
-    eventContent(state, i) {
-      state.event = i;
+    //good
+    eventIndex(state, i) {
+      console.log("state eventIndex", i);
+      state.eventIndex = i;
     },
-    eventRESET(state) {
-      state.event = [];
-    },
+    //todo
     personContent(state, i) {
       state.person = i;
     },
+    //todo
     personRESET(state) {
       state.person = [];
     },
   },
   actions: {
+    //good
     setTopicContent({ commit }, i) {
       commit("retrieveTopicContent", i);
     },
-    setTopicEvents({ commit, state }) {
-      commit("retrieveEvents", state);
+    //good
+    setTopicEvents({ commit }, i) {
+      commit("retrieveEvents", i);
     },
+    //good
     setTopicTrends({ commit }, i) {
       commit("retrieveTrends", i);
     },
+    //good
     setTopicPeople({ commit }, i) {
       commit("retrievePeople", i);
     },
+    //good
     setTopicSources({ commit }, i) {
       commit("retrieveSources", i);
     },
+    //good
     setToipcTerms({ commit }, i) {
       commit("retrieveTerms", i);
     },
+    //good
     setToipcResources({ commit }, i) {
       commit("retrieveToipcResources", i);
     },
-    //setEventResources
-    //setPeopleResources
+    //todo - setEventResources
+    //good
     setPeopleResources({ commit }, i) {
       commit("retrievePeopleResources", i);
     },
-    eventContent({ commit }, i) {
-      commit("eventContent", i);
+    //todo
+    setEventIndex({ commit }, i) {
+      commit("eventIndex", i);
     },
-    eventContentRESET({ commit }) {
-      commit("eventRESET");
-    },
+    //todo
     personContent({ commit }, i) {
       commit("personContent", i);
     },
+    //todo
     personContentRESET({ commit }) {
       commit("personRESET");
     },

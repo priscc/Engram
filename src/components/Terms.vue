@@ -2,14 +2,14 @@
   <div class="Terms">
     <b-container fluid>
       <b-row>
-        <div class="title">Primary Sources</div>
+        <div class="title">Terms</div>
       </b-row>
-      <b-row v-for="(term, i) in termsComponent" :key="i">
+      <b-row v-for="(term, i) in termsComponent" :key="i" class="mb-5">
         <b-col :id="term.topiID" cols="11">
-          <b-card>
+          <!-- <b-card> -->
             <b-container fluid>
               <b-row>
-                <b-col xl="2" lg="3" md="4" sm="4">
+                <b-col xl="2" lg="3" md="4" sm="3" xs="12">
                   <b-img
                     v-if="term.thumbURL"
                     :src="term.thumbURL"
@@ -17,13 +17,13 @@
                   >
                   </b-img>
                 </b-col>
-                <b-col xl="6" lg="7" md="8" sm="12">
+                <b-col xl="6" lg="6" md="6" sm="6" xs="12">
                   <div class="header-2">{{ term.term }}</div>
                   <div class="text">{{ term.def }}</div>
                 </b-col>
               </b-row>
             </b-container>
-          </b-card>
+          <!-- </b-card> -->
         </b-col>
       </b-row>
       <div class="top_button">

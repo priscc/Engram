@@ -78,7 +78,7 @@
 		cursor: pointer
 
 
-// HEADERS
+// HEADERS & GENERAL
 .title
 	font-family: "Montserrat", sans-serif
 	font-size: 30px
@@ -101,19 +101,28 @@
 	font-weight: 700
 	line-height: 25px
 	padding-bottom: 6px
-	word-break: normal 
+	word-break: break-word 
 
 .header-3
 	font-family: "Montserrat", sans-serif
 	font-size: 16px
 	font-weight: 500
-	word-break: normal
+	word-break: break-word
 
 .text
 	font-family: "Montserrat", sans-serif
 	font-size: 16px
 	font-weight: 400
+	word-break: break-word
 
+.top_button
+	position: fixed
+	top: 85%
+	right: 1%
+
+@media (max-width: 750px) 
+	.top_button
+		display: none
 
 //INTRO
 .intro_image
@@ -196,12 +205,8 @@
 	max-width: 150px
 	height: auto
 
-.top_button
-	position: fixed
-	top: 85%
-	right: 1%
 
-// TERSM
+// TERMS
 .term_image
 	max-width: 150px
 	height: auto

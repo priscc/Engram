@@ -9,7 +9,7 @@
           <b-card>
             <b-container fluid>
               <b-row>
-                <b-col xl="2" lg="3" md="4" sm="4">
+                <b-col xl="2" lg="3" md="3" sm="4">
                   <b-img
                     v-if="source.thumbFile != 'placeHolderImg.png'"
                     :src="source.thumbURL"
@@ -17,7 +17,7 @@
                   >
                   </b-img>
                 </b-col>
-                <b-col xl="6" lg="7" md="8" sm="12">
+                <b-col xl="7" lg="7" md="6" sm="12">
                   <div class="header-2">{{ source.title }}</div>
                   <div class="text">{{ source.caption }}</div>
                 </b-col>
