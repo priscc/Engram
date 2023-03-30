@@ -1,12 +1,38 @@
 <template>
   <div>
-    <div>
-      <div style="display: none">
-        {{ model }} (do not remove div, required to rended computed property
+    <div style="display: none">
+      {{ model }} (do not remove div, required to rended computed property
+    </div>
+    <div class="dates">
+      <p v-if="eventEndTickDate != 0">
+        {{ eventTickDateText }} - {{ eventEndTickDateText }}
+      </p>
+      <p v-else>
+        {{ eventTickDate }}
+      </p>
+    </div>
+    <p class="legend"></p>
+    <div class="map_container">
+      <div id="map"></div>
+      <div class="timeline">
+        <div v-for="i in ticks + 1" :key="i">
+          <div
+            class="timeline_ticks"
+            :style="{ top: ((i - 1) * tickSize * 100) / diffYears + '%' }"
+          >
+            <p class="timeline_tickText">
+              {{ minDate + (i - 1) * tickSize }}
+            </p>
+          </div>
+        </div>
+        <div
+          class="timeline_eventSegment"
+          v-bind:style="{
+            top: ((eventTickDate - minDate) / diffYears) * 100 + '%',
+            height: tickHeight + '%',
+          }"
+        ></div>
       </div>
-      <p class="legend"></p>
-
-      <div style="background-color: black; height: 100%" id="map"></div>
     </div>
   </div>
 </template>
@@ -25,24 +51,7 @@ export default {
   },
   data() {
     return {
-      eventTheme: {
-        Society: "#FF9800",
-        Politics: "#673AB7",
-        Environment: "#b377f",
-        Culture: "#3b4da6",
-        Economics: "#16a175",
-        Technology: "#009688",
-        Independent: "grey",
-      },
-      colors: [
-        "green",
-        "secondary",
-        "yellow darken-4",
-        "red lighten-2",
-        "orange darken-1",
-      ],
       items: countries,
-      data: [],
       sets: [
         {
           name: "Central Europe",
@@ -292,43 +301,104 @@ export default {
           ]),
         },
       ],
-      markers: [
-        { corsica: [{ lon: 9.083, lat: 42.149 }] }, // corsica
-        { nice: [{ lon: 7.26, lat: 43.71 }] }, // nice
-        { Paris: [{ lon: 2.349, lat: 48.864 }] }, // Paris
-        { Hossegor: [{ lon: -1.397, lat: 43.664 }] }, // Hossegor
-        { Lille: [{ lon: 3.075, lat: 50.64 }] }, // Lille
-        { Morlaix: [{ lon: -3.83, lat: 58 }] }, // Morlaix
-      ],
       width: null,
       mapRatio: null,
       height: null,
       projection: null,
       path: null,
       svg: null,
-      minDate: 0,
-      // model: 0,
+      minDate: "",
       ticks: 0,
       tickSize: 0,
       diffYears: 0,
       eventTickDate: null,
+      eventTickDateText: "",
       eventEndTickDate: null,
+      eventEndTickDateText: "",
       tickHeight: 0,
     };
   },
   watch: {
     events: {
       handler(newVal) {
-        console.log("mounting map", newVal);
+        console.log("WATCHER MAP: mounting map", newVal);
         if (newVal.length > 0) {
-          this.primary(this.model);
+          this.model;
         }
       },
       flush: "post",
     },
   },
   methods: {
-    primary(ev) {
+    loadMap(ev) {
+      this.worldMap(ev);
+      if (this.events.length != 0) {
+        console.log("in loadMap", this.events, ev, this.events[ev]);
+        this.calculatingDates(0);
+        this.timelineEventDot(ev);
+      }
+    },
+    timelineEventDot(ev) {
+      var model = ev;
+
+      if (this.events[model]) {
+        this.eventTickDate = this.events[model].startDate.dateNum;
+        this.eventTickDateText = this.events[model].startDate.date;
+        this.eventEndTickDate = this.events[model].endDate.dateNum;
+        this.eventEndTickDateText = this.events[model].endDate.date;
+        console.log(
+          "timelineEventDot",
+          this.eventTickDate,
+          this.eventEndTickDate,
+          this.minDate
+        );
+        if (this.eventEndTickDate != 0) {
+          this.tickHeight =
+            ((this.eventEndTickDate - this.minDate) / this.diffYears) * 100 -
+            ((this.eventTickDate - this.minDate) / this.diffYears) * 100;
+        } else {
+          this.tickHeight = 0;
+        }
+      }
+    },
+
+    calculatingDates(ev) {
+      console.log("in calculatingDates", this.events);
+      const date2 = new Date().getFullYear();
+      const date1 =
+        Math.round((this.events[ev].startDate.dateNum - 20) / 100) * 100;
+      this.minDate = date1;
+      this.diffYears = date2 - date1;
+
+      // Calutating ticks
+      if (this.diffYears >= 2000) {
+        this.ticks = Math.floor(this.diffYears / 500);
+        this.tickSize = 500;
+      } else if (this.diffYears >= 1000) {
+        this.ticks = Math.floor(this.diffYears / 200);
+        this.tickSize = 200;
+      } else if (this.diffYears >= 500) {
+        this.ticks = Math.floor(this.diffYears / 100);
+        this.tickSize = 100;
+      } else if (this.diffYears >= 250) {
+        this.ticks = Math.floor(this.diffYears / 25);
+        this.tickSize = 25;
+      } else if (this.diffYears >= 100) {
+        this.ticks = Math.floor(this.diffYears / 10);
+        this.tickSize = 10;
+      } else if (this.diffYears >= 50) {
+        this.ticks = Math.floor(this.diffYears / 10);
+        this.tickSize = 10;
+      } else if (this.diffYears >= 20) {
+        this.ticks = Math.floor(this.diffYears / 5);
+        this.tickSize = 5;
+      } else {
+        this.ticks = Math.floor(this.diffYears / 2);
+        this.tickSize = 2;
+      }
+    },
+
+    worldMap(ev) {
       console.log("in Event primary ", ev);
       let list = document.getElementById("map");
       if (list != null) {
@@ -338,6 +408,7 @@ export default {
         }
       }
 
+      // CREATING MAP
       d3.select(window).on("resize", this.resize);
 
       var width = 1400;
@@ -395,21 +466,22 @@ export default {
           .attr("class", "regions selected")
           .attr("d", path)
           .attr({ "data-name": this.sets[i].name })
-          .attr("fill", "#464646");
-        // .on("mouseover", function() {
-        //   var region = d3.select(this);
-        //   region.attr("fill", "#ff9800");
-        //   document.querySelector(".legend").innerText = region.attr(
-        //     "data-name"
-        //   );
-        // })
-        // .on("mouseout", function() {
-        //   var region = d3.select(this);
-        //   region.attr("fill", "#464646");
-        //   document.querySelector(".legend").innerText = "";
-        // });
+          .attr("fill", "#464646")
+          .on("mouseover", function() {
+            var region = d3.select(this);
+            region.attr("fill", "#ff9800");
+            document.querySelector(".legend").innerText = region.attr(
+              "data-name"
+            );
+          })
+          .on("mouseout", function() {
+            var region = d3.select(this);
+            region.attr("fill", "#464646");
+            document.querySelector(".legend").innerText = "";
+          });
       }
 
+      // LAYERING MAP COORDINATES
       var lineFunction = d3.svg
         .line()
         .x(function(d) {
@@ -427,24 +499,23 @@ export default {
         var coordinates = this.events[model].coordinates;
         if (coordinates != null) {
           Object.keys(coordinates).forEach((map) => {
-            console.log("in foreach " + map, " ", coordinates[map].length);
             if (coordinates[map].length > 1) {
               svg
                 .append("path")
                 .attr("d", lineFunction(coordinates[map]))
                 .attr("stroke", "red")
                 .attr("stroke-width", 2)
-                .attr("fill", "#BDFF00");
-              // .on("mouseover", function() {
-              //   var region = d3.select(this);
-              //   region.attr("fill", "#ff9800");
-              //   document.querySelector(".legend").innerText = map;
-              // })
-              // .on("mouseout", function() {
-              //   var region = d3.select(this);
-              //   region.attr("fill", "#BDFF00");
-              //   document.querySelector(".legend").innerText = "";
-              // });
+                .attr("fill", "#BDFF00")
+                .on("mouseover", function() {
+                  var region = d3.select(this);
+                  region.attr("fill", "#ff9800");
+                  document.querySelector(".legend").innerText = map;
+                })
+                .on("mouseout", function() {
+                  var region = d3.select(this);
+                  region.attr("fill", "#BDFF00");
+                  document.querySelector(".legend").innerText = "";
+                });
             } else {
               svg
                 .selectAll("myCircles")
@@ -477,135 +548,15 @@ export default {
           });
         }
       }
-
-      // Add circles:
-      svg
-        .selectAll("myCircles")
-        .data(this.markers)
-        .enter()
-        .append("circle")
-        .attr("cx", function(d) {
-          return projection([d.lon, d.lat])[0];
-        })
-        .attr("cy", function(d) {
-          return projection([d.lon, d.lat])[1];
-        })
-        .attr("r", 14)
-        .style("fill", "69b3a2")
-        .attr("stroke", "#69b3a2")
-        .attr("stroke-width", 3);
-      // .attr("fill-opacity", 0.4)
-      // .on("mouseover", function() {
-      //   // console.log("bleep", this);
-      //   var region = d3.select(this);
-      //   region.attr("fill", "#ff9800");
-      //   document.querySelector(".legend").innerText = "bleep";
-      // })
-      // .on("mouseout", function() {
-      //   var region = d3.select(this);
-      //   region.attr("fill", "#464646");
-      //   document.querySelector(".legend").innerText = "";
-      // });
     },
   },
   computed: {
     model() {
-      console.log("map eventIndex", storeTopic.state.eventIndex);
-
-      return this.primary(storeTopic.state.eventIndex);
+      console.log("COMPUTED MAP: map eventIndex", storeTopic.state.eventIndex);
+      return this.loadMap(storeTopic.state.eventIndex);
     },
   },
 };
 </script>
 
-<style type="text/css" scoped>
-h1 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 20px;
-  line-height: 0.8;
-  font-weight: 620;
-}
-h2 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-}
-h3 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 30px;
-  font-weight: 620;
-  color: white;
-}
-.line {
-  fill: none;
-  stroke: red;
-  stroke-width: 6;
-}
-#map {
-  color: #464646;
-}
-.border {
-  fill: #464646;
-  stroke: #464646;
-  stroke-width: 1px;
-}
-.regions.selected {
-  fill: #464646;
-  stroke: none;
-  transition: all 0.2s ease;
-}
-.regions.selected:hover {
-  fill: #ff9800;
-  stroke: #d9edf7;
-  stroke-width: 1px;
-}
-.legend {
-  height: 10px;
-  color: white;
-  text-align: center;
-}
-.svg-container {
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  max-height: 1000px;
-  vertical-align: top;
-  /*overflow: hidden;*/
-}
-.svg-content-responsive {
-  display: inline-block;
-  position: absolute;
-  top: 20px;
-}
-.timeline {
-  position: relative;
-  right: 2%;
-  background-color: purple;
-  border: 1px solid white;
-  min-width: 2%;
-  height: 23rem;
-}
-.cardCaptions {
-  background: rgba(0, 0, 0, 0.86);
-  padding: 4px 6px;
-  color: white;
-}
-.card_header {
-  line-height: 110%;
-}
-.card_Description {
-  font-size: 14px !important;
-  line-height: 1rem;
-  max-height: 3rem;
-  -webkit-box-orient: vertical;
-  display: block;
-  display: -webkit-box;
-  overflow: hidden !important;
-  text-overflow: ellipsis;
-  -webkit-line-clamp: 3;
-}
-
-.carousel-arrow:hover {
-  color: grey;
-}
-</style>
+<style lang="sass" scoped src="@/assets/css/topicEvents.sass"></style>

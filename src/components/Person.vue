@@ -52,9 +52,6 @@
           </v-row>
           <v-row class="d-flex justify-space-between ml-10 mr-5">
             <v-col class="pt-5">
-              <!-- <p class="intro_paragraph intro_content">
-                {{ person.mainMD }}
-              </p> -->
               <div
                 class="intro_paragraph intro_content"
                 id="editor-container"

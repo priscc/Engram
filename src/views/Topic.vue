@@ -1,5 +1,5 @@
 <template>
-  <div id="Topic" style="background-color: black;">
+  <div id="Topic" :style="styleObject">
     <b-container fluid>
       <b-row
         class="background background_filter"
@@ -79,6 +79,10 @@ export default {
         "Sources",
         "Terms",
       ],
+      styleObject: {
+        "background-color": "white",
+        color: "black",
+      },
     };
   },
   computed: {
@@ -119,16 +123,28 @@ export default {
     loadCategory(i) {
       store.dispatch("setTopicButton", i);
       this.$router.replace({ name: "Topic", params: { category: i } });
+      this.changeBackgroundColor(i)
     },
+    changeBackgroundColor(i){
+      if (i == 2) {
+        this.styleObject["background-color"] = "black";
+        this.styleObject['color'] = "white";
+      }
+      else{
+        this.styleObject["background-color"] = "white";
+        this.styleObject['color'] = "black";
+      }
+    }
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    console.log("mounted topic")
+    console.log("mounted topic");
     if (Object.keys(storeTopic.state.topic).length === 0) {
-      console.log("reloading topic")
+      console.log("reloading topic");
       this.topicFinder();
     }
     store.dispatch("setTopicButton", this.$route.params.category);
+    this.changeBackgroundColor(this.$route.params.category)
   },
 };
 </script>

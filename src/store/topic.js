@@ -73,7 +73,7 @@ export const storeTopic = createStore({
               return a.startDate.dateNum - b.startDate.dateNum;
             });
             // commit("updatedEvents", events); // need to call action event update
-            console.log(events);
+            console.log("topic.js Evenent:", events);
             state.events = events
           }.bind(this)
         );

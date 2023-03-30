@@ -1,12 +1,12 @@
 <template>
   <div>
-    <b-container style="background-color: black;" fluid>
+    <b-container fluid>
       <b-row>
         <div class="title">Events</div>
       </b-row>
       <b-row >
-        <b-col class="p-0" cols="4"><eventcard :events="events"></eventcard></b-col>
-        <b-col class="p-0"><eventmap :events="events"></eventmap></b-col>
+        <b-col class="p-0" xl="4" lg="4" md="12" sm="12" xs="12"><eventcard :events="events"></eventcard></b-col>
+        <b-col class="p-0" xl="8" lg="8" md="12" sm="12" xs="12"><eventmap :events="events"></eventmap></b-col>
       </b-row>
      
     </b-container>
@@ -27,7 +27,7 @@ export default {
   computed: {
     events() {
       console.log(
-        "storeTopic.state.events.length ",
+        "COMPUTED DEV: storeTopic.state.events.length ",
         storeTopic.state.events.length
       );
       if (storeTopic.state.events.length == 0) return [];
@@ -38,7 +38,7 @@ export default {
     window.scrollTo({ top: 0, behavior: "smooth" });
     console.log(this.$route.params.topic);
     storeTopic.dispatch("setTopicEvents", this.$route.params.topic);
-    console.log("mounted events");
+    console.log("MOUNTED DEV: mounted events");
   },
 };
 </script>

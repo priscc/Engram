@@ -8,7 +8,12 @@
         <b-col lg="7" md="7" sm="12">
           <b-row>
             <b-col>
-              <b-img class="intro_image" :src="topic.intro_thumbURL"></b-img>
+              <b-img
+                class="intro_image"
+                id="hideImg"
+                :src="topic.intro_thumbURL"
+                @error="imageLoadError"
+              ></b-img>
               <div class="text pt-2" v-html="intro"></div>
             </b-col>
           </b-row>
@@ -96,6 +101,7 @@ export default {
         return tempCont.getElementsByClassName("ql-editor")[0].innerHTML;
       }
     },
+
     videos() {
       var r = storeTopic.state.topicResources.filter(
         (video) => video.resourceType == "video" && video.parentType == "topic"
@@ -111,6 +117,10 @@ export default {
     },
   },
   methods: {
+    imageLoadError() {
+      console.log("Image failed to load");
+      document.getElementById("hideImg").style.display = "none";
+    },
     showModal() {
       this.$refs["modal-1"].show();
     },

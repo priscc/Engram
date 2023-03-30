@@ -51,7 +51,7 @@
 
 <script>
 import store from "@/store";
-import storeTopic from "@/store/topic.js";
+// import storeTopic from "@/store/topic.js";
 // import { db } from "@/main";
 export default {
   name: "App",
@@ -188,7 +188,6 @@ export default {
     // },
     home() {
       store.dispatch("setTopicButton", 0);
-      storeTopic.dispatch("eventContentRESET");
       this.$router.push("/");
     },
     about() {

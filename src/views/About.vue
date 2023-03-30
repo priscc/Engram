@@ -1,6 +1,6 @@
 <template>
 	<div class="Packets" style="background-color: #f2f2f2;">
-		<v-container>
+		<b-container>
 			<h1 class="py-10">About Engram</h1>
 			<div class="absolute">
 				<p
@@ -9,8 +9,8 @@
 					Engram is a site developed to tackle the abstract,
 					overwhelming, and complex nature of social studies using
 					design. This site provides online
-					instruction and study notes (soon to come) concentrated on
-					social studies education with a focus on AP World History.
+					instruction concentrated on
+					world history, drawning content primarly aligned to the AP World History curriculum.
 				</p>
 			</div>
 			<div class="absolute2">
@@ -74,12 +74,13 @@
 					everyone.
 		-->
 			</div>
-			<v-row>
-				<v-col>
-					<v-parallax
-						height="600"
-						src="@/assets/globe2.jpg"
-					></v-parallax>
+			<b-row style="padding-top: 50px">
+				<b-col>
+					<b-img
+						style="min-width: 100%; max-height:600px"
+						:src="require('@/assets/globe2.jpg')"
+						
+					> </b-img>
 					<p class="d-flex justify-end" style="font-size: 8px">
 						Photo by:
 						<a
@@ -94,18 +95,18 @@
 							>Unsplash</a
 						>
 					</p>
-				</v-col>
-			</v-row>
-			<v-row class="py-12">
-				<v-col
+				</b-col>
+			</b-row>
+			<b-row style="padding-top: 100px; padding-bottom: 100px">
+				<b-col
 					class="d-flex flex-column align-center text-align-center"
 				>
 					<h2>Contact Information</h2>
 
-					<p>Email: pnc2114@tc.columbia.edu</p>
-				</v-col>
-			</v-row>
-		</v-container>
+					<p>Email: pncancar@gmail.com</p>
+				</b-col>
+			</b-row>
+		</b-container>
 	</div>
 </template>
 <script>
