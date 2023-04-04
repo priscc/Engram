@@ -5,10 +5,8 @@
         <b-col cols="2" class="person_info">
           <b-img
             :lazy-src="person.thumbURL"
-            height="160"
-            width="160"
+            class="profile_image"
             :src="person.thumbURL"
-            style="border-radius: 10%"
           ></b-img>
           <div>
             <p class="person_header">
@@ -96,12 +94,9 @@ export default {
   },
   methods: {
     goTo() {
-      storeTopic.dispatch("personContent", this.person);
+      storeTopic.dispatch("setPersonContent", this.person);
       console.log("learn more about person", this.person);
-      this.$router.push({
-        name: "Person",
-        params: { person: this.person.id },
-      });
+      this.$router.push({ name: "Person", params: { person: this.person.id }, });
     },
   },
 };

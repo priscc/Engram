@@ -30,4 +30,4 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped src="@/assets/css/topicContent.sass"></style>
+<style lang="sass" scoped src="@/assets/css/resources.sass"></style>

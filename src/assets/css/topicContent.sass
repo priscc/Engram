@@ -24,10 +24,7 @@
 	position: relative
 	z-index: 1
 
-// TOPIC SECTION
-#Topic
-	min-height: 100vh
-	height: 100%
+
 
 // BANNER TEXT
 .back_button
@@ -64,6 +61,12 @@
 	color: white
 
 
+
+// SECTIONS
+#Topic, #Event, #PrivacyPolicy
+	min-height: 100vh
+	height: 100%
+
 // CATEGORY BUTTONS
 .category_button 
 	font-family: "Montserrat", sans-serif
@@ -80,6 +83,7 @@
 	&:hover
 		opacity: 0.5
 		cursor: pointer
+
 
 
 // HEADERS
@@ -127,6 +131,8 @@
 @media (max-width: 750px) 
 	.top_button
 		display: none
+
+
 
 //INTRO
 .intro_image
@@ -184,6 +190,14 @@
 // PEOPLE
 .person_profile
 	padding-bottom: 25px
+
+.profile_image
+	object-fit: cover
+	object-position: center center
+	width: 160px
+	height: 160px
+	max-height: 160px
+	border-radius: 10%
 
 .person_info
 	min-width: 220px
@@ -245,50 +259,21 @@
 
 
 
-
-// ARTICLES
-.article
-	font-family: "Montserrat", sans-serif
-	border: 1px solid lightgrey
-	border-radius: 10px
-	.article_content
-		margin: 4px
-		margin-right: 8px
-
-.article_image
+// EVENT PAGE
+.event_image
 	object-fit: cover
 	object-position: 50% 50%
 	min-width: 100%
-	max-height: 130px
-	border-radius: 10px 10px 0px 0px
+	max-width: 100%
+	max-height: 300px
 
-.article_title
-	font-size: 16px
-	font-weight: 700
-	line-height: 20px
 
-.article_subtitle
-	font-size: 16px
-	font-weight: 500
-	color: grey
 
-.article_summary
-	margin-top: 5px
-	overflow: hidden
-	line-height: 1.2rem
-	max-height: 3.5rem
-	-webkit-box-orient: vertical
-	display: block
-	display: -webkit-box
-	overflow: hidden !important
-	text-overflow: ellipsis
-	-webkit-line-clamp: 3
-
-.article_link
-	margin-top: 15px
-	display: flex
-	justify-content: end
-	&:hover
-		opacity: 0.5
-		cursor: pointer
-
+// PERSON PAGE
+.person_image
+	object-fit: cover
+	object-position: 20% top
+	min-width: 75%
+	max-width: 75%
+	max-height: 300px
+	// border-radius: 10%

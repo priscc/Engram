@@ -39,7 +39,7 @@
 
 <script type="text/javascript">
 import storeTopic from "@/store/topic.js";
-import countries from "@/countries2.json";
+import countries from "@/countries.json";
 import * as d3 from "d3";
 import * as topojson from "topojson";
 
@@ -346,12 +346,6 @@ export default {
         this.eventTickDateText = this.events[model].startDate.date;
         this.eventEndTickDate = this.events[model].endDate.dateNum;
         this.eventEndTickDateText = this.events[model].endDate.date;
-        console.log(
-          "timelineEventDot",
-          this.eventTickDate,
-          this.eventEndTickDate,
-          this.minDate
-        );
         if (this.eventEndTickDate != 0) {
           this.tickHeight =
             ((this.eventEndTickDate - this.minDate) / this.diffYears) * 100 -

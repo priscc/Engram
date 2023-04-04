@@ -10,7 +10,7 @@
         <b-img :src="event.thumbURL" class="eventImage"/>
         <div class="eventTitle">{{ event.title }}</div>
         <div class="eventText">{{ event.descriptionMD }}</div>
-        <div class="event_button" ><b-button size="sm" @click="openEvent()">Learn More</b-button></div>
+        <div class="event_button"><b-button size="sm" @click="openEvent(event)">Learn More</b-button></div>
       </div>
       <div class="prev" @click="plusSlides(-1)">❮</div>
       <div class="next" @click="plusSlides(1)">❯</div>
@@ -48,11 +48,11 @@ export default {
     },
   },
   methods: {
-    // openEvent(event) {
-    //   storeTopic.dispatch("eventContent", event);
-    //   console.log("learn more about event", event.id);
-    //   this.$router.push({ name: "Event", params: { event: event.id } });
-    // },
+    openEvent(event) {
+      storeTopic.dispatch("setEventContent", event);
+      console.log("learn more about event", event.id);
+      this.$router.push({ name: "Event", params: { event: event.id } });
+    },
     plusSlides(n) {
       this.showSlides((this.slideIndex += n));
     },
