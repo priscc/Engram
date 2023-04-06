@@ -44,6 +44,19 @@
         <b-row>
           <b-col>&copy; 2022 by Engram</b-col>
         </b-row>
+        <b-alert
+          style="display: flex;
+  flex-wrap: nowrap; position:fixed; justify-content: end;  align-items: center; right: 0px; bottom: 0px; min-width: 60%; margin-right: 10px "
+          :show="alertDisplay"
+        >
+          We use cookies to give you the best possible website experience. By
+          using Engram, you agree to our
+          <a style="padding-left: 2px" @click="privacypolicy" class="alert-link">Privacy Policy</a>.
+          <div style="padding-left: 15px" @click="dismissAlert">
+            <b-icon-x-square class="footer-icon" />
+          </div>
+        </b-alert>
+        <!--  <b-alert style="position:fixed; right: 0px; bottom: 0px; min-width: 80%; margin-right: 10px " show  dismissible variant="dark"><a href="#" class="alert-link">Primary Alert</a></b-alert> -->
       </b-container>
     </div>
   </div>
@@ -55,13 +68,14 @@ import store from "@/store";
 // import { db } from "@/main";
 export default {
   name: "App",
-  // data() {
-  //   return {
-  //     searchClosed: true,
-  //     searchItems: [],
-  //     search: null,
-  //   };
-  // },
+  data() {
+    return {
+      alertDisplay: true,
+      //     searchClosed: true,
+      //     searchItems: [],
+      //     search: null,
+    };
+  },
   // watch: {
   //   search: function(val) {
   //     console.log("watching search", val);
@@ -197,6 +211,10 @@ export default {
     privacypolicy() {
       store.dispatch("setTopicButton", 0);
       this.$router.push("/privacypolicy");
+    },
+    dismissAlert() {
+      console.log("dismissAlert");
+      this.alertDisplay = false;
     },
   },
   // computed: {

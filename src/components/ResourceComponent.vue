@@ -84,11 +84,6 @@ export default {
       return r;
     },
   },
-  mounted() {
-    // setTimeout(() => {
-    //   document.querySelector('.intro_iframe').classList.remove('loading')
-    // }, 500);
-  },
 };
 </script>
 

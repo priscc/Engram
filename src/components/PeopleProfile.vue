@@ -42,18 +42,22 @@
         </b-col>
         <b-col lg="6" md="12" sm="12" class="pb-2">
           <div class="text person_description" v-html="content"></div>
-          <b-button class="person_link" size="sm" @click="goTo()">Learn More</b-button>
+          <b-button class="person_link" size="sm" @click="goTo()"
+            >Learn More</b-button
+          >
         </b-col>
-        <b-col >
+        <b-col>
           <b-row v-for="(resource, i) in resources" :key="i">
-            <b-col v-if="i < 2">
-              <iframe
-                class="person_iframe"
-                :src="'https://www.youtube.com/embed/' + resource.url"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen
-              ></iframe>
+            <b-col v-if="i < 2" class="pb-1">
+              <div class="loading">
+                <iframe
+                  class="person_iframe"
+                  :src="'https://www.youtube.com/embed/' + resource.url"
+                  frameborder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen
+                ></iframe>
+              </div>
             </b-col>
           </b-row>
         </b-col>
@@ -96,10 +100,11 @@ export default {
     goTo() {
       storeTopic.dispatch("setPersonContent", this.person);
       console.log("learn more about person", this.person);
-      this.$router.push({ name: "Person", params: { person: this.person.id }, });
+      this.$router.push({ name: "Person", params: { person: this.person.id } });
     },
   },
 };
 </script>
 
 <style lang="sass" scoped src="@/assets/css/topicContent.sass"></style>
+<style lang="sass" scoped src="@/assets/css/loading.sass"></style>

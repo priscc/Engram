@@ -98,7 +98,7 @@ export default {
       storeTopic.dispatch("setTopicContent", topic);
       this.$router.push({
         name: "Topic",
-        params: { topic: topic.id, category: 0 },
+        params: { topicName: topic.title , topic: topic.id, category: 0 },
       });
     },
   },

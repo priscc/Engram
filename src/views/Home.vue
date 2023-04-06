@@ -33,7 +33,7 @@ export default {
   },
   methods: {
     next(i) {
-      this.$router.push({ name: "Period", params: { period: i.timePeriod } });
+      this.$router.push({ name: "Period", params: { periodName: i.header, period: i.timePeriod } });
     },
   },
 };

@@ -92,6 +92,8 @@ export default {
         name: "Topic",
         params: {
           period: this.$route.params.period,
+          periodName: this.$route.params.periodName,
+          topicName: this.$route.params.topicName,
           topic: this.$route.params.topic,
           category: this.$route.params.category,
         },

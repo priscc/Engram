@@ -27,22 +27,22 @@ const routes = [
     component: About,
   },
   {
-    path: "/Period/:period",
+    path: "/Period/:periodName/:period",
     name: "Period",
     component: Topics,
   },
   {
-    path: "/Period/:period/Topic/:topic/:category",
+    path: "/Period/:periodName/:period/Topic/:topicName/:topic/:category",
     name: "Topic",
     component: Topic,
   },
   {
-    path: "/Period/:period/Topic/:topic/:category/Event/:event",
+    path: "/Period/:periodName/:period/Topic/:topicName/:topic/:category/Event/:event",
     name: "Event",
     component: Event,
   },
   {
-    path: "/Period/:period/Topic/:topic/:category/Figure/:person",
+    path: "/Period/:periodName/:period/Topic/:topicName/:topic/:category/Figure/:person",
     name: "Person",
     component: Person,
   },
