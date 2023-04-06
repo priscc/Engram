@@ -70,29 +70,18 @@
           </p>
         </b-col>
       </b-row>
-      <b-row v-if="comingSoon == 0">
-        <b-col>
-          <div class="trend_comingSoon">
-            <div class="header-3 trend_comingSoonText">
-              <p>Coming Soon</p>
-            </div>
-            <b-img
-              class="trend_comingSoonImg"
-              :src="require('@/assets/globe2.jpg')"
-            >
-            </b-img>
-          </div>
-        </b-col>
-      </b-row>
+      <comingsoon v-if="comingSoon == 0"></comingsoon>
     </b-container>
   </div>
 </template>
 
 <script>
 import storeTopic from "@/store/topic.js";
+import comingsoon from "./ComingSoon.vue";
 
 export default {
   name: "Trends",
+  components: { comingsoon },
   computed: {
     social() {
       return storeTopic.state.trends.filter((i) => i.type == "society");

@@ -2,31 +2,22 @@ import { createApp } from 'vue'
 import App from './App.vue'
 import router from "./router";
 import store from "./store/index";
+// FIRESTORE
 import firebase from "firebase/app";
+import "firebase/firestore";
+//QUILL
 import { QuillEditor } from '@vueup/vue-quill'
 import '@vueup/vue-quill/dist/vue-quill.snow.css';
-// import { getPerformance } from "firebase/performance";
-// import "firebase/performance";
-import "firebase/firestore";
-// vuefire
-// Vuetify
-// import 'vuetify/styles';
-import { createVuetify } from 'vuetify';
-// import * as components from 'vuetify/components';
-// import * as directives from 'vuetify/directives';
+// BOOSTRAP
 import { BootstrapVue } from 'bootstrap-vue'
 import { BootstrapIconsPlugin } from 'bootstrap-icons-vue';
-
-
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'bootstrap-icons/font/bootstrap-icons.css'
 
+// import { getPerformance } from "firebase/performance";
+// import "firebase/performance";
 
-const vuetify = createVuetify({
-//   components,
-//   directives,
-})
 
 export const db = firebase
 	.initializeApp({
@@ -42,11 +33,9 @@ export const db = firebase
 // Initialize Performance Monitoring and get a reference to the service
 // const perf = firebase.performance();
 
-// createApp({store, router, vuetify,render: (h) => h(App),}).mount('#app');
 const app = createApp(App)
 app.use(store);
 app.use(router);
-app.use(vuetify);
 app.use(BootstrapVue);
 app.use(BootstrapIconsPlugin);
 app.component('QuillEditor', QuillEditor)

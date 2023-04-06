@@ -33,7 +33,6 @@
           </div>
         </b-col>
         <b-col class="pa-0">
-          <!-- make the  currentTopicComponent stored in the router-->
           <intro v-if="currentTopicComponent == 0" :topic="topic"></intro>
           <trends v-else-if="currentTopicComponent == 1"></trends>
           <developments v-else-if="currentTopicComponent == 2"></developments>
@@ -123,18 +122,17 @@ export default {
     loadCategory(i) {
       store.dispatch("setTopicButton", i);
       this.$router.replace({ name: "Topic", params: { category: i } });
-      this.changeBackgroundColor(i)
+      this.changeBackgroundColor(i);
     },
-    changeBackgroundColor(i){
+    changeBackgroundColor(i) {
       if (i == 2) {
         this.styleObject["background-color"] = "black";
-        this.styleObject['color'] = "white";
-      }
-      else{
+        this.styleObject["color"] = "white";
+      } else {
         this.styleObject["background-color"] = "white";
-        this.styleObject['color'] = "black";
+        this.styleObject["color"] = "black";
       }
-    }
+    },
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -144,7 +142,7 @@ export default {
       this.topicFinder();
     }
     store.dispatch("setTopicButton", this.$route.params.category);
-    this.changeBackgroundColor(this.$route.params.category)
+    this.changeBackgroundColor(this.$route.params.category);
   },
 };
 </script>

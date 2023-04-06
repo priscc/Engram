@@ -1,0 +1,37 @@
+// LOADING
+.loading
+	position: relative
+	overflow: hidden
+
+.loading
+	&:before
+		content: ''
+		position: absolute
+		display: block
+		z-index: 1
+		min-width: 100%
+		min-height: 95%
+		height: 95%
+		background: linear-gradient(to right, #c1c1c1, white, #c1c1c1)
+		background-size: 200% 200%
+		animation: Animation 2s infinite
+
+
+@-webkit-keyframes Animation 
+	0%
+		background-position:90% 0%
+	90%
+		background-position:0% 70%
+
+@-moz-keyframes Animation 
+	0%
+		background-position:90% 0%
+	90%
+		background-position:0% 70%
+
+@keyframes Animation 
+	0%
+		background-position:90% 0%
+	90%
+		background-position:0% 70%
+

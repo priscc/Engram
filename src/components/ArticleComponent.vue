@@ -12,10 +12,10 @@
         <div class="article_subtitle">
           {{ article.newsSource }} | {{ article.published }}
         </div>
-        <div class="article_summary">
+        <div v-if="article_summary" class="article_summary">
           {{ article.summary }}
         </div>
-        <a :href="article.url" target="_blank" class="article_link">Go To</a>
+        <a :href="article.url" target="_blank" class="article_link">Read More...</a>
       </div>
     </div>
   </div>

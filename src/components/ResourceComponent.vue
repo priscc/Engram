@@ -9,16 +9,18 @@
       </b-col>
     </b-row>
     <b-row>
-      <div v-for="(video, index) in videos" :key="index">
+      <div v-for="(video, index) in videos" :key="video.id">
         <b-col v-if="index < 3" class="pt-1">
-          <iframe
-            class="intro_iframe"
-            :src="'https://www.youtube.com/embed/' + video.url"
-            title="YouTube video player"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+          <div class="loading">
+            <iframe
+              class="intro_iframe"
+              title="YouTube video player"
+              :src="'https://www.youtube.com/embed/' + video.url"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+            ></iframe>
+          </div>
         </b-col>
       </div>
       <b-modal id="modal-1" size="lg" hide-footer title="Videos">
@@ -67,10 +69,10 @@ export default {
   },
   components: { articlecomp },
   computed: {
-
     videos() {
       var r = this.resourcetype.filter(
-        (video) => video.resourceType == "video" && video.parentType == this.type
+        (video) =>
+          video.resourceType == "video" && video.parentType == this.type
       );
       return r;
     },
@@ -82,7 +84,13 @@ export default {
       return r;
     },
   },
+  mounted() {
+    // setTimeout(() => {
+    //   document.querySelector('.intro_iframe').classList.remove('loading')
+    // }, 500);
+  },
 };
 </script>
 
 <style lang="sass" scoped src="@/assets/css/resources.sass"></style>
+<style lang="sass" scoped src="@/assets/css/loading.sass"></style>

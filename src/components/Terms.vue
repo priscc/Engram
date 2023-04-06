@@ -26,7 +26,8 @@
           <!-- </b-card> -->
         </b-col>
       </b-row>
-      <div class="top_button">
+      <comingsoon v-if="comingSoon == 0"></comingsoon>
+      <div v-if="comingSoon != 0" class="top_button">
         <b-col>
           <b-button size="small" @click="top()">
             <b-icon-caret-up aria-hidden="true" /> Top
@@ -39,9 +40,11 @@
 
 <script>
 import storeTopic from "@/store/topic.js";
+import comingsoon from "./ComingSoon.vue";
 
 export default {
   name: "Terms",
+  components: { comingsoon },
   computed: {
     termsComponent() {
       return storeTopic.state.terms;

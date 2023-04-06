@@ -9,7 +9,7 @@
           <b-card>
             <b-container fluid>
               <b-row>
-                <b-col xl="2" lg="3" md="3" sm="4">
+                <b-col xl="2" lg="3" md="4" sm="4">
                   <b-img
                     v-if="source.thumbFile != 'placeHolderImg.png'"
                     :src="source.thumbURL"
@@ -26,7 +26,8 @@
           </b-card>
         </b-col>
       </b-row>
-      <div class="top_button">
+      <comingsoon v-if="comingSoon == 0"></comingsoon>
+      <div v-if="comingSoon != 0" class="top_button">
         <b-col>
           <b-button size="small" @click="top()">
             <b-icon-caret-up aria-hidden="true" /> Top
@@ -39,12 +40,17 @@
 
 <script>
 import storeTopic from "@/store/topic.js";
+import comingsoon from "./ComingSoon.vue";
 
 export default {
   name: "PrimarySources",
+  components: { comingsoon },
   computed: {
     sourcesComponent() {
       return storeTopic.state.sources;
+    },
+    comingSoon() {
+      return storeTopic.state.sources.length;
     },
   },
   methods: {

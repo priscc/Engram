@@ -9,6 +9,7 @@
       <b-row v-for="(comp, i) in peopleComponent" :key="i">
         <peopleprofile :person="comp"></peopleprofile>
       </b-row>
+      <comingsoon v-if="comingSoon == 0"></comingsoon>
     </b-container>
   </div>
 </template>
@@ -16,13 +17,17 @@
 <script>
 import storeTopic from "@/store/topic.js";
 import peopleprofile from "@/components/PeopleProfile.vue";
+import comingsoon from "./ComingSoon.vue";
 
 export default {
   name: "People",
-  components: { peopleprofile },
+  components: { comingsoon, peopleprofile },
   computed: {
     peopleComponent() {
       return storeTopic.state.people;
+    },
+    comingSoon() {
+      return storeTopic.state.people.length;
     },
   },
   mounted() {
