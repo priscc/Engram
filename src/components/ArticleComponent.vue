@@ -15,7 +15,9 @@
         <div v-if="article_summary" class="article_summary">
           {{ article.summary }}
         </div>
-        <a :href="article.url" target="_blank" class="article_link">Read More...</a>
+        <a :href="article.url" target="_blank" class="article_link"
+          >Read More...</a
+        >
       </div>
     </div>
   </div>
@@ -25,8 +27,8 @@
 export default {
   name: "Article",
   props: {
-    article: Object,
-  },
+    article: Object
+  }
 };
 </script>
 

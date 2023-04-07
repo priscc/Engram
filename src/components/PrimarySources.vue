@@ -51,17 +51,17 @@ export default {
     },
     comingSoon() {
       return storeTopic.state.sources.length;
-    },
+    }
   },
   methods: {
     top() {
       window.scrollTo({ top: 0, behavior: "smooth" });
-    },
+    }
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     storeTopic.dispatch("setTopicSources", this.$route.params.topic);
-  },
+  }
 };
 </script>
 

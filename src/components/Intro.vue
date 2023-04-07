@@ -34,9 +34,9 @@ import resourcecomp from "./ResourceComponent.vue";
 export default {
   name: "Intro",
   props: {
-    topic: Object,
+    topic: Object
   },
-  components: { resourcecomp  },
+  components: { resourcecomp },
   computed: {
     intro() {
       var inputDelta = this.topic.introMD;
@@ -49,8 +49,8 @@ export default {
         return tempCont.getElementsByClassName("ql-editor")[0].innerHTML;
       }
     },
-    resouces(){
-      return storeTopic.state.topicResources
+    resouces() {
+      return storeTopic.state.topicResources;
     }
   },
   methods: {
@@ -60,12 +60,12 @@ export default {
     },
     showModal() {
       this.$refs["modal-1"].show();
-    },
+    }
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     storeTopic.dispatch("setToipcResources", this.$route.params.topic);
-  },
+  }
 };
 </script>
 

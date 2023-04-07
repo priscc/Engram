@@ -1,6 +1,6 @@
 <template>
   <div id="ComingSoon">
-    <v-row  v-show="delayShow">
+    <v-row v-show="delayShow">
       <b-col>
         <div class="trend_comingSoon">
           <div class="header-3 trend_comingSoonText">
@@ -22,14 +22,14 @@ export default {
   name: "ComingSoon",
   data() {
     return {
-      delayShow: false,
+      delayShow: false
     };
   },
   created() {
     setTimeout(() => {
       this.delayShow = true;
     }, 500);
-  },
+  }
 };
 </script>
 

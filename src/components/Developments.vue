@@ -4,11 +4,14 @@
       <b-row>
         <div class="title">Events</div>
       </b-row>
-      <b-row >
-        <b-col class="p-0" xl="4" lg="4" md="12" sm="12" xs="12"><eventcard :events="events"></eventcard></b-col>
-        <b-col class="p-0" xl="8" lg="8" md="12" sm="12" xs="12"><eventmap :events="events"></eventmap></b-col>
+      <b-row>
+        <b-col class="p-0" xl="4" lg="4" md="12" sm="12" xs="12"
+          ><eventcard :events="events"></eventcard
+        ></b-col>
+        <b-col class="p-0" xl="8" lg="8" md="12" sm="12" xs="12"
+          ><eventmap :events="events"></eventmap
+        ></b-col>
       </b-row>
-     
     </b-container>
   </div>
 </template>
@@ -22,7 +25,7 @@ export default {
   name: "Topics",
   components: {
     eventcard,
-    eventmap,
+    eventmap
   },
   computed: {
     events() {
@@ -32,14 +35,14 @@ export default {
       );
       if (storeTopic.state.events.length == 0) return [];
       else return storeTopic.state.events;
-    },
+    }
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     console.log(this.$route.params.topic);
     storeTopic.dispatch("setTopicEvents", this.$route.params.topic);
     console.log("MOUNTED DEV: mounted events");
-  },
+  }
 };
 </script>
 

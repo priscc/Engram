@@ -11,7 +11,7 @@
           class="period"
           :style="{
             'background-image':
-              'url(' + require(`@/assets/${timePeriod.img}`) + ')',
+              'url(' + require(`@/assets/${timePeriod.img}`) + ')'
           }"
           @click="next(timePeriod)"
         >
@@ -29,13 +29,16 @@ export default {
   computed: {
     timePeriodHeaders() {
       return store.state.timePeriodHeaders;
-    },
+    }
   },
   methods: {
     next(i) {
-      this.$router.push({ name: "Period", params: { periodName: i.header, period: i.timePeriod } });
-    },
-  },
+      this.$router.push({
+        name: "Period",
+        params: { periodName: i.header, period: i.timePeriod }
+      });
+    }
+  }
 };
 </script>
 

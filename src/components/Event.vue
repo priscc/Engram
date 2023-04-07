@@ -63,7 +63,7 @@ export default {
       path: null,
       svg: null,
       startDate: null,
-      endDate: null,
+      endDate: null
     };
   },
   computed: {
@@ -89,7 +89,7 @@ export default {
     },
     resouces() {
       return storeTopic.state.eventResources;
-    },
+    }
   },
   methods: {
     back() {
@@ -99,10 +99,10 @@ export default {
         params: {
           period: this.$route.params.period,
           topic: this.$route.params.topic,
-          category: this.$route.params.category,
-        },
+          category: this.$route.params.category
+        }
       });
-    },
+    }
   },
   async mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -144,7 +144,7 @@ export default {
     console.log("event router id", this.$route.params.event);
 
     storeTopic.dispatch("setEventResources", this.$route.params.event);
-  },
+  }
 };
 </script>
 

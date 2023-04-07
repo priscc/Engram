@@ -4,7 +4,7 @@
       <b-row
         class="background background_filter"
         :style="{
-          'background-image': `url(${topic.topic_thumbURL})`,
+          'background-image': `url(${topic.topic_thumbURL})`
         }"
       >
         <b-col lg="2" md="2" sm="12" class="u-non-blurred">
@@ -66,7 +66,7 @@ export default {
     developments,
     people,
     primarysources,
-    terms,
+    terms
   },
   data() {
     return {
@@ -76,12 +76,12 @@ export default {
         "Events",
         "People",
         "Sources",
-        "Terms",
+        "Terms"
       ],
       styleObject: {
         "background-color": "white",
-        color: "black",
-      },
+        color: "black"
+      }
     };
   },
   computed: {
@@ -93,7 +93,7 @@ export default {
     },
     topic() {
       return storeTopic.state.topic;
-    },
+    }
   },
   methods: {
     async topicFinder() {
@@ -116,7 +116,7 @@ export default {
       store.dispatch("setTopicButton", 0);
       this.$router.push({
         name: "Period",
-        params: { period: this.$route.params.period },
+        params: { period: this.$route.params.period }
       });
     },
     loadCategory(i) {
@@ -132,7 +132,7 @@ export default {
         this.styleObject["background-color"] = "white";
         this.styleObject["color"] = "black";
       }
-    },
+    }
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -143,7 +143,7 @@ export default {
     }
     store.dispatch("setTopicButton", this.$route.params.category);
     this.changeBackgroundColor(this.$route.params.category);
-  },
+  }
 };
 </script>
 

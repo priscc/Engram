@@ -28,13 +28,13 @@ export default {
     },
     comingSoon() {
       return storeTopic.state.people.length;
-    },
+    }
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     storeTopic.dispatch("setTopicPeople", this.$route.params.topic);
     storeTopic.dispatch("setPeopleResources", this.$route.params.topic);
-  },
+  }
 };
 </script>
 

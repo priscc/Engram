@@ -50,7 +50,6 @@ import resourcecomp from "./ResourceComponent.vue";
 import { db } from "@/main";
 import Quill from "quill";
 
-
 export default {
   name: "Person",
   components: { resourcecomp },
@@ -58,7 +57,7 @@ export default {
   data() {
     return {
       dateOfBirth: null,
-      dateOfPassing: null,
+      dateOfPassing: null
     };
   },
   computed: {
@@ -84,7 +83,7 @@ export default {
     },
     resouces() {
       return storeTopic.state.personResources;
-    },
+    }
   },
   methods: {
     back() {
@@ -95,10 +94,10 @@ export default {
           periodName: this.$route.params.periodName,
           topicName: this.$route.params.topicName,
           topic: this.$route.params.topic,
-          category: this.$route.params.category,
-        },
+          category: this.$route.params.category
+        }
       });
-    },
+    }
   },
   async mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -138,7 +137,7 @@ export default {
     this.dateOfPassing = this.person.dateOfPassing.date;
 
     storeTopic.dispatch("setPersonResources", this.$route.params.person);
-  },
+  }
 };
 </script>
 

@@ -29,7 +29,7 @@
           class="timeline_eventSegment"
           v-bind:style="{
             top: ((eventTickDate - minDate) / diffYears) * 100 + '%',
-            height: tickHeight + '%',
+            height: tickHeight + '%'
           }"
         ></div>
       </div>
@@ -47,7 +47,7 @@ import * as topojson from "topojson";
 // OR https://gist.github.com/wiesson/ef18dba71256d526eb42?short_path=ca92d9d
 export default {
   props: {
-    events: Object,
+    events: Object
   },
   data() {
     return {
@@ -101,16 +101,16 @@ export default {
             "MKD",
             "ALB",
             "MNE",
-            "SRB",
-          ]),
+            "SRB"
+          ])
         },
         {
           name: "Northern Europe",
-          set: d3.set(["DNK", "FRO", "FIN", "GRL", "ISL", "NOR", "SWE"]),
+          set: d3.set(["DNK", "FRO", "FIN", "GRL", "ISL", "NOR", "SWE"])
         },
         {
           name: "North America",
-          set: d3.set(["CAN", "MEX", "USA"]),
+          set: d3.set(["CAN", "MEX", "USA"])
         },
         {
           name: "Caribbean",
@@ -132,8 +132,8 @@ export default {
             "ATG",
             "DMA",
             "BRB",
-            "GRD",
-          ]),
+            "GRD"
+          ])
         },
         {
           name: "South America",
@@ -151,8 +151,8 @@ export default {
             "SUR",
             "URY",
             "VEN",
-            "TTO",
-          ]),
+            "TTO"
+          ])
         },
         {
           name: "Africa",
@@ -220,16 +220,16 @@ export default {
             "UGA",
             "ZAF",
             "ZMB",
-            "ZWE",
-          ]),
+            "ZWE"
+          ])
         },
         {
           name: "South Pacific",
-          set: d3.set(["AUS", "NZL"]),
+          set: d3.set(["AUS", "NZL"])
         },
         {
           name: "India",
-          set: d3.set(["IND", "BGD", "LKA"]),
+          set: d3.set(["IND", "BGD", "LKA"])
         },
         {
           name: "Orient",
@@ -253,17 +253,17 @@ export default {
             "PSX",
             "PSR",
             "GEO",
-            "ARM",
-          ]),
+            "ARM"
+          ])
         },
         {
           name: "Russia",
-          set: d3.set(["RUS", "KAZ", "UZB", "TKM", "KGZ", "TJK"]),
+          set: d3.set(["RUS", "KAZ", "UZB", "TKM", "KGZ", "TJK"])
         },
 
         {
           name: "China",
-          set: d3.set(["CHN"]),
+          set: d3.set(["CHN"])
         },
         {
           name: "Asia",
@@ -297,9 +297,9 @@ export default {
             "PLW",
             "FSM",
             "MNP",
-            "KAS",
-          ]),
-        },
+            "KAS"
+          ])
+        }
       ],
       width: null,
       mapRatio: null,
@@ -315,7 +315,7 @@ export default {
       eventTickDateText: "",
       eventEndTickDate: null,
       eventEndTickDateText: "",
-      tickHeight: 0,
+      tickHeight: 0
     };
   },
   watch: {
@@ -326,8 +326,8 @@ export default {
           this.model;
         }
       },
-      flush: "post",
-    },
+      flush: "post"
+    }
   },
   methods: {
     loadMap(ev) {
@@ -492,7 +492,7 @@ export default {
       if (this.events[model]) {
         var coordinates = this.events[model].coordinates;
         if (coordinates != null) {
-          Object.keys(coordinates).forEach((map) => {
+          Object.keys(coordinates).forEach(map => {
             if (coordinates[map].length > 1) {
               svg
                 .append("path")
@@ -542,14 +542,14 @@ export default {
           });
         }
       }
-    },
+    }
   },
   computed: {
     model() {
       console.log("COMPUTED MAP: map eventIndex", storeTopic.state.eventIndex);
       return this.loadMap(storeTopic.state.eventIndex);
-    },
-  },
+    }
+  }
 };
 </script>
 

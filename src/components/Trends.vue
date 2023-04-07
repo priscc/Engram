@@ -84,30 +84,30 @@ export default {
   components: { comingsoon },
   computed: {
     social() {
-      return storeTopic.state.trends.filter((i) => i.type == "society");
+      return storeTopic.state.trends.filter(i => i.type == "society");
     },
     economic() {
-      return storeTopic.state.trends.filter((i) => i.type == "economic");
+      return storeTopic.state.trends.filter(i => i.type == "economic");
     },
     technology() {
-      return storeTopic.state.trends.filter((i) => i.type == "technology");
+      return storeTopic.state.trends.filter(i => i.type == "technology");
     },
     government() {
-      return storeTopic.state.trends.filter((i) => i.type == "politics");
+      return storeTopic.state.trends.filter(i => i.type == "politics");
     },
     culture() {
-      return storeTopic.state.trends.filter((i) => i.type == "culture");
+      return storeTopic.state.trends.filter(i => i.type == "culture");
     },
     environment() {
-      return storeTopic.state.trends.filter((i) => i.type == "environment");
+      return storeTopic.state.trends.filter(i => i.type == "environment");
     },
     comingSoon() {
       return storeTopic.state.trends.length;
-    },
+    }
   },
   mounted() {
     storeTopic.dispatch("setTopicTrends", this.$route.params.topic);
-  },
+  }
 };
 </script>
 

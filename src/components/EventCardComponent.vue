@@ -7,10 +7,12 @@
         :key="slide"
       >
         <div class="numbertext">{{ slide + 1 }} / {{ events.length }}</div>
-        <b-img :src="event.thumbURL" class="eventImage"/>
+        <b-img :src="event.thumbURL" class="eventImage" />
         <div class="eventTitle">{{ event.title }}</div>
         <div class="eventText">{{ event.descriptionMD }}</div>
-        <div v-if="event.descriptionMD.length > 0" class="event_button"><b-button size="sm" @click="openEvent(event)">Learn More</b-button></div>
+        <div v-if="event.descriptionMD.length > 0" class="event_button">
+          <b-button size="sm" @click="openEvent(event)">Learn More</b-button>
+        </div>
       </div>
       <div class="prev" @click="plusSlides(-1)">❮</div>
       <div class="next" @click="plusSlides(1)">❯</div>
@@ -19,7 +21,7 @@
 
     <div style="display: flex; justify-content:center; ">
       <div style="display: inline;" v-for="slide in events.length" :key="slide">
-        <span class="dot" @click="currentSlide(slide )"></span>
+        <span class="dot" @click="currentSlide(slide)"></span>
       </div>
     </div>
   </div>
@@ -29,23 +31,23 @@
 import storeTopic from "@/store/topic.js";
 export default {
   props: {
-    events: Object,
+    events: Object
   },
   data() {
     return {
-      slideIndex: 1,
+      slideIndex: 1
     };
   },
   watch: {
     events: {
       handler(newVal) {
         if (newVal.length > 0) {
-          console.log('*&*&*&*&& card mount', this.slideIndex)
+          console.log("*&*&*&*&& card mount", this.slideIndex);
           this.showSlides(this.slideIndex);
         }
       },
-      flush: "post",
-    },
+      flush: "post"
+    }
   },
   methods: {
     openEvent(event) {
@@ -79,10 +81,10 @@ export default {
       }
       slides[this.slideIndex - 1].style.display = "block";
       dots[this.slideIndex - 1].className += " active";
-      console.log('card event index', n)
-      storeTopic.dispatch("setEventIndex", this.slideIndex-1);
-    },
-  },
+      console.log("card event index", n);
+      storeTopic.dispatch("setEventIndex", this.slideIndex - 1);
+    }
+  }
 };
 </script>
 

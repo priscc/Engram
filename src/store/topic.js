@@ -15,7 +15,7 @@ export const storeTopic = createStore({
     personResources: [],
     event: [],
     eventIndex: 0,
-    person: [],
+    person: []
   },
   mutations: {
     //TOPIC
@@ -68,12 +68,12 @@ export const storeTopic = createStore({
                 ev.push(entry);
               }.bind(this)
             );
-            console.log(ev)
+            console.log(ev);
             const events = ev.sort(function(a, b) {
               return a.startDate.dateNum - b.startDate.dateNum;
             });
             console.log("topic.js Evenent:", events);
-            state.events = events
+            state.events = events;
           }.bind(this)
         );
     },
@@ -196,8 +196,8 @@ export const storeTopic = createStore({
         );
     },
     retrieveEventResources(state, i) {
-      console.log('event store id ', i)
-      var i2 = String(i)
+      console.log("event store id ", i);
+      var i2 = String(i);
       state.eventResources = [];
       db.collection("resources")
         .where("parentID", "==", i2)
@@ -209,10 +209,9 @@ export const storeTopic = createStore({
                 state.eventResources.push(doc.data());
               }.bind(this)
             );
-
           }.bind(this)
         );
-        console.log('state.eventResources ', state.eventResources)
+      console.log("state.eventResources ", state.eventResources);
     },
     retrievePeopleResources(state, i) {
       state.peopleResources = [];
@@ -231,8 +230,8 @@ export const storeTopic = createStore({
         );
     },
     retrievePersonResources(state, i) {
-      console.log('event store id ', i)
-      var i2 = String(i)
+      console.log("event store id ", i);
+      var i2 = String(i);
       state.eventResources = [];
       db.collection("resources")
         .where("parentID", "==", i2)
@@ -244,10 +243,9 @@ export const storeTopic = createStore({
                 state.personResources.push(doc.data());
               }.bind(this)
             );
-
           }.bind(this)
         );
-        console.log('state.personResources ', state.personResources)
+      console.log("state.personResources ", state.personResources);
     },
     //EVENT
     setEvent(state, i) {
@@ -260,7 +258,7 @@ export const storeTopic = createStore({
     //PERSON
     setPerson(state, i) {
       state.person = i;
-    },
+    }
   },
   actions: {
     //TOPIC
@@ -310,8 +308,8 @@ export const storeTopic = createStore({
     //PERSON
     setPersonContent({ commit }, i) {
       commit("setPerson", i);
-    },
-  },
+    }
+  }
 });
 
 export default storeTopic;
