@@ -67,6 +67,11 @@
 	min-height: 100vh
 	height: 100%
 
+.findByScroll
+	padding-bottom: 50px
+
+
+
 // CATEGORY BUTTONS
 .category_button 
 	font-family: "Montserrat", sans-serif
@@ -84,6 +89,14 @@
 		opacity: 0.5
 		cursor: pointer
 
+.sidebar
+	position: -webkit-sticky
+	position: sticky
+	top: 10px
+
+.active
+	background-color: #B19CD9
+	opacity: 0.5
 
 
 // HEADERS
@@ -123,15 +136,6 @@
 	font-weight: 400
 	word-break: break-word
 
-.top_button
-	position: fixed
-	top: 85%
-	right: 1%
-
-@media (max-width: 750px) 
-	.top_button
-		display: none
-
 
 
 //INTRO
@@ -141,6 +145,7 @@
 	min-width: 100%
 	max-width: 100%
 	max-height: 300px
+
 
 
 // TREND
@@ -153,7 +158,7 @@
 	min-width: 100%
 	max-width: 100%
 	max-height: 400px
-	opacity: .7
+	opacity: .5
 	box-shadow: 0 0 8px 8px #fff inset
 	
 .trend_comingSoonText
@@ -166,6 +171,16 @@
 	padding-right: 80px
 	padding-top: 40px
 	padding-bottom: 40px
+
+
+
+// EVENTS
+.events_component
+	color: white
+	background-color: black
+	border-radius: 10px
+	padding: 5px
+	padding-bottom: 50px
 
 
 
@@ -231,6 +246,9 @@
 .source_image
 	max-width: 150px
 	height: auto
+	&:hover
+		opacity: 0.5
+		cursor: pointer
 
 
 
@@ -238,6 +256,9 @@
 .term_image
 	max-width: 150px
 	height: auto
+	&:hover
+		opacity: 0.5
+		cursor: pointer
 
 
 
@@ -258,5 +279,18 @@
 	min-width: 75%
 	max-width: 75%
 	max-height: 300px
+
+
+
+// MODAL
+.modal_image
+	display: flex
+	justify-content: center
+	max-width: 100%
+	max-height: 80vh
+	margin: 0 auto
+
+
+
 
 

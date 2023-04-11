@@ -1,11 +1,9 @@
 <template>
-  <div id="Topic" :style="styleObject">
+  <div id="Topic">
     <b-container fluid>
       <b-row
         class="background background_filter"
-        :style="{
-          'background-image': `url(${topic.topic_thumbURL})`
-        }"
+        :style="{ 'background-image': `url(${topic.topic_thumbURL})` }"
       >
         <b-col lg="2" md="2" sm="12" class="u-non-blurred">
           <div class="back_button" @click="back">
@@ -26,27 +24,57 @@
     <b-container fluid class="mb-5 ml-3">
       <b-row class="pt-5">
         <b-col lg="2" md="2" sm="12" class="d-flex flex-column">
-          <div v-for="(button, index) in topicButtons" :key="index">
-            <div class="category_button" @click="loadCategory(index)">
-              {{ button }}
+          <div class="sidebar">
+            <div v-for="(button, index) in topicButtons" :key="index">
+              <div
+                class="category_button"
+                :class="{ active: currentTopicCategory === button }"
+                @click="loadCategory(button)"
+              >
+                {{ button }}
+              </div>
             </div>
           </div>
         </b-col>
         <b-col class="pa-0">
-          <intro v-if="currentTopicComponent == 0" :topic="topic"></intro>
-          <trends v-else-if="currentTopicComponent == 1"></trends>
-          <developments v-else-if="currentTopicComponent == 2"></developments>
-          <people v-else-if="currentTopicComponent == 3"></people>
-          <primarysources
-            v-else-if="currentTopicComponent == 4"
-          ></primarysources>
-          <terms v-else-if="currentTopicComponent == 5"></terms>
+          <div :style="{ display: display_loader }">
+            <b-row>
+              <b-col cols="7">
+                <div class="large_image loading_topic"></div>
+                <div class="small_content100p loading_topic"></div>
+                <div class="small_content80p loading_topic"></div>
+                <div class="small_content95p loading_topic"></div>
+                <div class="small_content90p loading_topic"></div>
+                <div class="small_content80p loading_topic"></div>
+                <div class="small_content100p loading_topic"></div>
+                <div class="small_content95p loading_topic"></div>
+              </b-col>
+              <b-col class="vidoes">
+                <div
+                  v-for="i in 5"
+                  :key="i.id"
+                  class="video loading_topic"
+                ></div>
+              </b-col>
+            </b-row>
+          </div>
+          <div :style="{ display: display_comps }">
+            <intro
+              id="Introduction"
+              class="findByScroll"
+              :topic="topic"
+            ></intro>
+            <trends id="Trends" class="findByScroll"></trends>
+            <developments id="Events" class="findByScroll"></developments>
+            <people id="People" class="findByScroll"></people>
+            <primarysources id="Sources" class="findByScroll"></primarysources>
+            <terms id="Terms" class="findByScroll"></terms>
+          </div>
         </b-col>
       </b-row>
     </b-container>
   </div>
 </template>
-
 <script>
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
@@ -57,6 +85,7 @@ import people from "@/components/People.vue";
 import primarysources from "@/components/PrimarySources.vue";
 import terms from "@/components/Terms.vue";
 import { db } from "@/main";
+import VueScrollTo from "vue-scrollto";
 
 export default {
   name: "Topics",
@@ -66,7 +95,7 @@ export default {
     developments,
     people,
     primarysources,
-    terms
+    terms,
   },
   data() {
     return {
@@ -76,26 +105,79 @@ export default {
         "Events",
         "People",
         "Sources",
-        "Terms"
+        "Terms",
       ],
-      styleObject: {
-        "background-color": "white",
-        color: "black"
-      }
+      router_comp: "",
+      display_loader: "block",
+      display_comps: "none",
     };
+  },
+
+  watch: {
+    loaded(newValue) {
+      if (newValue === 6) {
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          this.display_loader = "none";
+        }, 500);
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          this.display_comps = "block";
+        }, 900);
+        setTimeout(() => {
+          store.dispatch("setTopicCategory", this.router_comp);
+          if (this.router_comp == "Introduction") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            document
+              .getElementById(this.router_comp)
+              .scrollIntoView({ top: 0, behavior: "smooth" });
+          }
+        }, 1100);
+        setTimeout(() => {
+          window.addEventListener("scroll", this.updateCurrentSection);
+        }, 2000);
+      }
+    },
   },
   computed: {
     timePeriodHeaders() {
       return store.state.timePeriodHeaders[store.state.currentTimePeriod];
     },
-    currentTopicComponent() {
-      return store.state.currentTopicComponent;
+    currentTopicCategory() {
+      return store.state.currentTopicCategory;
     },
     topic() {
       return storeTopic.state.topic;
-    }
+    },
+    loaded() {
+      return storeTopic.state.loaded;
+    },
   },
   methods: {
+    scrollToSection(index) {
+      VueScrollTo.scrollTo(`#${this.topicButtons[index]}`, 1000);
+      setTimeout(() => {
+        this.updateCurrentSection();
+      }, 510);
+    },
+    updateCurrentSection() {
+      for (let index = 0; index < this.topicButtons.length; index++) {
+        const section = document.getElementById(this.topicButtons[index]);
+
+        const rect = section.getBoundingClientRect();
+        const isVisible = rect.top >= 0 && rect.top <= window.innerHeight / 2;
+
+        if (isVisible) {
+          store.dispatch("setTopicCategory", this.topicButtons[index]);
+          this.$router.replace({
+            name: "Topic",
+            params: { category: this.topicButtons[index] },
+          });
+          break;
+        }
+      }
+    },
     async topicFinder() {
       store.dispatch("setTimePeriod", this.$route.params.period);
       var newTopic;
@@ -113,38 +195,33 @@ export default {
         );
     },
     back() {
-      store.dispatch("setTopicButton", 0);
+      store.dispatch("setTopicCategory", "");
       this.$router.push({
         name: "Period",
-        params: { period: this.$route.params.period }
+        params: { period: this.$route.params.period },
       });
     },
-    loadCategory(i) {
-      store.dispatch("setTopicButton", i);
-      this.$router.replace({ name: "Topic", params: { category: i } });
-      this.changeBackgroundColor(i);
+    loadCategory(category) {
+      document
+        .getElementById(category)
+        .scrollIntoView({ top: -100, behavior: "smooth" });
+      store.dispatch("setTopicCategory", category);
+      this.$router.replace({ name: "Topic", params: { category: category } });
     },
-    changeBackgroundColor(i) {
-      if (i == 2) {
-        this.styleObject["background-color"] = "black";
-        this.styleObject["color"] = "white";
-      } else {
-        this.styleObject["background-color"] = "white";
-        this.styleObject["color"] = "black";
-      }
-    }
+  },
+  beforeMount() {
+    storeTopic.dispatch("restLoader", 0);
+    this.router_comp = this.$route.params.category;
+    window.scrollTo({ top: 0, behavior: "smooth" });
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    console.log("mounted topic");
     if (Object.keys(storeTopic.state.topic).length === 0) {
-      console.log("reloading topic");
       this.topicFinder();
     }
-    store.dispatch("setTopicButton", this.$route.params.category);
-    this.changeBackgroundColor(this.$route.params.category);
-  }
+    store.dispatch("setTopicCategory", this.$route.params.category);
+  },
 };
 </script>
-
 <style lang="sass" scoped src="@/assets/css/topicContent.sass"></style>
+<style lang="sass" scoped src="@/assets/css/loading.sass"></style>

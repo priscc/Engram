@@ -77,7 +77,7 @@ export const store = createStore({
       }
     ],
     currentTimePeriod: 0,
-    currentTopicComponent: 0
+    currentTopicCategory: 0
   },
   getters: {
     timePeriodHeaders: state => state.timePeriodHeaders[state.currentTimePeriod]
@@ -87,16 +87,16 @@ export const store = createStore({
       i = parseInt(i) - 1;
       state.currentTimePeriod = i;
     },
-    topicButtonChange(state, i) {
-      state.currentTopicComponent = i;
+    topicButtonCategory(state, i) {
+      state.currentTopicCategory = i;
     }
   },
   actions: {
     setTimePeriod({ commit }, i) {
       commit("selectedTimePeriod", i);
     },
-    setTopicButton({ commit }, i) {
-      commit("topicButtonChange", i);
+    setTopicCategory({ commit }, i) {
+      commit("topicButtonCategory", i);
     }
   }
 });

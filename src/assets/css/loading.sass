@@ -1,3 +1,61 @@
+// LOADING TOPIC
+.large_image
+	height: 300px
+	width: 100%
+	margin-bottom: 10px
+
+.small_content100p
+	height: 30px
+	width: 100%
+	margin-bottom: 10px
+
+.small_content80p
+	height: 30px
+	width: 80%
+	margin-bottom: 10px
+
+.small_content90p
+	height: 30px
+	width: 90%
+	margin-bottom: 10px
+
+.small_content95p
+	height: 30px
+	width: 95%
+	margin-bottom: 10px
+
+
+.large_content
+	height: 150px
+	width: 100%
+	margin-bottom: 10px
+
+.vidoes
+	display: flex
+	justify-content: end
+	flex-direction: column
+
+.video
+	height: 150px
+	width: 300px
+	margin-bottom: 5px
+
+.loading_topic
+	position: relative
+	overflow: hidden
+
+.loading_topic
+	&:before
+		content: ''
+		position: absolute
+		display: block
+		min-width: 100%
+		min-height: 100%
+		background: linear-gradient(to right, #f8f9fa, #d7d7d7, #f8f9fa)
+		background-size: 200% 200%
+		animation: Animation 3s infinite
+
+
 // LOADING
 .loading
 	position: relative
@@ -12,7 +70,7 @@
 		min-width: 100%
 		min-height: 95%
 		height: 95%
-		background: linear-gradient(to right, #c1c1c1, white, #c1c1c1)
+		background: linear-gradient(to right,#f8f9fa, #d7d7d7, #f8f9fa)
 		background-size: 200% 200%
 		animation: Animation 2s infinite
 

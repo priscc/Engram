@@ -45,16 +45,20 @@
           <b-col>&copy; 2022 by Engram</b-col>
         </b-row>
         <b-alert
-          style="display: flex; flex-wrap: nowrap; position:fixed; justify-content: end;  align-items: center; right: 0px; bottom: 0px; min-width: 60%; margin-right: 10px "
+          class="p-2"
+          style="position:fixed; z-index: 100;  right: 0px; bottom: 0px; min-width: 50%; margin-right: 10px "
           :show="alertDisplay"
         >
+        
+          <div style="display: inline; ">
           We use cookies to give you the best possible website experience. By
           using Engram, you agree to our
-          <a style="padding-left: 2px" @click="privacypolicy" class="alert-link"
+          <a style="padding-left: 3px" @click="privacypolicy" class="alert-link"
             >Privacy Policy</a
           >.
-          <div style="padding-left: 15px" @click="dismissAlert">
-            <b-icon-x-square class="footer-icon" />
+        </div>
+        <div style="display: flex; justify-content: center; padding-top: 4px" @click="dismissAlert">
+            <div class="alert_dismiss">Close</div>
           </div>
         </b-alert>
       </b-container>
@@ -70,7 +74,7 @@ export default {
   name: "App",
   data() {
     return {
-      alertDisplay: true
+      alertDisplay: true,
       //     searchClosed: true,
       //     searchItems: [],
       //     search: null,
@@ -215,8 +219,8 @@ export default {
     dismissAlert() {
       console.log("dismissAlert");
       this.alertDisplay = false;
-    }
-  }
+    },
+  },
   // computed: {
   //   stateTimePeriod: function() {
   //     return store.state.currentTimePeriod;

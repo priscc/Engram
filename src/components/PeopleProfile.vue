@@ -72,7 +72,7 @@ import * as Quill from "quill";
 export default {
   name: "PeopleProfile",
   props: {
-    person: Object
+    person: Object,
   },
   computed: {
     content() {
@@ -87,22 +87,21 @@ export default {
       }
     },
     resources() {
-      var r = storeTopic.state.peopleResources.filter(resource => {
+      var r = storeTopic.state.peopleResources.filter((resource) => {
         return (
           resource.parentID === this.person.id &&
           resource.resourceType === "video"
         );
       });
       return r;
-    }
+    },
   },
   methods: {
     goTo() {
       storeTopic.dispatch("setPersonContent", this.person);
-      console.log("learn more about person", this.person);
       this.$router.push({ name: "Person", params: { person: this.person.id } });
-    }
-  }
+    },
+  },
 };
 </script>
 

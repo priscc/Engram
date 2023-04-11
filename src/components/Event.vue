@@ -93,7 +93,6 @@ export default {
   },
   methods: {
     back() {
-      storeTopic.dispatch("eventContentRESET");
       this.$router.push({
         name: "Topic",
         params: {
@@ -141,8 +140,6 @@ export default {
 
     this.startDate = this.event.startDate.date;
     this.endDate = this.event.endDate.date;
-    console.log("event router id", this.$route.params.event);
-
     storeTopic.dispatch("setEventResources", this.$route.params.event);
   }
 };

@@ -15,12 +15,14 @@ export const storeTopic = createStore({
     personResources: [],
     event: [],
     eventIndex: 0,
-    person: []
+    person: [],
+    loaded: 0
   },
   mutations: {
     //TOPIC
     retrieveTopicContent(state, i) {
       state.topic = i;
+      state.loaded ++
     },
     //EVENTS
     retrieveEvents(state, i) {
@@ -68,12 +70,11 @@ export const storeTopic = createStore({
                 ev.push(entry);
               }.bind(this)
             );
-            console.log(ev);
             const events = ev.sort(function(a, b) {
               return a.startDate.dateNum - b.startDate.dateNum;
             });
-            console.log("topic.js Evenent:", events);
             state.events = events;
+            state.loaded ++
           }.bind(this)
         );
     },
@@ -90,6 +91,7 @@ export const storeTopic = createStore({
                 state.trends.push(doc.data());
               }.bind(this)
             );
+            state.loaded ++
           }.bind(this)
         );
     },
@@ -119,6 +121,7 @@ export const storeTopic = createStore({
               return 0;
             });
             state.people = people;
+            state.loaded ++
           }.bind(this)
         );
     },
@@ -148,6 +151,7 @@ export const storeTopic = createStore({
               return 0;
             });
             state.sources = sources;
+            state.loaded ++
           }.bind(this)
         );
     },
@@ -175,6 +179,7 @@ export const storeTopic = createStore({
               return 0;
             });
             state.terms = terms;
+            state.loaded ++
           }.bind(this)
         );
     },
@@ -196,7 +201,6 @@ export const storeTopic = createStore({
         );
     },
     retrieveEventResources(state, i) {
-      console.log("event store id ", i);
       var i2 = String(i);
       state.eventResources = [];
       db.collection("resources")
@@ -211,7 +215,6 @@ export const storeTopic = createStore({
             );
           }.bind(this)
         );
-      console.log("state.eventResources ", state.eventResources);
     },
     retrievePeopleResources(state, i) {
       state.peopleResources = [];
@@ -230,7 +233,6 @@ export const storeTopic = createStore({
         );
     },
     retrievePersonResources(state, i) {
-      console.log("event store id ", i);
       var i2 = String(i);
       state.eventResources = [];
       db.collection("resources")
@@ -245,19 +247,21 @@ export const storeTopic = createStore({
             );
           }.bind(this)
         );
-      console.log("state.personResources ", state.personResources);
     },
     //EVENT
     setEvent(state, i) {
       state.event = i;
     },
     eventIndex(state, i) {
-      console.log("state eventIndex", i);
       state.eventIndex = i;
     },
     //PERSON
     setPerson(state, i) {
       state.person = i;
+    },
+    //REST LOADER
+    restLoader(state, i) {
+      state.loaded = i;
     }
   },
   actions: {
@@ -308,6 +312,10 @@ export const storeTopic = createStore({
     //PERSON
     setPersonContent({ commit }, i) {
       commit("setPerson", i);
+    },
+    //REST LOADER
+    restLoader({ commit }, i) {
+      commit("restLoader", i);
     }
   }
 });

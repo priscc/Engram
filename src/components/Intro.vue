@@ -55,7 +55,6 @@ export default {
   },
   methods: {
     imageLoadError() {
-      console.log("Image failed to load");
       document.getElementById("hideImg").style.display = "none";
     },
     showModal() {
@@ -63,7 +62,6 @@ export default {
     }
   },
   mounted() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
     storeTopic.dispatch("setToipcResources", this.$route.params.topic);
   }
 };

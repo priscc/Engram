@@ -42,7 +42,6 @@ export default {
     events: {
       handler(newVal) {
         if (newVal.length > 0) {
-          console.log("*&*&*&*&& card mount", this.slideIndex);
           this.showSlides(this.slideIndex);
         }
       },
@@ -52,7 +51,6 @@ export default {
   methods: {
     openEvent(event) {
       storeTopic.dispatch("setEventContent", event);
-      console.log("learn more about event", event.id);
       this.$router.push({ name: "Event", params: { event: event.id } });
     },
     plusSlides(n) {
@@ -81,7 +79,6 @@ export default {
       }
       slides[this.slideIndex - 1].style.display = "block";
       dots[this.slideIndex - 1].className += " active";
-      console.log("card event index", n);
       storeTopic.dispatch("setEventIndex", this.slideIndex - 1);
     }
   }

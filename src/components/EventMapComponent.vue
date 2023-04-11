@@ -321,7 +321,6 @@ export default {
   watch: {
     events: {
       handler(newVal) {
-        console.log("WATCHER MAP: mounting map", newVal);
         if (newVal.length > 0) {
           this.model;
         }
@@ -333,7 +332,6 @@ export default {
     loadMap(ev) {
       this.worldMap(ev);
       if (this.events.length != 0) {
-        console.log("in loadMap", this.events, ev, this.events[ev]);
         this.calculatingDates(0);
         this.timelineEventDot(ev);
       }
@@ -357,7 +355,6 @@ export default {
     },
 
     calculatingDates(ev) {
-      console.log("in calculatingDates", this.events);
       const date2 = new Date().getFullYear();
       const date1 =
         Math.round((this.events[ev].startDate.dateNum - 20) / 100) * 100;
@@ -393,7 +390,6 @@ export default {
     },
 
     worldMap(ev) {
-      console.log("in Event primary ", ev);
       let list = document.getElementById("map");
       if (list != null) {
         // As long as <ul> has a child node, remove it
@@ -546,7 +542,6 @@ export default {
   },
   computed: {
     model() {
-      console.log("COMPUTED MAP: map eventIndex", storeTopic.state.eventIndex);
       return this.loadMap(storeTopic.state.eventIndex);
     }
   }

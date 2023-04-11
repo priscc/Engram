@@ -14,8 +14,13 @@
                     v-if="source.thumbFile != 'placeHolderImg.png'"
                     :src="source.thumbURL"
                     class="source_image"
+                    @click="showModal[source.id] = true"
                   >
                   </b-img>
+                  <!-- Modal -->
+                  <b-modal v-model="showModal[source.id]" hide-footer :title="source.title ">
+                    <b-img :src="source.thumbURL" class="modal_image"></b-img>
+                  </b-modal>
                 </b-col>
                 <b-col xl="7" lg="7" md="6" sm="12">
                   <div class="header-2">{{ source.title }}</div>
@@ -27,13 +32,6 @@
         </b-col>
       </b-row>
       <comingsoon v-if="comingSoon == 0"></comingsoon>
-      <div v-if="comingSoon != 0" class="top_button">
-        <b-col>
-          <b-button size="small" @click="top()">
-            <b-icon-caret-up aria-hidden="true" /> Top
-          </b-button>
-        </b-col>
-      </div>
     </b-container>
   </div>
 </template>
@@ -45,23 +43,22 @@ import comingsoon from "./ComingSoon.vue";
 export default {
   name: "PrimarySources",
   components: { comingsoon },
+  data() {
+    return {
+      showModal: {},
+    };
+  },
   computed: {
     sourcesComponent() {
       return storeTopic.state.sources;
     },
     comingSoon() {
       return storeTopic.state.sources.length;
-    }
-  },
-  methods: {
-    top() {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
+    },
   },
   mounted() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
     storeTopic.dispatch("setTopicSources", this.$route.params.topic);
-  }
+  },
 };
 </script>
 

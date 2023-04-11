@@ -4,7 +4,7 @@
       <b-row>
         <div class="title">Events</div>
       </b-row>
-      <b-row>
+      <b-row class="events_component">
         <b-col class="p-0" xl="4" lg="4" md="12" sm="12" xs="12"
           ><eventcard :events="events"></eventcard
         ></b-col>
@@ -29,19 +29,12 @@ export default {
   },
   computed: {
     events() {
-      console.log(
-        "COMPUTED DEV: storeTopic.state.events.length ",
-        storeTopic.state.events.length
-      );
       if (storeTopic.state.events.length == 0) return [];
       else return storeTopic.state.events;
     }
   },
   mounted() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    console.log(this.$route.params.topic);
     storeTopic.dispatch("setTopicEvents", this.$route.params.topic);
-    console.log("MOUNTED DEV: mounted events");
   }
 };
 </script>
