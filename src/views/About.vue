@@ -103,19 +103,7 @@
     </b-container>
   </div>
 </template>
-<script>
-import store from "@/store";
-export default {
-  data() {
-    return {
-      source: "https://engramlearn.store/about"
-    };
-  },
-  mounted() {
-    store.dispatch("setTimePeriod", -1);
-  }
-};
-</script>
+
 
 <style type="text/css" scoped>
 div.absolute {

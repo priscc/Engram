@@ -49,15 +49,20 @@
           style="position:fixed; z-index: 100;  right: 0px; bottom: 0px; min-width: 50%; margin-right: 10px "
           :show="alertDisplay"
         >
-        
           <div style="display: inline; ">
-          We use cookies to give you the best possible website experience. By
-          using Engram, you agree to our
-          <a style="padding-left: 3px" @click="privacypolicy" class="alert-link"
-            >Privacy Policy</a
-          >.
-        </div>
-        <div style="display: flex; justify-content: center; padding-top: 4px" @click="dismissAlert">
+            We use cookies to give you the best possible website experience. By
+            using Engram, you agree to our
+            <a
+              style="padding-left: 3px"
+              @click="privacypolicy"
+              class="alert-link"
+              >Privacy Policy</a
+            >.
+          </div>
+          <div
+            style="display: flex; justify-content: center; padding-top: 4px"
+            @click="dismissAlert"
+          >
             <div class="alert_dismiss">Close</div>
           </div>
         </b-alert>
@@ -100,7 +105,7 @@ export default {
     // topicSearch() {
     //   store.dispatch("setTimePeriod", this.search.timePeriod);
     //   storeTopic.dispatch("topicContent", this.search.document);
-    //   store.dispatch("setTopicButton", 0);
+    //   store.dispatch("setTopicCategory", 0);
     //   this.$router.push({
     //     name: "Topic",
     //     params: {
@@ -117,7 +122,7 @@ export default {
 
     //   store.dispatch("setTimePeriod", val.timePeriod);
     //   storeTopic.dispatch("topicContent", val.topic);
-    //   store.dispatch("setTopicButton", 2);
+    //   store.dispatch("setTopicCategory", 2);
     //   storeTopic.dispatch("eventContent", val.document);
     //   this.$router.push({
     //     name: "Event",
@@ -136,7 +141,7 @@ export default {
 
     //   store.dispatch("setTimePeriod", val.timePeriod);
     //   storeTopic.dispatch("topicContent", val.topic);
-    //   store.dispatch("setTopicButton", 3);
+    //   store.dispatch("setTopicCategory", 3);
     //   storeTopic.dispatch("personContent", val.document);
 
     //   this.$router.push({
@@ -156,7 +161,7 @@ export default {
 
     //   store.dispatch("setTimePeriod", this.search.timePeriod);
     //   storeTopic.dispatch("topicContent", this.search.topic);
-    //   store.dispatch("setTopicButton", 4);
+    //   store.dispatch("setTopicCategory", 4);
     //   this.$router.push({
     //     name: "Topic",
     //     params: {
@@ -173,7 +178,7 @@ export default {
 
     //   store.dispatch("setTimePeriod", this.search.timePeriod);
     //   storeTopic.dispatch("topicContent", this.search.topic);
-    //   store.dispatch("setTopicButton", 5);
+    //   store.dispatch("setTopicCategory", 5);
     //   this.$router.push({
     //     name: "Topic",
     //     params: {
@@ -205,15 +210,22 @@ export default {
     //     );
     // },
     home() {
-      store.dispatch("setTopicButton", 0);
+      store.dispatch("setTopicCategory", 0);
       this.$router.push("/");
     },
     about() {
-      store.dispatch("setTopicButton", 0);
+      store.dispatch("setTopicCategory", 0);
+
+      this.$gtag.event("About-page-clicked", {
+        event_category: "page-navigation",
+        event_label: "About page opened",
+        value: "about",
+      });
+
       this.$router.push("/about");
     },
     privacypolicy() {
-      store.dispatch("setTopicButton", 0);
+      store.dispatch("setTopicCategory", 0);
       this.$router.push("/privacypolicy");
     },
     dismissAlert() {

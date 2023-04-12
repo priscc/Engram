@@ -151,6 +151,7 @@ export default {
       return storeTopic.state.topic;
     },
     loaded() {
+      console.log("storeTopic.state.loaded", storeTopic.state.loaded);
       return storeTopic.state.loaded;
     },
   },
@@ -210,7 +211,7 @@ export default {
     },
   },
   beforeMount() {
-    storeTopic.dispatch("restLoader", 0);
+    console.log("beforeMount");
     this.router_comp = this.$route.params.category;
     window.scrollTo({ top: 0, behavior: "smooth" });
   },
@@ -218,6 +219,14 @@ export default {
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (Object.keys(storeTopic.state.topic).length === 0) {
       this.topicFinder();
+      storeTopic.dispatch("loader_add1");
+    }
+    else if(Object.keys(storeTopic.state.topic).length > 0 && storeTopic.state.loaded >= 6){
+      storeTopic.dispatch("restLoader");
+      storeTopic.dispatch("loader_add1");
+    } 
+    else{
+      storeTopic.dispatch("loader_add1");
     }
     store.dispatch("setTopicCategory", this.$route.params.category);
   },

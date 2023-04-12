@@ -13,6 +13,8 @@ import { BootstrapVue } from "bootstrap-vue";
 import { BootstrapIconsPlugin } from "bootstrap-icons-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+//GOOGLE ANALYTICS
+import VueGtag from "vue-gtag";
 
 // import { getPerformance } from "firebase/performance";
 // import "firebase/performance";
@@ -39,4 +41,7 @@ app.use(BootstrapVue);
 app.use(BootstrapIconsPlugin);
 app.component("QuillEditor", QuillEditor);
 // app.config.productionTip = false;
+app.use(VueGtag, {
+  config: { id: "G-8XJMW8N6QS" }
+});
 app.mount("#app");

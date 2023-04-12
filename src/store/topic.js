@@ -16,13 +16,12 @@ export const storeTopic = createStore({
     event: [],
     eventIndex: 0,
     person: [],
-    loaded: 0
+    loaded: 0,
   },
   mutations: {
     //TOPIC
     retrieveTopicContent(state, i) {
       state.topic = i;
-      state.loaded ++
     },
     //EVENTS
     retrieveEvents(state, i) {
@@ -74,7 +73,7 @@ export const storeTopic = createStore({
               return a.startDate.dateNum - b.startDate.dateNum;
             });
             state.events = events;
-            state.loaded ++
+            state.loaded++;
           }.bind(this)
         );
     },
@@ -91,7 +90,7 @@ export const storeTopic = createStore({
                 state.trends.push(doc.data());
               }.bind(this)
             );
-            state.loaded ++
+            state.loaded++;
           }.bind(this)
         );
     },
@@ -121,7 +120,7 @@ export const storeTopic = createStore({
               return 0;
             });
             state.people = people;
-            state.loaded ++
+            state.loaded++;
           }.bind(this)
         );
     },
@@ -151,7 +150,7 @@ export const storeTopic = createStore({
               return 0;
             });
             state.sources = sources;
-            state.loaded ++
+            state.loaded++;
           }.bind(this)
         );
     },
@@ -179,7 +178,7 @@ export const storeTopic = createStore({
               return 0;
             });
             state.terms = terms;
-            state.loaded ++
+            state.loaded++;
           }.bind(this)
         );
     },
@@ -260,9 +259,12 @@ export const storeTopic = createStore({
       state.person = i;
     },
     //REST LOADER
-    restLoader(state, i) {
-      state.loaded = i;
-    }
+    loader_add1(state) {
+      state.loaded ++;
+    },
+    restLoader(state) {
+      state.loaded = 0 ;
+    },
   },
   actions: {
     //TOPIC
@@ -314,10 +316,13 @@ export const storeTopic = createStore({
       commit("setPerson", i);
     },
     //REST LOADER
-    restLoader({ commit }, i) {
-      commit("restLoader", i);
-    }
-  }
+    loader_add1({ commit }) {
+      commit("loader_add1");
+    },
+    restLoader({ commit }) {
+      commit("restLoader");
+    },
+  },
 });
 
 export default storeTopic;

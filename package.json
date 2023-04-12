@@ -27,6 +27,7 @@
     "version-check": "^1.2.0",
     "vue": "^3.2.47",
     "vue-d3-geo": "^0.4.6",
+    "vue-gtag": "^2.0.1",
     "vue-quill": "^1.5.1",
     "vue-router": "^4.0.0-0",
     "vue-scrollto": "^2.20.0",

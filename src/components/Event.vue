@@ -93,6 +93,7 @@ export default {
   },
   methods: {
     back() {
+      // storeTopic.dispatch("restLoader", 1);
       this.$router.push({
         name: "Topic",
         params: {
