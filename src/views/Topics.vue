@@ -48,13 +48,13 @@ export default {
   name: "Topics",
   data() {
     return {
-      units: {}
+      units: {},
     };
   },
   computed: {
     timePeriodHeaders() {
       return store.state.timePeriodHeaders[store.state.currentTimePeriod];
-    }
+    },
   },
   methods: {
     topic() {
@@ -98,19 +98,28 @@ export default {
       storeTopic.dispatch("setTopicContent", topic);
       this.$router.push({
         name: "Topic",
-        params: { topicName: topic.title, topic: topic.id, category: "Introduction" }
+        params: {
+          topicName: topic.title,
+          topic: topic.id,
+          category: "Introduction",
+        },
       });
-    }
+    },
   },
   created() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     store.dispatch("setTimePeriod", this.$route.params.period);
     this.units = this.timePeriodHeaders.unitTitles;
     var v = Object.keys(this.units).filter(
-      unit => this.units[unit].topics.length > 0
+      (unit) => this.units[unit].topics.length > 0
     );
     if (v.length == 0) this.topic();
-  }
+    this.$gtag.event("Topics-page", {
+      event_category: "topics-page",
+      event_label: this.timePeriodHeaders.subheader,
+      value: this.timePeriodHeaders.header,
+    });
+  },
 };
 </script>
 

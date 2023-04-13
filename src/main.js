@@ -1,11 +1,12 @@
 import { createApp } from "vue";
 import App from "./App.vue";
-import router from "./router";
 import store from "./store/index";
+// ROUTER
+import router from "./router";
 // FIRESTORE
 import firebase from "firebase/app";
 import "firebase/firestore";
-//QUILL
+// QUILL
 import { QuillEditor } from "@vueup/vue-quill";
 import "@vueup/vue-quill/dist/vue-quill.snow.css";
 // BOOSTRAP
@@ -13,7 +14,7 @@ import { BootstrapVue } from "bootstrap-vue";
 import { BootstrapIconsPlugin } from "bootstrap-icons-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-//GOOGLE ANALYTICS
+// GOOGLE ANALYTICS
 import VueGtag from "vue-gtag";
 
 // import { getPerformance } from "firebase/performance";

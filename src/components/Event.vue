@@ -63,7 +63,7 @@ export default {
       path: null,
       svg: null,
       startDate: null,
-      endDate: null
+      endDate: null,
     };
   },
   computed: {
@@ -89,20 +89,19 @@ export default {
     },
     resouces() {
       return storeTopic.state.eventResources;
-    }
+    },
   },
   methods: {
     back() {
-      // storeTopic.dispatch("restLoader", 1);
       this.$router.push({
         name: "Topic",
         params: {
           period: this.$route.params.period,
           topic: this.$route.params.topic,
-          category: this.$route.params.category
-        }
+          category: this.$route.params.category,
+        },
       });
-    }
+    },
   },
   async mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -142,7 +141,7 @@ export default {
     this.startDate = this.event.startDate.date;
     this.endDate = this.event.endDate.date;
     storeTopic.dispatch("setEventResources", this.$route.params.event);
-  }
+  },
 };
 </script>
 

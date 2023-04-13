@@ -22,7 +22,7 @@
                     <b-img :src="source.thumbURL" class="modal_image"></b-img>
                   </b-modal>
                 </b-col>
-                <b-col xl="7" lg="7" md="6" sm="12">
+                <b-col xl="7" lg="7" md="8" sm="12">
                   <div class="header-2">{{ source.title }}</div>
                   <div class="text">{{ source.caption }}</div>
                 </b-col>
