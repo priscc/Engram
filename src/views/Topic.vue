@@ -71,6 +71,13 @@
             <terms id="Terms" class="findByScroll"></terms>
           </div>
         </b-col>
+        <div class="top_button">
+          <!-- <b-col> -->
+          <b-button size="small" @click="top()">
+            <b-icon-caret-up aria-hidden="true" /> Top
+          </b-button>
+          <!-- </b-col> -->
+        </div>
       </b-row>
     </b-container>
   </div>
@@ -116,6 +123,10 @@ export default {
   watch: {
     loaded(newValue) {
       if (newValue === 6) {
+        this.$gtag.event("Topic-page-"+this.router_comp, {
+          event_category: "engagement",
+          event_label: this.topic.title + " - " + this.router_comp,
+        });
         setTimeout(() => {
           window.scrollTo({ top: 0, behavior: "smooth" });
           this.display_loader = "none";
@@ -156,6 +167,9 @@ export default {
     },
   },
   methods: {
+    top() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    },
     scrollToSection(index) {
       VueScrollTo.scrollTo(`#${this.topicButtons[index]}`, 1000);
       setTimeout(() => {
@@ -170,6 +184,11 @@ export default {
         const isVisible = rect.top >= 0 && rect.top <= window.innerHeight / 2;
 
         if (isVisible) {
+          this.$gtag.event("Topic-page-"+this.topicButtons[index], {
+            event_category: "engagement",
+            event_label: this.topic.title + " - " + this.topicButtons[index],
+          });
+
           store.dispatch("setTopicCategory", this.topicButtons[index]);
           this.$router.replace({
             name: "Topic",
@@ -196,6 +215,9 @@ export default {
         );
     },
     back() {
+      this.$gtag.event("topic-backButton", {
+        event_category: "engagement",
+      });
       store.dispatch("setTopicCategory", "");
       this.$router.push({
         name: "Period",
@@ -220,12 +242,13 @@ export default {
     if (Object.keys(storeTopic.state.topic).length === 0) {
       this.topicFinder();
       storeTopic.dispatch("loader_add1");
-    }
-    else if(Object.keys(storeTopic.state.topic).length > 0 && storeTopic.state.loaded >= 6){
+    } else if (
+      Object.keys(storeTopic.state.topic).length > 0 &&
+      storeTopic.state.loaded >= 6
+    ) {
       storeTopic.dispatch("restLoader");
       storeTopic.dispatch("loader_add1");
-    } 
-    else{
+    } else {
       storeTopic.dispatch("loader_add1");
     }
     store.dispatch("setTopicCategory", this.$route.params.category);

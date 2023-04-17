@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="Home">
     <div class="site_header">
       (APWH) World History Units
     </div>
@@ -38,6 +38,11 @@ export default {
         params: { periodName: i.header, period: i.timePeriod }
       });
     }
+  },
+  mounted(){
+    this.$gtag.event("Home-page", {
+      event_category: "engagement",
+    });
   }
 };
 </script>

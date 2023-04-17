@@ -1,5 +1,5 @@
 <template>
-  <div class="Packets" style="background-color: #f2f2f2;">
+  <div id="About" class="Packets" style="background-color: #f2f2f2;">
     <b-container>
       <h1 class="py-10">About Engram</h1>
       <div class="absolute">

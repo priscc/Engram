@@ -46,7 +46,7 @@
         </b-row>
         <b-alert
           class="p-2"
-          style="position:fixed; z-index: 100;  right: 0px; bottom: 0px; min-width: 50%; margin-right: 10px "
+          style="position:fixed; z-index: 300;  right: 0px; bottom: 0px; min-width: 50%; margin-right: 10px "
           :show="alertDisplay"
         >
           <div style="display: inline; ">
@@ -216,10 +216,8 @@ export default {
     about() {
       store.dispatch("setTopicCategory", 0);
 
-      this.$gtag.event("About-page-clicked", {
-        event_category: "page-navigation",
-        event_label: "About page opened",
-        value: "about",
+      this.$gtag.event("About-page", {
+        event_category: "engagement",
       });
 
       this.$router.push("/about");

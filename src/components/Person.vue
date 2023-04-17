@@ -87,6 +87,7 @@ export default {
   },
   methods: {
     back() {
+      this.$gtag.event("person-backButton", { event_category: "engagement", });
       this.$router.push({
         name: "Topic",
         params: {

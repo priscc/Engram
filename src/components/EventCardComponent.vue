@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="EventCardComp">
     <div class="slideshow-container">
       <div
         class="mySlides fade-in-image"
@@ -52,6 +52,10 @@ export default {
     openEvent(event) {
       storeTopic.dispatch("setEventContent", event);
       this.$router.push({ name: "Event", params: { event: event.id } });
+      this.$gtag.event("clicked-event-learnMore", {
+        event_category: "engagement",
+        event_label: event,
+      });
     },
     plusSlides(n) {
       this.showSlides((this.slideIndex += n));

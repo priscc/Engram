@@ -5,8 +5,8 @@
         <div class="title">Primary Sources</div>
       </b-row>
       <b-row v-for="(source, i) in sourcesComponent" :key="i">
-        <b-col :id="source.id" cols="11">
-          <b-card>
+        <b-col :id="source.id" cols="12" class="source">
+          <div>
             <b-container fluid>
               <b-row>
                 <b-col xl="2" lg="3" md="4" sm="4">
@@ -22,17 +22,17 @@
                     <b-img :src="source.thumbURL" class="modal_image"></b-img>
                   </b-modal>
                 </b-col>
-                <b-col xl="7" lg="7" md="8" sm="12">
+                <b-col xl="7" lg="7" md="7" sm="12">
                   <div class="header-2">{{ source.title }}</div>
                   <div class="text">{{ source.caption }}</div>
                 </b-col>
               </b-row>
             </b-container>
-          </b-card>
+          </div>
         </b-col>
       </b-row>
-      <comingsoon v-if="comingSoon == 0"></comingsoon>
     </b-container>
+    <comingsoon v-if="comingSoon == 0"></comingsoon>
   </div>
 </template>
 

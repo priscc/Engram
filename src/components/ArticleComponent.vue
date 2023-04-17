@@ -1,5 +1,5 @@
 <template>
-  <div id="Article">
+  <div id="ArticleComp">
     <div class="article">
       <b-img
         v-if="article.thumbURL && article.thumbFile != 'placeHolderImg.png'"

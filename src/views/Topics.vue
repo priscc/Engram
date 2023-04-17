@@ -4,11 +4,13 @@
       <div class="back_button" @click="back">
         <b-icon-caret-left aria-hidden="true" /> Back
       </div>
-      <b-row class="period_header" align-h="between">
-        <b-col sm="12" md="6" lg="6">{{ timePeriodHeaders.header }}</b-col>
-        <b-col sm="12" md="6" lg="6" class="period_subheader">{{
-          timePeriodHeaders.subheader
-        }}</b-col>
+      <b-row>
+        <b-col sm="12" md="6" lg="6" class="period_header">
+          {{ timePeriodHeaders.header }}
+        </b-col>
+        <b-col sm="12" md="6" lg="6" class="period_subheader">
+          {{ timePeriodHeaders.subheader }}
+        </b-col>
       </b-row>
 
       <b-row v-for="unit in units" :key="unit.id" class="unit">
@@ -115,9 +117,8 @@ export default {
     );
     if (v.length == 0) this.topic();
     this.$gtag.event("Topics-page", {
-      event_category: "topics-page",
-      event_label: this.timePeriodHeaders.subheader,
-      value: this.timePeriodHeaders.header,
+      event_category: "engagement",
+      event_label: this.timePeriodHeaders.header,
     });
   },
 };

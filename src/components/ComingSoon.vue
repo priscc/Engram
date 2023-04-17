@@ -3,8 +3,8 @@
     <v-row v-show="delayShow">
       <b-col>
         <div class="trend_comingSoon">
-          <div class="header-3 trend_comingSoonText">
-            <p>Coming Soon</p>
+          <div class="header-4 trend_comingSoonTextBackground">
+            <div>Coming Soon</div>
           </div>
           <b-img
             class="trend_comingSoonImg"

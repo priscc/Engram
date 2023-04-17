@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="EventMapComp">
     <div style="display: none">
       {{ model }} (do not remove div, required to rended computed property
     </div>
@@ -456,19 +456,19 @@ export default {
           .attr("class", "regions selected")
           .attr("d", path)
           .attr({ "data-name": this.sets[i].name })
-          .attr("fill", "#464646")
-          .on("mouseover", function() {
-            var region = d3.select(this);
-            region.attr("fill", "#ff9800");
-            document.querySelector(".legend").innerText = region.attr(
-              "data-name"
-            );
-          })
-          .on("mouseout", function() {
-            var region = d3.select(this);
-            region.attr("fill", "#464646");
-            document.querySelector(".legend").innerText = "";
-          });
+          .attr("fill", "#464646");
+          // .on("mouseover", function() {
+          //   var region = d3.select(this);
+          //   region.attr("fill", "#ff9800");
+          //   document.querySelector(".legend").innerText = region.attr(
+          //     "data-name"
+          //   );
+          // })
+          // .on("mouseout", function() {
+          //   var region = d3.select(this);
+          //   region.attr("fill", "#464646");
+          //   document.querySelector(".legend").innerText = "";
+          // });
       }
 
       // LAYERING MAP COORDINATES

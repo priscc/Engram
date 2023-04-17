@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="Events">
     <b-container fluid>
       <b-row>
         <div class="title">Events</div>

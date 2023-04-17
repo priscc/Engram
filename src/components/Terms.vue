@@ -22,15 +22,14 @@
                   </b-modal>
               </b-col>
               <b-col xl="7" lg="7" md="6" sm="12">
-                <div class="header-2">{{ term.term }}</div>
-                <div class="text">{{ term.def }}</div>
+                <div class="text"> <span class="header-2">{{ term.term }} - </span>{{ term.def }}</div>
               </b-col>
             </b-row>
           </b-container>
         </b-col>
       </b-row>
-      <comingsoon v-if="comingSoon == 0"></comingsoon>
     </b-container>
+    <comingsoon v-if="comingSoon == 0"></comingsoon>
   </div>
 </template>
 

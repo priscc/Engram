@@ -6,11 +6,11 @@
           <div class="title">Historical People</div>
         </b-col>
       </b-row>
-      <b-row v-for="(comp, i) in peopleComponent" :key="i">
+      <b-row class="person_profile" v-for="(comp, i) in peopleComponent" :key="i">
         <peopleprofile :person="comp"></peopleprofile>
       </b-row>
-      <comingsoon v-if="comingSoon == 0"></comingsoon>
     </b-container>
+    <comingsoon v-if="comingSoon == 0"></comingsoon>
   </div>
 </template>
 

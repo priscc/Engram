@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="ResourceComp">
     <b-row v-if="videos.length != 0" class="pt-4">
       <b-col> <div class="resource_header">Videos:</div> </b-col>
       <b-col>

@@ -1,6 +1,6 @@
 <template>
   <div id="PeopleProfile">
-    <b-container fluid class="person_profile">
+    <b-container fluid>
       <b-row>
         <b-col cols="2" class="person_info">
           <b-img
@@ -23,7 +23,9 @@
             </p>
             <p
               v-if="
-                person.dateOfPassing.date.length > 0 && person.dateOfPassing.era
+                person.dateOfPassing.date.length > 0 &&
+                  person.dateOfPassing.era &&
+                  person.dateOfBirth.date.length <= 4
               "
               class="person_subheader"
             >
@@ -32,12 +34,14 @@
             <p
               v-else-if="
                 person.dateOfPassing.date.length > 0 &&
-                  person.dateOfPassing.era == false
+                  person.dateOfPassing.era == false &&
+                  person.dateOfBirth.date.length <= 4
               "
               class="person_subheader"
             >
               {{ person.dateOfBirth.date - person.dateOfPassing.date }} yrs
             </p>
+            <p v-else></p>
           </div>
         </b-col>
         <b-col lg="6" md="12" sm="12" class="pb-2">
@@ -47,9 +51,16 @@
           >
         </b-col>
         <b-col>
-          <b-row v-for="(resource, i) in resources" :key="i">
-            <b-col v-if="i < 2" class="pb-1">
-              <div class="loading">
+          <b-row>
+            <b-col
+              v-for="(resource, i) in resources"
+              :key="i"
+              class="pb-1"
+              lg="12"
+              md="6"
+              sm="12"
+            >
+              <div v-if="i < 2" class="loading">
                 <iframe
                   class="person_iframe"
                   :src="'https://www.youtube.com/embed/' + resource.url"
@@ -100,6 +111,10 @@ export default {
     goTo() {
       storeTopic.dispatch("setPersonContent", this.person);
       this.$router.push({ name: "Person", params: { person: this.person.id } });
+      this.$gtag.event("clicked-people-learnMore", {
+        event_category: "engagement",
+        event_label: this.person,
+      });
     },
   },
 };

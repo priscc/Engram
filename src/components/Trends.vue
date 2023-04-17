@@ -70,8 +70,8 @@
           </p>
         </b-col>
       </b-row>
-      <comingsoon v-if="comingSoon == 0"></comingsoon>
     </b-container>
+    <comingsoon v-if="comingSoon == 0"></comingsoon>
   </div>
 </template>
 
