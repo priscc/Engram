@@ -7,8 +7,8 @@
       <!-- Social -->
       <b-row v-if="social.length > 0">
         <b-col>
-          <div class="header-1" style="color: #FF9800">Social</div>
-          <p v-for="(trend, index) in social" :key="index" class="text">
+          <div class="header-1" style="color: #FF9800">Society</div>
+          <p v-for="(trend, index) in society" :key="index" class="text">
             {{index + 1}}) {{ trend.trend }}
           </p>
         </b-col>
@@ -34,8 +34,8 @@
       <!-- Government -->
       <b-row v-if="government.length > 0">
         <b-col>
-          <div class="header-1" style="color: #673AB7">Government</div>
-          <p v-for="(trend, index) in government" :key="index" class="text">
+          <div class="header-1" style="color: #673AB7">Political</div>
+          <p v-for="(trend, index) in politics" :key="index" class="text">
             {{index + 1}}) {{ trend.trend }}
           </p>
         </b-col>
@@ -71,7 +71,7 @@ export default {
   name: "Trends",
   components: { comingsoon },
   computed: {
-    social() {
+    society() {
       return storeTopic.state.trends.filter((i) => i.type == "society");
     },
     economic() {
@@ -80,7 +80,7 @@ export default {
     technology() {
       return storeTopic.state.trends.filter((i) => i.type == "technology");
     },
-    government() {
+    politics() {
       return storeTopic.state.trends.filter((i) => i.type == "politics");
     },
     culture() {
