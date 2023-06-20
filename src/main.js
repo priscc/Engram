@@ -20,6 +20,9 @@ import VueGtag from "vue-gtag";
 // import { getPerformance } from "firebase/performance";
 // import "firebase/performance";
 
+
+
+// making comment
 export const db = firebase
   .initializeApp({
     apiKey: "AIzaSyDMw3cG7JR-RrrC-aWNugk_TS1oLBV58qw",
