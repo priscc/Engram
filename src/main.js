@@ -23,6 +23,8 @@ import VueGtag from "vue-gtag";
 
 
 // making comment
+
+// making another comment change
 export const db = firebase
   .initializeApp({
     apiKey: "AIzaSyDMw3cG7JR-RrrC-aWNugk_TS1oLBV58qw",
