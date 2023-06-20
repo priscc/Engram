@@ -1,169 +1,34 @@
-import Vue from "vue";
-import Vuex from "vuex";
 import { db } from "@/main";
+import { createStore } from "vuex";
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export const storeTopic = createStore({
   state: {
     topic: {},
     events: [],
-    event: [],
     trends: [],
     people: [],
-    person: [],
     sources: [],
     terms: [],
-    resources: [],
+    topicResources: [],
+    eventResources: [],
+    peopleResources: [],
+    personResources: [],
+    event: [],
+    eventIndex: 0,
+    person: [],
+    loaded: 0,
   },
   mutations: {
-    updatedTopicContent(state, i) {
+    //TOPIC
+    retrieveTopicContent(state, i) {
       state.topic = i;
-      console.log("topic.js update", state.topic);
-
-      // CONTENT CLEAR
+    },
+    //EVENTS
+    retrieveEvents(state, i) {
       state.events = [];
-      state.trends = [];
-      state.people = [];
-      state.sources = [];
-      state.terms = [];
-      state.resources = [];
-
-      // TRENDS
-      db.collection("trends")
-        .where("topicID", "array-contains-any", [state.topic.id])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                state.trends.push(doc.data());
-              }.bind(this)
-            );
-          }.bind(this)
-        );
-
-      // HISTORICAL FIGURES
-      var p = [];
-      db.collection("people")
-        .where("topicID", "array-contains-any", [state.topic.id])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                var entry = doc.data();
-                entry.id = doc.id;
-                p.push(entry);
-              }.bind(this)
-            );
-            const people = p.sort(function(a, b) {
-              if (a.name < b.name) {
-                return -1;
-              }
-              if (a.name > b.name) {
-                return 1;
-              }
-              return 0;
-            });
-            state.people = people;
-          }.bind(this)
-        );
-
-      // PRIMARY SOURCES
-      var s = [];
-      db.collection("works")
-        .where("topicID", "array-contains-any", [state.topic.id])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                var entry = doc.data();
-                entry.id = doc.id;
-                s.push(entry);
-              }.bind(this)
-            );
-            const sources = s.sort(function(a, b) {
-              if (a.title < b.title) {
-                return -1;
-              }
-              if (a.title > b.title) {
-                return 1;
-              }
-              return 0;
-            });
-            state.sources = sources;
-          }.bind(this)
-        );
-
-      // TERMS
-      var t = [];
-      db.collection("terminology")
-        .where("topicID", "array-contains-any", [state.topic.id])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                t.push(doc.data());
-              }.bind(this)
-            );
-            const terms = t.sort(function(a, b) {
-              if (a.term < b.term) {
-                return -1;
-              }
-              if (a.term > b.term) {
-                return 1;
-              }
-              return 0;
-            });
-            state.terms = terms;
-          }.bind(this)
-        );
-
-      // RESOURCES
-      db.collection("resources")
-        .where("topicID", "array-contains-any", [state.topic.id])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                state.resources.push(doc.data());
-              }.bind(this)
-            );
-          }.bind(this)
-        );
-    },
-    updatedEvents(state, events) {
-      state.events = events;
-      console.log("topic.js events", state.events);
-    },
-
-    eventContent(state, i) {
-      state.event = i;
-    },
-    eventRESET(state) {
-      state.event = [];
-    },
-    personContent(state, i) {
-      state.person = i;
-    },
-    personRESET(state) {
-      state.person = [];
-    },
-  },
-  actions: {
-    topicContent({ commit }, i) {
-      commit("updatedTopicContent", i);
-    },
-    async eventsContent({ commit, state }) {
-      // EVENTS
       var ev = [];
-      await db
-        .collection("events")
-        .where("topicID", "array-contains-any", [state.topic.id])
+      db.collection("events")
+        .where("topicID", "array-contains-any", [i])
         .get()
         .then(
           function(querySnapshot) {
@@ -207,22 +72,257 @@ export default new Vuex.Store({
             const events = ev.sort(function(a, b) {
               return a.startDate.dateNum - b.startDate.dateNum;
             });
-            commit("updatedEvents", events);
+            state.events = events;
+            state.loaded++;
           }.bind(this)
         );
     },
-    eventContent({ commit }, i) {
-      commit("eventContent", i);
+    //TRENDS
+    retrieveTrends(state, i) {
+      state.trends = [];
+      db.collection("trends")
+        .where("topicID", "array-contains-any", [i])
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                state.trends.push(doc.data());
+              }.bind(this)
+            );
+            state.loaded++;
+          }.bind(this)
+        );
     },
-    eventContentRESET({ commit }) {
-      commit("eventRESET");
+    //PEOPLE
+    retrievePeople(state, i) {
+      state.people = [];
+      var p = [];
+      db.collection("people")
+        .where("topicID", "array-contains-any", [i])
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                var entry = doc.data();
+                entry.id = doc.id;
+                p.push(entry);
+              }.bind(this)
+            );
+            const people = p.sort(function(a, b) {
+              if (a.name < b.name) {
+                return -1;
+              }
+              if (a.name > b.name) {
+                return 1;
+              }
+              return 0;
+            });
+            state.people = people;
+            state.loaded++;
+          }.bind(this)
+        );
     },
-    personContent({ commit }, i) {
-      commit("personContent", i);
+    //SOURCES
+    retrieveSources(state, i) {
+      state.sources = [];
+      var s = [];
+      db.collection("works")
+        .where("topicID", "array-contains-any", [i])
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                var entry = doc.data();
+                entry.id = doc.id;
+                s.push(entry);
+              }.bind(this)
+            );
+            const sources = s.sort(function(a, b) {
+              if (a.title < b.title) {
+                return -1;
+              }
+              if (a.title > b.title) {
+                return 1;
+              }
+              return 0;
+            });
+            state.sources = sources;
+            state.loaded++;
+          }.bind(this)
+        );
     },
-    personContentRESET({ commit }) {
-      commit("personRESET");
+    //TERMS
+    retrieveTerms(state, i) {
+      state.terms = [];
+      var t = [];
+      db.collection("terminology")
+        .where("topicID", "array-contains-any", [i])
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                t.push(doc.data());
+              }.bind(this)
+            );
+            const terms = t.sort(function(a, b) {
+              if (a.term < b.term) {
+                return -1;
+              }
+              if (a.term > b.term) {
+                return 1;
+              }
+              return 0;
+            });
+            state.terms = terms;
+            state.loaded++;
+          }.bind(this)
+        );
+    },
+    //RESOURES
+    retrieveToipcResources(state, i) {
+      state.topicResources = [];
+      db.collection("resources")
+        .where("topicID", "array-contains-any", [i])
+        .where("parentType", "==", "topic")
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                state.topicResources.push(doc.data());
+              }.bind(this)
+            );
+          }.bind(this)
+        );
+    },
+    retrieveEventResources(state, i) {
+      var i2 = String(i);
+      state.eventResources = [];
+      db.collection("resources")
+        .where("parentID", "==", i2)
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                state.eventResources.push(doc.data());
+              }.bind(this)
+            );
+          }.bind(this)
+        );
+    },
+    retrievePeopleResources(state, i) {
+      state.peopleResources = [];
+      db.collection("resources")
+        .where("topicID", "array-contains-any", [i])
+        .where("parentType", "==", "people")
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                state.peopleResources.push(doc.data());
+              }.bind(this)
+            );
+          }.bind(this)
+        );
+    },
+    retrievePersonResources(state, i) {
+      var i2 = String(i);
+      state.eventResources = [];
+      db.collection("resources")
+        .where("parentID", "==", i2)
+        .get()
+        .then(
+          function(querySnapshot) {
+            querySnapshot.forEach(
+              function(doc) {
+                state.personResources.push(doc.data());
+              }.bind(this)
+            );
+          }.bind(this)
+        );
+    },
+    //EVENT
+    setEvent(state, i) {
+      state.event = i;
+    },
+    eventIndex(state, i) {
+      state.eventIndex = i;
+    },
+    //PERSON
+    setPerson(state, i) {
+      state.person = i;
+    },
+    //REST LOADER
+    loader_add1(state) {
+      state.loaded ++;
+    },
+    restLoader(state) {
+      state.loaded = 0 ;
     },
   },
-  modules: {},
+  actions: {
+    //TOPIC
+    setTopicContent({ commit }, i) {
+      commit("retrieveTopicContent", i);
+    },
+    //EVENTS
+    setTopicEvents({ commit }, i) {
+      commit("retrieveEvents", i);
+    },
+    //TRENDS
+    setTopicTrends({ commit }, i) {
+      commit("retrieveTrends", i);
+    },
+    //PEOPLE
+    setTopicPeople({ commit }, i) {
+      commit("retrievePeople", i);
+    },
+    //SOURCES
+    setTopicSources({ commit }, i) {
+      commit("retrieveSources", i);
+    },
+    //TERMS
+    setToipcTerms({ commit }, i) {
+      commit("retrieveTerms", i);
+    },
+    //RESOURCES
+    setToipcResources({ commit }, i) {
+      commit("retrieveToipcResources", i);
+    },
+    setEventResources({ commit }, i) {
+      commit("retrieveEventResources", i);
+    },
+    setPeopleResources({ commit }, i) {
+      commit("retrievePeopleResources", i);
+    },
+    setPersonResources({ commit }, i) {
+      commit("retrievePersonResources", i);
+    },
+    //EVENT
+    setEventContent({ commit }, i) {
+      commit("setEvent", i);
+    },
+    setEventIndex({ commit }, i) {
+      commit("eventIndex", i);
+    },
+    //PERSON
+    setPersonContent({ commit }, i) {
+      commit("setPerson", i);
+    },
+    //REST LOADER
+    loader_add1({ commit }) {
+      commit("loader_add1");
+    },
+    restLoader({ commit }) {
+      commit("restLoader");
+    },
+  },
 });
+
+export default storeTopic;

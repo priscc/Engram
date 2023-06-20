@@ -1,76 +1,87 @@
 <template>
-  <div class="Topic" style="height: 100%">
-    <v-container fluid>
-      <v-row
-        class="background background-filter white--text"
-        style="height: 140px"
-        :style="{
-          'background-image': `url(${topic.topic_thumbURL})`,
-        }"
+  <div id="Topic">
+    <b-container fluid>
+      <b-row
+        class="background background_filter"
+        :style="{ 'background-image': `url(${topic.topic_thumbURL})` }"
       >
-        <v-col cols="2" class="d-flex align-center u-non-blurred">
-          <v-btn text @click="back" color="white">
-            <v-icon class="pr-1" small dark>
-              mdi-arrow-left-drop-circle-outline
-            </v-icon>
-            Back
-          </v-btn>
-        </v-col>
-        <v-col class="d-flex flex-column justify-center u-non-blurred">
-          <p class="caption">Time Period: {{ timePeriodHeaders.header }}</p>
-          <p class="page_header mb-0" style="line-height: 20px">
+        <b-col lg="2" md="2" sm="12" class="u-non-blurred">
+          <div class="back_button" @click="back">
+            <b-icon-caret-left aria-hidden="true" /> Back
+          </div>
+        </b-col>
+        <b-col class="d-flex flex-column u-non-blurred">
+          <p class="banner_timeperiod_header">
+            Time Period: {{ timePeriodHeaders.header }}
+          </p>
+          <p class="banner_unit_header">{{ topic.unit }}</p>
+          <p class="banner_header">
             {{ topic.title }}
           </p>
-        </v-col>
-      </v-row>
-    </v-container>
-    <v-container fluid class="mb-10 ml-3">
-      <v-row>
-        <v-col cols="2" class="d-flex flex-column pt-5">
-          <div v-for="(t, index) in topicButtons" :key="index">
-            <v-btn
-              rounded
-              :color="t.color"
-              class="my-1 text-none"
-              small
-              style="width: 120px"
-              @click="select(index)"
-              elevation="0"
-            >
-              <p class="buttons mb-0">{{ t.title }}</p>
-            </v-btn>
-            <!--   <v-btn
-              v-else-if="t.title != 'Trends'"
-              rounded
-              :color="t.color"
-              class="my-1 text-none"
-              small
-              style="width: 120px"
-              @click="select(index)"
-              elevation="0"
-            >
-              <p class="buttons mb-0">
-                {{ t.title }}
-              </p>
-            </v-btn> -->
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container fluid class="mb-5 ml-3">
+      <b-row class="pt-5">
+        <b-col lg="2" md="2" sm="12" class="d-flex flex-column">
+          <div class="sidebar">
+            <div v-for="(button, index) in topicButtons" :key="index">
+              <div
+                class="category_button"
+                :class="{ active: currentTopicCategory === button }"
+                @click="loadCategory(button)"
+              >
+                {{ button }}
+              </div>
+            </div>
           </div>
-        </v-col>
-        <v-col class="pa-0 pt-5">
-          <!-- make the  currentTopicComponent stored in the router-->
-          <intro v-if="currentTopicComponent == 0"></intro>
-          <trends v-if="currentTopicComponent == 1"></trends>
-          <developments v-else-if="currentTopicComponent == 2"></developments>
-          <people v-else-if="currentTopicComponent == 3"></people>
-          <primarysources
-            v-else-if="currentTopicComponent == 4"
-          ></primarysources>
-          <terms v-else-if="currentTopicComponent == 5"></terms>
-        </v-col>
-      </v-row>
-    </v-container>
+        </b-col>
+        <b-col class="pa-0">
+          <div :style="{ display: display_loader }">
+            <b-row>
+              <b-col cols="7">
+                <div class="large_image loading_topic"></div>
+                <div class="small_content100p loading_topic"></div>
+                <div class="small_content80p loading_topic"></div>
+                <div class="small_content95p loading_topic"></div>
+                <div class="small_content90p loading_topic"></div>
+                <div class="small_content80p loading_topic"></div>
+                <div class="small_content100p loading_topic"></div>
+                <div class="small_content95p loading_topic"></div>
+              </b-col>
+              <b-col class="vidoes">
+                <div
+                  v-for="i in 5"
+                  :key="i.id"
+                  class="video loading_topic"
+                ></div>
+              </b-col>
+            </b-row>
+          </div>
+          <div :style="{ display: display_comps }">
+            <intro
+              id="Introduction"
+              class="findByScroll"
+              :topic="topic"
+            ></intro>
+            <trends id="Trends" class="findByScroll"></trends>
+            <developments id="Events" class="findByScroll"></developments>
+            <people id="People" class="findByScroll"></people>
+            <primarysources id="Sources" class="findByScroll"></primarysources>
+            <terms id="Terms" class="findByScroll"></terms>
+          </div>
+        </b-col>
+        <div class="top_button">
+          <!-- <b-col> -->
+          <b-button size="small" @click="top()">
+            <b-icon-caret-up aria-hidden="true" /> Top
+          </b-button>
+          <!-- </b-col> -->
+        </div>
+      </b-row>
+    </b-container>
   </div>
 </template>
-
 <script>
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
@@ -81,6 +92,7 @@ import people from "@/components/People.vue";
 import primarysources from "@/components/PrimarySources.vue";
 import terms from "@/components/Terms.vue";
 import { db } from "@/main";
+import VueScrollTo from "vue-scrollto";
 
 export default {
   name: "Topics",
@@ -92,49 +104,104 @@ export default {
     primarysources,
     terms,
   },
+  data() {
+    return {
+      topicButtons: [
+        "Introduction",
+        "Trends",
+        "Events",
+        "People",
+        "Sources",
+        "Terms",
+      ],
+      router_comp: "",
+      display_loader: "block",
+      display_comps: "none",
+    };
+  },
+
+  watch: {
+    loaded(newValue) {
+      if (newValue === 6) {
+        this.$gtag.event("Topic-page-"+this.router_comp, {
+          event_category: "engagement",
+          event_label: this.topic.title + " - " + this.router_comp,
+        });
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          this.display_loader = "none";
+        }, 500);
+        setTimeout(() => {
+          window.scrollTo({ top: 0, behavior: "smooth" });
+          this.display_comps = "block";
+        }, 900);
+        setTimeout(() => {
+          store.dispatch("setTopicCategory", this.router_comp);
+          if (this.router_comp == "Introduction") {
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          } else {
+            document
+              .getElementById(this.router_comp)
+              .scrollIntoView({ top: 0, behavior: "smooth" });
+          }
+        }, 1100);
+        setTimeout(() => {
+          window.addEventListener("scroll", this.updateCurrentSection);
+        }, 2000);
+      }
+    },
+  },
   computed: {
-    // ...mapGetters("index", ["timePeriodHeaders"]),
     timePeriodHeaders() {
       return store.state.timePeriodHeaders[store.state.currentTimePeriod];
     },
-    currentTopicComponent() {
-      return store.state.currentTopicComponent;
-    },
-    topicButtons() {
-      return store.state.topicButtons;
-    },
-    trends() {
-      return storeTopic.state.trends;
+    currentTopicCategory() {
+      return store.state.currentTopicCategory;
     },
     topic() {
       return storeTopic.state.topic;
     },
-    color() {
-      if (store.state.currentTopicComponent == 0) {
-        return "white";
-      } else {
-        return "black";
-      }
+    loaded() {
+      console.log("storeTopic.state.loaded", storeTopic.state.loaded);
+      return storeTopic.state.loaded;
     },
   },
   methods: {
-    select(i) {
-      store.dispatch("setTopicButton", i);
-      this.$router.replace({ name: "Topic", params: { category: i } });
+    top() {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     },
-    back() {
-      store.dispatch("setTopicButton", 0);
-      this.$router.push({
-        name: "Period",
-        params: { period: this.$route.params.period },
-      });
+    scrollToSection(index) {
+      VueScrollTo.scrollTo(`#${this.topicButtons[index]}`, 1000);
+      setTimeout(() => {
+        this.updateCurrentSection();
+      }, 510);
     },
-  },
-  async mounted() {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    if (Object.keys(storeTopic.state.topic).length === 0) {
+    updateCurrentSection() {
+      for (let index = 0; index < this.topicButtons.length; index++) {
+        const section = document.getElementById(this.topicButtons[index]);
+
+        const rect = section.getBoundingClientRect();
+        const isVisible = rect.top >= 0 && rect.top <= window.innerHeight / 2;
+
+        if (isVisible) {
+          this.$gtag.event("Topic-page-"+this.topicButtons[index], {
+            event_category: "engagement",
+            event_label: this.topic.title + " - " + this.topicButtons[index],
+          });
+
+          store.dispatch("setTopicCategory", this.topicButtons[index]);
+          this.$router.replace({
+            name: "Topic",
+            params: { category: this.topicButtons[index] },
+          });
+          break;
+        }
+      }
+    },
+    async topicFinder() {
       store.dispatch("setTimePeriod", this.$route.params.period);
-      var newTopic = await db
+      var newTopic;
+      await db
         .collection("topics")
         .doc(this.$route.params.topic)
         .get()
@@ -142,52 +209,51 @@ export default {
           function(querySnapshot) {
             var entry = querySnapshot.data();
             entry.id = querySnapshot.id;
-            return entry;
+            newTopic = entry;
+            storeTopic.dispatch("setTopicContent", newTopic);
           }.bind(this)
         );
-      storeTopic.dispatch("topicContent", newTopic);
+    },
+    back() {
+      this.$gtag.event("topic-backButton", {
+        event_category: "engagement",
+      });
+      store.dispatch("setTopicCategory", "");
+      this.$router.push({
+        name: "Period",
+        params: { period: this.$route.params.period },
+      });
+    },
+    loadCategory(category) {
+      document
+        .getElementById(category)
+        .scrollIntoView({ top: -100, behavior: "smooth" });
+      store.dispatch("setTopicCategory", category);
+      this.$router.replace({ name: "Topic", params: { category: category } });
+    },
+  },
+  beforeMount() {
+    console.log("beforeMount");
+    this.router_comp = this.$route.params.category;
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  },
+  mounted() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (Object.keys(storeTopic.state.topic).length === 0) {
+      this.topicFinder();
+      storeTopic.dispatch("loader_add1");
+    } else if (
+      Object.keys(storeTopic.state.topic).length > 0 &&
+      storeTopic.state.loaded >= 6
+    ) {
+      storeTopic.dispatch("restLoader");
+      storeTopic.dispatch("loader_add1");
+    } else {
+      storeTopic.dispatch("loader_add1");
     }
-    store.dispatch("setTopicButton", this.$route.params.category);
+    store.dispatch("setTopicCategory", this.$route.params.category);
   },
 };
 </script>
-
-<style type="text/css" scoped>
-.background-filter::after {
-  -webkit-backdrop-filter: blur(
-    5px
-  ); /* Use for Safari 9+, Edge 17+ (not a mistake) and iOS Safari 9.2+ */
-  backdrop-filter: brightness(50%); /* Supported in Chrome 76 */
-  content: "";
-  display: block;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-}
-.background-filter {
-  position: relative;
-}
-.background {
-  background-size: cover;
-  background-position: right 15% bottom 55%;
-}
-/* Use for content that should not be blurred */
-.u-non-blurred {
-  position: relative;
-  z-index: 1;
-}
-.buttons {
-  font-family: "Montserrat", sans-serif;
-  letter-spacing: -0.5px;
-  font-size: 14px;
-  line-height: 18px;
-  font-weight: 700;
-}
-.page_header {
-  font-family: "Montserrat", sans-serif;
-  letter-spacing: -0.5px;
-  font-size: 34px;
-  line-height: 0px;
-}
-</style>
+<style lang="sass" scoped src="@/assets/css/topicContent.sass"></style>
+<style lang="sass" scoped src="@/assets/css/loading.sass"></style>

@@ -1,36 +1,32 @@
 <template>
-	<div class="Packets" style="background-color: #f2f2f2; height: 100%;">
-		<v-container>
-			<h1 class="py-10">About Engram</h1>
-			<div class="absolute">
-				<p
-					style="padding-left: 80px; padding-right: 80px; padding-top: 40px; padding-bottom: 40px"
-				>
-					Engram is a site developed to tackle the abstract,
-					overwhelming, and complex nature of social studies using
-					design. This site provides online
-					instruction and study notes (soon to come) concentrated on
-					social studies education with a focus on AP World History.
-				</p>
-			</div>
-			<div class="absolute2">
-				<h2
-					style="padding-top: 40px; padding-left: 80px;text-align: left;"
-				>
-					Our Mission
-				</h2>
-				<p
-					style="padding-left: 80px; padding-right: 80px; padding-bottom: 10px"
-				>
-					Engram's focus is to improve the accessibility of how
-					historical content can be received. This site experiments
-					with how an interactive web interface can enhance historical
-					content. As everyday digital experiences are becoming progressively more
-					intuitive, interactive, and personalized, we are looking to
-					explore how these societal changes can elevate our current
-					education system.
-				</p>
-				<!-- 
+  <div id="About" class="Packets" style="background-color: #f2f2f2;">
+    <b-container>
+      <h1 class="py-10">About Engram</h1>
+      <div class="absolute">
+        <p
+          style="padding-left: 80px; padding-right: 80px; padding-top: 40px; padding-bottom: 40px"
+        >
+          Engram is a site developed to tackle the abstract, overwhelming, and
+          complex nature of social studies using design. This site provides
+          online instruction concentrated on world history, drawning content
+          primarly aligned to the AP World History curriculum.
+        </p>
+      </div>
+      <div class="absolute2">
+        <h2 style="padding-top: 40px; padding-left: 80px;text-align: left;">
+          Our Mission
+        </h2>
+        <p
+          style="padding-left: 80px; padding-right: 80px; padding-bottom: 10px"
+        >
+          Engram's focus is to improve the accessibility of how historical
+          content can be received. This site experiments with how an interactive
+          web interface can enhance historical content. As everyday digital
+          experiences are becoming progressively more intuitive, interactive,
+          and personalized, we are looking to explore how these societal changes
+          can elevate our current education system.
+        </p>
+        <!-- 
 				Engram is a site developed to tackle the abstract,
 					overwhelming, and complex nature of social studies using
 					intuitive UI and design theories. This site provides online
@@ -48,7 +44,7 @@
 					that has the capacity to present historical information in
 					new and diverse ways, making knowledge more accessible for
 					everyone. -->
-				<!-- 
+        <!-- 
 
 					version from 6/622
 
@@ -73,73 +69,60 @@
 					and diverse ways, making knowledge more accessible to
 					everyone.
 		-->
-			</div>
-			<v-row>
-				<v-col>
-					<v-parallax
-						height="600"
-						src="@/assets/globe2.jpg"
-					></v-parallax>
-					<p class="d-flex justify-end" style="font-size: 8px">
-						Photo by:
-						<a
-							class="px-1"
-							href="https://unsplash.com/@orbisterrae?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-							>Gaël Gaborel - OrbisTerrae</a
-						>
-						on
-						<a
-							class="pl-1"
-							href="https://unsplash.com/s/photos/globe?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
-							>Unsplash</a
-						>
-					</p>
-				</v-col>
-			</v-row>
-			<v-row class="py-12">
-				<v-col
-					class="d-flex flex-column align-center text-align-center"
-				>
-					<h2>Contact Information</h2>
+      </div>
+      <b-row style="padding-top: 50px">
+        <b-col>
+          <b-img
+            style="min-width: 100%; max-height:600px"
+            :src="require('@/assets/globe2.jpg')"
+          >
+          </b-img>
+          <p class="d-flex justify-end" style="font-size: 8px">
+            Photo by:
+            <a
+              class="px-1"
+              href="https://unsplash.com/@orbisterrae?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+              >Gaël Gaborel - OrbisTerrae</a
+            >
+            on
+            <a
+              class="pl-1"
+              href="https://unsplash.com/s/photos/globe?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText"
+              >Unsplash</a
+            >
+          </p>
+        </b-col>
+      </b-row>
+      <b-row style="padding-top: 100px; padding-bottom: 100px">
+        <b-col class="d-flex flex-column align-center text-align-center">
+          <h2>Contact Information</h2>
 
-					<p>Email: pnc2114@tc.columbia.edu</p>
-				</v-col>
-			</v-row>
-		</v-container>
-	</div>
+          <p>Email: pncancar@gmail.com</p>
+        </b-col>
+      </b-row>
+    </b-container>
+  </div>
 </template>
-<script>
-import store from "@/store";
-export default {
-	data() {
-		return {
-			source: "https://engramlearn.store/about",
-		};
-	},
-	mounted() {
-		store.dispatch("setTimePeriod", -1);
-	},
-};
-</script>
+
 
 <style type="text/css" scoped>
 div.absolute {
-	position: absolute;
-	top: 180px;
-	left: 0;
-	width: 60%;
-	z-index: 10;
-	background: rgba(255, 255, 255, 0.6);
+  position: absolute;
+  top: 180px;
+  left: 0;
+  width: 60%;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.6);
 }
 div.absolute2 {
-	position: absolute;
+  position: absolute;
 
-	top: 500px;
-	right: 0;
-	width: 80%;
+  top: 500px;
+  right: 0;
+  width: 80%;
 
-	z-index: 1;
-	background: rgba(255, 255, 255, 0.8);
+  z-index: 1;
+  background: rgba(255, 255, 255, 0.8);
 }
 
 /*#app,

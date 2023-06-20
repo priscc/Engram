@@ -1,0 +1,332 @@
+@import "https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,1000,2000,3000,4000,5000,6000,7000,8000,9001,1001,2001,3001,4001,5001,6001,7001,8001,900&display=swap"
+
+
+// BANNER SECTION
+.background 
+	background-size: cover
+	background-position: right 15% bottom 52%
+	height: 100%
+	padding-top: 20px
+
+.background_filter 
+	position: relative
+	&:after 
+		-webkit-backdrop-filter: blur(5px) /* Use for Safari 9+, Edge 17+ (not a mistake) and iOS Safari 9.2+ */
+		backdrop-filter: brightness(50%) /* Supported in Chrome 76 */
+		content: ""
+		display: block
+		position: absolute
+		width: 100%
+		height: 100%
+		top: 0
+
+.u-non-blurred 
+	position: relative
+	z-index: 1
+
+
+
+// BANNER TEXT
+.back_button
+	color: white
+	&:hover
+		opacity: 0.5
+		cursor: pointer
+
+@media (max-width: 425px) 
+	.back_button
+		padding-bottom: 30px
+
+.banner_timeperiod_header
+	font-family: "Montserrat", sans-serif
+	letter-spacing: -0.5px
+	font-size: 18px
+	margin-bottom: 0px
+	text-decoration: underline
+	text-decoration-thickness: .9px
+	color: white
+
+.banner_unit_header
+	font-family: "Montserrat", sans-serif
+	letter-spacing: -0.5px
+	font-size: 18px
+	font-style: italic
+	color: white
+
+.banner_header
+	font-family: "Montserrat", sans-serif
+	letter-spacing: -0.5px
+	font-size: 34px
+	line-height: 35px
+	color: white
+
+
+
+// SECTIONS
+#Topic, #Event, #PrivacyPolicy
+	min-height: 100vh
+	height: 100%
+
+.findByScroll
+	padding-bottom: 50px
+
+
+
+// CATEGORY BUTTONS
+.category_button 
+	font-family: "Montserrat", sans-serif
+	letter-spacing: -0.5px
+	font-size: 14px
+	line-height: 30px
+	font-weight: 700
+	background-color: #B19CD9
+	color: white
+	border-radius: 10px
+	margin-bottom: 10px
+	padding-left: 10px
+	min-width: 110px
+	&:hover
+		opacity: 0.5
+		cursor: pointer
+
+.sidebar
+	position: -webkit-sticky
+	position: sticky
+	top: 10px
+
+.active
+	background-color: #B19CD9
+	opacity: 0.5
+
+
+// HEADERS
+.title
+	font-family: "Montserrat", sans-serif
+	font-size: 30px
+	font-weight: 620
+	margin-bottom:10px
+
+.subtitle
+	font-family: "Montserrat", sans-serif
+	font-size: 14px
+	font-weight: light
+
+.header-1
+	font-family: "Montserrat", sans-serif
+	font-size: 24px
+	font-weight: 620
+
+.header-2
+	font-family: "Montserrat", sans-serif
+	font-size: 20px
+	font-weight: 700
+	line-height: 25px
+	padding-bottom: 6px
+	word-break: break-word 
+
+.header-3
+	font-family: "Montserrat", sans-serif
+	font-size: 16px
+	font-weight: 500
+	word-break: break-word
+
+.header-4
+	font-family: "Montserrat", sans-serif
+	font-size: 28px
+	font-weight: 450
+	word-break: break-word
+
+.text
+	font-family: "Montserrat", sans-serif
+	font-size: 16px
+	font-weight: 400
+	word-break: break-word
+
+
+
+//INTRO
+.intro_image
+	object-fit: cover
+	object-position: 50% 50%
+	min-width: 100%
+	max-width: 100%
+	max-height: 300px
+
+
+
+// TREND
+.trend_comingSoon
+	position: relative
+	display: flex
+	align-items: center
+
+.trend_comingSoonTextBackground
+	position: absolute
+	left: 10%
+	width: 100%
+	z-index: 10
+	display: flex
+	align-items: center
+	min-height: 100px
+	// background: rgba(255, 255, 255, 0.6)
+
+.trend_comingSoonImg
+	object-fit: cover
+	object-position: 50% 50%
+	min-width: 100%
+	max-width: 100%
+	max-height: 300px
+	opacity: .5
+	box-shadow: 0 0 8px 8px #fff inset
+
+
+
+// EVENTS
+.events_component
+	color: white
+	background-color: black
+	border-radius: 10px
+	padding: 5px
+	padding-bottom: 50px
+
+
+
+// PEOPLE
+.person_profile
+	padding-bottom: 25px
+
+@media (max-width: 425px) 
+	.person_profile
+		border: 1px solid grey
+		border-radius: 10px
+		padding-top: 10px
+
+@media (max-width: 768px) 
+	.person_profile
+		border-bottom: 1px solid lightgrey
+		margin-bottom: 10px
+
+.profile_image
+	object-fit: cover
+	object-position: center center
+	width: 160px
+	height: 160px
+	max-height: 160px
+	border-radius: 10%
+
+.person_info
+	min-width: 220px
+	max-width: 220px
+
+.person_header
+	font-family: "Montserrat", sans-serif
+	text-transform: uppercase
+	font-size: 14px
+	font-weight: 550
+
+.person_time
+	font-family: "Montserrat", sans-serif
+	font-size: 12px
+	font-weight: 550
+	margin-bottom: 0px
+
+.person_subheader
+	font-family: "Montserrat", sans-serif
+	text-transform: uppercase
+	font-size: 12px
+	font-weight: 500
+	color: grey
+
+.person_description
+	overflow: hidden
+	max-height: 8rem
+	-webkit-box-orient: vertical
+	display: block
+	display: -webkit-box
+	overflow: hidden !important
+	text-overflow: ellipsis
+	-webkit-line-clamp: 5
+
+.person_link
+	font-family: "Montserrat", sans-serif
+	margin-top: 10px
+
+.person_iframe
+	position: relative
+	z-index: 4
+	min-width: 100%
+	width: 100%
+	height: 100%
+	aspect-ratio: 16 / 9
+
+
+
+// SOURCES
+.source
+	border: 1px solid lightgrey 
+	border-radius: 10px
+	padding-top: 25px
+	padding-bottom: 40px
+
+.source_image
+	max-width: 150px
+	height: auto
+	&:hover
+		opacity: 0.5
+		cursor: pointer
+
+
+// TERMS
+.term_image
+	max-width: 150px
+	height: auto
+	&:hover
+		opacity: 0.5
+		cursor: pointer
+
+
+
+// EVENT PAGE
+.event_image
+	object-fit: cover
+	object-position: 50% 50%
+	min-width: 100%
+	max-width: 100%
+	max-height: 300px
+
+
+
+// PERSON PAGE
+.person_image
+	object-fit: cover
+	object-position: 20% top
+	min-width: 75%
+	max-width: 75%
+	max-height: 300px
+
+
+
+// MODAL
+.modal_image
+	display: flex
+	justify-content: center
+	max-width: 100%
+	max-height: 80vh
+	margin: 0 auto
+
+
+// TOPI BUTTON
+.top_button
+	z-index: 200
+	display: flex
+	justify-content: end
+	position: fixed
+	top: 85%
+	// left: 
+
+// @media (max-width: 750px) 
+// 	.top_button
+// 		display: none
+
+
+

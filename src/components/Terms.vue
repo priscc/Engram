@@ -1,41 +1,59 @@
 <template>
-  <div class="Terms" style="height: 100%">
-    <v-container fluid class="pt-0">
-      <v-row class="pt-0">
-        <v-col class="pt-0 pb-10">
-          <h3>Terminology</h3>
-        </v-col>
-      </v-row>
-      <v-row v-for="(term, i) in termsComponent" :key="i">
-        <v-col cols="10">
-          <!-- <v-container fluid> -->
-          <term :term="term" :id="term.topiID"></term>
-          <!-- </v-container> -->
-        </v-col>
-      </v-row>
-    </v-container>
+  <div class="Terms">
+    <b-container fluid>
+      <b-row>
+        <div class="title">Terms</div>
+      </b-row>
+      <b-row v-for="(term, i) in termsComponent" :key="i" class="mb-5">
+        <b-col :id="term.topiID" cols="11">
+          <b-container fluid>
+            <b-row>
+              <b-col xl="2" lg="3" md="4" sm="4">
+                <b-img
+                  v-if="term.thumbURL"
+                  :src="term.thumbURL"
+                  class="term_image"
+                  @click="showModal[term.id] = true"
+                >
+                </b-img>
+                <!-- Modal -->
+                  <b-modal class="modal_image" v-model="showModal[term.id]" hide-footer :title="term.term ">
+                    <b-img :src="term.thumbURL" class="modal_image"></b-img>
+                  </b-modal>
+              </b-col>
+              <b-col xl="7" lg="7" md="6" sm="12">
+                <div class="text"> <span class="header-2">{{ term.term }} - </span>{{ term.def }}</div>
+              </b-col>
+            </b-row>
+          </b-container>
+        </b-col>
+      </b-row>
+    </b-container>
+    <comingsoon v-if="comingSoon == 0"></comingsoon>
   </div>
 </template>
 
 <script>
 import storeTopic from "@/store/topic.js";
-import term from "@/components/Term.vue";
+import comingsoon from "./ComingSoon.vue";
 
 export default {
   name: "Terms",
-  components: { term },
+  components: { comingsoon },
+    data() {
+    return {
+      showModal: {},
+    };
+  },
   computed: {
     termsComponent() {
       return storeTopic.state.terms;
-    },
+    }
   },
+  mounted() {
+    storeTopic.dispatch("setToipcTerms", this.$route.params.topic);
+  }
 };
 </script>
 
-<style type="text/css" scoped>
-h3 {
-  font-family: "Montserrat", sans-serif;
-  font-size: 30px;
-  font-weight: 620;
-}
-</style>
+<style lang="sass" scoped src="@/assets/css/topicContent.sass"></style>
