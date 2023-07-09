@@ -3,7 +3,7 @@
     <b-container fluid>
       <b-row>
         <div class="title">Change and Continuity</div>
-        <b-col class="border-end">
+        <b-col class="border-end" lg="6" md="6" sm="12" xs="12">
           <div class="trend_header" style="color: #000000">Change</div>
           <!-- Social -->
           <b-row v-if="society.length > 0">
@@ -60,7 +60,7 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col>
+        <b-col lg="6" md="6" sm="12" xs="12">
           <div class="trend_header" style="color: #000000">Continuity</div>
         </b-col>
       </b-row>
