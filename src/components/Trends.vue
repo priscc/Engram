@@ -1,9 +1,9 @@
 <template>
   <div id="Trends">
     <b-container fluid>
-      <b-row>
+      <b-row lg="6" md="6" sm="12" xs="12">
         <div class="title">Change and Continuity</div>
-        <b-col class="border-end" lg="6" md="6" sm="12" xs="12">
+        <b-col :class="border">
           <div class="trend_header" style="color: #000000">Change</div>
           <!-- Social -->
           <b-row v-if="society.length > 0">
@@ -77,6 +77,16 @@ export default {
   name: "Trends",
   components: { comingsoon },
   computed: {
+    border: function() {
+      let width = window.screen.width
+      console.log(width)
+      if (width < 720) {
+        return "border-0"
+      }
+      else {
+        return "border-end"
+      }
+      },
     society() {
       console.log("test", storeTopic.state.trends);
       return storeTopic.state.trends.filter((i) => i.type == "society");
