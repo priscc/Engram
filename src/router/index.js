@@ -7,6 +7,8 @@ import Topics from "../views/Topics.vue";
 import Topic from "../views/Topic.vue";
 import Event from "../components/Event.vue";
 import Person from "../components/Person.vue";
+import EssayWriting from "../views/writing_feature/EssayWriting"
+import SelectModule from "../views/writing_feature/SelectModule"
 
 const routes = [
   {
@@ -45,6 +47,16 @@ const routes = [
       "/Period/:periodName/:period/Topic/:topicName/:topic/:category/Figure/:person",
     name: "Person",
     component: Person
+  }, 
+  {
+    path: "/EssayWriting",
+    name: "EssayWriting",
+    component: EssayWriting
+  }, 
+  {
+    path: "/SelectModule",
+    name: "SelectModule",
+    component: SelectModule
   }
 ];
 

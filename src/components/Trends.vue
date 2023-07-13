@@ -5,7 +5,7 @@
         <div class="title">Trends</div>
       </b-row>
       <!-- Social -->
-      <b-row v-if="social.length > 0">
+      <b-row v-if="society.length > 0">
         <b-col>
           <div class="header-1" style="color: #FF9800">Society</div>
           <p v-for="(trend, index) in society" :key="index" class="text">
@@ -32,7 +32,7 @@
         </b-col>
       </b-row>
       <!-- Government -->
-      <b-row v-if="government.length > 0">
+      <b-row v-if="politics.length > 0">
         <b-col>
           <div class="header-1" style="color: #673AB7">Political</div>
           <p v-for="(trend, index) in politics" :key="index" class="text">
