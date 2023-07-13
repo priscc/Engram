@@ -9,14 +9,18 @@
         </b-row>
         <b-row class="px-4 white-container">
             <whitecontainer :title="title" :subtitle="subtitle">
-                <b-container class="py-auto">
-                    <b-row class="h-100" align-h="center" align-v="center">
+                <div>
+                <b-container class="h-50">
+                    <b-row class="h-100 pb-5" align-h="center" align-v="center">
                         <b-col v-for="step in steps" :key="step.title"  sm="6" md="auto" lg="auto">
                             <steps :step="step" class="px-auto mx-auto"></steps>
                         </b-col>
                     </b-row>
                 </b-container>
-                <purplebutton @click="next" :buttonprops="buttonprops"></purplebutton>
+                <div class="w-100 text-center pt-4">
+                    <purplebutton @click="next" :buttonprops="buttonprops" class="main-button"></purplebutton>
+                </div>
+            </div>
             </whitecontainer>
         </b-row>
     </b-container>
@@ -117,6 +121,13 @@ export default {
     margin:0;
 }
 
+.main-button {
+    width: 293px;
+}
+
+.essay-white-container {
+    height: fit-content;
+}
 </style>
 <!-- <style lang="sass" scoped src="@/assets/css/topicContent.sass"></style>
 <style lang="sass" scoped src="@/assets/css/loading.sass"></style> -->

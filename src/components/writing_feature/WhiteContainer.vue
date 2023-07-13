@@ -23,7 +23,7 @@ export default {
     background: white;
     min-height: 600px;
     border-radius: 10px;
-    padding-bottom:150px;
+    min-width: 700px;
 }
 .title-white-container { 
     color: #111;

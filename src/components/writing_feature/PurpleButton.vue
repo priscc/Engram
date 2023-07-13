@@ -25,7 +25,6 @@ export default {
 <style>
 #purple {
     height: 52px;
-    width: 293px;
     border-radius: 30px;
     background: #451A75;
     text-transform: uppercase;
