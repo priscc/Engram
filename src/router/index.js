@@ -9,6 +9,7 @@ import Event from "../components/Event.vue";
 import Person from "../components/Person.vue";
 import EssayWriting from "../views/writing_feature/EssayWriting"
 import SelectModule from "../views/writing_feature/SelectModule"
+import SelectDifficulty from "../views/writing_feature/SelectDifficulty"
 
 const routes = [
   {
@@ -57,6 +58,11 @@ const routes = [
     path: "/SelectModule",
     name: "SelectModule",
     component: SelectModule
+  }, 
+  {
+    path: "/SelectDifficulty",
+    name: "SelectDifficulty",
+    component: SelectDifficulty
   }
 ];
 

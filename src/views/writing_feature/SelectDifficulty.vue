@@ -25,13 +25,11 @@
 <script>
 import whitecontainer from '../../components/writing_feature/WhiteContainer.vue'
 import breadcrumb from '../../components/writing_feature/BreadCrumb.vue'
-// import purplebutton from '../../components/writing_feature/PurpleButton.vue'
 import modules from '../../components/writing_feature/Modules.vue'
 export default {
     components: {
         whitecontainer, 
         breadcrumb, 
-        // purplebutton,
         modules,
     },
     setup() {
@@ -41,34 +39,33 @@ export default {
             }, 
             {
                 text: 'Select a Module',
-                active: 'true'
             },
+            {
+                text: 'Choose a Level of Difficulty',
+                active: 'reallyVeryTrue'
+            }
         ]
 
         const moduleses = [
             {
-                img: 'ModuleIcon0.svg', 
-                title: 'Learning Module',
-                points: ['Step by step guides on each section', 'Essay break down and highlights'], 
-                button: {content: "Learn Writing", route: 'SelectModule'}
+                img: 'ModuleIcon3.svg', 
+                title: 'For Beginner',
+                points: ['Step by step tips on each section', 'No time restriction'], 
+                button: {content: "Practice Beginner Mode", route: 'SelectModule'}
             }, 
             {
-                img: 'ModuleIcon.svg', 
-                title: 'Practice Module',
-                points: ['Practice writing at your own pace', 'Interactive writing guides'],
-                button: {content: "Practice Writing", route: 'SelectDifficulty'}
+                img: 'ModuleIcon2.svg', 
+                title: 'For Advance Learner',
+                points: ['Real Exam Format', '45 Minute Time Restriction'],
+                button: {content: "Practice Advance Mode", route: 'SelectModule'}
             }
         ]
 
-        const title = "Learning & Practice Module for your writing skills"
-        const subtitle = "Each module will improve your LEQ writing skills."
+        const title = "Choose your level of difficulty"
+        const subtitle = "Master the long essay questions of AP World History exam with practice and review. "
         return { items, moduleses, title, subtitle}
     }
 }
 </script>
-<style scoped>
-#module-white-container {
-    padding-bottom: 0px;
-}
-</style>
+
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

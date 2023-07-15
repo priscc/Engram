@@ -10,14 +10,14 @@
         <b-row class="px-4 white-container">
             <whitecontainer :title="title" :subtitle="subtitle">
                 <div>
-                <b-container class="h-50">
-                    <b-row class="h-100 pb-5" align-h="center" align-v="center">
+                <b-container class="py-5">
+                    <b-row class="h-100" align-h="center" align-v="center">
                         <b-col v-for="step in steps" :key="step.title"  sm="6" md="auto" lg="auto">
                             <steps :step="step" class="px-auto mx-auto"></steps>
                         </b-col>
                     </b-row>
                 </b-container>
-                <div class="w-100 text-center pt-4">
+                <div class="w-100 text-center mt-5 pb-4">
                     <purplebutton @click="next" :buttonprops="buttonprops" class="main-button"></purplebutton>
                 </div>
             </div>
