@@ -86,7 +86,7 @@ export default {
       else {
         return "border-end"
       }
-      },
+    },
     society() {
       console.log("test", storeTopic.state.trends);
       return storeTopic.state.trends.filter((i) => i.type == "society");
