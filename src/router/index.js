@@ -7,9 +7,13 @@ import Topics from "../views/Topics.vue";
 import Topic from "../views/Topic.vue";
 import Event from "../components/Event.vue";
 import Person from "../components/Person.vue";
-import EssayWriting from "../views/writing_feature/EssayWriting"
-import SelectModule from "../views/writing_feature/SelectModule"
-import SelectDifficulty from "../views/writing_feature/SelectDifficulty"
+import EssayWriting from "../views/writing_feature/EssayWriting";
+import SelectModuleV1 from "../views/writing_feature/SelectModuleV1";
+import SelectModule from "../views/writing_feature/SelectModule";
+import SelectDifficulty from "../views/writing_feature/SelectDifficulty";
+import EssayMain from "../views/writing_feature/EssayMain";
+import ChoosePrompt from "../views/writing_feature/ChoosePrompt";
+import LEQEssay from "../views/writing_feature/LEQEssay";
 
 const routes = [
   {
@@ -57,12 +61,32 @@ const routes = [
   {
     path: "/SelectModule",
     name: "SelectModule",
-    component: SelectModule
+    component: SelectModuleV1
   }, 
   {
     path: "/SelectDifficulty",
     name: "SelectDifficulty",
     component: SelectDifficulty
+  }, 
+  {
+    path: "/EssayMain",
+    name: "EssayMain",
+    component: EssayMain
+  }, 
+  {
+    path: "/001",
+    name: "001",
+    component: SelectModule
+  }, 
+  {
+    path: "/002",
+    name: "002",
+    component: ChoosePrompt
+  }, 
+  {
+    path: "/003/:id",
+    name: "003",
+    component: LEQEssay
   }
 ];
 

@@ -23,8 +23,8 @@ export default {
 
 <style scoped>
 #step {
-    height: 172px;
-    width: 257px;
+    /* max-height: 172px; */
+    max-width: 257px;
     text-align: left;
 }
 .title {

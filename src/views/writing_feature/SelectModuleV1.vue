@@ -12,7 +12,9 @@
                 <b-container>
                     <b-row class="justify-content-sm-center justify-content-md-between justify-content-lg-between">
                         <b-col v-for="modules in moduleses" :key="modules.name" sm="12" md="6" class="mx-auto module-column py-4 module-container">
-                            <modules :modules="modules"></modules>
+                            <!-- <div style="border: 1px solid red;"> -->
+                                <modules :modules="modules"></modules>
+                            <!-- </div> -->
                         </b-col>
                     </b-row>
                 </b-container>
@@ -25,11 +27,13 @@
 <script>
 import whitecontainer from '../../components/writing_feature/WhiteContainer.vue'
 import breadcrumb from '../../components/writing_feature/BreadCrumb.vue'
+// import purplebutton from '../../components/writing_feature/PurpleButton.vue'
 import modules from '../../components/writing_feature/Modules.vue'
 export default {
     components: {
         whitecontainer, 
         breadcrumb, 
+        // purplebutton,
         modules,
     },
     setup() {
@@ -39,33 +43,37 @@ export default {
             }, 
             {
                 text: 'Select a Module',
+                active: 'true'
             },
-            {
-                text: 'Choose a Level of Difficulty',
-                active: 'reallyVeryTrue'
-            }
         ]
 
         const moduleses = [
             {
-                img: 'ModuleIcon3.svg', 
-                title: 'For Beginner',
-                points: ['Step by step tips on each section', 'No time restriction'], 
-                button: {content: "Practice Beginner Mode", route: 'SelectModule'}
+                img: 'ModuleIcon0.svg', 
+                title: 'Learning Module',
+                points: ['Step by step guides on each section', 'Essay break down and highlights'], 
+                button: {content: "Learn Writing", route: 'SelectModule', disabled: false}
             }, 
             {
-                img: 'ModuleIcon2.svg', 
-                title: 'For Advance Learner',
-                points: ['Real Exam Format', '45 Minute Time Restriction'],
-                button: {content: "Practice Advance Mode", route: 'SelectModule'}
+                img: 'ModuleIcon.svg', 
+                title: 'Practice Module',
+                points: ['Practice writing at your own pace', 'Interactive writing guides'],
+                button: {content: "Practice Writing", route: 'SelectDifficulty', disabled: false}
             }
         ]
 
-        const title = "Choose your level of difficulty"
-        const subtitle = "Master the long essay questions of AP World History exam with practice and review. "
+        const title = "Learning & Practice Module for your writing skills"
+        const subtitle = "Each module will improve your LEQ writing skills."
         return { items, moduleses, title, subtitle}
     }
 }
 </script>
-
+<style scoped>
+#module-white-container {
+    padding-bottom: 0px;
+}
+.module-container{
+    max-width: 539px;
+}
+</style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

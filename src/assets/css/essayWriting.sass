@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope&display=swap')
 
+.fontist 
+    font-family: 'Manrope', sans-serif
+
+
 #essay-writing 
     min-height: 100vh
     height: 100%
@@ -53,3 +57,115 @@
 
 #module-white-container 
     padding-bottom: 0px
+
+.module-container
+    max-width: 539px
+
+//MAIN 
+
+@mixin fonty($normal-height, $normal-font, $line-tall)
+    .main 
+        min-height: $normal-height
+        position: relative
+        overflow-x: hidden
+        overflow-y: hidden
+        
+
+
+    .main-row 
+        min-height: $normal-height
+        overflow-y: hidden
+
+
+    #main-title 
+        color: var(--text-gray-900, #18191F)
+        font-size: $normal-font
+        font-style: normal
+        font-weight: 800
+        line-height: $line-tall
+
+
+#main-subtitle 
+    color: var(--text-gray-900, #18191F)
+
+    font-size: 18px
+    font-style: normal
+    font-weight: 400
+    line-height: 32px
+
+
+#main-jumbo 
+    width: 622px
+    font-family: 'Manrope', sans-serif
+
+
+#button 
+    border-radius: 8px
+    background: var(--brand-purple, #8C30F5)
+    padding: 16px 41px
+    justify-content: center
+    align-items: center
+    color: var(--default-white, #FFF)
+    font-size: 20px
+    font-style: normal
+    font-weight: 700
+
+.icon-parent 
+    position: absolute
+    top: 0
+    bottom: 0
+    right: 0
+    left: 0
+    margin: 52px 0 52px 0
+    padding-left: 742px
+    z-index: 1
+
+
+.icon-parent-demo 
+    position: absolute
+    top: 0
+    bottom: 0
+    right: 0
+    left: 0
+    margin: 52px 0 52px 0
+    padding: 80px 0 80px 897px
+    z-index: 100
+
+
+.icon-circle 
+    min-height: 300px
+
+.icon-demo 
+    max-width: 625px
+    max-height: 487px
+    border-radius: 10px
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25)
+
+
+.features 
+    min-height: 524px
+    background: #9B51E0
+
+@media screen and (min-width:375px) 
+    @include fonty($normal-height: 745px, $normal-font: 65px, $line-tall: 98px)
+
+@media screen and (max-width:380px) 
+    @include fonty($normal-height: 575px, $normal-font: 48px, $line-tall: 78px)
+
+@media screen and (max-width:320px) 
+    @include fonty($normal-height: 550px, $normal-font: 38px, $line-tall: 70px)
+
+// MODULE 
+
+.strip 
+    text-decoration: none
+
+// BUTTON 
+
+.main-button 
+    width: 100%
+
+
+.button-parent 
+    max-width:293px
+    padding: 0 10px 0 10px

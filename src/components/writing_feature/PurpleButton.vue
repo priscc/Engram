@@ -1,5 +1,5 @@
 <template>
-  <b-button @click="next" id="purple" class="border-0 p-auto m-auto">
+  <b-button @click="next" id="purple" class="border-0 p-auto m-auto" :disabled="buttonprops.disabled">
     {{ buttonprops.content }}
   </b-button>
 </template>
@@ -14,7 +14,14 @@ export default {
 
         const next = () => {
             console.log("click")
-            router.push({name: props.buttonprops.route})
+            if (props.buttonprops.params){
+                router.push(
+                    {name: props.buttonprops.route, 
+                    params: props.buttonprops.params}
+                )
+            } else {
+                router.push({name: props.buttonprops.route})
+            }
         }
 
         return { next }
@@ -24,8 +31,9 @@ export default {
 
 <style>
 #purple {
-    height: 52px;
+    min-height: 52px;
     border-radius: 30px;
+    padding: 10px 10px 10px 10px;
     background: #451A75;
     text-transform: uppercase;
     color: var(--default-white, #FFF);
@@ -33,7 +41,7 @@ export default {
     font-size: 18px;
     font-style: normal;
     font-weight: 800;
-    line-height: 18px;
+    line-height: 25px;
     letter-spacing: 2px;
 }
 

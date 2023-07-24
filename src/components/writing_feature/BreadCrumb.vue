@@ -27,6 +27,22 @@ export default {
 }
 .breadcrumb-item + .breadcrumb-item::before {
       content: url("../../assets/writing_feature/chevron-right.svg") !important; 
-      padding: 0px 20px 0 20px;
+      padding: 0 15px 0 10px;
 }
+
+/* .breadcrumb-item {
+    padding-right: 10px;
+}
+
+.breadcrumb-item:last-child {
+    padding-left: 10px;
+}
+.breadcrumb-item:nth-child(2) {
+    padding-right: 0px;
+}
+
+.breadcrumb-item:first-child {
+    padding-left: 0px;
+} */
+
 </style>

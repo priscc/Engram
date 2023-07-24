@@ -9,15 +9,15 @@
         </b-row>
         <b-row class="px-4 white-container">
             <whitecontainer :title="title" :subtitle="subtitle">
-                <div>
-                <b-container class="py-5">
+                <div class="px-0">
+                <b-container class="py-5 px-0">
                     <b-row class="h-100" align-h="center" align-v="center">
                         <b-col v-for="step in steps" :key="step.title"  sm="6" md="auto" lg="auto">
                             <steps :step="step" class="px-auto mx-auto"></steps>
                         </b-col>
                     </b-row>
                 </b-container>
-                <div class="w-100 text-center mt-5 pb-4">
+                <div class="w-100 text-center mt-5 pb-4 button-parent mx-auto">
                     <purplebutton @click="next" :buttonprops="buttonprops" class="main-button"></purplebutton>
                 </div>
             </div>
@@ -79,7 +79,7 @@ export default {
             },
         ]
 
-        const buttonprops = {content: "Get Started", route: 'SelectModule'}
+        const buttonprops = {content: "Get Started", route: 'SelectModule', disabled: false}
 
         const title = "How it works"
         const subtitle = "Follow the steps below to learn and practice your long essay question (LEQ) writing for the exam."
@@ -122,9 +122,13 @@ export default {
 }
 
 .main-button {
-    width: 293px;
+    width: 100%;
 }
 
+.button-parent {
+    max-width:293px;
+    padding: 0 10px 0 10px;
+}
 .essay-white-container {
     height: fit-content;
 }

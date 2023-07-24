@@ -14,7 +14,7 @@
                 </a>
             </div>
         </b-card-text>
-        <div class="w-100 text-center">
+        <div class="w-100 text-center module-button-parent mx-auto">
             <purplebutton :buttonprops="modules.button" class="button"></purplebutton>
         </div>
     </b-card>
@@ -32,11 +32,11 @@ export default {
 
 <style>
 #module {
-    height: 330px;
-    width: 539px;
+    max-width: 539px;
     border-radius: 8px;
     background: #F5F5F5;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.10);
+    padding: 0 10px 0 10px;
 }
 
 .module-title {
@@ -45,7 +45,7 @@ export default {
     font-size: 20px;
     font-style: normal;
     font-weight: 700;
-    line-height: 18px; /* 90% */
+    line-height: 25px; /* 90% */
     letter-spacing: 2px;
     text-transform: uppercase;
 }
@@ -63,6 +63,10 @@ export default {
 }
 
 .button {
-    width:357px;
+    width:100%;
+}
+
+.module-button-parent {
+    max-width:357px;
 }
 </style>
