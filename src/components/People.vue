@@ -6,7 +6,17 @@
           <div class="title">Historical People</div>
         </b-col>
       </b-row>
-      <b-row class="person_profile" v-for="(comp, i) in peopleComponent" :key="i">
+      <!-- TODO (4): add unique id teach 
+
+        might look like: <b-row class="person_profile" :id=" __<idNAME>__ " v-for="(comp, i) in peopleComponent" :key="i"> 
+
+        EX of how it is done: https://www.w3schools.com/jsref/tryit.asp?filename=tryjsref_element_scrollintoview
+      -->
+      <b-row
+        class="person_profile"
+        v-for="(comp, i) in peopleComponent"
+        :key="i"
+      >
         <peopleprofile :person="comp"></peopleprofile>
       </b-row>
     </b-container>
@@ -28,12 +38,12 @@ export default {
     },
     comingSoon() {
       return storeTopic.state.people.length;
-    }
+    },
   },
   mounted() {
     storeTopic.dispatch("setTopicPeople", this.$route.params.topic);
     storeTopic.dispatch("setPeopleResources", this.$route.params.topic);
-  }
+  },
 };
 </script>
 

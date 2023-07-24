@@ -12,45 +12,47 @@ const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
   },
   {
     path: "/privacypolicy",
     name: "PrivacyPolicy",
-    component: PrivacyPolicy
+    component: PrivacyPolicy,
   },
   {
     path: "/about",
     name: "About",
-    component: About
+    component: About,
   },
   {
     path: "/Period/:periodName/:period",
     name: "Period",
-    component: Topics
+    component: Topics,
   },
   {
     path: "/Period/:periodName/:period/Topic/:topicName/:topic/:category",
+    // TODO (3): add an id parameter to the URL, so that the URL will be able to ask the compeoent to load a particular section with X id
+    // URL PATH hould now look closer to this --> path: "/Period/:periodName/:period/Topic/:topicName/:topic/:category/:id"
     name: "Topic",
-    component: Topic
+    component: Topic,
   },
   {
     path:
       "/Period/:periodName/:period/Topic/:topicName/:topic/:category/Event/:event",
     name: "Event",
-    component: Event
+    component: Event,
   },
   {
     path:
       "/Period/:periodName/:period/Topic/:topicName/:topic/:category/Figure/:person",
     name: "Person",
-    component: Person
-  }
+    component: Person,
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
 });
 
 export default router;

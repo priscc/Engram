@@ -9,6 +9,31 @@
         <b-navbar-toggle target="nav-collapse" type="dark"></b-navbar-toggle>
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="navbar_tab_section">
+            <!-- TODO (1): you will have to add search bar UI & functionality
+                  
+                  PAST CODE: 
+                  <v-autocomplete
+                    :items="searchItems"
+                    item-text="title"
+                    item-value="id"
+                    return-object
+                    v-model="search"
+                    prepend-inner-icon="mdi-magnify"
+                    placeholder="Search Anything"
+                    flat
+                    dense
+                    clearable
+                    append-icon=""
+                    hide-details
+                    hide-no-data
+                    filled
+                    @focus="searchClosed = false"
+                    @blur="searchClosed = true"
+                    class="mr-10 expanding-search"
+                    :class="{ closed: searchClosed && !search }"
+                  ></v-autocomplete>
+             -->
+            <!-- TODO (2): have the search bar search through the "searchBar" collection to find and autocomplete any term the user has begun to enter in the search bar-->
             <b-nav-item @click="home">
               <span class="navbar_tab">Home</span>
             </b-nav-item>
