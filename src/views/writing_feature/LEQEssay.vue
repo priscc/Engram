@@ -8,6 +8,7 @@
             LEQ
         </b-row>
         <b-row class="px-4 white-container">
+            <progressvue></progressvue>
             <essayarea :props="exersize"></essayarea>
         </b-row>
     </b-container>
@@ -18,6 +19,7 @@
 // import whitecontainer from '../../components/writing_feature/WhiteContainer.vue'
 import breadcrumb from '../../components/writing_feature/BreadCrumb.vue';
 import essayarea from '../../components/writing_feature/LEQEssay/EssayArea.vue';
+import progressvue from '../../components/writing_feature/LEQEssay/Progress.vue';
 // import purplebutton from '../../components/writing_feature/PurpleButton.vue'
 // import { useStore } from 'vuex'
 // import storeWriting from '@/store/writing.js'
@@ -29,6 +31,7 @@ export default {
         // whitecontainer, 
         breadcrumb, 
         essayarea,
+        progressvue,
         // purplebutton,
     },
     setup() {

@@ -7,15 +7,15 @@
                     <b-form-group v-for="stream in stream" :key="stream.title" class="stream-droplet">
                         <span class="area-title">{{ stream.title }}</span><br>
                         <div class="area-subtitle">{{ stream.subtitle }}</div>
-                        <b-form-textarea v-model="stream.template" type="text" required max-rows="8" placeholder="...add text here"></b-form-textarea>
+                        <b-form-textarea @click="setCurrentSection(stream.title)" v-model="stream.template" type="text" required max-rows="8" placeholder="...add text here"></b-form-textarea>
                         <div v-if="stream.subTemplateSubtitle" class="subsubtitle">
                             <div class="area-subtitle">{{ stream.subTemplateSubtitle }}</div>
-                            <b-form-input v-model="stream.subTemplate" type="text" placeholder="...add text here"></b-form-input>
+                            <b-form-input @click="setCurrentSection(stream.title)" v-model="stream.subTemplate" type="text" placeholder="...add text here"></b-form-input>
                         </div>
                     </b-form-group>
                 </b-col>
-                <b-col class="component">
-
+                <b-col class="component p-0 test">
+                    <breakdown :currentSection="currentSection"></breakdown>
                 </b-col>
             </b-row>
         </b-container>
@@ -23,9 +23,13 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
+import breakdown from './BreakDown.vue'
 export default {
     props: ['props'],
+    components: {
+        breakdown,
+    },
     setup(props) {
         //CONTENT CONSTANTS 
         const evidenceSubTemplateSubtitle = 'add 1 sentence on how this evidence supports your thesis statement';
@@ -33,13 +37,15 @@ export default {
         //V-MODEL REFS
         const contextualization = ref(props.props.template.templates.contextualization);
         const thesis = ref(props.props.template.templates.thesis);
-        const evidence = [ [ref(props.props.template.templates.evidence), ref('')], [ref(props.props.template.templates.evidence), ref('')]]
+        const evidence = [ [ref(props.props.template.templates.evidence), ref('')], [ref(props.props.template.templates.evidence), ref('')]];
+        const conclusion = ref(props.props.template.templates.conclusion);
         
         //STRUCTURE AVAILABLE TO ADD ADDITIONAL EVIDENCES 
-        const evidences = ref(2);
+        const evidences = ref(3);
         const addEvidence = () => {
             evidences.value++;
             evidence.push([ref(props.props.template.templates.evidence), ref('')]);
+            const cap = stream.value.pop();
             stream.value.push({
                 title: `Evidence #${evidences.value}`,
                 subtitle: 'fill in the Change & Continuity thesis statement template',
@@ -47,26 +53,35 @@ export default {
                 subTemplate: evidence[evidence.length - 1][1],
                 subTemplateSubtitle: evidenceSubTemplateSubtitle
             })
+            stream.value.push(cap);
         }
         const initializeEvidences = () => {
-            if (evidences.value > 2) {
-                for (var i = 0; i < (evidences.value - 2); i++) {
+            const timeStamp = evidences.value;
+            if (timeStamp > 2) {
+                evidences.value = 2;
+                for (var i = 0; i < (timeStamp - 2); i++) {
                     addEvidence();
                 }
             }
         }
-
+        // BREAKDOWN CONNECTION 
+        const currentSection = ref(null)
+        const setCurrentSection = (breakdown) => {
+            const words = breakdown.split(' ');
+            currentSection.value = words[0];
+            console.log('click', currentSection.value)
+        }
         //
         const stream = ref([
             {
                 title: 'Contextualization',
                 subtitle: 'add 1 sentence of historical context relevant to the prompt',
-                template: contextualization.value
+                template: contextualization
             }, 
             {
                 title: 'Thesis',
                 subtitle: 'fill in the Change & Continuity thesis statement template',
-                template: thesis.value
+                template: thesis
             }, 
             {
                 title: 'Evidence #1',
@@ -82,18 +97,17 @@ export default {
                 subTemplate: evidence[1][1],
                 subTemplateSubtitle: evidenceSubTemplateSubtitle
             }, 
-
-        ])
-        initializeEvidences();
-        const streamEnd = ref([
             {
-                title: 'Contextualization',
+                title: 'Conclusion',
                 subtitle: 'add 1 sentence of historical context relevant to the prompt',
-                template: contextualization 
+                template: conclusion 
             },
-        ])
 
-        return { stream, streamEnd, evidence, evidenceSubTemplateSubtitle}
+        ])
+        onMounted(() => {
+            initializeEvidences();
+        })        
+        return { stream, evidence, evidenceSubTemplateSubtitle, currentSection, setCurrentSection}
     }
 } 
 </script>
@@ -116,7 +130,7 @@ export default {
 }
 
 .stream-droplet {
-    padding: 60px 0
+    padding-bottom: 60px;
 }
 
 .area-title {
@@ -141,3 +155,4 @@ export default {
     padding-top: 5px;
 }
 </style>
+<style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

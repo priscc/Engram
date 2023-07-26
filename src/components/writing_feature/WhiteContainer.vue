@@ -1,15 +1,17 @@
 <template>
 
     <b-container fluid class="true-white-container">
-        <b-row v-if="refresh" align-h="start" class="text-end refresh">
-            <span>
-                <span>  
-                    Refresh  
-                </span>
-                <span>
-                    <!-- <b-icon-arrow-clockwise style="vertical-align: middle; font-size: 22px; font-weight: 900;"></b-icon-arrow-clockwise> -->
-                    <img :src="require('../../assets/writing_feature/refresh.svg')" alt="Icon">
-                </span>
+        <b-row v-if="refresh" align-h="end" class="text-end refresh">
+            <span  @click="click()" style="width: fit-content;">
+                <a class="clickable strip">
+                    <span>  
+                        Refresh  
+                    </span>
+                    <span>
+                        <!-- <b-icon-arrow-clockwise style="vertical-align: middle; font-size: 22px; font-weight: 900;"></b-icon-arrow-clockwise> -->
+                        <img :src="require('../../assets/writing_feature/refresh.svg')" alt="Icon" class="image" :class="{ 'spin' : clicked }">
+                    </span>
+                </a>
             </span>
         </b-row>
         <b-row>
@@ -27,11 +29,27 @@
 </template>
 
 <script>
-import purpleButton from './PurpleButton.vue'
+import purpleButton from './PurpleButton.vue';
+import { ref } from 'vue';
 export default {
     props: ['title', 'subtitle', 'refresh', 'buttonprops'],
     components: {
         purpleButton,
+    },
+    emits: ['refresh'],
+    setup(props, { emit }) {
+        const clicked = ref(false);
+        const click = () => {
+            if (!clicked.value) {
+                console.log("click event!")
+                emit('refresh');
+                clicked.value = !clicked.value;
+                setTimeout(() => {
+                    clicked.value = !clicked.value;
+                }, 1000)
+            }
+        }
+        return { click, clicked };
     }
 }
 </script>
@@ -70,13 +88,25 @@ export default {
     padding: 43px 76px 0 0;
 }
 
-span > span:nth-child(1) {
+span > a > span:nth-child(1) {
     padding: 0 8px;
 }
 
 .auto-padding {
     padding-left: 5px;
     padding-right: 5px;
+}
+
+
+
+.spin {
+    transition: transform 0.5s ease-in-out;
+    transform: rotate(360deg);
+}
+.clickable {
+    padding:15px;
+    color: black;
+    cursor: pointer;
 }
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>
