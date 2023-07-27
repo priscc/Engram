@@ -5,7 +5,7 @@
             <breadcrumb :items="items"></breadcrumb>
         </b-row>
         <b-row class="px-4 pb-4 pt-2 title">
-            Section Module: Beginners {{ currentPrompt }}
+            Section Module: Beginners
         </b-row>
         <b-row class="px-4 white-container">
             <whitecontainer :title="title" :subtitle="subtitle" :refresh="true" :buttonprops="buttonprops" id="module-white-container">

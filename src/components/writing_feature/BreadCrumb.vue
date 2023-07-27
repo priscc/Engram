@@ -29,7 +29,11 @@ export default {
       content: url("../../assets/writing_feature/chevron-right.svg") !important; 
       padding: 0 15px 0 10px;
 }
-
+/* .hide-wrap {
+display: flex;
+flex-wrap: nowrap;
+flex-shrink: 100;
+} */
 /* .breadcrumb-item {
     padding-right: 10px;
 }

@@ -56,17 +56,10 @@ export const storeWriting = createStore({
     getters: {
         getPrompts: state => state.prompts, 
         findPrompt: state => (i) => {
-            let result = {prompt: null, template: null};
-            for (let x in state.prompts) {
-                if (state.prompts[x].id === i) {
-                    result.prompt = state.prompts[x];
-                }
-                if (state.promptTemplates[x].prompt_id === i) {
-                    result.template = state.promptTemplates[x];
-                }
-            }
-
-            return result;
+            // let result = {prompt: null, template: null};
+            const promptres = state.prompts.filter(prompt => prompt.id === i);
+            const templateres = state.promptTemplates.filter(template => template.prompt_id === i);
+            return {prompt: promptres[0], template: templateres[0]};
         }
     },
     mutations: {
@@ -76,11 +69,17 @@ export const storeWriting = createStore({
             } else {
                 state.selectedPrompt = payload;
             }
+        },
+        unselectPrompt (state) {
+            state.selectedPrompt = null;
         }
     },
     actions: {
         setSelectedPrompt({ commit }, payload) {
             commit('selectPrompt', payload);
+        },
+        unSetSelectedPrompt({ commit }) {
+            commit('unselectPrompt');
         }
     }
   });

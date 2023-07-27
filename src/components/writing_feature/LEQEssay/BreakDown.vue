@@ -1,14 +1,15 @@
 <template>
-  <b-container fluid class="test">
-    <b-row class="test">
+  <b-container fluid>
+    <b-row class="breakdown-container">
+        <span class="section-breakdown">Section Breakdown</span>
         <b-col class="m-0 p-0">
             <div class="accordion" role="tablist">
-                <b-card no-body class="mb-1" v-for="(section, index) in sections" :key="section.name">
-                <b-card-header header-tag="header" class="p-1 ps-4 section-header test" role="tab" v-b-toggle="'accordion-' + index">
+                <b-card no-body class="mb-3 breakdown-colors border-0" v-for="(section, index) in sections" :key="section.name">
+                <b-card-header header-tag="header" class="p-1 ps-4 pe-4 section-header border-0" role="tab" v-b-toggle="'accordion-' + index">
                     <!-- <b-button block variant="info">Accordion 1</b-button> -->
                     {{ section.title }}
                 </b-card-header>
-                <b-collapse :id="'accordion-' + index" :visible="currentSection === section.name" accordion="accrdion" role="tabpanel">
+                <b-collapse :id="'accordion-' + index" :visible="currentSection === section.name" accordion="accrdion" role="tabpanel" class="border-0">
                     <sections :points="section"></sections>
                 </b-collapse>
                 </b-card>
@@ -73,7 +74,7 @@ export default {
                     ]
                 },
                 {
-                    name: "Analysis", 
+                    name: "Conclusion", 
                     title: "Analysis/Reasoning (0-2 points)",
                     points: [
                         {
@@ -143,6 +144,52 @@ export default {
     font-style: normal;
     font-weight: 700;
     line-height: 30px; /* 166.667% */
+    white-space: nowrap;
+}
+
+.breakdown-container {
+    padding: 0 15px;
+    border-radius: 6px;
+    background: #FAFAFA;
+}
+
+.section-breakdown {
+    color: #000;
+    font-feature-settings: 'liga' off;
+
+    /* Others /Capitalised */
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 800;
+    line-height: 18px; /* 128.571% */
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 27px 0;
+    margin-left: -10px;
+}
+
+.breakdown-colors:nth-child(1) {
+    border-radius: 8px;
+    background: #CCEBA5;
+}
+.breakdown-colors:nth-child(2) {
+    border-radius: 8px;
+    background: #CAE2F1;
+}
+.breakdown-colors:nth-child(3) {
+    border-radius: 8px;
+    background: #DCBAE5;
+}
+.breakdown-colors:nth-child(4) {
+    border-radius: 8px;
+    background: #F5EBBB;
+}
+
+@media screen and (max-width:425px) {
+    .section-header {
+        white-space: normal;
+    }
+    
 }
 </style>
 

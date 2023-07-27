@@ -12,9 +12,13 @@
             <span>
                 <span>Type:&nbsp;</span>
                 <span>{{ prompt.type }}
-                    <b-icon-question-circle class="prompt-icon"></b-icon-question-circle>
+                    <b-icon-question-circle class="prompt-icon" id="popover-target-1"></b-icon-question-circle>
                 </span>
             </span>
+            <!-- <b-popover target="popover-target-1" triggers="hover" placement="top">
+                <template #title>Popover Title</template>
+                I am popover <b>component</b> content!
+            </b-popover> -->
         </b-row>
     </b-container>
 </template>

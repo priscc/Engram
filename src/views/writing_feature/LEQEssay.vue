@@ -8,8 +8,9 @@
             LEQ
         </b-row>
         <b-row class="px-4 white-container">
-            <progressvue></progressvue>
-            <essayarea :props="exersize"></essayarea>
+            <essayhead :prompt="exersize.prompt"></essayhead>
+            <progressvue :section="currentSection" class="my-4"></progressvue>
+            <essayarea :props="exersize" @updateProgress="(section) => handleUpdate(section)"></essayarea>
         </b-row>
     </b-container>
 </div>
@@ -20,6 +21,7 @@
 import breadcrumb from '../../components/writing_feature/BreadCrumb.vue';
 import essayarea from '../../components/writing_feature/LEQEssay/EssayArea.vue';
 import progressvue from '../../components/writing_feature/LEQEssay/Progress.vue';
+import essayhead from '../../components/writing_feature/LEQEssay/EssayHead.vue';
 // import purplebutton from '../../components/writing_feature/PurpleButton.vue'
 // import { useStore } from 'vuex'
 // import storeWriting from '@/store/writing.js'
@@ -32,6 +34,7 @@ export default {
         breadcrumb, 
         essayarea,
         progressvue,
+        essayhead,
         // purplebutton,
     },
     setup() {
@@ -55,8 +58,12 @@ export default {
         ]
 
         const buttonprops = ref({content: "Get Started", route: 'SelectModule', disabled: false})
-
-        return { items, buttonprops, exersize}
+        const currentSection = ref(null)
+        const handleUpdate = (section) => {
+            currentSection.value = section;
+            // console.log('handled!', section)
+        } 
+        return { items, buttonprops, exersize, handleUpdate, currentSection}
     }
 }
 </script>
