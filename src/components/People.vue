@@ -39,6 +39,10 @@ export default {
     comingSoon() {
       return storeTopic.state.people.length;
     },
+    person() {
+      console.log("Person Function", storeTopic.state.person);
+      return storeTopic.state.person;
+    },
   },
   mounted() {
     storeTopic.dispatch("setTopicPeople", this.$route.params.topic);

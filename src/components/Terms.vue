@@ -1,5 +1,5 @@
 <template>
-  <div class="Terms">
+  <div class="Terms" id = "Terms">
     <b-container fluid>
       <b-row>
         <div class="title">Terms</div>
@@ -22,7 +22,7 @@
                   </b-modal>
               </b-col>
               <b-col xl="7" lg="7" md="6" sm="12">
-                <div class="text"> <span class="header-2">{{ term.term }} - </span>{{ term.def }}</div>
+                <div class="text" :id = "term.term"> <span class="header-2">{{ term.term }} - </span>{{ term.def }}</div>
               </b-col>
             </b-row>
           </b-container>

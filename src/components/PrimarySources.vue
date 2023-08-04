@@ -23,7 +23,7 @@
                   </b-modal>
                 </b-col>
                 <b-col xl="7" lg="7" md="7" sm="12">
-                  <div class="header-2">{{ source.title }}</div>
+                  <div class="header-2"  :id = "source.title">{{ source.title }}</div>
                   <div class="text">{{ source.caption }}</div>
                 </b-col>
               </b-row>

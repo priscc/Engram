@@ -115,6 +115,7 @@ export default {
         "Terms",
       ],
       router_comp: "",
+      router_id: "",
       display_loader: "block",
       display_comps: "none",
     };
@@ -141,8 +142,8 @@ export default {
             window.scrollTo({ top: 0, behavior: "smooth" });
           } else {
             document
-              .getElementById(this.router_comp)
-              .scrollIntoView({ top: 0, behavior: "smooth" });
+              .getElementById(this.router_id)
+              .scrollIntoView({ top: -100, behavior: "smooth" });
           }
         }, 1100);
         setTimeout(() => {
@@ -192,7 +193,7 @@ export default {
           store.dispatch("setTopicCategory", this.topicButtons[index]);
           this.$router.replace({
             name: "Topic",
-            params: { category: this.topicButtons[index] },
+            params: { category: this.topicButtons[index]}
           });
           break;
         }
@@ -224,17 +225,18 @@ export default {
         params: { period: this.$route.params.period },
       });
     },
-    loadCategory(category) {
+    loadCategory(category, id) {
       document
         .getElementById(category)
         .scrollIntoView({ top: -100, behavior: "smooth" });
       store.dispatch("setTopicCategory", category);
-      this.$router.replace({ name: "Topic", params: { category: category } });
+      this.$router.replace({ name: "Topic", params: { category: category, id: id } });
     },
   },
   beforeMount() {
     console.log("beforeMount");
     this.router_comp = this.$route.params.category;
+    this.router_id = this.$route.params.id;
     window.scrollTo({ top: 0, behavior: "smooth" });
   },
   mounted() {

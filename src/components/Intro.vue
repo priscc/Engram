@@ -2,7 +2,7 @@
   <div id="Intro">
     <b-container fluid>
       <b-row>
-        <div class="title">Introduction</div>
+        <div class="title" id="Introductory_Summary">Introduction</div>
       </b-row>
       <b-row>
         <b-col lg="7" md="7" sm="12">
@@ -62,7 +62,7 @@ export default {
     }
   },
   mounted() {
-    storeTopic.dispatch("setToipcResources", this.$route.params.topic);
+    storeTopic.dispatch("setTopicResources", this.$route.params.topic);
   }
 };
 </script>

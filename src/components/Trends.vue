@@ -8,7 +8,7 @@
           <!-- Social -->
           <b-row v-if="society.length > 0">
             <b-col>
-              <div class="trend_header" style="color: #FF9800">Society</div>
+              <div class="trend_header" style="color: #FF9800" id = "Society">Society</div>
               <p v-for="(trend, index) in society" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>
@@ -17,7 +17,7 @@
           <!-- Economic -->
           <b-row v-if="economic.length > 0">
             <b-col>
-              <div class="trend_header" style="color: #16a175">Economic</div>
+              <div class="trend_header" style="color: #16a175" id = "Economic">Economic</div>
               <p v-for="(trend, index) in economic" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>
@@ -26,7 +26,7 @@
           <!-- Technology -->
           <b-row v-if="technology.length > 0">
             <b-col>
-              <div class="trend_header" style="color: #009688">Technology</div>
+              <div class="trend_header" style="color: #009688" id = "Technology">Technology</div>
               <p v-for="(trend, index) in technology" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>
@@ -35,7 +35,7 @@
           <!-- Government -->
           <b-row v-if="politics.length > 0">
             <b-col>
-              <div class="trend_header" style="color: #673AB7">Political</div>
+              <div class="trend_header" style="color: #673AB7" id = "Political">Political</div>
               <p v-for="(trend, index) in politics" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>
@@ -44,7 +44,7 @@
           <!-- Culture -->
           <b-row v-if="culture.length > 0">
             <b-col>
-              <div class="trend_header" style="color: #3b4da6">Culture</div>
+              <div class="trend_header" style="color: #3b4da6" id = "Culture">Culture</div>
               <p v-for="(trend, index) in culture" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>
@@ -53,7 +53,7 @@
           <!-- Environment -->
           <b-row v-if="environment.length > 0">
             <b-col>
-              <div class="trend_header" style="color: #b377ff">Environment</div>
+              <div class="trend_header" style="color: #b377ff" id = "Environment">Environment</div>
               <p v-for="(trend, index) in environment" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>

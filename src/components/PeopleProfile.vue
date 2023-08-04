@@ -2,7 +2,7 @@
   <div id="PeopleProfile">
     <b-container fluid>
       <b-row>
-        <b-col cols="2" class="person_info">
+        <b-col cols="2" class="person_info" :id = "person.name">
           <b-img
             :lazy-src="person.thumbURL"
             class="profile_image"
