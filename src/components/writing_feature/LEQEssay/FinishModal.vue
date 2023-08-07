@@ -18,7 +18,7 @@
     <hr class="line-break">
     <b-card-text class="finish-subtitle button-header my-4 py-3">Want to keep studying?</b-card-text>
     <b-button id="finish-button" class="me-md-3 me-lg-3 me-sm-0 border-0 mb-1" @click="router.push({name:'001'})">Practice Another Essay</b-button>
-    <b-button id="finish-button" class="border-0 mb-1">Share Essay For Review</b-button>
+    <b-button id="finish-button" class="border-0 mb-1" @click="router.push({name:'004', params: {id: 'user'}})" :disabled="!ready">Feedback</b-button>
   </b-card>
 </template>
 
@@ -27,11 +27,12 @@
 import { useRouter } from 'vue-router'
 // import storeWriting from '../../../store/writing';
 export default {
+    props: ['ready'],
     emits: ['close'],
-    setup() {
+    setup(props) {
         // const store = storeWriting;
         const router = useRouter();
-        // console.log('wanted')
+        console.log(props.ready);
         return { router }
     }
 }

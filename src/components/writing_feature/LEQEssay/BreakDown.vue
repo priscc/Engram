@@ -1,16 +1,18 @@
 <template>
   <b-container fluid>
-    <b-row class="breakdown-container">
+    <b-row class="breakdown-container" align-h="center">
         <span class="section-breakdown">Section Breakdown</span>
-        <b-col class="m-0 p-0">
-            <div class="accordion" role="tablist">
-                <b-card no-body class="mb-3 breakdown-colors border-0" v-for="(section, index) in sections" :key="section.name">
+        <b-col class="my-0 p-0" cols="auto">
+            <div class="accordion fitted-section" role="tablist" style="position: relative;" :class="{'expansive' : currentSection}">
+                <b-card no-body class="mb-3 breakdown-colors border-0" v-for="(section, index) in sections" :key="section.name" :style="CssVars(section)" :class="{'is-active' : currentSection === section.name}" @click="handleClick(section.name)">
                 <b-card-header header-tag="header" class="p-1 ps-4 pe-4 section-header border-0" role="tab" v-b-toggle="'accordion-' + index">
                     <!-- <b-button block variant="info">Accordion 1</b-button> -->
                     {{ section.title }}
+                    <span class="when-open chevron-accord ms-auto"><img :src="require('../../../assets/writing_feature/expand_more.svg')" alt="Icon"></span>
+                    <span class="when-closed chevron-accord ms-auto"><img :src="require('../../../assets/writing_feature/expand_less.svg')" alt="Icon"></span>
                 </b-card-header>
-                <b-collapse :id="'accordion-' + index" :visible="currentSection === section.name" accordion="accrdion" role="tabpanel" class="border-0">
-                    <sections :points="section"></sections>
+                <b-collapse :id="'accordion-' + index" :visible="currentSection === section.name" accordion="accrdion" role="tabpanel" class="border-0" style="opacity: 1;">
+                    <sections :points="section" style="opacity: 1;"></sections>
                 </b-collapse>
                 </b-card>
             </div>
@@ -28,7 +30,17 @@ export default {
     components: {
         sections,
     },
-    setup() {
+    emits: ['changeSection'],
+    setup(props, { emit }) {
+        const handleClick = (name) => {
+            let emitValue = null
+            if (props.currentSection !== name) {
+                emitValue = name;
+            } else {
+                console.log('known null')
+            }
+            emit('changeSection', emitValue)
+        }
         const sections = ref(
             [
                 {
@@ -37,13 +49,20 @@ export default {
                     points: [
                         {
                             title: "How do I earn this point?",
-                            body: "Describe a broader historical context relevant to the prompt. This point is not awarded for merely a phrase or a reference.\n\n The response must relate the topic to broader historical events, developments, or processes that occur before, during, or continue after the timeframe of the question."
+                            body: [
+                                "Describe the broader historical context the prompt take place in",
+                                "It must explain the broader historical events, and or developments that occur before, during, or after the time frame of the question",
+                                "This point is not awarded for simply adding sentence or reference.",
+                            ],
+                            style: "bulleted"
                         }, 
                         {
-                            title: "1-point example",
-                            body: "lorem ipsum"
+                            title: "Example (1pt)",
+                            body: "Following the Post-Modern period, many regions around the world experienced instability and massive change due to increasingly global connections and the advent of new ideologies. Due to centuries of subjugation and domination or simply a design for change due to resentment of the past, these ideologies grew into movements among the people in both developing and industrialized countries.",
+                            style: "quoted"
                         }
-                    ]
+                    ],
+                    palette: '#CCEBA5'
                 },
                 {
                     name: "Thesis", 
@@ -51,13 +70,19 @@ export default {
                     points: [
                         {
                             title: "How do I earn this point?",
-                            body: "In your introduction, respond to the prompt with a historically defensible claim that establishes a line of reasoning.\n\nA thesis does not need to encompass an entire period, but it must identify relevant developments in the period."
+                            body: [
+                                "Respond with a historically defensible claim that establishes a line of reasoning.",
+                                "A thesis does not need to encompass an entire period, but must identify relevant developments in the period",
+                            ],
+                            style: "bulleted"
                         }, 
                         {
-                            title: "1-point example",
-                            body: ""
+                            title: "Example (1pt)",
+                            body: "Ideologies such as fascism, nationalism, and communism uprooted the existing sociopolitical order by mobilizing the people through promises of reform and uniting them with a popular message and universal appeal, inspiring them to rise up.",
+                            style: "quoted"
                         }
-                    ]
+                    ],
+                    palette: '#CAE2F1'
                 },
                 {
                     name: "Evidence", 
@@ -65,51 +90,83 @@ export default {
                     points: [
                         {
                             title: "How do I earn this point?",
-                            body: "Provides specific examples of evidence relevant to the topic of the prompt or Supports an argument in response to the prompt using specific and relevant examples of evidence.\n\nFor two points, the response must use at least two specific historical examples to support an argument."
+                            body: [
+                                "You earn 1 point for each piece of evidence you provide",
+                                "Provides specific examples of evidence",
+                                "Supports an argument in response to the prompt",
+                                "For each e at least two specific historical examples"
+                            ],
+                            style: "bulleted"
                         }, 
                         {
                             title: "2-point example",
-                            body: "The response earned 2 points for evidence. There are numerous examples of evidence, and this evidence is used in support of an argument.."
+                            body: "In countries everywhere, populist movements such as nationalism, fascism, and communism galvanized the people with promises of change and reform. In India, Mahatma Gandhi activated a huge movement of passive resistance based on nationalism and called for reforms to prevent the British from ever abusing or oppressing the Indians again. Via this movement both the political and social order was rapidly changed, as Britain ultimately ceded political control to the Indians, and Indians, for the first time, dealt with the British as social equals.",
+                            style: "quoted"
                         }
-                    ]
+                    ],
+                    palette: '#DCBAE5',
                 },
                 {
-                    name: "Conclusion", 
+                    name: "Analysis", 
                     title: "Analysis/Reasoning (0-2 points)",
                     points: [
                         {
                             title: "How do I earn a point for historical reasoning?",
-                            body: "Provides specific examples of evidence relevant to the topic of the prompt or Supports an argument in response to the prompt using specific and relevant examples of evidence.\n\nFor two points, the response must use at least two specific historical examples to support an argument."
+                            body: [
+                                "You must explain how your evidence relate back to your thesis",
+                                "Ensure you frame your evidence to addresses the prompt clearly",
+                                "You can either use comparison, causation, or explain change and continuity over time to analyze your evidence",
+                            ],
+                            style: "bulleted"
                         }, 
                         {
                             title: "1-point example",
-                            body: "The response earned 1 point for using historical reasoning. The response provides an extensive discussion of how Indian nationalists pursued an independence movement against British rule."
-                        },
-                        {
-                            title: "How do I earn a point for complexity?",
-                            body: "Demonstrates complex understanding of the historical development that is the focus of prompt, using evidence to corroborate, qualify,or modify an argument addressesing the prompt."
-                        }, 
-                        {
-                            title: "1-point example",
-                            body: "The response offers evidence in paragraph 2.\n\nIt contrasts Indian nationalists with Chinese leader Mao Zedong. Later in the same paragraph, the response qualifies an earlier argument by contrasting the populist movements of Mao Zedong and Chiang Kai-Shek."
+                            body: "Gandhi's nationalist movement only succeeded because he managed to get the majority of Indians to rise up and unity by their national pride and tired of British dominance.",
+                            style: "quoted"
                         }
-                    ]
+                    ],
+                    palette:'#F5EBBB'
+                },
+                {
+                    name: "Conclusion", 
+                    title: "Conclusion (optional)",
+                    points: [
+                        {
+                            title: "Are conclusions optional?",
+                            body: "Yes writing a conclusion is optional, however, it is highly recommended that you write a conclusion as the grader will be looking at the beginning and end of your essay to evaluate the content. So simply restate and summarize your thesis.",
+                            style: "normal"
+                        }, 
+                    ],
+                    palette:'#FFC27880'
                 },
 
             ]
         )
-        return { sections };
+        const CssVars = (section) => {
+            return {
+                '--bg-color' : section.palette
+            }
+        };
+        return { sections, CssVars, handleClick };
     }
 }
 </script>
 
-<style>
+<style scoped>
+.fitted-section {
+    height: auto;
+}
+.expansive {
+    height: 1101px;
+}
+.chevron-accord {
+    font-weight: 900;
+}
 .breakdown-title {
     color: #000;
     font-feature-settings: 'liga' off;
 
     /* Others /Capitalised */
-    font-family: Manrope;
     font-size: 14px;
     font-style: normal;
     font-weight: 800;
@@ -130,7 +187,7 @@ export default {
 }
 
 .accordion {
-    max-width: 353px;
+    width: 360px;
 }
 
 .section-header {
@@ -149,14 +206,13 @@ export default {
 
 .breakdown-container {
     padding: 0 15px;
-    border-radius: 6px;
+    border-radius: 8px;
     background: #FAFAFA;
 }
 
 .section-breakdown {
     color: #000;
     font-feature-settings: 'liga' off;
-
     /* Others /Capitalised */
     font-size: 14px;
     font-style: normal;
@@ -165,32 +221,36 @@ export default {
     letter-spacing: 2px;
     text-transform: uppercase;
     padding: 27px 0;
-    margin-left: -10px;
+    /* margin-left: px; */
 }
 
-.breakdown-colors:nth-child(1) {
-    border-radius: 8px;
-    background: #CCEBA5;
-}
-.breakdown-colors:nth-child(2) {
-    border-radius: 8px;
-    background: #CAE2F1;
-}
-.breakdown-colors:nth-child(3) {
-    border-radius: 8px;
-    background: #DCBAE5;
-}
-.breakdown-colors:nth-child(4) {
-    border-radius: 8px;
-    background: #F5EBBB;
+.collapsed > .when-open,
+.not-collapsed > .when-closed {
+  display: none;
 }
 
-@media screen and (max-width:425px) {
+@media screen and (max-width:426px) {
     .section-header {
         white-space: normal;
+    }
+    .accordion {
+        width: auto;
+        max-width: 360px;
     }
     
 }
 </style>
-
+<style lang="scss" scoped>
+.breakdown-colors {
+    background: var(--bg-color);
+    opacity: 0.5;
+}
+.is-active {
+    opacity: 1;
+    box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+    position: sticky;
+    top:1%;
+    z-index: 1;
+}
+</style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

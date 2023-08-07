@@ -2,13 +2,14 @@
     <div>
         <b-card
         id="modulev2"
-        class="border-0"
+        class="border-0 p-0"
+        no-body
         >
-            <b-row class="" :class="{ 'modulev2-try-it': modules.name === 'try-it',  'modulev2-timed': modules.name === 'timed', 'modulev2-template': modules.name === 'template'}" align-h="center" align-v="center">
+            <b-row class="g-3" :class="{ 'modulev2-try-it pb-4 pb-sm-4 pb-md-0 pb-lg-0': modules.name === 'try-it',  'modulev2-timed px-3': modules.name === 'timed', 'modulev2-template px-3': modules.name === 'template'}" align-h="center" align-v="center">
                 <!-- <b-col v-if="modules.name === 'template'" style="border: 1px solid green; max-width: 55px; min-width: 0;" sm="0">
                 </b-col> -->
                 <b-col :cols="modules.orientation" class="module-gutter">
-                    <b-card-img :src="require('../../assets/writing_feature/' + modules.img + '')" alt="Image" id="icons" height="90" width="90"></b-card-img>
+                    <b-card-img :src="require('../../assets/writing_feature/' + modules.img + '')" alt="Image" id="icons" height="90" width="90" class="p-0 m-0"></b-card-img>
                 </b-col>
                 <b-col :cols="modules.orientation" class="module-gutter">
                     <b-card-title v-if="modules.title" class="module-title py-2">
@@ -56,17 +57,18 @@ export default {
     padding-top: 19px;
 }
 .modulev2-try-it {
-    width: 279px;
+    width: 300px;
     min-height: 313px;
+    /* border: 1px solid red; */
 }
 
 .modulev2-timed {
-    width: 401px;
+    width: auto;
     min-height: 247px;
 }
 .modulev2-template {
-    max-width: 1114px;
-    min-height: 184px;
+    max-width: 1184px;
+    min-height: 161px;
     /* padding-left: 64px;
     padding-right:64px; */
 }
@@ -128,7 +130,7 @@ export default {
 }
 
 .module-gutter {
-    padding-bottom:19px;
+    /* padding-bottom:19px; */
 }
 @media screen and (max-width: 380px) {
     .modulev2-try-it {
@@ -145,3 +147,4 @@ export default {
     }
 }
 </style>
+<style lang="sass" src="@/assets/css/essayWriting.sass"></style>

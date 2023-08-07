@@ -13,6 +13,10 @@
         <span class="line"></span>
         <span class="evidence transition" :id="section === 'Evidence' ? 'special-words' : 'progress-label'">Evidence</span> 
 
+        <span class="circle" :class="{'special-circle' : section === 'Analysis'}"></span>
+        <span class="line"></span>
+        <span class="analysis transition" :id="section === 'Analysis' ? 'special-words' : 'progress-label'">Analysis</span> 
+
         <span class="circle" :class="{'special-circle' : section === 'Conclusion'}"></span>
         <span class="conclusion transition" :id="section === 'Conclusion' ? 'special-words' : 'progress-label'">Conclusion</span> 
     </div>
@@ -41,7 +45,7 @@ export default {
 .circle {
     height: 15px;
     width: 15px;
-    background-color: #bbb;
+    background-color: #D9DBE1;
     border-radius: 50%;
     display: inline-block;
     position: relative;
@@ -67,7 +71,7 @@ export default {
 .line {
     min-width: 60px;
     height: 2px;
-    background: var(--gray-4, #BDBDBD);
+    background: var(--gray-4, #D9DBE1);
     display: inline-block;
     margin-bottom: 7px;
 }
@@ -77,7 +81,7 @@ export default {
     width: fit-content;
 }
 #progress-label {
-    color: var(--text-subtle, #969BAB);
+    color: var(--text-subtle, #D9DBE1);
     text-align: center;
     font-size: 12px;
     font-style: normal;
@@ -88,7 +92,7 @@ export default {
 .thesis {
     position: absolute;
     top: 0;
-    left: 2px;
+    left: 0px;
 }
 
 .contextualization {
@@ -102,35 +106,46 @@ export default {
     left: 145px;
 }
 
-.conclusion {
+.analysis {
     position: absolute;
     bottom: 0;
-    left: 215px;
+    left: 220px;
+}
+
+.conclusion {
+    position: absolute;
+    top: 0;
+    left: 285px;
 }
 
 .transition {
     transition: 0.2s ease-in-out;
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 376px) {
     .line {
-        min-width: 40px;
+        min-width: 30px;
     }
     .thesis {
-        left: -5px;
+        left: -8px;
     }
 
     .contextualization {
-        left: 20px;
+        left: 7px;
     }
     .evidence {
-        left: 95px;
+        left: 75px;
     }
 
     .conclusion {
         /* position: absolute;
         bottom: 0; */
-        left: 140px;
+        left: 160px;
+    }
+    .analysis {
+        /* position: absolute;
+        bottom: 0; */
+        left: 125px;
     }
     .progress- {
         padding:13px 15px 8px 5px;

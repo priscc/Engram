@@ -1,21 +1,25 @@
 <template>
   <div id="essay-writing">
+    <navbarvue style="position: absolute; top: 0; width: 100%;"></navbarvue>
     <b-container fluid class="background">
-        <b-row class="pt-4 px-4">
+        <b-row class="pt-5 responsive-padding">
             <breadcrumb :items="items"></breadcrumb>
         </b-row>
-        <b-row class="px-4 pb-4 pt-2 title">
+        <b-row class="pb-4 pt-2">
+            <h1 class="text-center module-title">
+                {{ title }}
+            </h1>
         </b-row>
-        <b-row class="px-4 white-container">
+        <b-row class="white-container responsive-padding mx-0 mx-sm-4 mx-md-4 mx-lg-4">
             <whitecontainer :title="title" :subtitle="subtitle" id="module-white-container">
                 <template #templates>
-                    <a class="module-introduction strip label-position">Welcome to the Essay Writing for the LEQ</a>
+                    <!-- <a class="module-introduction strip label-position">Welcome to the Essay Writing for the LEQ</a> -->
                     <b-container fluid>
-                        <b-row class="mod-children mother-container mx-auto" no-gutters align-h="center">
+                        <b-row class="mod-children mother-container mx-auto py-4 py-sm-4 py-md-4 py-lg-0" no-gutters align-h="center" align-v="center">
                                 <b-col class="template" cols="12">
                                     <!-- <div style="border: 1px solid red;"> -->
                                         <!-- <div style="border: 2px dotted green; display: inline-flex; flex-wrap: wrap; background-color: aqua; align-items: flex-start; flex-direction: row; gap:10px"> -->
-                                            <modules v-for="modules in templateModule" :key="modules.name" :modules="modules"></modules>
+                                            <modules v-for="modules in templateModule" :key="modules.name" :modules="modules" class="mt-2"></modules>
                                         <!-- </div>                                    </div> -->
                                 </b-col>
                         </b-row>
@@ -23,10 +27,10 @@
                 </template>
 
                 <template #try-it>
-                    <a class="module-labels strip label-position">Section Module</a>
+                    <a class="module-labels strip label-position">Essay Structure Module</a>
                     <b-container>
-                        <b-row no-gutters align-h="center">
-                                <b-col class="mother-container try-it " sm="3" md="auto" lg="auto">
+                        <b-row align-h="center">
+                                <b-col class="mother-container try-it py-4" sm="3" md="auto" lg="auto">
                                     <!-- <div style="border: 1px solid red;"> -->
                                         <!-- <div style="border: 2px dotted green; display: inline-flex; flex-wrap: wrap; background-color: aqua; align-items: flex-start; flex-direction: row; gap:10px"> -->
                                             <modules v-for="modules in moduleses" :key="modules.name" :modules="modules" class="mx-auto"></modules>
@@ -40,7 +44,7 @@
                     <a class="module-labels strip label-position">Timed Module</a>
                     <b-container>
                         <b-row class="" no-gutters align-h="center">
-                                <b-col class="mother-container timed justify-content-center"  sm="3" md="3" lg="3">
+                                <b-col class="mother-container timed justify-content-center py-4"  sm="3" md="3" lg="3">
                                     <!-- <div style="border: 1px solid red;"> -->
                                         <!-- <div style="border: 2px dotted green; display: inline-flex; flex-wrap: wrap; background-color: aqua; align-items: flex-start; flex-direction: row; gap:10px"> -->
                                             <modules v-for="modules in timeModule" :key="modules.name" :modules="modules"></modules>
@@ -56,16 +60,18 @@
 </template>
 
 <script>
-import whitecontainer from '../../components/writing_feature/V2WhiteContainer.vue'
-import breadcrumb from '../../components/writing_feature/BreadCrumb.vue'
+import whitecontainer from '../../components/writing_feature/V2WhiteContainer.vue';
+import breadcrumb from '../../components/writing_feature/BreadCrumb.vue';
 // import purplebutton from '../../components/writing_feature/PurpleButton.vue'
-import modules from '../../components/writing_feature/ModulesV2.vue'
+import modules from '../../components/writing_feature/ModulesV2.vue';
+import navbarvue from '../../components/writing_feature/NavBar.vue';
 export default {
     components: {
         whitecontainer, 
         breadcrumb, 
         // purplebutton,
         modules,
+        navbarvue
     },
     setup() {
         const items = [
@@ -118,7 +124,7 @@ export default {
             }
         ]
 
-        const title = "Learning & Practice Module for your writing skills"
+        const title = "Welcome to the Essay Writing for the LEQ"
         const subtitle = "Each module will improve your LEQ writing skills."
         return { items, moduleses, title, subtitle, timeModule, templateModule}
     }
@@ -141,8 +147,7 @@ export default {
 }
 
 /* .mod-children {
-    margin: 0 70px 0 70px;
-    
+    height: 161px;    
 } */
 .mother-container {
     /* border: 1px dotted red;  */
@@ -151,12 +156,12 @@ export default {
     border-radius: 8px;
     background: #F5F5F5;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.10);
-    max-width: 1124px;
+    max-width: 1144px;
 }
 
 .try-it {
     min-width: 350px;
-    padding: 0 50px 0 20px;
+    padding: 0 55px 0 35px;
     margin-bottom: 40px;
     margin-top:15px;
     white-space: nowrap;
@@ -170,7 +175,9 @@ export default {
 }
 
 .template {
-    max-width: 1148px;
+    max-width: 1184px;
+    min-height: 161px;    
+
 }
 
 .module-introduction {
@@ -200,6 +207,21 @@ export default {
     text-transform: uppercase;
 }
 
+.more-responsive-padding {
+    padding-left: 8%;
+    padding-right:8%;
+}
+
+.module-title {
+    color: #111;
+text-align: center;
+font-feature-settings: 'liga' off;
+font-family: 'Manrope', sans-serif;
+font-size: 28px;
+font-style: normal;
+font-weight: 800;
+line-height: 64px; /* 228.571% */
+}
 @media screen and (max-width: 380px) {
     .try-it {
         min-width: auto;

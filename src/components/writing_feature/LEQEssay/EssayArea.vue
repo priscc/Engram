@@ -1,82 +1,85 @@
 <template>
-    <b-form class="essay-area p-0">
+    <b-form class="essay-area p-0" @submit.prevent="handleSubmit">
         <b-container fluid class="essay-area p-0">
             <b-row class="form-row mx-auto pt-5" align-h="center">
-                <!-- {{ evidence }} -->
-                <b-col class="text-area">
+                <b-col>
+                    <!-- <textareavue :string="testing"></textareavue> -->
                     <b-form-group v-for="stream in stream" :key="stream.title" class="stream-droplet px-4">
                         <span class="area-title">{{ stream.title }}</span><br>
                         <div class="area-subtitle">{{ stream.subtitle }}</div>
-                        <b-form-textarea @click="setCurrentSection(stream.title)" v-model="stream.template" type="text" required max-rows="8" placeholder="...add text here" class="user-input-area"></b-form-textarea>
+                        <!-- Old: -->
+                        <!-- <b-form-textarea @click="setCurrentSection(stream.title)" v-model="stream.template" type="text" max-rows="8" placeholder="...add text here" class="user-input-area"></b-form-textarea> -->
+                        <!-- New:  -->
+                        <textareavue :dataRequested="dataRequested" :string="stream.template.template" :bgColor="stream.palette" @click.native="setCurrentSection(stream.title)" @fulfillRequest="(data) => handleRequest(data, stream.template)"></textareavue>
                         <div v-if="stream.subTemplateSubtitle" class="subsubtitle">
-                            <div class="area-subtitle">{{ stream.subTemplateSubtitle }}</div>
-                            <b-form-input @click="setCurrentSection(stream.title)" v-model="stream.subTemplate" type="text" required placeholder="...add text here"></b-form-input>
+                            <div class="area-subtitle">{{ stream.subTemplateSubtitle.subtitle }}</div>
+                            <textareavue :dataRequested="dataRequested" :string="stream.subTemplate.template" :placeholder="stream.placeholder" :bgColor="'#F5E07B'" @click.native="setCurrentSection(stream.subTemplateSubtitle.title)" @fulfillRequest="(data) => handleRequest(data, stream.subTemplate)"></textareavue>
+                            <!-- <b-form-input @click="setCurrentSection(stream.subTemplateSubtitle.title)" v-model="stream.subTemplate.template" type="text" placeholder="...add text here"></b-form-input> -->
                         </div>
                     </b-form-group>
                 </b-col>
                 <b-col class="component p-0 mx-4 mb-5">
-                    <breakdown :currentSection="currentSection"></breakdown>
+                    <breakdown @changeSection="(section) => setCurrentSection(section)" :currentSection="currentSection"></breakdown>
                 </b-col>
             </b-row>
-            <b-row align-h="end" class="px-5 pb-5 my-4">
+            <b-row align-h="end" class="px-5 pb-5 my-4 mt-5 mt-sm-0 mt-md-0 mt-lg-0">
                 <b-button id="purple" class="border-0 mb-1 back-button " @click="router.push({name: '002'})">Back</b-button>
-                <b-button id="purple" class="finish-button border-0 mb-1" v-b-modal.my-modal @click="unselect()" type="button">Finish</b-button>
-                <b-modal id="my-modal" hide-footer hide-header size="lg"><finishmodal @close="$bvModal.hide('my-modal')"></finishmodal></b-modal>
+                <b-button id="purple" class="finish-button border-0 mb-1" v-b-modal.my-modal type="submit">Finish</b-button>
+                <b-modal id="my-modal" hide-footer hide-header size="lg"><finishmodal @close="$bvModal.hide('my-modal')" :ready="submitted"></finishmodal></b-modal>
             </b-row>
         </b-container>
     </b-form>
 </template>
 
 <script>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch, computed, reactive } from 'vue';
 import { useRouter } from 'vue-router';
 import breakdown from './BreakDown.vue';
 import finishmodal from './FinishModal.vue';
 import storeWriting from '../../../store/writing';
+import textareavue from './TextArea.vue';
 export default {
-    props: ['props'],
+    props: ['props', 'identification'],
     components: {
         breakdown,
         finishmodal,
+        textareavue
     },
     emits: ['updateProgress'],
     setup(props, { emit }) {
         //STORE 
+        const submitted = ref(false);
         const store = storeWriting;
-        const unselect = () => {
-            console.log('unset')
-            store.dispatch('unSetSelectedPrompt');
-        }
-        const handleSubmit = () => {
-            console.log('submitted')
-        }
+        // const id = computed(() => store.state.uniqueId);
+        // const idIsUpdated = ref(false);
+        // watch(id, (new_id, old_id) => {
+        //     idIsUpdated.value = true;
+        //     console.log(old_id + " updated to: " + new_id, idIsUpdated);
+        // });
+
+        //V-MODEL REFS
+        const contextualization = reactive({ template: props.props.template.templates.contextualization});
+        const thesis = reactive({ template:props.props.template.templates.thesis});
+        const evidence = [];
+        props.props.template.templates.evidence.forEach(x => {evidence.push([reactive({ template: x[0]}), reactive({ template:x[1]})]);})
+        const conclusion = reactive({ template:props.props.template.templates.conclusion });
+
         //ROUTER 
         const router = useRouter();
 
-        //CONTENT CONSTANTS 
-        const evidenceSubTemplateSubtitle = 'add 1 sentence on how this evidence supports your thesis statement';
-
-        //V-MODEL REFS
-        const contextualization = ref(props.props.template.templates.contextualization);
-        const thesis = ref(props.props.template.templates.thesis);
-        const evidence = [ [ref(props.props.template.templates.evidence), ref('')], [ref(props.props.template.templates.evidence), ref('')]];
-        const conclusion = ref(props.props.template.templates.conclusion);
-        // const total = computed(() => {
-        //     return contextualization.length && thesis.length && conclusion.length && evidence.length;
-        //     // additionally check if the templates were modified
-        // })
         //STRUCTURE AVAILABLE TO ADD ADDITIONAL EVIDENCES 
         const evidences = ref(2);
         const addEvidence = () => {
             evidences.value++;
-            evidence.push([ref(props.props.template.templates.evidence), ref('')]);
+            evidence.push([reactive({ template: props.props.template.templates.evidence}), reactive({ template:''})]);
             const cap = stream.value.pop();
             stream.value.push({
                 title: `Evidence #${evidences.value}`,
-                subtitle: 'fill in the Change & Continuity thesis statement template',
+                subtitle: 'fill in the topic sentence template',
                 template: evidence[evidence.length - 1][0],
                 subTemplate: evidence[evidence.length - 1][1],
-                subTemplateSubtitle: evidenceSubTemplateSubtitle
+                subTemplateSubtitle: evidenceSubTemplateSubtitle,
+                palette: '#D289E5'
             })
             stream.value.push(cap);
         }
@@ -89,51 +92,108 @@ export default {
                 }
             }
         }
-        // BREAKDOWN CONNECTION 
-        const currentSection = ref(null)
-        const setCurrentSection = (breakdown) => {
-            const words = breakdown.split(' ');
-            currentSection.value = words[0];
-            console.log('click', currentSection.value);
-            emit('updateProgress', currentSection.value);
-        }
-        //
+        
+        //CONTENT CONSTANTS 
+        const evidenceSubTemplateSubtitle = {subtitle: "add 1 sentence to analysis your evidence and support your thesis statement", title: "Analysis"};
         const stream = ref([
             {
                 title: 'Contextualization',
                 subtitle: 'add 1 sentence of historical context relevant to the prompt',
-                template: contextualization
+                template: contextualization,
+                palette: '#CCEBA5'
             }, 
             {
                 title: 'Thesis',
                 subtitle: 'fill in the Change & Continuity thesis statement template',
-                template: thesis
-            }, 
+                template: thesis,
+                palette: '#85CDF9'
+            },
             {
                 title: 'Evidence #1',
-                subtitle: 'fill in the Change & Continuity thesis statement template',
+                subtitle: 'fill in the topic sentence template',
                 template: evidence[0][0],
                 subTemplate: evidence[0][1],
-                subTemplateSubtitle: evidenceSubTemplateSubtitle
+                subTemplateSubtitle: evidenceSubTemplateSubtitle,
+                palette: '#D289E5',
+                placeholder: 'The result of...'
             },
             {
                 title: 'Evidence #2',
-                subtitle: 'fill in the Change & Continuity thesis statement template',
+                subtitle: 'fill in the topic sentence template',
                 template: evidence[1][0],
                 subTemplate: evidence[1][1],
-                subTemplateSubtitle: evidenceSubTemplateSubtitle
+                subTemplateSubtitle: evidenceSubTemplateSubtitle,
+                palette: '#D289E5'
             }, 
             {
                 title: 'Conclusion',
                 subtitle: 'add 1 sentence of historical context relevant to the prompt',
-                template: conclusion 
+                template: conclusion,
+                palette: '#FE9A22'
             },
 
         ])
+        const totalEmits = computed(() => stream.value.length);
+        const currentEmits = ref(0);
+        const dataRequested = ref(false);
+        watch(currentEmits, (newEmit, oldEmit) => {
+            console.log(`${newEmit} emits from ${oldEmit}`);
+            if (newEmit === totalEmits.value) {
+                console.log('All emits processed, triggering event!');
+                let evidencePost = [];
+                evidence.forEach(x => {evidencePost.push([x[0].template, x[1].template]);})
+                const idea = {
+                    prompt_id: props.identification, 
+                    id: store.getters.getUniqueId,
+                    contextualization: contextualization.template,
+                    evidence: evidencePost,
+                    conclusion: conclusion.template,
+                    thesis: thesis.template
+                }
+                console.log('criminal', idea)
+                store.dispatch('setUserInput', idea);
+                submitted.value = true;
+                console.log('handled submit',store.state.feedback, store.state.completedPrompts);
+            }
+        }, {deep: true})
+        //EVENT HANDLER: SUBMIT
+        const handleSubmit = () => {
+            //note: check if feedback obj has aleady been created for this prompt before uploading data
+            //update: handled already created exception within store
+            if (!submitted.value) {
+                console.log('before submit', contextualization.template, thesis.template, evidence, conclusion.template);
+                dataRequested.value = true
+            }
+        }
+        const handleRequest = (data, stream) => {
+            console.log(stream);
+            stream.template = data;
+            console.log('handled', data, stream.template, thesis)
+            currentEmits.value++;
+        }
+        //EVENT HANDLER: BREAKDOWN COMPONENT CONNECTION 
+        const currentSection = ref(null)
+        const setCurrentSection = (breakdown) => {
+            if (breakdown) {
+                currentSection.value = breakdown.split(' ')[0];
+            } else {
+                currentSection.value = null;
+            }
+            console.log('click', currentSection.value);
+            emit('updateProgress', currentSection.value);
+        }
+
+        //LIFECYCLE HOOKS (initialize or reset variables)
         onMounted(() => {
             initializeEvidences();
-        })        
-        return { stream, evidence, evidenceSubTemplateSubtitle, currentSection, setCurrentSection, router, unselect, handleSubmit}
+        })  
+        
+        // const testing = 'During the time period between ___(date)__ and __(date)___ in __(geographic location)__  there were significant changes in  __(AP Theme)__   such as  __(category)__,  __(category)__ , and __(category)__.'
+        return { 
+            stream, evidence, evidenceSubTemplateSubtitle, currentSection, 
+            setCurrentSection, router, handleSubmit, submitted, 
+            handleRequest, dataRequested
+        }
     }
 } 
 </script>
@@ -143,10 +203,8 @@ export default {
     border-radius: 10px;
     background: #FFF;
 }
-.text-area {
-}
 .component {
-    max-width: 353px;
+    max-width: 400px;
 }
 
 .form-row {

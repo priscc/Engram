@@ -1,14 +1,18 @@
 <template>
   <div id="essay-writing">
+    <navbarvue style="position: absolute; top: 0; width: 100%;"></navbarvue>
     <b-container fluid class="background">
-        <b-row class="pt-4 px-4">
+        <b-row class="pt-4 responsive-padding">
             <breadcrumb :items="items"></breadcrumb>
         </b-row>
-        <b-row class="px-4 pb-4 pt-2 title">
-            Section Module: Beginners
+        <b-row class="px-4 pb-3 pt-2 title" style="position:relative">
+            <a class="strip back-button-style mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3" @click="handleBack()">Back</a>
+            <h1 class="text-center prompt-title">
+                Section Module: Beginners
+            </h1>
         </b-row>
-        <b-row class="px-4 white-container">
-            <whitecontainer :title="title" :subtitle="subtitle" :refresh="true" :buttonprops="buttonprops" id="module-white-container">
+        <b-row class="px-4 white-container responsive-padding mx-0 mx-sm-4 mx-md-4 mx-lg-4">
+            <whitecontainer :refresh="true" :buttonprops="buttonprops" id="module-white-container">
                 <template>
                     <prompt v-for="prompt in prompts" :key="prompt.prompt" :prompt="prompt" class="prompt" id="prompt" :hover="true" :class="{'active' : currentPrompt === prompt.id}"></prompt>
                 </template>
@@ -22,37 +26,47 @@
 import whitecontainer from '../../components/writing_feature/WhiteContainer.vue'
 import breadcrumb from '../../components/writing_feature/BreadCrumb.vue'
 import prompt from '../../components/writing_feature/Prompt.vue'
-// import purplebutton from '../../components/writing_feature/PurpleButton.vue'
-// import { useStore } from 'vuex'
+import navbarvue from '../../components/writing_feature/NavBar.vue'
 import storeWriting from '@/store/writing.js'
-import { computed, ref } from 'vue'
+import { computed, onMounted, ref } from 'vue'
+import { useRouter } from 'vue-router'
 export default {
     components: {
         whitecontainer, 
         breadcrumb, 
-        // purplebutton,
-        prompt
+        prompt,
+        navbarvue
     },
     setup() {
+        const router = useRouter();
+        const store = storeWriting;
+        onMounted(() => {
+            store.dispatch('unSetSelectedPrompt');
+            window.scrollTo({top: 0, behavior: "smooth"});
+        });
         const canClick = computed(() => store.state.selectedPrompt === null)
         const currentPrompt = computed(() => store.state.selectedPrompt)
-        const store = storeWriting
-        const prompts = computed(() => store.state.prompts)
+        const prompts = computed(() => store.state.prompts.slice(0, 3))
         const items = [
             {
                 text: 'Essay Writing: LEQ',
+            },
+            {
+                text: 'Essay Component Module: Beginner'
             }, 
             {
                 text: 'Choose a Prompt',
                 active: 'yes'
             }
         ]
-
         const title = "Choose a Prompt"
         const subtitle = "Choose one of three long essay question prompts to answer. The long essay requires students to demonstrate their ability to use historical evidence in writing a thoughtful historical argument. In the following questions, students will analyze an issue using the reasoning skill of continuity and change over time."
         const buttonprops = ref({content: "Get Started", route: '003', disabled: canClick, params: {id : currentPrompt}})
 
-        return { items, title, subtitle, prompts, buttonprops, currentPrompt}
+        const handleBack = () => {
+            router.push({name: '001'});
+        }
+        return { items, title, subtitle, prompts, buttonprops, currentPrompt, handleBack}
     }
 }
 </script>
@@ -96,8 +110,25 @@ export default {
 .prompt.active, .prompt:hover {
     color: white;
 }
-/* #prompt:hover {
-  color:white;  
-} */
+.back-button-style {
+    position: absolute;
+    left:0;
+    width: fit-content;
+    color: var(--brand-purple, #8C30F5);
+    font-feature-settings: 'clig' off, 'liga' off;
+
+    /* Label / Medium Label */
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 20px; /* 142.857% */
+    cursor: pointer;
+}
+.back-button-style::before{
+    content: url('../../assets/writing_feature/chevron-left.svg') !important;
+    position: relative;
+    top: 5px;
+    right: 5px;
+}
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

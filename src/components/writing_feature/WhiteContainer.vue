@@ -1,7 +1,7 @@
 <template>
 
     <b-container fluid class="true-white-container">
-        <b-row v-if="refresh" align-h="end" class="text-end refresh pt-4 px-0 pt-sm-5 pt-md-5 pt-lg-5 px-sm-4 px-md-4 px-lg-4">
+        <b-row v-if="refresh" align-h="end" class="text-end refresh pt-4 pb-4 my-2 px-0 pt-sm-4 pt-md-4 pt-lg-4 px-sm-4 px-md-4 px-lg-4">
             <span  @click="click()" style="width: fit-content;">
                 <a class="clickable strip">
                     <span>  
@@ -14,9 +14,9 @@
                 </a>
             </span>
         </b-row>
-        <b-row>
-                <p class="pt-4 px-4 px-sm-4 px-lg-5 px-md-5 title-white-container">{{ title }}</p>
-                <p class="mb-3 px-4 px-sm-3 px-lg-5 px-md-5 pb-3 pb-lg-5 pb-md-5 pb-sm-0 subtitle-white-container">{{ subtitle }}</p>
+        <b-row v-if="title || subtitle">
+                <p v-if="title" class="pt-4 px-4 px-sm-4 px-lg-5 px-md-5 title-white-container">{{ title }}</p>
+                <p v-if="subtitle" class="mb-3 px-4 px-sm-3 px-lg-5 px-md-5 pb-3 pb-lg-5 pb-md-5 pb-sm-0 subtitle-white-container">{{ subtitle }}</p>
         </b-row>
         <b-row class="mt-0 pb-3 px-sm-3 px-md-5 px-lg-5 auto-padding">
             <slot></slot>

@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope&display=swap')
 
+// FONT & TEXT 
 .fontist 
     font-family: 'Manrope', sans-serif
 
@@ -7,20 +8,32 @@
 #essay-writing 
     min-height: 100vh
     height: 100%
-    background: #f5f5f5
+    background: #F4F5F7
     font-family: 'Manrope', sans-serif
 
 
 .background 
-    background: #f5f5f5
+    background: #F4F5F7
 
 
 
 .title 
     color: #111
-    font-size: 26px
+    font-size: 28px
+    font-style: normal
+    font-weight: 900
+    position: relative
+
+.prompt-title
+    color: #111
+    text-align: center
+    font-feature-settings: 'liga' off
+    font-size: 28px
     font-style: normal
     font-weight: 800
+    line-height: 64px
+    padding-left: 55px
+    padding-right: 55px
 
 
 .white-container 
@@ -160,7 +173,7 @@
 .strip 
     text-decoration: none
 
-// BUTTON 
+// BUTTONS
 
 .main-button 
     width: 100%
@@ -172,25 +185,100 @@
 
 #purple 
     min-height: 52px
-    border-radius: 30px
     padding: 15px 15px 15px 15px
     background: #451A75
-    text-transform: uppercase
-    color: var(--default-white, #FFF)
-    text-align: center
-    font-size: 18px
-    font-style: normal
-    font-weight: 800
-    line-height: 25px
-    letter-spacing: 2px
-
 
 #purple:hover 
     background: #F1E4FF
     color: #451A75
-    font-weight: 800
+
+.purple-button-border-text
+  border-radius: 30px
+  text-transform: uppercase
+  color: var(--default-white, #FFF)
+  text-align: center
+  font-size: 18px
+  font-style: normal
+  font-weight: 800
+  line-height: 25px
+  letter-spacing: 2px
+
+.navbar-purple
+  border-radius: 8px
+  font-family: 'Manrope', sans-serif
+  font-size: 14px
+  font-style: normal
+  font-weight: 700
+
+.back-button-style 
+    position: absolute
+    left:0
+    width: fit-content
+    color: var(--brand-purple, #8C30F5)
+    font-feature-settings: 'clig' off, 'liga' off
+    font-size: 14px
+    font-style: normal
+    font-weight: 700
+    line-height: 20px
+    cursor: pointer
+
+.back-button-style-right
+    position: absolute
+    right:0
+    width: fit-content
+    color: var(--brand-purple, #8C30F5)
+    font-feature-settings: 'clig' off, 'liga' off
+    font-size: 14px
+    font-style: normal
+    font-weight: 700
+    line-height: 20px
+    cursor: pointer
+
+.back-button-style::before
+    content: url('../../assets/writing_feature/chevron-left.svg') !important
+    position: relative
+    top: 5px
+    right: 5px
 
 // BORDER 
 
 .test
     border: 1px solid red
+
+//NAVBAR
+.navbar_styling
+  background-color: white
+  padding: 0 5%
+
+.navbar_style
+  background-color: white
+
+.navbar_tab_section
+  margin-left: auto
+
+.navbar_tab
+  font-family: "Montserrat", sans-serif
+  font-size: 16px
+  font-weight: 750
+  letter-spacing: 0px
+  color: black
+  padding: 0px 0px
+
+.logo
+  &:hover
+    cursor: pointer
+
+.logo_img
+  max-width: 30px
+
+.logo_btn
+    color: #000
+    font-size: 23px
+    font-style: normal
+    font-weight: 800
+    line-height: normal
+    letter-spacing: -1.15px
+
+.responsive-padding 
+  padding-left: 5%
+  padding-right: 5%

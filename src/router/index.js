@@ -14,6 +14,7 @@ import SelectDifficulty from "../views/writing_feature/SelectDifficulty";
 import EssayMain from "../views/writing_feature/EssayMain";
 import ChoosePrompt from "../views/writing_feature/ChoosePrompt";
 import LEQEssay from "../views/writing_feature/LEQEssay";
+import Feedback from "../views/writing_feature/Feedback";
 
 const routes = [
   {
@@ -87,6 +88,11 @@ const routes = [
     path: "/003/:id",
     name: "003",
     component: LEQEssay
+  }, 
+  {
+    path: "/004/:id",
+    name: "004",
+    component: Feedback
   }
 ];
 

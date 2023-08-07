@@ -1,10 +1,11 @@
 <template>
 
     <b-container fluid class="true-white-container p-sm-3 p-md-5 p-lg-5">
+
         <b-row class="mt-2 pb-3 top-module">
             <slot name="templates"></slot>
         </b-row>
-        <b-row no-gutters align-h="center gx-5">
+        <b-row no-gutters align-h="center" class="gx-5">
             <b-col cols="auto" class="white-container-try-it-container text-center">
                 <slot name="try-it"></slot>
             </b-col>
@@ -19,7 +20,10 @@
 
 <script>
 export default {
-
+    props:['title'],
+    setup(props) {
+        console.log(props.title)
+    }
 }
 </script>
 

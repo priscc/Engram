@@ -4,26 +4,33 @@
         <b-col class="head-section">
             <b-row no-gutters class="px-3">
                 <b-col class="prompt-label pb-3">Prompt</b-col>
-                <b-col class="text-label">{{ prompt.prompt }}</b-col>
+                <b-col class="text-label" v-if="prompt">{{ prompt.prompt }}</b-col>
+                <b-col v-else class="text-label">
+                    <b-card class="border-0">
+                        <b-skeleton width="85%"></b-skeleton>
+                        <b-skeleton width="55%"></b-skeleton>
+                        <b-skeleton width="70%"></b-skeleton>
+                    </b-card>
+                </b-col>
             </b-row>
         </b-col>
         <b-col  class="head-section-2">
-            <div>
-               <span class="prompt-subtitle">Period:&nbsp;</span>
-               <span class="subtitle-body">{{ prompt.period }}</span>
-            </div>
-            <div>
-                <span class="prompt-subtitle">Type:&nbsp;</span>
-                <span class="subtitle-body">{{ prompt.type }}</span>
-            </div>
+            <prompttype v-if="prompt && !score" :prompt="prompt"></prompttype>
+            <gradescore v-if="score" :score="score"></gradescore>
         </b-col>
     </b-row>
   </b-container>
 </template>
 
 <script>
+import gradescore from './GradeScore.vue';
+import prompttype from './PromptType.vue';
 export default {
-    props:['prompt']
+    props:['prompt', 'score'],
+    components: {
+        prompttype,
+        gradescore
+    }
 }
 </script>
 
@@ -44,7 +51,7 @@ export default {
     background: #FFF;
     box-shadow: 0px 30px 40px 0px rgba(212, 217, 232, 0.20);
     min-height: 140px;
-    max-width: 320px;
+    max-width: 380px;
     padding: 37px 50px 0 50px;
 }
 .prompt-label {
