@@ -1,23 +1,10 @@
 <template>
   <div id="App">
-    <div class="navbar_styling">
-      <b-navbar toggleable="md" type="dark">
-        <b-navbar-brand @click="home" class="logo">
-          <img class="logo_img" src="@/assets/EngramLogo.png" />
-          <span class="logo_btn">Engram</span>
-        </b-navbar-brand>
-        <b-navbar-toggle target="nav-collapse" type="dark"></b-navbar-toggle>
-        <b-collapse id="nav-collapse" is-nav>
-          <b-navbar-nav class="navbar_tab_section">
-            <b-nav-item @click="home">
-              <span class="navbar_tab">Home</span>
-            </b-nav-item>
-            <b-nav-item @click="about">
-              <span class="navbar_tab">About</span>
-            </b-nav-item>
-          </b-navbar-nav>
-        </b-collapse>
-      </b-navbar>
+    <div class="essay-writing fontist">
+      <navbarvue
+        style="width: 100%; border-bottom: 1px solid #0000003D; z-index: 9999;"
+      ></navbarvue>
+      
     </div>
     <div>
       <router-view></router-view>
@@ -73,10 +60,14 @@
 
 <script>
 import store from "@/store";
+import navbarvue from '@/components/NavBar.vue';
 // import storeTopic from "@/store/topic.js";
 // import { db } from "@/main";
 export default {
   name: "App",
+  components: {
+    navbarvue,
+  },
   data() {
     return {
       alertDisplay: true,
@@ -243,3 +234,4 @@ export default {
 </script>
 
 <style lang="sass" scoped src="@/assets/css/main.sass"></style>
+<style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>
