@@ -12,13 +12,21 @@
         <b-card-text class="feature-description">
             {{ feature.description }}
         </b-card-text>
-        <a href="#" id="features-link">Explore</a>
+        <a @click="handleClick" id="features-link">Explore</a>
     </b-card>
 </template>
 
 <script>
+import { useRouter } from 'vue-router'
 export default {
-    props: ['feature']
+    props: ['feature'],
+    setup(props) {
+        const router = useRouter();
+        const handleClick = () => {
+            router.push({name: props.feature.route});
+        }
+        return { handleClick }
+    }
 }
 </script>
 
@@ -66,6 +74,7 @@ export default {
     font-weight: 700;
     line-height: 16px;
     text-decoration: none;
+    cursor: pointer;
 }
 
 #features-link::after {

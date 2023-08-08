@@ -19,6 +19,11 @@ import Feedback from "../views/writing_feature/Feedback";
 const routes = [
   {
     path: "/",
+    name: "EssayMain",
+    component: EssayMain
+  },
+  {
+    path: "/Units",
     name: "Home",
     component: Home
   },
@@ -68,11 +73,6 @@ const routes = [
     path: "/SelectDifficulty",
     name: "SelectDifficulty",
     component: SelectDifficulty
-  }, 
-  {
-    path: "/EssayMain",
-    name: "EssayMain",
-    component: EssayMain
   }, 
   {
     path: "/001",

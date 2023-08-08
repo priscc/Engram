@@ -34,6 +34,7 @@ export default {
     font-style: normal;
     font-weight: 700;
     line-height: 28px;
+    margin-top: 10px
 }
 
 .description {
