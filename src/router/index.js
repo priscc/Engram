@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 
-import Home from "../views/Home.vue";
+import Units from "../views/Units.vue";
 import PrivacyPolicy from "../views/PrivacyPolicy.vue";
 import About from "../views/About.vue";
 import Topics from "../views/Topics.vue";
@@ -11,21 +11,22 @@ import EssayWriting from "../views/writing_feature/EssayWriting";
 import SelectModuleV1 from "../views/writing_feature/SelectModuleV1";
 import SelectModule from "../views/writing_feature/SelectModule";
 import SelectDifficulty from "../views/writing_feature/SelectDifficulty";
-import EssayMain from "../views/writing_feature/EssayMain";
+import Home from "../views/Home";
 import ChoosePrompt from "../views/writing_feature/ChoosePrompt";
 import LEQEssay from "../views/writing_feature/LEQEssay";
 import Feedback from "../views/writing_feature/Feedback";
+import Quiz from "../views/Quiz";
 
 const routes = [
   {
     path: "/",
-    name: "EssayMain",
-    component: EssayMain
+    name: "Home",
+    component: Home
   },
   {
     path: "/Units",
-    name: "Home",
-    component: Home
+    name: "Units",
+    component: Units
   },
   {
     path: "/privacypolicy",
@@ -58,6 +59,11 @@ const routes = [
       "/Period/:periodName/:period/Topic/:topicName/:topic/:category/Figure/:person",
     name: "Person",
     component: Person
+  }, 
+   {
+    path: "/Quiz",
+    name: "Quiz",
+    component: Quiz
   }, 
   {
     path: "/EssayWriting",

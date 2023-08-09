@@ -64,14 +64,12 @@ import whitecontainer from '../../components/writing_feature/V2WhiteContainer.vu
 import breadcrumb from '../../components/writing_feature/BreadCrumb.vue';
 // import purplebutton from '../../components/writing_feature/PurpleButton.vue'
 import modules from '../../components/writing_feature/ModulesV2.vue';
-import navbarvue from '../../components/writing_feature/NavBar.vue';
 export default {
     components: {
         whitecontainer, 
         breadcrumb, 
         // purplebutton,
         modules,
-        navbarvue
     },
     setup() {
         const items = [
@@ -126,7 +124,11 @@ export default {
 
         const title = "Welcome to the Essay Writing for the LEQ"
         const subtitle = "Each module will improve your LEQ writing skills."
-        return { items, moduleses, title, subtitle, timeModule, templateModule}
+
+        function mounted(){
+            window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+        return { mounted, items, moduleses, title, subtitle, timeModule, templateModule}
     }
 }
 </script>

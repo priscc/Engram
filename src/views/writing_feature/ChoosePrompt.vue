@@ -26,7 +26,6 @@
 import whitecontainer from '../../components/writing_feature/WhiteContainer.vue'
 import breadcrumb from '../../components/writing_feature/BreadCrumb.vue'
 import prompt from '../../components/writing_feature/Prompt.vue'
-import navbarvue from '../../components/writing_feature/NavBar.vue'
 import storeWriting from '@/store/writing.js'
 import { computed, onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
@@ -35,7 +34,6 @@ export default {
         whitecontainer, 
         breadcrumb, 
         prompt,
-        navbarvue
     },
     setup() {
         const router = useRouter();
