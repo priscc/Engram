@@ -15,8 +15,9 @@
             </b-row>
         </b-col>
         <b-col  class="head-section-2">
-            <prompttype v-if="prompt && !score" :prompt="prompt"></prompttype>
+            <prompttype v-if="prompt && !score && !timer" :prompt="prompt"></prompttype>
             <gradescore v-if="score" :score="score"></gradescore>
+            <timer v-if="timer"></timer>
         </b-col>
     </b-row>
   </b-container>
@@ -25,11 +26,13 @@
 <script>
 import gradescore from './GradeScore.vue';
 import prompttype from './PromptType.vue';
+import timer from './Timer.vue';
 export default {
-    props:['prompt', 'score'],
+    props:['prompt', 'score', 'timer'],
     components: {
         prompttype,
-        gradescore
+        gradescore,
+        timer
     }
 }
 </script>

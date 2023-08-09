@@ -12,7 +12,7 @@
                 <a class="strip back-button-style-right mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3" @click="handleBack()">Back to Modules</a>
             </b-row>
             <b-row class="px-4 white-container">
-                <essayhead :prompt="exersize.prompt" :score="65"></essayhead>
+                <essayhead :prompt="exersize.prompt" :timer="65"></essayhead>
                 <!-- <progressvue :section="currentSection" class="my-4"></progressvue> -->
                 <!-- <essayarea :props="exersize" @updateProgress="(section) => handleUpdate(section)"></essayarea> -->
                 <sectionfeedback class="mt-3"></sectionfeedback>

@@ -9,7 +9,7 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="navbar_tab_section">
             <b-nav-item @click="router.push({name: 'Home'})"> <span class="nav-dropdown">
-                AP World History
+                AP World History Unit
             </span></b-nav-item>
             <b-nav-item href="#"><span class="nav-dropdown">
                 Quiz Questions
@@ -108,7 +108,7 @@ export default {
     color: var(--text-gray-900, #18191F);
     font-feature-settings: 'clig' off, 'liga' off;
     font-family: Manrope;
-    font-size: 16px;
+    font-size: 15px;
     font-style: normal;
     font-weight: 700;
     line-height: 20px; /* 125% */
