@@ -23,6 +23,7 @@
     font-style: normal
     font-weight: 900
     position: relative
+    font-family: 'Manrope', sans-serif
 
 .prompt-title
     color: #111
@@ -32,8 +33,14 @@
     font-style: normal
     font-weight: 800
     line-height: 64px
+
+.moderate-padding 
     padding-left: 55px
     padding-right: 55px
+
+.extreme-padding 
+    padding-left: 145px
+    padding-right: 145px
 
 
 .white-container 
@@ -236,6 +243,12 @@
     line-height: 20px
     cursor: pointer
 
+.back-button-style-right::after
+    content: url('../../assets/writing_feature/chevron-right-purple.svg') !important
+    position: relative
+    top: 5px
+    padding-left: 5px
+
 .back-button-style::before
     content: url('../../assets/writing_feature/chevron-left.svg') !important
     position: relative
@@ -280,7 +293,57 @@
     font-weight: 800
     line-height: normal
     letter-spacing: -1.15px
+    font-family: 'Manrope', sans-serif
 
 .responsive-padding 
   padding-left: 5%
   padding-right: 5%
+
+// FeaturesDisplay sass
+
+#feature 
+    max-width: 350px 
+    text-align: left
+    padding: 30px 32px 30px 32px
+
+.feature-title 
+    color: var(--text-gray-900, #18191F)
+    font-feature-settings: 'liga' off
+    font-size: 24px
+    font-style: normal
+    font-weight: 600
+    line-height: 32px 
+
+
+.feature-description 
+    color: var(--text-gray-900, #18191F)
+    font-feature-settings: 'liga' off
+
+    font-size: 15px
+    font-style: normal
+    font-weight: 400
+    line-height: 26px 
+
+
+.features-icon-parent 
+    position: relative
+    width: 50px
+    padding-bottom: 56px
+
+
+#features-link 
+    color: var(--brand-purple, #8C30F5)
+    font-feature-settings: 'clig' off, 'liga' off
+    font-size: 12px
+    font-style: normal
+    font-weight: 700
+    line-height: 16px
+    text-decoration: none
+    cursor: pointer
+
+
+#features-link::after 
+    content: url("../../assets/writing_feature/right-arrow.svg") !important    
+    padding-left:8px
+    position:absolute
+    bottom: 45px

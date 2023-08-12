@@ -1,6 +1,6 @@
 <template>
-    <b-breadcrumb>
-        <b-breadcrumb-item v-for="item in items" :key="item.name" :id="item.active ? 'active' : 'un-active'" active>{{ item.text }}</b-breadcrumb-item>
+    <b-breadcrumb class="fontist">
+        <b-breadcrumb-item v-for="item in items" :key="item.name" :id="item.active ? 'bread_active' : 'un-active'" active>{{ item.text }}</b-breadcrumb-item>
     </b-breadcrumb>
 </template>
 
@@ -11,6 +11,10 @@ export default {
 </script>
 
 <style scoped>
+.active {
+    background: none;
+    opacity: 1;
+}
 #un-active {
     color: #AAAAAA;
     font-size: 16px;
@@ -19,7 +23,7 @@ export default {
     /* border: red 1px solid; */
 }
 
-#active {
+#bread_active {
     color: var(--primary, #8C30F5);
     font-size: 16px;
     font-style: normal;
@@ -50,3 +54,4 @@ flex-shrink: 100;
 } */
 
 </style>
+<style scoped lang="sass" src="@/assets/css/essayWriting.sass"></style>

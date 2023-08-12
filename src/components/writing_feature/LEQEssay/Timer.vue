@@ -1,14 +1,41 @@
 <template>
-  <div class="test">
-    <svg class="test" xmlns="http://www.w3.org/2000/svg" width="139" height="139" viewBox="-75 -80 155 150" fill="none">
-        <path d="M0 -69 A69 69 0 1 1 0 69 69 69 0 1 1 0 -69" :stroke="currentTime >= maxTime - 10 ? '#8C30F5' : '#D9DBE1'" stroke-width="2"/>
-        <path :d="`M0 -69 A69 69 0 ${currentTime > (maxTime / 2) ? 1 : 0} 1 ${endX} ${endY}`" stroke="#8C30F5" stroke-width="2"/>
-        <!-- <circle cx="0" cy="0" r="5" stroke="#D9DBE1" stroke-width="1"></circle> -->
-        <circle cx="100" cy="0" r="5" stroke="#D9DBE1" stroke-width="1"></circle>
-        <circle cx="0" cy="100" r="5" stroke="#D9DBE1" stroke-width="1"></circle>
-        <circle v-for="landmark in landmarks" :key="landmark" stroke="#D9DBE1" stroke-width="1" :class="{'passed-circle' : landmark.value.passed }" :cx="landmark.value.cx" :cy="landmark.value.cy" :r="landmark.value.passed? 8.5 : 6.5"></circle>
-    </svg>
-  </div>
+    <div class="my-auto" style="border: 1px solid green; height: min-content;">
+        <div class="test text-center my-auto" style="position: relative;">
+            <svg class="test" xmlns="http://www.w3.org/2000/svg" width="145" height="145" viewBox="-75 -80 155 150" fill="none">
+                <path d="M0 -69 A69 69 0 1 1 0 69 69 69 0 1 1 0 -69" :stroke="currentTime >= maxTime - 10 ? '#8C30F5' : '#D9DBE1'" stroke-width="2"/>
+                <path :d="`M0 -69 A69 69 0 ${currentTime > (maxTime / 2) ? 1 : 0} 1 ${endX} ${endY}`" stroke="#8C30F5" stroke-width="2"/>
+                <circle cx="100" cy="0" r="5" stroke="#D9DBE1" stroke-width="1"></circle>
+                <circle cx="0" cy="100" r="5" stroke="#D9DBE1" stroke-width="1"></circle>
+                <circle v-for="landmark in landmarks" :key="landmark" stroke="#D9DBE1" stroke-width="1" fill="#D9DBE1" :class="{'passed-circle' : landmark.value.passed }" :cx="landmark.value.cx" :cy="landmark.value.cy" :r="landmark.value.passed? 8.5 : 6.5"></circle>
+            </svg>
+            <span class="outline" :class="{'passed-indicator' : outline.passed}">
+                Outline ({{ 10 * multiplier }} min)
+            </span>
+            <span class="contextualization" :class="{'passed-indicator' : contextualization.passed}">Contextualization ({{ 3 * multiplier }} min)</span>
+            <span class="thesis" :class="{'passed-indicator' : thesis.passed}">Thesis ({{ 5 * multiplier }} min)</span>
+            <span class="evidence1" :class="{'passed-indicator' : evidence1.passed}">Evidence #1 / Analysis ({{ 10 * multiplier }} min)</span>
+            <span class="evidence2" :class="{'passed-indicator' : evidence2.passed}">Evidence #2 / Analysis ({{ 10 * multiplier }} min)</span>
+            <span class="conclusion test" :class="{'passed-indicator' : conclusion.passed}">Conclusion ({{ 5 * multiplier }} min)</span>
+            <span class="revisions" :class="{'passed-indicator' : revision.passed}">Revisions ({{ 2 * multiplier }} min)</span>
+        </div>
+        <div class="test mt-auto my-auto">  
+            <b-form-group class="form-border-top">
+                <b-form-checkbox-group
+                    v-model="selected"
+                    inline
+                > 
+                    <b-row align-h="center" class="g-5">
+                        <b-col cols="auto">
+                            <b-form-checkbox value=""> I have 1.5x time</b-form-checkbox>
+                        </b-col>
+                        <b-col cols="auto">
+                            <b-form-checkbox value=""> I have 2x time</b-form-checkbox>
+                        </b-col>
+                    </b-row>
+                </b-form-checkbox-group>
+            </b-form-group>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -17,7 +44,7 @@ export default {
     setup() {
         const multiplier = ref(1)
         const maxTime = ref(2700 * multiplier.value)
-        const currentTime = ref(2700) 
+        const currentTime = ref(1300) 
         
         const frac = computed(() => (currentTime.value / maxTime.value) * Math.PI * 2);
         const endX = computed(() => Math.cos(frac.value + (Math.PI * 0.5) ) * -69);
@@ -93,15 +120,80 @@ export default {
         //     }
         // }
         console.log(landmarks)
-        return {endX, endY, landmarks, currentTime, maxTime}
+        return {endX, endY, landmarks, currentTime, maxTime,
+            outline, contextualization, thesis, evidence1, 
+            evidence2, conclusion, revision, multiplier
+        }
     }
 }
 </script>
 
-<style>
+<style scoped>
+.passed-indicator {
+    color: var(--text-accent, #9B51E0);
+}
 .passed-circle {
     stroke: #8C30F5;
     fill: #8C30F5;
+}
+.outline {
+    position: absolute;
+    top: -5px;
+    right: 112px;
+}
+.contextualization {
+    position: absolute;
+    top: 55px;
+    right: -255px;
+}
+.thesis {
+    position: absolute;
+    top: 88px;
+    right: -232px;
+}
+.conclusion {
+    position: absolute;
+    top: 30px;
+    left: 35px;
+}
+.evidence1 {
+    position: absolute;
+    top: 128px;
+    right: -10px;
+}
+.evidence2 {
+    position: absolute;
+    top: 115px;
+    left: -23px;
+}
+.revisions {
+    position: absolute;
+    top: 0px;
+    left: 75px;
+}
+span {
+    color: var(--text-subtle-2, #D9DBE1);
+    text-align: center;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    white-space: nowrap;
+}
+.form-border-top {
+    margin-top:25px;
+    padding-top: 5px;
+    border-top: 2px solid #EEECEC;
+}
+</style>
+<style lang="scss">
+.custom-control .custom-control-label {
+    padding-left: 5px;
+    color: var(--text-normal, #18191F);
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: normal;
 }
 </style>
 <style lang="sass" src="@/assets/css/essayWriting.sass"></style>

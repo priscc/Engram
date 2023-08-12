@@ -33,7 +33,7 @@ export default {
 .progress-container {
     background: white;
     height: 86px;
-    width: fit-content;
+    width: 100%;
     border-radius: 10px;
     background: #FFF;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);

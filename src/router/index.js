@@ -16,7 +16,7 @@ import ChoosePrompt from "../views/writing_feature/ChoosePrompt";
 import LEQEssay from "../views/writing_feature/LEQEssay";
 import Feedback from "../views/writing_feature/Feedback";
 import Quiz from "../views/Quiz";
-
+import LabelSection from "../views/writing_feature/LabelSection";
 const routes = [
   {
     path: "/",
@@ -86,12 +86,12 @@ const routes = [
     component: SelectModule
   }, 
   {
-    path: "/002",
+    path: "/002/:module",
     name: "002",
     component: ChoosePrompt
   }, 
   {
-    path: "/003/:id",
+    path: "/003/:id/:module",
     name: "003",
     component: LEQEssay
   }, 
@@ -99,6 +99,11 @@ const routes = [
     path: "/004/:id",
     name: "004",
     component: Feedback
+  },
+  {
+    path: "/test",
+    name: "test",
+    component: LabelSection
   }
 ];
 

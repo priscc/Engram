@@ -2,7 +2,9 @@ import { createStore } from "vuex";
 
 export const storeWriting = createStore({
     state: { 
+        // currentEssayStructureModule: JSON.parse(localStorage.getItem('module') || {module: 'beginner'}),
         uniqueId: 0, //Global variable equivalent to most recent feedback obj id to access feedback w/o exposing id parameters
+        moduleVersion: 'Beginners', //Function is the same as above, ONLY mutated upon pressing finsih on an essay
         prompts: [
             {
                 prompt: 'In the late twentieth century, the spread of free-market economic ideas led to numerous changes around the world. Develop an argument that evaluates the extent to which the spread of free-market ideas led to economic change during this period.',
@@ -85,6 +87,7 @@ export const storeWriting = createStore({
             {
                 id: 'sample',
                 prompt_id: 'sample',
+                moduleVersion: 'Beginners',
                 feedback_given: false,
                 score: null,
                 content: {
@@ -139,18 +142,61 @@ export const storeWriting = createStore({
             state.uniqueId++;
             return state.uniqueId;
         },
-        findPrompt: state => (i) => {
+        parseFeedbackAsTemplate: (state) => (i) => {
+            const feedback = state.feedback.filter(feed => feed.prompt_id === i.id && feed.moduleVersion === i.version );
+            if (feedback.length > 0) {
+                console.log("this is the one we're parsing: ", feedback[0])
+                let completedTemplate = {
+                    prompt_id: feedback[0].prompt_id, 
+                    moduleVersion: feedback[0].moduleVersion,
+                    templates: {
+                        thesis: feedback[0].content.thesis.userInput,
+                        evidence: [],
+                        contextualization: feedback[0].content.contextualization.userInput, 
+                        conclusion: feedback[0].content.conclusion.userInput,
+                    }
+                }
+                feedback[0].content.evidence.forEach(x => {
+                    completedTemplate.templates.evidence.push([x.evidence.userInput, x.analysis.userInput])
+                })
+                console.log('successfully implemented feedback parsing as template', completedTemplate)
+                return [completedTemplate]
+            }
+            return [];
+        },
+        findPrompt: (state, getters) => (i) => {
             //Prioritizes returning the completed user input over the original blank templates
-            const completedPromptres = state.completedPrompts.filter(prompt => prompt.prompt_id === i);
-            const promptres = state.prompts.filter(prompt => prompt.id === i);
-            const templateres = state.promptTemplates.filter(template => template.prompt_id === i);
+            // const completedPromptres = state.completedPrompts.filter(prompt => prompt.prompt_id === i.id && prompt.moduleVersion === i.version );
+            if(i === null) {
+                return null
+            }
+            const completedPromptres = getters.parseFeedbackAsTemplate(i);
+            const promptres = state.prompts.filter(prompt => prompt.id === i.id);
+            const templateres = state.promptTemplates.filter(template => template.prompt_id === i.id);
             return (completedPromptres.length > 0 ? {prompt: promptres[0], template: completedPromptres[0]} : {prompt: promptres[0], template: templateres[0]});
         }, 
         findFeedback: state => (i) => {
-            const feedback = state.feedback.filter(feed => feed.id.toString() === i.toString());
+            const feedback = state.feedback.filter(feed => feed.id.toString() === i.id.toString() && feed.moduleVersion === i.version);
             console.log(feedback, state.uniqueId, state.feedback, i);
             if (!feedback.length) {
                 return 202;
+            } else if (!feedback[0].feedback_given) {
+                //adding feedback
+                //NOTE: feedback should call an action doing the following and getter should only return once feedback_given property is true
+                //IMPLEMENTED (date): not yet
+                feedback[0].content.contextualization.good = 'The response situates the emergence of German leader Adolf Hitler in the aftermath of World War I.';
+                feedback[0].content.contextualization.toImprove = 'You could have added more contextualization to be more detailed ';
+                feedback[0].content.thesis.good = 'The response situates the emergence of German leader Adolf Hitler in the aftermath of World War I.';
+                feedback[0].content.thesis.toImprove = 'You could have added more contextualization to be more detailed ';
+                feedback[0].content.conclusion.good = 'The response situates the emergence of German leader Adolf Hitler in the aftermath of World War I.';
+                feedback[0].content.conclusion.toImprove = 'You could have added more contextualization to be more detailed ';
+                feedback[0].content.evidence.forEach(x => {
+                    x.analysis.good = 'The response situates the emergence of German leader Adolf Hitler in the aftermath of World War I.';
+                    x.analysis.toImprove = 'You could have added more contextualization to be more detailed ';
+                    x.evidence.good = 'The response situates the emergence of German leader Adolf Hitler in the aftermath of World War I.';
+                    x.evidence.toImprove = 'You could have added more contextualization to be more detailed ';
+                })
+                feedback[0].feedback_given = true;
             }
             return feedback[0];
         }
@@ -166,25 +212,33 @@ export const storeWriting = createStore({
         unselectPrompt (state) {
             state.selectedPrompt = null;
         }, 
+        changeVersion (state, payload) {
+            state.moduleVersion = payload;
+        },
         uploadUserInput (state, payload) {
             // Overrides/Updates existing feedback object if exists and has an equivalent prompt id 
-            // Updates uniqueID to connect to existing feedback obj
-            let index = state.feedback.findIndex(x => x.prompt_id === payload.prompt_id);
-            console.log('apparent index ', state.feedback[index] );
-            let completed_index = state.completedPrompts.findIndex(x => x.prompt_id === payload.prompt_id);
+            // Updates uniqueID to connect to existing feedback obj if exists
+            //    -  uniqueID functions to identify the feedback obj without being exposed to user manipulation like route params would
+            let index = state.feedback.findIndex(x => x.prompt_id === payload.prompt_id && x.moduleVersion === payload.moduleVersion);
+            // console.log('apparent index ', state.feedback[index] );
+            let completed_index = state.completedPrompts.findIndex(x => x.prompt_id === payload.prompt_id && x.moduleVersion === payload.moduleVersion);
             if (index > -1) {
 
+                //set uniqueID
                 state.uniqueId = state.feedback[index].id;
-                state.feedback[index].content.contextualization = payload.contextualization;
-                state.feedback[index].content.thesis = payload.thesis;
-                state.feedback[index].content.conclusion = payload.thesis; 
+                //UPDATE 8/10/23: bug fix, set new inputs to userInput property of content fields instead of the entire field
+                state.feedback[index].content.contextualization.userInput = payload.contextualization;
+                state.feedback[index].content.thesis.userInput = payload.thesis;
+                state.feedback[index].content.conclusion.userInput = payload.thesis; 
 
                 state.completedPrompts[completed_index].templates.contextualization = payload.contextualization
                 state.completedPrompts[completed_index].templates.thesis = payload.thesis
                 state.completedPrompts[completed_index].templates.conclusion = payload.conclusion
 
+                //Compatible with a dynamic amount of evidence
                 for(let i in payload.evidence) {
                     if (i > state.feedback[index].content.evidence.length - 1) {
+                        //adds new evidences when more is present 
                         const new_evidence = {
                             evidence: {
                                 userInput: payload.evidence[i][0],
@@ -200,8 +254,9 @@ export const storeWriting = createStore({
                         state.feedback[index].content.evidence.push(new_evidence);
                         state.completedPrompts[completed_index].templates.evidence.push(new_evidence);
                     } else {
-                        state.feedback[index].content.evidence[i].evidence = payload.evidence[i][0];
-                        state.feedback[index].content.evidence[i].analysis = payload.evidence[i][1];
+                        //overrides previous evidences 
+                        state.feedback[index].content.evidence[i].evidence.userInput = payload.evidence[i][0];
+                        state.feedback[index].content.evidence[i].analysis.userInput = payload.evidence[i][1];
 
                         state.completedPrompts[completed_index].templates.evidence[i][0] = payload.evidence[i][0];
                         state.completedPrompts[completed_index].templates.evidence[i][1] = payload.evidence[i][1];
@@ -211,6 +266,7 @@ export const storeWriting = createStore({
                 const userInput = {
                     id: payload.id,
                     prompt_id: payload.prompt_id,
+                    moduleVersion: payload.moduleVersion,
                     feedback_given: false,
                     score: null,
                     content: {
@@ -234,6 +290,7 @@ export const storeWriting = createStore({
                 };
                 const completedPrompt = {
                     prompt_id: payload.prompt_id, 
+                    moduleVersion: payload.moduleVersion,
                     templates: {
                         thesis: payload.thesis,
                         evidence: [],
@@ -257,6 +314,7 @@ export const storeWriting = createStore({
                     userInput.content.evidence.push(new_evidence);
                     completedPrompt.templates.evidence.push([x[0], x[1]]);
                 });
+                //creates new completed prompt and feedback object 
                 state.feedback.push(userInput);
                 state.completedPrompts.push(completedPrompt);
             }
@@ -271,6 +329,9 @@ export const storeWriting = createStore({
         }, 
         setUserInput ({ commit }, payload) {
             commit('uploadUserInput', payload);
+        },
+        setModuleVersion({ commit }, payload) {
+            commit('changeVersion', payload);
         }
     }
   });

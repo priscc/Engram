@@ -23,6 +23,7 @@
     "d3-transition": "^3.0.1",
     "firebase": "^8.4.1",
     "firestore": "^1.1.6",
+    "serve": "^14.2.0",
     "topojson": "^3.0.2",
     "version-check": "^1.2.0",
     "vue": "^3.2.47",

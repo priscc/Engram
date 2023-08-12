@@ -1,5 +1,5 @@
 <template>
-  <div id="essay-writing">
+  <div id="essay-writing fontist">
     <navbarvue style="position: absolute; top: 0; width: 100%;"></navbarvue>
     <b-container fluid class="background">
         <b-row class="pt-4 responsive-padding">
@@ -8,7 +8,7 @@
         <b-row class="px-4 pb-3 pt-2 title" style="position:relative">
             <a class="strip back-button-style mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3" @click="handleBack()">Back</a>
             <h1 class="text-center prompt-title">
-                Section Module: Beginners
+                Choose a Prompt
             </h1>
         </b-row>
         <b-row class="px-4 white-container responsive-padding mx-0 mx-sm-4 mx-md-4 mx-lg-4">
@@ -28,7 +28,7 @@ import breadcrumb from '../../components/writing_feature/BreadCrumb.vue'
 import prompt from '../../components/writing_feature/Prompt.vue'
 import storeWriting from '@/store/writing.js'
 import { computed, onMounted, ref } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 export default {
     components: {
         whitecontainer, 
@@ -37,6 +37,10 @@ export default {
     },
     setup() {
         const router = useRouter();
+        const route = useRoute();
+        if (route.params.module !== 'Beginners' && route.params.module !== 'Advanced') {
+            router.push({name: '001'});
+        }
         const store = storeWriting;
         onMounted(() => {
             store.dispatch('unSetSelectedPrompt');
@@ -59,7 +63,7 @@ export default {
         ]
         const title = "Choose a Prompt"
         const subtitle = "Choose one of three long essay question prompts to answer. The long essay requires students to demonstrate their ability to use historical evidence in writing a thoughtful historical argument. In the following questions, students will analyze an issue using the reasoning skill of continuity and change over time."
-        const buttonprops = ref({content: "Get Started", route: '003', disabled: canClick, params: {id : currentPrompt}})
+        const buttonprops = ref({content: "Get Started", route: '003', disabled: canClick, params: {id : currentPrompt, module: route.params.module}})
 
         const handleBack = () => {
             router.push({name: '001'});
@@ -70,7 +74,9 @@ export default {
 </script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap');
-
+.active {
+    opacity:1;
+}
 #module-white-container {
     padding-bottom: 0px;
 }

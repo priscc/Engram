@@ -13,7 +13,7 @@
         <b-row class="px-4 white-container">
             <essayhead :prompt="exersize.prompt"></essayhead>
             <progressvue :section="currentSection" class="my-4"></progressvue>
-            <essayarea :props="exersize" :identification="id" @updateProgress="(section) => handleUpdate(section)"></essayarea>
+            <essayarea :props="exersize" :moduleVersion="moduleVersion" :identification="id" @updateProgress="(section) => handleUpdate(section)"></essayarea>
         </b-row>
     </b-container>
 </div>
@@ -37,9 +37,13 @@ export default {
     setup() {
         const router = useRouter();
         const route = useRoute();
+        const moduleVersion = route.params.module;
+        if (moduleVersion !== 'Beginners' && moduleVersion !== 'Advanced') {
+            router.push({name: '001'});
+        }
         const store = storeWriting;
         const id = route.params.id;
-        const exersize = store.getters.findPrompt(id);
+        const exersize = store.getters.findPrompt({id: id, version: moduleVersion});
         console.log('initial fetch',id, exersize);
         const items = [
             {
@@ -68,7 +72,7 @@ export default {
         onMounted(() => {
             window.scrollTo({ top: 0, behavior: "smooth"});
         })
-        return { items, buttonprops, exersize, handleUpdate, currentSection, id, handleBack}
+        return { items, buttonprops, exersize, handleUpdate, currentSection, id, handleBack, moduleVersion}
     }
 }
 </script>

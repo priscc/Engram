@@ -1,5 +1,5 @@
 <template>
-  <b-button @click="next" id="purple" class="border-0 p-auto m-auto" :disabled="buttonprops.disabled">
+  <b-button @click="next" id="purple" class="border-0 p-auto m-auto fontist" :disabled="buttonprops.disabled">
     {{ buttonprops.content }}
   </b-button>
 </template>

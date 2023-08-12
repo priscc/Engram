@@ -128,9 +128,7 @@ export default {
   background: white;
   color: black;
 }
-.search-button:hover,
-.search-button:focus,
-.search-button:active,
+
 .search-button:focus:not(:disabled):not(.disabled),
 .search-button:focus,
 .search-button:active,
@@ -141,15 +139,6 @@ export default {
   color: black;
 }
 
-.nav-dropdown:hover,
-.nav-dropdown:focus,
-.nav-dropdown:active {
-  box-shadow: none !important;
-  outline: none !important;
-  text-decoration: none !important;
-  border: none !important;
-  opacity: 1;
-}
 .nav-dropdown {
   color: var(--text-gray-900, #18191f);
   font-feature-settings: "clig" off, "liga" off;
