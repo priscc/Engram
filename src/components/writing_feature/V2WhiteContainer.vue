@@ -6,11 +6,11 @@
             <slot name="templates"></slot>
         </b-row>
         <b-row no-gutters align-h="center" class="gx-5">
-            <b-col cols="auto" class="white-container-try-it-container text-center">
+            <b-col class="white-container-try-it-container text-center">
                 <slot name="try-it"></slot>
             </b-col>
             <!-- <b-col class="gutter"></b-col> -->
-            <b-col cols="auto" class="white-container-timed-container text-center">
+            <b-col class="white-container-timed-container text-center">
                 <slot name="timed"></slot>
             </b-col>
         </b-row>
