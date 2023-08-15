@@ -78,6 +78,5 @@ export default {
 </script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap');
-
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

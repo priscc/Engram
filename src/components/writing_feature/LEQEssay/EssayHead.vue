@@ -1,6 +1,7 @@
 <template>
   <b-container fluid class="head-container">
     <b-row class="g-3" align-h="center">
+
         <b-col class="head-section align-content-center" :class="{'component-sizing-height' : timer}">
             <b-row no-gutters class="px-3" :class="{'prompt-center' : timer}">
                 <b-col class="prompt-label pb-3">Prompt</b-col>
@@ -57,7 +58,6 @@ export default {
     box-shadow: 0px 30px 40px 0px rgba(212, 217, 232, 0.20);
     padding: 37px 50px 0 50px;
 }
-
 .component-sizing {
     max-width: 380px;
     min-height: 140px;
@@ -95,7 +95,6 @@ export default {
     min-width: 250px;
     /* border: 1px solid red; */
 }
-
 .prompt-subtitle {
     color: var(--text-accent, #9B51E0);
     font-size: 16px;
@@ -103,7 +102,6 @@ export default {
     font-weight: 700;
     line-height: 22px; /* 137.5% */
 }
-
 .subtitle-body {
     color: var(--text-gray-900, #18191F);
     font-family: Manrope;
@@ -112,7 +110,6 @@ export default {
     font-weight: 400;
     line-height: 22px;
 }
-
 .prompt-head-container {
     padding: 37px 0;
 }

@@ -127,12 +127,14 @@ export default {
             },
 
         ])
+
         // total emits = stream length and # of evidences (because analysis is wrapped within the evidence obj, but has their own textarea component within their own emits)
         const totalEmits = computed(() => stream.value.length + evidences.value);
         const currentEmits = ref(0);
         const dataRequested = ref(false);
 
         //Submits user input to store when all textarea components have emitted their events and updated data in parent
+        
         watch(currentEmits, (newEmit, oldEmit) => {
             console.log(`${newEmit} emits from ${oldEmit}`);
             if (newEmit === totalEmits.value) {
@@ -140,6 +142,7 @@ export default {
                 let evidencePost = [];
                 evidence.forEach(x => {evidencePost.push([x[0].template, x[1].template]);})
                 const idea = {
+
                     prompt_id: props.identification, //ID to identify prompt
                     id: store.getters.getUniqueId, //Unique ID assigned to new feedback obj (to be replaced by firestore id's)
                     moduleVersion: props.moduleVersion, //For segregating beginner and advanced modules
@@ -150,6 +153,7 @@ export default {
                     conclusion: conclusion.template,
                     thesis: thesis.template
                 }
+
                 // console.log('criminal', idea)
                 store.dispatch('setUserInput', idea);
                 store.dispatch('setModuleVersion', props.moduleVersion);
@@ -169,6 +173,7 @@ export default {
         const handleRequest = (data, stream) => {
             console.log(stream);
             stream.template = data;
+
             console.log('handled', data, stream.template)
             currentEmits.value++;
         }
@@ -195,6 +200,7 @@ export default {
         return { 
             stream, evidence, evidenceSubTemplateSubtitle, currentSection, 
             setCurrentSection, router, handleSubmit, submitted, 
+
             handleRequest, dataRequested,  handleFocus
         }
     }

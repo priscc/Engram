@@ -70,7 +70,6 @@ export default {
                         finalString.value.push({ editable: false, content: (element + " "), placeholder: null});
                     }
                 });
-                
                 //add inital template as a property to preserve it when this object is re-injected into this component
                 if(props.moduleVersion === 'Advanced') {
                     advancedWriting.value[0].template = finalString.value;
@@ -139,14 +138,12 @@ export default {
     width: 50px;
     margin-bottom: -6px;
 }
-
 .text-blank:hover,.text-blank:focus,.text-blank:active,
 .no-template:hover,.no-template:focus,.no-template:active {
     outline: none;
     box-shadow: none;
     /* border: 2px solid yellow; */
 }
-
 .no-template{
     display: inline-block;
     width: 100%;
@@ -164,7 +161,6 @@ export default {
     border-bottom: 1px solid #969BAB;
     /* display: block; */
 }
-
 .blank-label {
     position: absolute; 
     top: 23px; 
