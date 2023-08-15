@@ -199,7 +199,7 @@ export default {
                 topicName: y.title,
                 topic: x.topicID,
                 category: 2,
-                id: "Events",
+                id: x.document.title,
               },
             })
             .then(() => {

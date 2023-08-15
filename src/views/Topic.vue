@@ -172,7 +172,7 @@ export default {
       window.scrollTo({ top: 0, behavior: "smooth" });
     },
     scrollToSection(index) {
-      VueScrollTo.scrollTo(`#${this.topicButtons[index]}`, 1000);
+      VueScrollTo.scrollTo(`#${this.topicButtons[index]}`, 975);
       setTimeout(() => {
         this.updateCurrentSection();
       }, 510);
