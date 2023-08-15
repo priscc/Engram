@@ -30,7 +30,7 @@
                 <!-- <b-col v-if="modules.name === 'template'" style="border: 1px solid green; max-width: 55px;">
                 </b-col> -->
                 <b-col :cols="modules.orientation" class="module-gutter" :class="{'button-template ms-lg-5' : modules.name === 'template', 'button-try-it' : modules.name === 'try-it'}">
-                    <div class="w-100 text-center module-button-parent mx-auto">
+                    <div class="w-100 text-center module-button-parent mx-auto py-3">
                         <purplebutton :buttonprops="modules.button" class="button"></purplebutton>
                     </div>
                 </b-col>

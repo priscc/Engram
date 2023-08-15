@@ -1,5 +1,5 @@
 <template>
-    <b-container fluid class="prompt-container" @click="handleClick">
+    <b-container fluid class="prompt-container fontist" @click="handleClick">
         <b-row>
             <span>
                 <span>Prompt:</span><br>

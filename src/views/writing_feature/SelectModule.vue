@@ -106,7 +106,7 @@ export default {
                 img: 'ModuleIcon3.svg', 
                 title: 'For Beginners',
                 points: ['Section step by step guides', 'Sample prompts', 'No time restriction'], 
-                button: {content: "Start", route: '002', disabled: false},
+                button: {content: "Start", route: '002', params: {module: 'Beginners'}, disabled: false},
                 orientation: 12,
                 name:'try-it',
                 time: '~15 min'
@@ -115,7 +115,7 @@ export default {
                 img: 'ModuleIcon2.svg', 
                 title: 'For Advance Learners',
                 points: ['Explore each section in-depth', 'Sample prompts', 'No time restriction'],
-                button: {content: "Start", route: 'SelectDifficulty', disabled: false},
+                button: {content: "Start", route: '002', params:  {module: 'Advanced'}, disabled: false},
                 orientation: 12,
                 name:'try-it',
                 time: '~45 min-1hr'

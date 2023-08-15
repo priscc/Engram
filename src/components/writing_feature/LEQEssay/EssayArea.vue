@@ -10,10 +10,10 @@
                         <!-- Old: -->
                         <!-- <b-form-textarea @click="setCurrentSection(stream.title)" v-model="stream.template" type="text" max-rows="8" placeholder="...add text here" class="user-input-area"></b-form-textarea> -->
                         <!-- New:  -->
-                        <textareavue :dataRequested="dataRequested" :string="stream.template.template" :bgColor="stream.palette" @click.native="setCurrentSection(stream.title)" @fulfillRequest="(data) => handleRequest(data, stream.template)"></textareavue>
+                        <textareavue @focusin="handleFocus" :moduleVersion="moduleVersion" :dataRequested="dataRequested" :string="stream.template.template" :bgColor="stream.palette" @click.native="setCurrentSection(stream.title)" @fulfillRequest="(data) => handleRequest(data, stream.template)"></textareavue>
                         <div v-if="stream.subTemplateSubtitle" class="subsubtitle">
                             <div class="area-subtitle">{{ stream.subTemplateSubtitle.subtitle }}</div>
-                            <textareavue :dataRequested="dataRequested" :string="stream.subTemplate.template" :placeholder="stream.placeholder" :bgColor="'#F5E07B'" @click.native="setCurrentSection(stream.subTemplateSubtitle.title)" @fulfillRequest="(data) => handleRequest(data, stream.subTemplate)"></textareavue>
+                            <textareavue :moduleVersion="moduleVersion" :dataRequested="dataRequested" :string="stream.subTemplate.template" :placeholder="stream.placeholder" :bgColor="'#F5E07B'" @click.native="setCurrentSection(stream.subTemplateSubtitle.title)" @fulfillRequest="(data) => handleRequest(data, stream.subTemplate)"></textareavue>
                             <!-- <b-form-input @click="setCurrentSection(stream.subTemplateSubtitle.title)" v-model="stream.subTemplate.template" type="text" placeholder="...add text here"></b-form-input> -->
                         </div>
                     </b-form-group>
@@ -39,7 +39,7 @@ import finishmodal from './FinishModal.vue';
 import storeWriting from '../../../store/writing';
 import textareavue from './TextArea.vue';
 export default {
-    props: ['props', 'identification'],
+    props: ['props', 'identification', 'moduleVersion'],
     components: {
         breakdown,
         finishmodal,
@@ -50,12 +50,6 @@ export default {
         //STORE 
         const submitted = ref(false);
         const store = storeWriting;
-        // const id = computed(() => store.state.uniqueId);
-        // const idIsUpdated = ref(false);
-        // watch(id, (new_id, old_id) => {
-        //     idIsUpdated.value = true;
-        //     console.log(old_id + " updated to: " + new_id, idIsUpdated);
-        // });
 
         //V-MODEL REFS
         const contextualization = reactive({ template: props.props.template.templates.contextualization});
@@ -133,9 +127,14 @@ export default {
             },
 
         ])
-        const totalEmits = computed(() => stream.value.length);
+
+        // total emits = stream length and # of evidences (because analysis is wrapped within the evidence obj, but has their own textarea component within their own emits)
+        const totalEmits = computed(() => stream.value.length + evidences.value);
         const currentEmits = ref(0);
         const dataRequested = ref(false);
+
+        //Submits user input to store when all textarea components have emitted their events and updated data in parent
+        
         watch(currentEmits, (newEmit, oldEmit) => {
             console.log(`${newEmit} emits from ${oldEmit}`);
             if (newEmit === totalEmits.value) {
@@ -143,15 +142,21 @@ export default {
                 let evidencePost = [];
                 evidence.forEach(x => {evidencePost.push([x[0].template, x[1].template]);})
                 const idea = {
-                    prompt_id: props.identification, 
-                    id: store.getters.getUniqueId,
+
+                    prompt_id: props.identification, //ID to identify prompt
+                    id: store.getters.getUniqueId, //Unique ID assigned to new feedback obj (to be replaced by firestore id's)
+                    moduleVersion: props.moduleVersion, //For segregating beginner and advanced modules
+
+                    //User input -- analysis is wrapped within the evidence obj
                     contextualization: contextualization.template,
                     evidence: evidencePost,
                     conclusion: conclusion.template,
                     thesis: thesis.template
                 }
-                console.log('criminal', idea)
+
+                // console.log('criminal', idea)
                 store.dispatch('setUserInput', idea);
+                store.dispatch('setModuleVersion', props.moduleVersion);
                 submitted.value = true;
                 console.log('handled submit',store.state.feedback, store.state.completedPrompts);
             }
@@ -168,7 +173,8 @@ export default {
         const handleRequest = (data, stream) => {
             console.log(stream);
             stream.template = data;
-            console.log('handled', data, stream.template, thesis)
+
+            console.log('handled', data, stream.template)
             currentEmits.value++;
         }
         //EVENT HANDLER: BREAKDOWN COMPONENT CONNECTION 
@@ -182,7 +188,9 @@ export default {
             console.log('click', currentSection.value);
             emit('updateProgress', currentSection.value);
         }
-
+        const handleFocus = () => {
+            console.log("focused!")
+        }
         //LIFECYCLE HOOKS (initialize or reset variables)
         onMounted(() => {
             initializeEvidences();
@@ -192,7 +200,8 @@ export default {
         return { 
             stream, evidence, evidenceSubTemplateSubtitle, currentSection, 
             setCurrentSection, router, handleSubmit, submitted, 
-            handleRequest, dataRequested
+
+            handleRequest, dataRequested,  handleFocus
         }
     }
 } 
