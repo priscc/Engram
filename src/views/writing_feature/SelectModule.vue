@@ -163,7 +163,7 @@ export default {
 
 .try-it {
     min-width: 350px;
-    padding: 0 55px 0 35px;
+    /*padding: 0 55px 0 35px;*/
     margin-bottom: 40px;
     margin-top:15px;
     white-space: nowrap;
