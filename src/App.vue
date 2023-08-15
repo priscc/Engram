@@ -10,48 +10,55 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav class="navbar_tab_section">
             <b-nav-item>
-                <div>
-                  <b-form-input list="my-list-id"
-                    :items="searchItems"
-                    text="title"
-                    value="id"
-                    return-object
-                    v-model="search"
-                    prepend-inner-icon="mdi-magnify"
-                    placeholder="Search Anything"
-                    flat
-                    dense
-                    clearable
-                    append-icon=""
-                    hide-details
-                    hide-no-data
-                    filled
-                    @focus="searchClosed = false"
-                    @blur="searchClosed = true"
-                    class="mr-10 expanding-search"
-                    :class="{ closed: searchClosed && !search }"
-                    @keyup.enter = "finalSearch">
-                  </b-form-input>
-                    <template slot="append">
-                      <button  class="btn btn-primary" @click="finalSearch">
-                        Search
-                      </button>
-                    </template>
-                  <div class="list-group list-group-flush autocomplete-form-items" :class="{hide: !visible}">
-                    <button v-for="item in searching" 
-                      :key="item.id" 
-                      class="list-group-item list-group-item-action"
-                      :class="{active: item.id == item.title}"
-                      :serializer="item => item.title"
-                      @click="finalSearch(item)">
-                      {{ item.title }}
-                    </button>
-                  </div>
-                  <!-- <div v-for="item in searching" :key="item.id">
+              <div>
+                <b-form-input
+                  list="my-list-id"
+                  :items="searchItems"
+                  text="title"
+                  value="id"
+                  return-object
+                  v-model="search"
+                  prepend-inner-icon="mdi-magnify"
+                  placeholder="Search Anything"
+                  flat
+                  dense
+                  clearable
+                  append-icon=""
+                  hide-details
+                  hide-no-data
+                  filled
+                  @focus="searchClosed = false"
+                  @blur="searchClosed = true"
+                  class="mr-10 expanding-search"
+                  :class="{ closed: searchClosed && !search }"
+                  @keyup.enter="finalSearch"
+                >
+                </b-form-input>
+                <template slot="append">
+                  <button class="btn btn-primary" @click="finalSearch">
+                    Search
+                  </button>
+                </template>
+                <div
+                  class="list-group list-group-flush autocomplete-form-items"
+                  :class="{ hide: !visible }"
+                >
+                  <button
+                    v-for="item in searching"
+                    :key="item.id"
+                    class="list-group-item list-group-item-action"
+                    :class="{ active: item.id == item.title }"
+                    :serializer="(item) => item.title"
+                    @click="finalSearch(item)"
+                  >
+                    {{ item.title }}
+                  </button>
+                </div>
+                <!-- <div v-for="item in searching" :key="item.id">
                     {{ item.title }}
                   </div> -->
-                </div>
-              </b-nav-item>
+              </div>
+            </b-nav-item>
             <b-nav-item @click="home">
               <span class="navbar_tab">Home</span>
             </b-nav-item>
@@ -123,15 +130,15 @@ export default {
   data() {
     return {
       alertDisplay: true,
-          searchClosed: true,
-          searchItems: [],
-          searching: [],
-          search: null,
+      searchClosed: true,
+      searchItems: [],
+      searching: [],
+      search: null,
     };
   },
   watch: {
-    '$route' (to, from) {
-      console.log('Route changed from ' + from.path + ' to ' + to.path);
+    $route(to, from) {
+      console.log("Route changed from " + from.path + " to " + to.path);
     },
     search: function(val) {
       console.log("watching search", val);
@@ -152,12 +159,14 @@ export default {
     },
   },
   methods: {
-    async finalSearch(x) { // eslint-disable-line no-unused-vars
+    async finalSearch(x) {
+      // eslint-disable-line no-unused-vars
       if (x.collection == "topics") {
         let y = await this.grabbingTopic(x.document.id); // eslint-disable-line no-unused-vars
         console.log("period", y.timePeriod);
         store.dispatch("setTimePeriod", y.timePeriod);
-        this.$router.push({
+        this.$router
+          .push({
             name: "Topic",
             params: {
               periodName: store.getters.timePeriodHeaders.header,
@@ -168,9 +177,10 @@ export default {
               id: "Introductory_Summary",
             },
           })
-          .then(() => { this.$router.go() });
-      }
-      else {
+          .then(() => {
+            this.$router.go();
+          });
+      } else {
         let y = await this.grabbingTopic(x.topicID); // eslint-disable-line no-unused-vars
         console.log("period", y.timePeriod);
         store.dispatch("setTimePeriod", y.timePeriod);
@@ -180,7 +190,8 @@ export default {
         console.log("topic", x.topicID);
         console.log("topic", x.document.title);
         if (x.collection == "events") {
-            this.$router.push({
+          this.$router
+            .push({
               name: "Topic",
               params: {
                 periodName: store.getters.timePeriodHeaders.header,
@@ -191,9 +202,12 @@ export default {
                 id: "Events",
               },
             })
-            .then(() => { this.$router.go() });
+            .then(() => {
+              this.$router.go();
+            });
         } else if (x.collection == "people") {
-            this.$router.push({
+          this.$router
+            .push({
               name: "Topic",
               params: {
                 periodName: store.getters.timePeriodHeaders.header,
@@ -204,9 +218,12 @@ export default {
                 id: x.document.name,
               },
             })
-            .then(() => { this.$router.go() });
+            .then(() => {
+              this.$router.go();
+            });
         } else if (x.collection == "works") {
-            this.$router.push({
+          this.$router
+            .push({
               name: "Topic",
               params: {
                 periodName: store.getters.timePeriodHeaders.header,
@@ -217,9 +234,12 @@ export default {
                 id: x.document.title,
               },
             })
-            .then(() => { this.$router.go() });
+            .then(() => {
+              this.$router.go();
+            });
         } else if (x.collection == "terminology") {
-            this.$router.push({
+          this.$router
+            .push({
               name: "Topic",
               params: {
                 periodName: store.getters.timePeriodHeaders.header,
@@ -230,7 +250,9 @@ export default {
                 id: x.document.term,
               },
             })
-            .then(() => { this.$router.go() });
+            .then(() => {
+              this.$router.go();
+            });
         }
       }
     },
@@ -328,19 +350,17 @@ export default {
         .then(
           function(doc) {
             return doc.data();
-          }.bind(this)
+          }.bind(this),
         );
     },
     async grabbingSearch() {
-      db.collection("searchBar")
-        .doc("bESicXCl5B8APjFo5TAI")
+      await db.collection("searchBar")
         .get()
-        .then(
-          function(doc) {
-            console.log("searchItems", doc.data().searchItems);
-            this.searchItems = doc.data().searchItems;
-          }.bind(this)
-        );
+        .then((querySnapshot) => {
+          querySnapshot.forEach((doc) => {
+            this.searchItems =  this.searchItems.concat(doc.data().searchItems);
+          });
+        });
       console.log("searchItems updated", this.searchItems);
     },
     home() {
@@ -372,6 +392,7 @@ export default {
   },
   mounted() {
     this.grabbingSearch();
+    console.log("searchItems updated", this.searchItems);
   },
 };
 </script>
