@@ -124,7 +124,10 @@ export default {
         const id = ref(null)
         onMounted(() => {
             id.value = setInterval(() => {
-                currentTime.value += 10;
+                currentTime.value += 1;
+                if (currentTime.value >= maxTime.value) {
+                    clearInterval(id.value);
+                }
             }, 1000);
         });
         onUnmounted(() => {

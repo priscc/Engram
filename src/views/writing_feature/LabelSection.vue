@@ -1,23 +1,34 @@
 <template>
-  <div style="height: 100vh;white-space: pre-line;margin-top: 10vh; margin-bottom: 10vh;" ref="doc" @mouseup="handleHighlight">
-    <p>
-      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque nec lobortis magna. Pellentesque sit amet dignissim neque. Phasellus ultrices erat et placerat consequat. Aenean sollicitudin purus vel odio consectetur interdum. Proin vestibulum sem blandit, scelerisque leo eget, luctus sem. Etiam tristique porta augue ac sagittis. Maecenas est mi, dictum ut risus in, vehicula facilisis lacus.
-      <br><br>
-      Proin consectetur metus eu orci egestas, nec egestas purus mollis. Nam sit amet placerat felis, ut commodo elit. Ut mollis mollis velit, hendrerit sollicitudin libero tempus sit amet. Donec sodales eget justo vitae ultrices. Cras finibus tempus dolor ac sodales. Nulla facilisi. Donec sem ligula, gravida non elementum ac, mollis a sem. Aliquam lacinia diam magna, ut euismod est suscipit nec. Phasellus iaculis malesuada rhoncus. Proin ac eros vel augue sodales euismod sed vel nisl. Aenean interdum enim et massa pharetra, eu accumsan velit auctor. Vestibulum vehicula mattis erat, et feugiat leo condimentum ultrices. Proin rutrum rhoncus urna, nec sollicitudin nisi ultricies vel. Nulla facilisi. 
-    </p>
-    <b-textarea v-model="preserve">
-
-    </b-textarea>
-    <b-button @click="handleText"></b-button>
-    <p>
-      {{ preserve }}
-    </p>
+  <div style="white-space: pre-line;" ref="doc" @mouseup="handleHighlight">
+    <div id="essay-writing" class="min-height">
+    <b-container fluid class="background">
+        <b-row class="pt-4 responsive-padding">
+            <breadcrumb :items="items"></breadcrumb>
+        </b-row>
+        <b-row class="px-4 pb-3 pt-2 title">
+            <a class="strip back-button-style mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3" @click="handleBack()">Back</a>
+            <h1 class="text-center prompt-title">
+                Long Essay Question
+            </h1>
+        </b-row>
+        <b-row class="px-4 white-container mx-4">
+            <essayhead :prompt="exersize.prompt"></essayhead>
+        </b-row>
+    </b-container>
+</div>
   </div>
 </template>
 
 <script>
-import { ref } from 'vue'
+import essayhead from '../../components/writing_feature/LEQEssay/EssayHead.vue';
+import breadcrumb from '../../components/writing_feature/BreadCrumb.vue';
+import { ref, onMounted, computed } from 'vue';
+import storeWriting from '../../store/writing';
 export default {
+  components: {
+    essayhead,
+    breadcrumb
+  },
     setup() {
         const doc = ref(null);
         const two = ref(null)
@@ -58,7 +69,39 @@ export default {
         const handleText = () => {
           console.log(preserve.value)
         }
-        return {doc, handleHighlight, two, preserve, handleText}
+        onMounted(() => {
+            window.scrollTo({ top: 0, behavior: "smooth"});
+        })
+        const items = [
+            {
+                text: 'Essay Writing: LEQ',
+            }, 
+            {
+                text: `Essay Component Module: Timed`,
+            },
+            {
+                text: 'Choose a Prompt',
+            }, 
+            {
+                text: 'LEQ Essay', 
+                active: 'yes!'
+            }
+        ]
+
+        const store = storeWriting;
+        const prompt_id = ref('sample');
+        const exersize = computed(()=>store.getters.findPrompt({id: prompt_id.value, version: 'Timed'}));
+        // const initialize = async () => {
+        //     const feedback = await store.getters.findFeedback({id: id.value, version: 'Timed'});
+        //     if (feedback === 202) {
+        //         //push to a page not found 
+        //     } else {
+        //         console.log('feedback found!', feedback)
+        //         prompt_id.value = feedback.prompt_id;
+        //     }
+        // }
+        // initialize();
+        return {doc, handleHighlight, two, preserve, handleText, items, exersize}
     }
 }
 </script>

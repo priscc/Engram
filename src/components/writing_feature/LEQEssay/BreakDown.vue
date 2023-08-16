@@ -8,8 +8,8 @@
                 <b-card-header header-tag="header" class="p-1 ps-4 pe-4 section-header border-0" role="tab" v-b-toggle="'accordion-' + index">
                     <!-- <b-button block variant="info">Accordion 1</b-button> -->
                     {{ section.title }}
-                    <span class="when-open chevron-accord ms-auto"><img :src="require('../../../assets/writing_feature/expand_more.svg')" alt="Icon"></span>
-                    <span class="when-closed chevron-accord ms-auto"><img :src="require('../../../assets/writing_feature/expand_less.svg')" alt="Icon"></span>
+                    <span class="when-open ms-auto"><img :src="require('../../../assets/writing_feature/expand_more.svg')" alt="Icon"></span>
+                    <span class="when-closed ms-auto"><img :src="require('../../../assets/writing_feature/expand_less.svg')" alt="Icon"></span>
                 </b-card-header>
                 <b-collapse :id="'accordion-' + index" :visible="currentSection === section.name" accordion="accrdion" role="tabpanel" class="border-0" style="opacity: 1;">
                     <sections :points="section" style="opacity: 1;"></sections>
@@ -158,9 +158,6 @@ export default {
 }
 .expansive {
     height: 1101px;
-}
-.chevron-accord {
-    font-weight: 900;
 }
 .breakdown-title {
     color: #000;

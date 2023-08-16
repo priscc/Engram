@@ -4,9 +4,9 @@
     <div>
         <img :src="require('../../../assets/writing_feature/books.gif')" alt="Image" height="163">
     </div>
-    <b-card-title class="finish-title pb-2"> Great Job! </b-card-title>
-    <b-card-text class="finish-subtitle">You’ve successfully written your first essay.</b-card-text>
-    <b-card-text>
+    <b-card-title class="finish-title pb-2"> {{ header }} </b-card-title>
+    <b-card-text class="finish-subtitle">{{ subheader }}</b-card-text>
+    <b-card-text v-if="socials">
         <span class="share-text">Share</span>
         <span>
             <b-icon-facebook class="share-icon"></b-icon-facebook>
@@ -16,9 +16,9 @@
         </span>
     </b-card-text>
     <hr class="line-break">
-    <b-card-text class="finish-subtitle button-header my-4 py-3">Want to keep studying?</b-card-text>
-    <b-button id="finish-button" class="me-md-3 me-lg-3 me-sm-0 border-0 mb-1" @click="router.push({name:'001'})">Practice Another Essay</b-button>
-    <b-button id="finish-button" class="border-0 mb-1" @click="router.push({name:'004', params: {id: 'user'}})" :disabled="!ready">Feedback</b-button>
+    <b-card-text class="finish-subtitle button-header my-4 py-3 mx-auto">{{ subtitle }}</b-card-text>
+    <b-button id="finish-button" class="me-md-3 me-lg-3 me-sm-0 border-0 mb-1" @click="next(buttonprops[0])">{{ buttonprops[0].content }}</b-button>
+    <b-button id="finish-button" class="border-0 mb-1" @click="next(buttonprops[1])" :disabled="!ready">{{ buttonprops[1].content }}</b-button>
   </b-card>
 </template>
 
@@ -27,13 +27,48 @@
 import { useRouter } from 'vue-router'
 // import storeWriting from '../../../store/writing';
 export default {
-    props: ['ready'],
+    props: {
+        ready: {
+            type: Boolean,
+            default: false
+        },
+        socials: {
+            type: Boolean, 
+            default: true
+        },
+        header: {
+            type: String,
+            default: "Great Job!"
+        },
+        subheader: {
+            type: String,
+            default: "You’ve successfully written your first essay."
+        },
+        subtitle: {
+            type: String, 
+            default: "Want to keep studying?"
+        }, 
+        buttonprops: {
+            type: Array,
+            default: () => [
+                {content: "Practice Another Essay", route: '001', disabled: false},
+                {content: "Feedback", route: '004', params: {id: 'user'}, disabled: false}
+            ]
+        }
+    },
     emits: ['close'],
     setup(props) {
         // const store = storeWriting;
         const router = useRouter();
         console.log(props.ready);
-        return { router }
+        const next = (obj) => {
+            const route = {name: obj.route};
+            if (obj.params) {
+                route.params = obj.params;
+            }
+            router.push(route);
+        }
+        return { router, next }
     }
 }
 </script>
@@ -106,6 +141,9 @@ export default {
 .line-break {
     max-width: 400px;
     margin: auto;
+}
+.button-header {
+    max-width: 418px;
 }
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

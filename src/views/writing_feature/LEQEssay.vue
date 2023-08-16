@@ -1,7 +1,7 @@
 <template>
-<div id="essay-writing">
+<div id="essay-writing" class="min-height">
     <b-container fluid class="background">
-        <b-row class="pt-4 px-4">
+        <b-row class="pt-4 responsive-padding">
             <breadcrumb :items="items"></breadcrumb>
         </b-row>
         <b-row class="px-4 pb-3 pt-2 title">
@@ -10,7 +10,7 @@
                 Long Essay Question
             </h1>
         </b-row>
-        <b-row class="px-4 white-container">
+        <b-row class="px-4 white-container mx-4">
             <essayhead :prompt="exersize.prompt" :timer="timer"></essayhead>
             <progressvue v-if="moduleVersion !== 'Timed'" :section="currentSection" class="my-4"></progressvue>
             <essayarea v-if="moduleVersion !== 'Timed'" :props="exersize" :moduleVersion="moduleVersion" :identification="id" @updateProgress="(section) => handleUpdate(section)"></essayarea>
@@ -57,7 +57,7 @@ export default {
                 text: 'Essay Writing: LEQ',
             }, 
             {
-                text: 'Essay Component Module: Beginner',
+                text: `Essay Component Module: ${moduleVersion}`,
             },
             {
                 text: 'Choose a Prompt',
@@ -89,5 +89,9 @@ export default {
 </script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap');
+.min-height {
+    min-height: 1200px;
+    height: 1200px;
+}
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>
