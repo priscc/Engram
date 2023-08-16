@@ -84,7 +84,7 @@ export default {
                 img: 'ModuleIcon4.svg', 
                 // title: 'For Beginners',
                 points: ['Real Exam Format', 'Answer a College Board prompt', '45 Minute Time Restriction'], 
-                button: {content: "Practice Writing", route: 'SelectModule'},
+                button: {content: "Practice Writing", route: '002', params: {module: 'Timed'}},
                 orientation: 12,
                 name:'timed'
             }, 

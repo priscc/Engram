@@ -3,18 +3,14 @@
         <b-container fluid class="essay-area p-0">
             <b-row class="form-row mx-auto pt-5" align-h="center">
                 <b-col>
-                    <!-- <textareavue :string="testing"></textareavue> -->
                     <b-form-group v-for="stream in stream" :key="stream.title" class="stream-droplet px-4">
+                        <div v-if="stream.title === 'Conclusion'" class="add-evidence-button mx-auto user-responsivity" @click="addEvidence"> Add additional evidence <img class="mb-1" alt="Icon" :src="require('@/assets/writing_feature/plus.svg')"></div>
                         <span class="area-title">{{ stream.title }}</span><br>
                         <div class="area-subtitle">{{ stream.subtitle }}</div>
-                        <!-- Old: -->
-                        <!-- <b-form-textarea @click="setCurrentSection(stream.title)" v-model="stream.template" type="text" max-rows="8" placeholder="...add text here" class="user-input-area"></b-form-textarea> -->
-                        <!-- New:  -->
                         <textareavue @focusin="handleFocus" :moduleVersion="moduleVersion" :dataRequested="dataRequested" :string="stream.template.template" :bgColor="stream.palette" @click.native="setCurrentSection(stream.title)" @fulfillRequest="(data) => handleRequest(data, stream.template)"></textareavue>
                         <div v-if="stream.subTemplateSubtitle" class="subsubtitle">
                             <div class="area-subtitle">{{ stream.subTemplateSubtitle.subtitle }}</div>
                             <textareavue :moduleVersion="moduleVersion" :dataRequested="dataRequested" :string="stream.subTemplate.template" :placeholder="stream.placeholder" :bgColor="'#F5E07B'" @click.native="setCurrentSection(stream.subTemplateSubtitle.title)" @fulfillRequest="(data) => handleRequest(data, stream.subTemplate)"></textareavue>
-                            <!-- <b-form-input @click="setCurrentSection(stream.subTemplateSubtitle.title)" v-model="stream.subTemplate.template" type="text" placeholder="...add text here"></b-form-input> -->
                         </div>
                     </b-form-group>
                 </b-col>
@@ -62,10 +58,10 @@ export default {
         const router = useRouter();
 
         //STRUCTURE AVAILABLE TO ADD ADDITIONAL EVIDENCES 
-        const evidences = ref(2);
+        const evidences = ref(evidence.length);
         const addEvidence = () => {
             evidences.value++;
-            evidence.push([reactive({ template: props.props.template.templates.evidence}), reactive({ template:''})]);
+            evidence.push([reactive({ template: props.props.template.templates.evidence[0][0]}), reactive({ template: props.props.template.templates.evidence[0][1]})]);
             const cap = stream.value.pop();
             stream.value.push({
                 title: `Evidence #${evidences.value}`,
@@ -76,13 +72,21 @@ export default {
                 palette: '#D289E5'
             })
             stream.value.push(cap);
+            console.log('add evidence triggered')
         }
         const initializeEvidences = () => {
-            const timeStamp = evidences.value;
-            if (timeStamp > 2) {
-                evidences.value = 2;
-                for (var i = 0; i < (timeStamp - 2); i++) {
-                    addEvidence();
+            if (evidence.length > 2) {
+                for(var i = 2; i < evidence.length; i++) {
+                    const cap = stream.value.pop();
+                    stream.value.push({
+                        title: `Evidence #${i + 1}`,
+                        subtitle: 'fill in the topic sentence template',
+                        template: evidence[i][0],
+                        subTemplate: evidence[i][1],
+                        subTemplateSubtitle: evidenceSubTemplateSubtitle,
+                        palette: '#D289E5'
+                    })
+                    stream.value.push(cap);
                 }
             }
         }
@@ -200,8 +204,7 @@ export default {
         return { 
             stream, evidence, evidenceSubTemplateSubtitle, currentSection, 
             setCurrentSection, router, handleSubmit, submitted, 
-
-            handleRequest, dataRequested,  handleFocus
+            handleRequest, dataRequested,  handleFocus, addEvidence
         }
     }
 } 
@@ -254,8 +257,17 @@ export default {
     max-width: 170px;
     margin: 0 30px 0 0;
 }
-.user-input-area {
-    padding: 15px;
+
+.add-evidence-button {
+    color: var(--brand-purple, #8C30F5);
+    font-feature-settings: 'liga' off;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 30px;
+    margin-bottom: 50px;
+    cursor: pointer;
+    width: fit-content;
 }
 @media screen and (max-width:426px) {
     .finish-button {

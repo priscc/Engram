@@ -34,6 +34,7 @@ export default {
         const advancedWriting = ref([{noTemplate : false, editable: true, content: ref(""), shallow_copy: "", template: null}]);
         const displayTemplatePlaceholder = ref(true);
         if(Object.prototype.toString.call(props.string) === '[object Array]') {
+            console.log("idk")
             processed.value = true;
             //NOTE: make sure NOT to pull prompts completed in beginner module and inject into advanced module parsing logic
             //^IMPLEMENTED (date): implemented 8/10/23
@@ -63,6 +64,7 @@ export default {
             // resultant finalString obj: 
             //      if editable is true, then object must have properties: shallow_copy 
             if (!processed.value) {
+                console.log('unprocessed!')
                 processUnderscore.forEach(element => {
                     if(element.indexOf("(") > -1) {
                         finalString.value.push({ editable: true, content: ref(""), shallow_copy: ' ', placeholder: element.substring(element.indexOf("("), element.indexOf(")") + 1)});

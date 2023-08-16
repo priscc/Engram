@@ -11,9 +11,11 @@
             </h1>
         </b-row>
         <b-row class="px-4 white-container">
-            <essayhead :prompt="exersize.prompt"></essayhead>
-            <progressvue :section="currentSection" class="my-4"></progressvue>
-            <essayarea :props="exersize" :moduleVersion="moduleVersion" :identification="id" @updateProgress="(section) => handleUpdate(section)"></essayarea>
+            <essayhead :prompt="exersize.prompt" :timer="timer"></essayhead>
+            <progressvue v-if="moduleVersion !== 'Timed'" :section="currentSection" class="my-4"></progressvue>
+            <essayarea v-if="moduleVersion !== 'Timed'" :props="exersize" :moduleVersion="moduleVersion" :identification="id" @updateProgress="(section) => handleUpdate(section)"></essayarea>
+            <outlinevue v-if="moduleVersion === 'Timed'" class="my-4"></outlinevue>
+            <timedessayarea v-if="moduleVersion === 'Timed'"></timedessayarea>
         </b-row>
     </b-container>
 </div>
@@ -27,18 +29,23 @@ import essayhead from '../../components/writing_feature/LEQEssay/EssayHead.vue';
 import { onMounted, ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import storeWriting from '../../store/writing';
+import timedessayarea from '../../components/writing_feature/LEQEssay/TimedEssayArea.vue';
+import outlinevue from '../../components/writing_feature/LEQEssay/Outline.vue';
 export default {
     components: {
         breadcrumb, 
         essayarea,
         progressvue,
         essayhead,
+        timedessayarea,
+        outlinevue,
     },
     setup() {
         const router = useRouter();
         const route = useRoute();
         const moduleVersion = route.params.module;
-        if (moduleVersion !== 'Beginners' && moduleVersion !== 'Advanced') {
+        const timer = ref(null);
+        if (!['Beginners', 'Advanced', 'Timed'].includes(route.params.module)) {
             router.push({name: '001'});
         }
         const store = storeWriting;
@@ -71,8 +78,12 @@ export default {
         }
         onMounted(() => {
             window.scrollTo({ top: 0, behavior: "smooth"});
+            if(route.params.module === "Timed") {
+                timer.value = 45;
+            }
         })
-        return { items, buttonprops, exersize, handleUpdate, currentSection, id, handleBack, moduleVersion}
+        return { items, buttonprops, exersize, handleUpdate, currentSection,
+             id, handleBack, moduleVersion, timer}
     }
 }
 </script>

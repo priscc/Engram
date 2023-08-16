@@ -1,6 +1,6 @@
 <template>
 
-    <b-container fluid class="true-white-container px-sm-2 px-md-4 px-lg-4 pt-4">
+    <b-container fluid class="true-white-container px-sm-2 px-md-4 px-lg-4 pt-5 pb-3">
 
         <b-row class="mt-2 pb-3 top-module px-1 px-sm-0 px-md-0 px-lg-0">
             <slot name="templates"></slot>
@@ -32,7 +32,6 @@ export default {
     background: white;
     min-height: 600px;
     border-radius: 10px;
-    /* padding: 60px 70px 60px 70px; */
 }
 .title-white-container { 
     color: #111;
@@ -51,11 +50,6 @@ export default {
 
 .white-container-timed-container {
     max-width: 475px;
-    /* padding-left: 30px; */
-}
-
-.white-container-try-it-container {
-    /* padding-right: 30px; */
 }
 
 .top-module {

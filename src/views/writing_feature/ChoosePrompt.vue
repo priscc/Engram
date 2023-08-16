@@ -1,5 +1,5 @@
 <template>
-  <div id="essay-writing fontist">
+  <div id="essay-writing">
     <navbarvue style="position: absolute; top: 0; width: 100%;"></navbarvue>
     <b-container fluid class="background">
         <b-row class="pt-4 responsive-padding">
@@ -38,7 +38,7 @@ export default {
     setup() {
         const router = useRouter();
         const route = useRoute();
-        if (route.params.module !== 'Beginners' && route.params.module !== 'Advanced') {
+        if (!['Beginners', 'Advanced', 'Timed'].includes(route.params.module)) {
             router.push({name: '001'});
         }
         const store = storeWriting;
@@ -64,6 +64,7 @@ export default {
         const title = "Choose a Prompt"
         const subtitle = "Choose one of three long essay question prompts to answer. The long essay requires students to demonstrate their ability to use historical evidence in writing a thoughtful historical argument. In the following questions, students will analyze an issue using the reasoning skill of continuity and change over time."
         const buttonprops = ref({content: "Get Started", route: '003', disabled: canClick, params: {id : currentPrompt, module: route.params.module}})
+
         const handleBack = () => {
             router.push({name: '001'});
         }

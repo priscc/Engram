@@ -39,17 +39,18 @@
 </template>
 
 <script>
-import { computed, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 export default {
     setup() {
-        const multiplier = ref(1)
-        const maxTime = ref(2700 * multiplier.value)
-        const currentTime = ref(1300) 
+        const multiplier = ref(1);
+        const maxTime = ref(2700 * multiplier.value);
+        //NOTE: change current time value to value passed in as prop
+        const currentTime = ref(0) ;
         
         const frac = computed(() => (currentTime.value / maxTime.value) * Math.PI * 2);
         const endX = computed(() => Math.cos(frac.value + (Math.PI * 0.5) ) * -69);
         const endY = computed(() => Math.sin(frac.value + (Math.PI * 0.5) ) * -69);
-        console.log(frac, endX, endY)
+        console.log(frac, endX, endY);
         // const partition = (frac) => {
         //     let fraction = frac + Math.PI * 2;
         //     return {
@@ -120,6 +121,15 @@ export default {
         //     }
         // }
         console.log(landmarks)
+        const id = ref(null)
+        onMounted(() => {
+            id.value = setInterval(() => {
+                currentTime.value += 10;
+            }, 1000);
+        });
+        onUnmounted(() => {
+            clearInterval(id.value);
+        });
         return {endX, endY, landmarks, currentTime, maxTime,
             outline, contextualization, thesis, evidence1, 
             evidence2, conclusion, revision, multiplier
