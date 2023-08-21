@@ -26,6 +26,7 @@
               sm="12"
               v-for="topic in unit.topics"
               :key="topic.id"
+              class="pre-card"
             >
               <div class="card" @click="next(topic)">
                 <b-img class="card_image" :src="topic.topic_thumbURL"></b-img>
