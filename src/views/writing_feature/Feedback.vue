@@ -95,7 +95,7 @@ export default {
                 })
                 stream.value.push({
                     title: 'Thesis Statement',
-                    content: feedback.content.contextualization
+                    content: feedback.content.thesis
                 })
                 for(var i in feedback.content.evidence){
                     stream.value.push({

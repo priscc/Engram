@@ -8,7 +8,7 @@
         </b-card-header>
         <b-collapse id="accordion-1" accordion="my-accordion" role="tabpanel">
             <b-card-body>
-                <b-textarea class="textbox-border textbox mx-auto py-4 px-5 mb-2" max-rows="12" rows="8"></b-textarea>
+                <b-textarea class="textbox-border textbox mx-auto py-4 px-5 mb-2" max-rows="12" rows="8" v-model="outline"></b-textarea>
             </b-card-body>
         </b-collapse>
         </b-card>
@@ -16,8 +16,21 @@
 </template>
 
 <script>
+import { ref, watch } from 'vue'
 export default {
+    props: ['totalEmits', 'outlineText'],
+    emits: ['TimedOutline'],
+    setup(props, {emit}) {
+        const outline = ref(props.outlineText);
+        watch(() => props.totalEmits, (newEmit) => {
+            console.log(newEmit)
+            if (newEmit === 1) {
+                emit('TimedOutline', outline.value)
+            }
+        }, {deep: true})
 
+        return {outline}
+    }
 }
 </script>
 

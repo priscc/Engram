@@ -14,8 +14,8 @@
             <essayhead :prompt="exersize.prompt" :timer="timer"></essayhead>
             <progressvue v-if="moduleVersion !== 'Timed'" :section="currentSection" class="my-4"></progressvue>
             <essayarea v-if="moduleVersion !== 'Timed'" :props="exersize" :moduleVersion="moduleVersion" :identification="id" @updateProgress="(section) => handleUpdate(section)"></essayarea>
-            <outlinevue v-if="moduleVersion === 'Timed'" class="my-4"></outlinevue>
-            <timedessayarea v-if="moduleVersion === 'Timed'"></timedessayarea>
+            <outlinevue v-if="moduleVersion === 'Timed'" class="my-4" :outlineText="(exersize.template.templates.raw ? exersize.template.templates.raw.outline : null)" :totalEmits="totalEmits" @TimedOutline="(outline) => handleOutline(outline)"></outlinevue>
+            <timedessayarea v-if="moduleVersion === 'Timed'" :text="(exersize.template.templates.raw ? exersize.template.templates.raw.text : null)" @TimedSubmit="(essay) => handleTimedSubmit(essay)"></timedessayarea>
         </b-row>
     </b-container>
 </div>
@@ -41,6 +41,7 @@ export default {
         outlinevue,
     },
     setup() {
+        const totalEmits = ref(0); // if both components for the timed module emit their user writing (i.e total emits === 2), the data will be packaged and a store action will trigger
         const router = useRouter();
         const route = useRoute();
         const moduleVersion = route.params.module;
@@ -69,12 +70,36 @@ export default {
         ]
 
         const buttonprops = ref({content: "Get Started", route: 'SelectModule', disabled: false})
+        
+        //BREAKDOWN SECTION UPDATES
         const currentSection = ref(null)
         const handleUpdate = (section) => {
             currentSection.value = section;
         } 
+
         const handleBack = () => {
             router.push({name: '002'});
+        }
+
+        //TIMED MODULE STORE ACTIONS
+        // updating store for Timed module submissions handled here, Beginner and Advanced are handled in EssayArea component 
+        const timedEssay = ref(null);
+        const handleTimedSubmit = (essay) => {
+            totalEmits.value++;
+            timedEssay.value = essay;
+        }
+        const handleOutline = (outline) => {
+            store.dispatch('setUserInput', {
+                prompt_id: id, //ID to identify prompt
+                id: store.getters.getUniqueId, //Unique ID assigned to new feedback obj (to be replaced by firestore id's)
+                moduleVersion: moduleVersion, //For segregating beginner and advanced modules
+                raw: {
+                    outline: outline,
+                    text: timedEssay.value,
+                }
+            })
+
+            console.log('outline:', outline, 'essay:', timedEssay.value, 'store:', store.state.feedback)
         }
         onMounted(() => {
             window.scrollTo({ top: 0, behavior: "smooth"});
@@ -83,7 +108,8 @@ export default {
             }
         })
         return { items, buttonprops, exersize, handleUpdate, currentSection,
-             id, handleBack, moduleVersion, timer}
+             id, handleBack, moduleVersion, timer, handleTimedSubmit, totalEmits,
+             handleOutline}
     }
 }
 </script>
