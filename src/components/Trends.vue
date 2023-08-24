@@ -6,55 +6,55 @@
         <b-col :class="border">
           <div class="trend_header" style="color: #000000">Change</div>
           <!-- Social -->
-          <b-row v-if="society.length > 0">
+          <b-row v-if="society_change.length > 0">
             <b-col>
               <div class="trend_header" style="color: #FF9800" id = "Society">Society</div>
-              <p v-for="(trend, index) in society" :key="index" class="trend_text">
+              <p v-for="(trend, index) in society_change" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>
             </b-col>
           </b-row>
           <!-- Economic -->
-          <b-row v-if="economic.length > 0">
+          <b-row v-if="economic_change.length > 0">
             <b-col>
               <div class="trend_header" style="color: #16a175" id = "Economic">Economic</div>
-              <p v-for="(trend, index) in economic" :key="index" class="trend_text">
+              <p v-for="(trend, index) in economic_change" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>
             </b-col>
           </b-row>
           <!-- Technology -->
-          <b-row v-if="technology.length > 0">
+          <b-row v-if="technology_change.length > 0">
             <b-col>
               <div class="trend_header" style="color: #009688" id = "Technology">Technology</div>
-              <p v-for="(trend, index) in technology" :key="index" class="trend_text">
+              <p v-for="(trend, index) in technology_change" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>
             </b-col>
           </b-row>
           <!-- Government -->
-          <b-row v-if="politics.length > 0">
+          <b-row v-if="politics_change.length > 0">
             <b-col>
               <div class="trend_header" style="color: #673AB7" id = "Political">Political</div>
-              <p v-for="(trend, index) in politics" :key="index" class="trend_text">
+              <p v-for="(trend, index) in politics_change" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>
             </b-col>
           </b-row>
           <!-- Culture -->
-          <b-row v-if="culture.length > 0">
+          <b-row v-if="culture_change.length > 0">
             <b-col>
               <div class="trend_header" style="color: #3b4da6" id = "Culture">Culture</div>
-              <p v-for="(trend, index) in culture" :key="index" class="trend_text">
+              <p v-for="(trend, index) in culture_change" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>
             </b-col>
           </b-row>
           <!-- Environment -->
-          <b-row v-if="environment.length > 0">
+          <b-row v-if="environment_change.length > 0">
             <b-col>
               <div class="trend_header" style="color: #b377ff" id = "Environment">Environment</div>
-              <p v-for="(trend, index) in environment" :key="index" class="trend_text">
+              <p v-for="(trend, index) in environment_change" :key="index" class="trend_text">
                 {{index + 1}}) {{ trend.trend }}
               </p>
             </b-col>
@@ -62,6 +62,60 @@
         </b-col>
         <b-col lg="6" md="6" sm="12" xs="12">
           <div class="trend_header" style="color: #000000">Continuity</div>
+          <!-- Social -->
+          <b-row v-if="society_continuity.length > 0">
+            <b-col>
+              <div class="trend_header" style="color: #FF9800" id = "Society">Society</div>
+              <p v-for="(trend, index) in society_continuity" :key="index" class="trend_text">
+                {{index + 1}}) {{ trend.trend }}
+              </p>
+            </b-col>
+          </b-row>
+          <!-- Economic -->
+          <b-row v-if="economic_continuity.length > 0">
+            <b-col>
+              <div class="trend_header" style="color: #16a175" id = "Economic">Economic</div>
+              <p v-for="(trend, index) in economic_continuity" :key="index" class="trend_text">
+                {{index + 1}}) {{ trend.trend }}
+              </p>
+            </b-col>
+          </b-row>
+          <!-- Technology -->
+          <b-row v-if="technology_continuity.length > 0">
+            <b-col>
+              <div class="trend_header" style="color: #009688" id = "Technology">Technology</div>
+              <p v-for="(trend, index) in technology_continuity" :key="index" class="trend_text">
+                {{index + 1}}) {{ trend.trend }}
+              </p>
+            </b-col>
+          </b-row>
+          <!-- Government -->
+          <b-row v-if="politics_continuity.length > 0">
+            <b-col>
+              <div class="trend_header" style="color: #673AB7" id = "Political">Political</div>
+              <p v-for="(trend, index) in politics_continuity" :key="index" class="trend_text">
+                {{index + 1}}) {{ trend.trend }}
+              </p>
+            </b-col>
+          </b-row>
+          <!-- Culture -->
+          <b-row v-if="culture_continuity.length > 0">
+            <b-col>
+              <div class="trend_header" style="color: #3b4da6" id = "Culture">Culture</div>
+              <p v-for="(trend, index) in culture_continuity" :key="index" class="trend_text">
+                {{index + 1}}) {{ trend.trend }}
+              </p>
+            </b-col>
+          </b-row>
+          <!-- Environment -->
+          <b-row v-if="environment_continuity.length > 0">
+            <b-col>
+              <div class="trend_header" style="color: #b377ff" id = "Environment">Environment</div>
+              <p v-for="(trend, index) in environment_continuity" :key="index" class="trend_text">
+                {{index + 1}}) {{ trend.trend }}
+              </p>
+            </b-col>
+          </b-row>
         </b-col>
       </b-row>
     </b-container>
@@ -87,24 +141,43 @@ export default {
         return "border-end"
       }
     },
-    society() {
-      console.log("test", storeTopic.state.trends);
-      return storeTopic.state.trends.filter((i) => i.type == "society");
+    society_change() {
+      console.log("Hello", storeTopic.state.trends);
+      return storeTopic.state.trends.filter(((i) => (i.type == "society") & (String(i.trend).startsWith("Change"))));
     },
-    economic() {
-      return storeTopic.state.trends.filter((i) => i.type == "economic");
+    society_continuity() {
+      console.log("Hello", storeTopic.state.trends);
+      return storeTopic.state.trends.filter(((i) => (i.type == "society") & (String(i.trend).startsWith("Continuity"))));
     },
-    technology() {
-      return storeTopic.state.trends.filter((i) => i.type == "technology");
+    economic_change() {
+      return storeTopic.state.trends.filter(((i) => (i.type == "economic") & (String(i.trend).startsWith("Change"))));
     },
-    politics() {
-      return storeTopic.state.trends.filter((i) => i.type == "politics");
+    economic_continuity() {
+      return storeTopic.state.trends.filter(((i) => (i.type == "economic") & (String(i.trend).startsWith("Continuity"))));
     },
-    culture() {
-      return storeTopic.state.trends.filter((i) => i.type == "culture");
+    technology_change() {
+      return storeTopic.state.trends.filter(((i) => (i.type == "technology") & (String(i.trend).startsWith("Change"))));
     },
-    environment() {
-      return storeTopic.state.trends.filter((i) => i.type == "environment");
+    technology_continuity() {
+      return storeTopic.state.trends.filter(((i) => (i.type == "technology") & (String(i.trend).startsWith("Continuity"))));
+    },
+    politics_change() {
+      return storeTopic.state.trends.filter(((i) => (i.type == "politics") & (String(i.trend).startsWith("Change"))));
+    },
+    politics_continuity() {
+      return storeTopic.state.trends.filter(((i) => (i.type == "politics") & (String(i.trend).startsWith("Continuity"))));
+    },
+    culture_change() {
+      return storeTopic.state.trends.filter(((i) => (i.type == "culture") & (String(i.trend).startsWith("Change"))));
+    },
+    culture_continuity() {
+      return storeTopic.state.trends.filter(((i) => (i.type == "culture") & (String(i.trend).startsWith("Continuity"))));
+    },
+    environment_change() {
+      return storeTopic.state.trends.filter(((i) => (i.type == "environment") & (String(i.trend).startsWith("Change"))));
+    },
+    environment_continuity() {
+      return storeTopic.state.trends.filter(((i) => (i.type == "environment") & (String(i.trend).startsWith("Continuity"))));
     },
     comingSoon() {
       return storeTopic.state.trends.length;

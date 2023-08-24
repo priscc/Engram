@@ -31,8 +31,6 @@ const routes = [
   },
   {
     path: "/Period/:periodName/:period/Topic/:topicName/:topic/:category/:id",
-    // TODO (3): add an id parameter to the URL, so that the URL will be able to ask the compeoent to load a particular section with X id
-    // URL PATH hould now look closer to this --> path: "/Period/:periodName/:period/Topic/:topicName/:topic/:category/:id"
     name: "Topic",
     component: Topic,
   },

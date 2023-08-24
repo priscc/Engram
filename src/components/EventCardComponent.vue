@@ -5,10 +5,11 @@
         class="mySlides fade-in-image"
         v-for="(event, slide) in events"
         :key="slide"
+        :id = "events.length"
       >
-        <div class="numbertext">{{ slide + 1 }} / {{ events.length }}</div>
+        <div class="numbertext" :id = "slide">{{ slide + 1 }} / {{ events.length }}</div>
         <b-img :src="event.thumbURL" class="eventImage" />
-        <div class="eventTitle" :id = "event.title">{{ event.title }}</div>
+        <div class="eventTitle">{{ event.title }}</div>
         <div class="eventText">{{ event.descriptionMD }}</div>
         <div v-if="event.descriptionMD.length > 0" class="event_button">
           <b-button size="sm" @click="openEvent(event)">Learn More</b-button>
