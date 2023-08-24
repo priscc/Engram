@@ -10,8 +10,8 @@
         <b-row>
             <h2 class="subtitle-variant-feedback">What was written</h2>
         </b-row>
-        <b-row class="g-5">
-            <b-col class="user-input-styles" cols="auto">
+        <b-row class="g-5 required-height">
+            <b-col class="user-input-styles" cols="5">
                 <div class="user-input-contain">
                     {{ section.content.userInput }}
                 </div>
@@ -50,16 +50,20 @@ export default {
 </script>
 
 <style scoped>
+.user-input-styles {
+    /* max-width: 469px; */
+    min-width: 300px;
+}
 .user-input-contain {
     border-radius: 10px;
     border: 0.5px solid var(--text-subtle, #969BAB);
-    width: 469px;
     padding: 48px 25px;
     color: var(--text-normal, #18191F);
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
     line-height: 26px; /* 185.714% */
+    height: 340px;
 }
 .title-variant-feedback {
     color: var(--text-normal, #18191F);
@@ -84,10 +88,11 @@ export default {
 .point-given {
     height: 56px;
     width: 65px;
-    background: red;
+    background: #CAE2F1;
     border-radius: 8px;
     position: absolute;
     right: 0;
+    padding: 13px 0 0 23px;
 }
 .white-contain-feedback {
     border-radius: 10px;
@@ -101,6 +106,9 @@ export default {
     font-style: normal;
     font-weight: 500;
     line-height: 26px; /* 185.714% */
+}
+.required-height {
+    min-height: 386px;
 }
 .stacked-padding:last-child {
     padding-top: 50px

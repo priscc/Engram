@@ -1,8 +1,8 @@
 <template>
   <b-row class="toolbar-contain py-0 px-2 m-0" align-h="between">
-    <b-col v-for="(label, index) in labels" :key="label" cols="auto" class="toolbar-center" id="toolbar" @click="$emit('clickLabel', [label.palette, label.title])">
-        <b-img id="toolbar" alt="Icon" :src="require(`@/assets/writing_feature/Ellipse ${108 + index}.svg`)"></b-img>
-        <p>{{label.title}}</p>
+    <b-col v-for="(label, index) in labels" :key="label" cols="auto" class="toolbar-center toolbar-hover" id="toolbar" @click="$emit('clickLabel', [label.palette, label.title])">
+        <b-img id="toolbar" class="toolbar-circle" alt="Icon" :src="require(`@/assets/writing_feature/Ellipse ${108 + index}.svg`)"></b-img>
+        <p class="toolbar-text" :style="{'color' : label.palette.slice(0, 7)}">{{label.title}}</p>
     </b-col>
     <b-img class="polygon" alt="Image" :src="require('@/assets/writing_feature/Polygon 1.svg')"></b-img>
   </b-row>
@@ -13,7 +13,7 @@ export default {
     setup() {
         const labels = [{
             title : "Contextualization",
-            palette: "#CCEBA5"
+            palette: "#CCEBA580"
         }, 
         {
             title:"Thesis",
@@ -64,6 +64,12 @@ img {
 
 .toolbar-center {
     padding: 7px 0 0 0;
+}
+.toolbar-hover:hover .toolbar-circle{
+    transform: scale(1.2);
+}
+.toolbar-hover:hover .toolbar-text{
+    font-weight: 800;
 }
 .polygon {
     width: 44px;

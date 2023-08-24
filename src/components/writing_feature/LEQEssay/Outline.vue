@@ -35,6 +35,7 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&display=swap');
 .outline-accordion {
     height: 87px;
     padding-top:25px;
@@ -52,6 +53,12 @@ export default {
 }
 .textbox {
     max-width: 948px;
+    font-family: 'Nanum Pen Script', cursive;
+    color: var(--text-normal, #18191F);
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 120% */
 }
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

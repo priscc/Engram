@@ -8,6 +8,9 @@
                 <circle cx="0" cy="100" r="5" stroke="#D9DBE1" stroke-width="1"></circle>
                 <circle v-for="landmark in landmarks" :key="landmark" stroke="#D9DBE1" stroke-width="1" fill="#D9DBE1" :class="{'passed-circle' : landmark.value.passed }" :cx="landmark.value.cx" :cy="landmark.value.cy" :r="landmark.value.passed? 8.5 : 6.5"></circle>
             </svg>
+            <div class="time">
+                {{ currentTimeHoursMinutes }}
+            </div>
             <span class="outline" :class="{'passed-indicator' : outline.passed}">
                 Outline ({{ 10 * multiplier }} min)
             </span>
@@ -20,19 +23,19 @@
         </div>
         <div class="test mt-auto my-auto">  
             <b-form-group class="form-border-top">
-                <b-form-checkbox-group
+                <!-- <b-form-checkbox-group
                     v-model="selected"
                     inline
-                > 
+                >  -->
                     <b-row align-h="center" class="g-5">
                         <b-col cols="auto">
-                            <b-form-checkbox value=""> I have 1.5x time</b-form-checkbox>
+                            <b-form-checkbox :disabled="checkboxable" v-model="fiftyPercentMultiplier"> I have 1.5x time {{  }}</b-form-checkbox>
                         </b-col>
                         <b-col cols="auto">
-                            <b-form-checkbox value=""> I have 2x time</b-form-checkbox>
+                            <b-form-checkbox :disabled="checkboxable" v-model="hundredPercentMultiplier"> I have 2x time</b-form-checkbox>
                         </b-col>
                     </b-row>
-                </b-form-checkbox-group>
+                <!-- </b-form-checkbox-group> -->
             </b-form-group>
         </div>
     </div>
@@ -42,11 +45,23 @@
 import { computed, onMounted, onUnmounted, ref } from 'vue';
 export default {
     setup() {
-        const multiplier = ref(1);
-        const maxTime = ref(2700 * multiplier.value);
+        //Checkbox
+        const checkboxable = computed(() => fiftyPercentMultiplier.value || hundredPercentMultiplier.value);
+        const fiftyPercentMultiplier = ref(false);
+        const hundredPercentMultiplier = ref(false);
+        //
+        const multiplier = computed(() => {
+            return fiftyPercentMultiplier.value ? 1.5 : hundredPercentMultiplier.value ? 2 : 1
+        });
+        const maxTime = computed( () => 2700 * multiplier.value);
         //NOTE: change current time value to value passed in as prop
         const currentTime = ref(0) ;
-        
+        const currentTimeHoursMinutes = computed(() => {
+            let countdown = maxTime.value - currentTime.value;
+            let hours = Math.floor(countdown / 60);
+            let minutes = countdown % 60;
+            return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`
+        })
         const frac = computed(() => (currentTime.value / maxTime.value) * Math.PI * 2);
         const endX = computed(() => Math.cos(frac.value + (Math.PI * 0.5) ) * -69);
         const endY = computed(() => Math.sin(frac.value + (Math.PI * 0.5) ) * -69);
@@ -135,7 +150,8 @@ export default {
         });
         return {endX, endY, landmarks, currentTime, maxTime,
             outline, contextualization, thesis, evidence1, 
-            evidence2, conclusion, revision, multiplier
+            evidence2, conclusion, revision, multiplier, currentTimeHoursMinutes,
+            checkboxable, fiftyPercentMultiplier, hundredPercentMultiplier
         }
     }
 }
@@ -183,6 +199,17 @@ export default {
     position: absolute;
     top: 0px;
     left: 75px;
+}
+.time {
+    position: absolute;
+    top: 65px;
+    right: 200px;
+    color: #000;
+    font-family: Manrope;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 157.143% */
 }
 span {
     color: var(--text-subtle-2, #D9DBE1);

@@ -108,6 +108,7 @@ export default {
         const handleClickLabel = (label) => {
           if (selectionNode.value) {
             selectionNode.value.style.background = label[0];
+            selectionNode.value.style.opacity = "0.6";
             selectionNode.value.setAttribute("class", label[1])
             selectionNode.value = null;
             invisible.value.parentNode.removeChild(invisible.value)
@@ -255,6 +256,14 @@ span, p {
     -webkit-user-select: none;
     -o-user-select: none;
     user-select: none;
+}
+
+::-moz-selection { /* Code for Firefox */
+  background: pink;
+}
+
+::selection {
+  background: pink;
 }
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>
