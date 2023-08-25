@@ -8,7 +8,7 @@
         </b-card-header>
         <b-collapse id="accordion-1" accordion="my-accordion" role="tabpanel">
             <b-card-body>
-                <b-textarea class="textbox-border textbox mx-auto py-4 px-5 mb-2" max-rows="12" rows="8" v-model="outline"></b-textarea>
+                <b-textarea class="no-scroll-bar textbox-border textbox mx-auto py-4 p-3 p-sm-5 p-md-5 p-lg-5 mb-2" max-rows="12" rows="8" no-resize v-model="outline"></b-textarea>
             </b-card-body>
         </b-collapse>
         </b-card>

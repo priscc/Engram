@@ -32,6 +32,7 @@ export default {
     },
     emits: ['changeSection'],
     setup(props, { emit }) {
+        //NOTE: ADD HEIGHT TO BREAKDOWN WHEN ADD EVIDENCE
         const handleClick = (name) => {
             let emitValue = null
             if (props.currentSection !== name) {

@@ -10,7 +10,7 @@
                 Long Essay Question
             </h1>
         </b-row>
-        <b-row class="px-4 white-container mx-4">
+        <b-row class="px-1 px-sm-4 px-md-4 px-lg-4 white-container mx-0 mx-sm-4 mx-md-4 mx-lg-4">
             <essayhead :prompt="exersize.prompt" :timer="timer"></essayhead>
             <progressvue v-if="moduleVersion !== 'Timed'" :section="currentSection" class="my-4"></progressvue>
             <essayarea v-if="moduleVersion !== 'Timed'" :props="exersize" :moduleVersion="moduleVersion" :identification="id" @updateProgress="(section) => handleUpdate(section)"></essayarea>

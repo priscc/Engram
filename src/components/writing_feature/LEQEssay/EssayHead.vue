@@ -3,7 +3,7 @@
     <b-row class="g-3" align-h="center">
 
         <b-col class="head-section align-content-center" :class="{'component-sizing-height' : timer}">
-            <b-row no-gutters class="px-3" :class="{'prompt-center' : timer}">
+            <b-row no-gutters class="px-3" :class="{'prompt-center' : timer, 'prompt-center-special' : none}">
                 <b-col class="prompt-label pb-3">Prompt</b-col>
                 <b-col class="text-label" v-if="prompt">{{ prompt.prompt }}</b-col>
                 <b-col v-else class="text-label">
@@ -15,11 +15,11 @@
                 </b-col>
             </b-row>
         </b-col>
-        <b-col  class="head-section-2 justify-content-center" :class="{'component-sizing-timer' : timer, 'component-sizing' : !timer}">
+        <b-col v-if="!none" class="head-section-2 justify-content-center" :class="{'component-sizing-timer' : timer, 'component-sizing' : !timer}">
             <prompttype v-if="prompt && !score && !timer" :prompt="prompt"></prompttype>
             <gradescore v-if="score" :score="score"></gradescore>
-            <b-row v-if="timer" class="h-100 pb-4" >
-                <timer class="justify-content-center my-auto"></timer>   
+            <b-row v-if="timer" class="h-100 pb-0 pb-sm-4 pb-md-4 pb-lg-4" >
+                <timer class="justify-content-center my-auto  mobile-formatting"></timer>   
             </b-row>
         </b-col>
     </b-row>
@@ -31,7 +31,7 @@ import gradescore from './GradeScore.vue';
 import prompttype from './PromptType.vue';
 import timer from './Timer.vue';
 export default {
-    props:['prompt', 'score', 'timer'],
+    props:['prompt', 'score', 'timer', 'none'],
     components: {
         prompttype,
         gradescore,
@@ -84,6 +84,9 @@ export default {
 .prompt-center {
     margin-top: 7%;
 }
+.prompt-center-special {
+    margin-top: 1%;
+}
 .text-label {
     color: var(--text-gray-900, #18191F);
     font-size: 14px;
@@ -118,6 +121,19 @@ export default {
     .head-section {
         margin-right: 0;
     }
+     /* .mobile-formatting {
+        transform: scale(0.8);
+    } */
+    
+    .component-sizing-timer {
+        /* min-height: 267px; */
+        max-width: 300px;
+        min-width: 300px;
+    }
+    .head-section-2 {
+    border-radius: 10px;
+    padding: 0px;
+}
 }
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

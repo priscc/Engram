@@ -11,8 +11,8 @@
                 Long Essay Question
             </h1>
         </b-row>
-        <b-row class="px-4 white-container mx-4">
-            <essayhead :prompt="exersize.prompt"></essayhead>
+        <b-row class="px-1 px-sm-4 px-md-4 px-lg-4 white-container mx-0 mx-sm-4 mx-md-4 mx-lg-4">
+            <essayhead :prompt="exersize.prompt" :none="true"></essayhead>
             <div class="essay-area mx-1 mt-4">
               <div ref="doc" id="essayArea" class="p-5 mt-4" style="position: relative;" @mouseup="handleHighlight" @mousedown="checkHighlight" @click="handleClick">
               {{ feedback.content.raw.text || "Error" }}

@@ -1,7 +1,7 @@
 <template>
-    <div class="my-auto" style="border: 1px solid green; height: min-content;">
-        <div class="test text-center my-auto" style="position: relative;">
-            <svg class="test" xmlns="http://www.w3.org/2000/svg" width="145" height="145" viewBox="-75 -80 155 150" fill="none">
+    <div class="my-auto" style="height: min-content;">
+        <div class="text-center my-auto" style="position: relative;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="145" height="145" viewBox="-75 -80 155 150" fill="none">
                 <path d="M0 -69 A69 69 0 1 1 0 69 69 69 0 1 1 0 -69" :stroke="currentTime >= maxTime - 10 ? '#8C30F5' : '#D9DBE1'" stroke-width="2"/>
                 <path :d="`M0 -69 A69 69 0 ${currentTime > (maxTime / 2) ? 1 : 0} 1 ${endX} ${endY}`" stroke="#8C30F5" stroke-width="2"/>
                 <circle cx="100" cy="0" r="5" stroke="#D9DBE1" stroke-width="1"></circle>
@@ -18,10 +18,10 @@
             <span class="thesis" :class="{'passed-indicator' : thesis.passed}">Thesis ({{ 5 * multiplier }} min)</span>
             <span class="evidence1" :class="{'passed-indicator' : evidence1.passed}">Evidence #1 / Analysis ({{ 10 * multiplier }} min)</span>
             <span class="evidence2" :class="{'passed-indicator' : evidence2.passed}">Evidence #2 / Analysis ({{ 10 * multiplier }} min)</span>
-            <span class="conclusion test" :class="{'passed-indicator' : conclusion.passed}">Conclusion ({{ 5 * multiplier }} min)</span>
+            <span class="conclusion" :class="{'passed-indicator' : conclusion.passed}">Conclusion ({{ 5 * multiplier }} min)</span>
             <span class="revisions" :class="{'passed-indicator' : revision.passed}">Revisions ({{ 2 * multiplier }} min)</span>
         </div>
-        <div class="test mt-auto my-auto">  
+        <div class="mt-auto my-auto">  
             <b-form-group class="form-border-top">
                 <!-- <b-form-checkbox-group
                     v-model="selected"
@@ -224,6 +224,49 @@ span {
     margin-top:25px;
     padding-top: 5px;
     border-top: 2px solid #EEECEC;
+}
+@media screen and (max-width: 515.0px) {
+    span {
+        white-space: normal;
+    }
+    .outline {
+    top: -5px;
+    right: 42px;
+    }
+    .contextualization {
+        top: 30px;
+        left: 208px;
+        width: 85px;
+        overflow-wrap: break-word;
+    }
+    .thesis {
+        top: 73px;
+        left: 220px;
+        width: 50px;
+    }
+    .conclusion {
+        top: 30px;
+        left: 15px;
+        width: 60px;
+    }
+    .evidence1 {
+        top: 130px;
+        right: 10px;
+        width: 110px;
+    }
+    .evidence2 {
+        top: 115px;
+        left: 5px;
+        width: 90px;
+    }
+    .revisions {
+        top: 0px;
+        left: 15px;
+    }
+    .time {
+        top: 65px;
+        right: 130px;
+    }
 }
 </style>
 <style lang="scss">
