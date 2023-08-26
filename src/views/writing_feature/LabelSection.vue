@@ -14,7 +14,7 @@
         <b-row class="px-1 px-sm-4 px-md-4 px-lg-4 white-container mx-0 mx-sm-4 mx-md-4 mx-lg-4">
             <essayhead :prompt="exersize.prompt" :none="true"></essayhead>
             <div class="essay-area mx-1 mt-4">
-              <div ref="doc" id="essayArea" class="p-5 mt-4" style="position: relative;" @mouseup="handleHighlight" @mousedown="checkHighlight" @click="handleClick">
+              <div ref="doc" id="essayArea" class="p-5 mt-5 mx-auto position-relative labelled-contain" style="position: relative;" @mouseup="handleHighlight" @mousedown="checkHighlight" @click="handleClick">
               {{ feedback.content.raw.text || "Error" }}
                 <div class="toolbar unselectable test" ref="invisible" id="toolbar">
                   <toolbarvue @clickLabel="(label) => handleClickLabel(label)"></toolbarvue>
@@ -108,7 +108,7 @@ export default {
         const handleClickLabel = (label) => {
           if (selectionNode.value) {
             selectionNode.value.style.background = label[0];
-            selectionNode.value.style.opacity = "0.6";
+            selectionNode.value.style.color = "#00000080";
             selectionNode.value.setAttribute("class", label[1])
             selectionNode.value = null;
             invisible.value.parentNode.removeChild(invisible.value)
@@ -120,8 +120,8 @@ export default {
             event.target.replaceWith(...event.target.childNodes);
           }
         }
-        const createTooltip = (selected, toolbar) => {
-          selected.collapse(false);
+        const createTooltip = (selected, toolbar, wrap) => {
+          selected.collapse(wrap);
           selected.insertNode(toolbar);
           const coor = toolbar.getBoundingClientRect();
           var x = coor.right
@@ -130,6 +130,7 @@ export default {
             toolbar.style.marginLeft = `${-60 - (x - window.innerWidth + 80)}px`
           } else {
             toolbar.style.marginLeft = "-55px"
+            toolbar.style.float = "right"
           }
           console.log("parent?", toolbar.parentNode)
           // toolbar.style.display = "inline-block";
@@ -180,34 +181,59 @@ export default {
         }
 
         const handleHighlight = (event) => {
-            const selection = window.getSelection()
+            const selection = window.getSelection();
             if (!selection.toString().trim()) {
               if (event.target.id !== "toolbar" && event.target.parentNode.id !=="toolbar") {
                 console.log('Selected nothing else ');
                 removeHighlight(invisible.value)
               }
             } else {
-              console.log('recieved selection');
+              console.log('recieved selection', selection);
+              // let anchor = selection.anchorOffset;
+              // let focus = selection.focusOffset;
 
               range.value = selection.getRangeAt(0);
-              console.log(range.value.startContainer)
+              console.log(range.value)
               if (range.value.startContainer.parentNode.id === "essayArea") {
                 const fallout = range.value.extractContents();
+                console.log(fallout, fallout.textContent.charAt(fallout.textContent.length - 1));
+
+                const wrap = fallout.textContent.charAt(fallout.textContent.length - 1) === " ";
+                  // range.value.collapse = true;
+                  // range.value.setEnd(range.value.endContainer, range.value.endOffset - 1);
+                  // if (selection.focusOffset > selection.anchorOffset) {
+                    // console.log(selection.anchorOffset, selection.focusOffset);
+                    // selection.setBaseAndExtent(selection.anchorNode, fallout.textContent.charAt(0) === " " ? anchor + 1 : anchor, selection.focusNode, fallout.textContent.charAt(fallout.textContent.length - 1) === " " ? focus - 1 : focus);
+                    // range.value = selection.getRangeAt(0);
+                    // console.log("stripped", selection, range.value);
+                  // }
+                  // selection.setBaseAndExtent(selection.anchorNode, fallout.textContent.charAt(0) === " " ? selection.anchorOffset)
+                  // console.log("stripped")
+                
                 selectionNode.value = (preserveNewLines(fallout));
                 
                 range.value.insertNode(selectionNode.value);
-                createTooltip(range.value, invisible.value)
+                createTooltip(range.value, invisible.value, wrap)
                 selection.removeAllRanges()
               }
             }
         }
+
         const handleText = () => {
-          console.log(preserve.value)
+          console.log(preserve.value);
         }
+        
+        const handleBack = () => {
+          router.push({name: "003", params: {id: feedback.value.prompt_id, module: "Timed"}});
+        }
+
+        const feedback = computed(()=>store.getters.findFeedback({id: store.state.uniqueId, version: "Timed"}));
+        const exersize = computed(()=>store.getters.findPrompt({id: feedback.value.prompt_id, version: 'Timed'}));       
         onMounted(() => {
             window.scrollTo({ top: 0, behavior: "smooth"});
-            // const exersize = store.getters.findPrompt({id: store.state.uniqueId, version: "Timed"});
-            // console.log("accessing in labelled section:", exersize, "payload:", {id: store.state.uniqueId, version: "Timed"});
+            if (!feedback.value.prompt_id) {
+              router.push({name: "002", params:{module: "Timed"}});
+            }
         })
         const items = [
             {
@@ -224,15 +250,9 @@ export default {
                 active: 'yes!'
             }
         ]
-
-        // const prompt_id = ref('sample');
-        console.log({id: store.state.uniqueId, version: "Timed"})
-        const feedback = computed(()=>store.getters.findFeedback({id: store.state.uniqueId, version: "Timed"}));
-        const exersize = computed(()=>store.getters.findPrompt({id: feedback.value.prompt_id, version: 'Timed'}));
-        console.log(feedback,exersize);
        
         return {doc, handleHighlight, preserve, handleText, items, exersize, feedback, invisible, checkHighlight, 
-          handleClickLabel, handleClick, parseUserSelections}
+          handleClickLabel, handleClick, parseUserSelections, handleBack}
     }
 }
 </script>
@@ -264,6 +284,12 @@ span, p {
 
 ::selection {
   background: pink;
+}
+
+.labelled-contain {
+  border-radius: 10px;
+  border: 0.5px solid var(--text-subtle, #969BAB);
+  max-width: 948px;
 }
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

@@ -1,7 +1,7 @@
 <template>
     <b-container fluid class="white-contain-feedback">
         <div v-for="section in stream" :key="section.title" class="stacked-padding">
-        <b-row align-h="between mb-4" style="position: relative;">
+        <b-row align-h="between" class="header-control mb-4" style="position: relative;">
             <h1 class="title-variant-feedback">{{ section.title }}</h1>
             <div class="point-given align-middle">
                <span class="title-variant-feedback align-middle">+1</span>
@@ -11,7 +11,7 @@
             <h2 class="subtitle-variant-feedback">What was written</h2>
         </b-row>
         <b-row class="g-5 required-height">
-            <b-col class="user-input-styles" cols="5">
+            <b-col class="user-input-styles" sm="auto" md="5" lg="5">
                 <div class="user-input-contain">
                     {{ section.content.userInput }}
                 </div>
@@ -52,7 +52,7 @@ export default {
 <style scoped>
 .user-input-styles {
     /* max-width: 469px; */
-    min-width: 300px;
+    min-width: 469px;
 }
 .user-input-contain {
     border-radius: 10px;
@@ -64,6 +64,7 @@ export default {
     font-weight: 500;
     line-height: 26px; /* 185.714% */
     height: 340px;
+    overflow-y: scroll;
 }
 .title-variant-feedback {
     color: var(--text-normal, #18191F);
@@ -115,5 +116,25 @@ export default {
 }
 .stacked-padding:first-child {
     padding-top: 0;
+}
+@media screen and (max-width: 600px) {
+    .user-input-styles {
+    max-width: auto;
+    min-width: auto;
+}
+}
+@media screen and (max-width: 321px) {
+    .user-input-styles {
+        padding: 0;
+    }
+    .header-control {
+        margin-left: -30px;
+        margin-left: -30px;
+    }
+    .point-given {
+        transform: scale(0.8);
+        right: -20px;
+        top: -10px
+    }
 }
 </style>

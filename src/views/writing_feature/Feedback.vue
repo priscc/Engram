@@ -6,12 +6,12 @@
             </b-row>
             <b-row class="px-4 pb-3 pt-2 title">
                 <a class="strip back-button-style mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3" @click="handleBack()">Edit Essay</a>
-                <h1 class="text-center prompt-title extreme-padding">
+                <h1 class="text-center prompt-title top-control">
                     Feedback on Your Essay
                 </h1>
                 <a class="strip back-button-style-right mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3" @click="router.push({name: '001'})">Back to Modules</a>
             </b-row>
-            <b-row class="px-4 white-container responsive-padding mx-0 mx-sm-4 mx-md-4 mx-lg-4">
+            <b-row class="px-1 px-sm-4 px-md-4 px-lg-4 white-container responsive-padding mx-0 mx-sm-4 mx-md-4 mx-lg-4">
                 <essayhead :prompt="exersize.prompt" :score="65"></essayhead>
                 <!-- <progressvue :section="currentSection" class="my-4"></progressvue> -->
                 <!-- <essayarea :props="exersize" @updateProgress="(section) => handleUpdate(section)"></essayarea> -->
@@ -126,5 +126,10 @@ export default {
 </script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap');
+@media screen and (max-width: 790px) {
+    .top-control {
+        margin-top: 50px;
+    }
+}
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

@@ -17,7 +17,7 @@
         </b-col>
         <b-col v-if="!none" class="head-section-2 justify-content-center" :class="{'component-sizing-timer' : timer, 'component-sizing' : !timer}">
             <prompttype v-if="prompt && !score && !timer" :prompt="prompt"></prompttype>
-            <gradescore v-if="score" :score="score"></gradescore>
+            <gradescore v-if="score" :score="score" class="score-padding"></gradescore>
             <b-row v-if="timer" class="h-100 pb-0 pb-sm-4 pb-md-4 pb-lg-4" >
                 <timer class="justify-content-center my-auto  mobile-formatting"></timer>   
             </b-row>
@@ -116,7 +116,6 @@ export default {
 .prompt-head-container {
     padding: 37px 0;
 }
-
 @media screen and (max-width: 515.0px) {
     .head-section {
         margin-right: 0;
@@ -131,9 +130,12 @@ export default {
         min-width: 300px;
     }
     .head-section-2 {
-    border-radius: 10px;
-    padding: 0px;
-}
+        border-radius: 10px;
+        padding: 0px;
+    }
+    .score-padding {
+        margin: 30px;
+    }
 }
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

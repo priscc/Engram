@@ -67,9 +67,11 @@ img {
 }
 .toolbar-hover:hover .toolbar-circle{
     transform: scale(1.2);
+    transition: 0.05s ease-in-out;
 }
 .toolbar-hover:hover .toolbar-text{
     font-weight: 800;
+    transition: 0.05s ease-in-out;
 }
 .polygon {
     width: 44px;
