@@ -9,10 +9,13 @@
     <b-card-text v-if="socials">
         <span class="share-text">Share</span>
         <span>
+            <img :src="require('@/assets/writing_feature/media1.svg')" alt="Image">
+            <img :src="require('@/assets/writing_feature/media2.svg')" alt="Image">
+
+            <!-- <b-icon-facebook class="share-icon"></b-icon-facebook>
             <b-icon-facebook class="share-icon"></b-icon-facebook>
             <b-icon-facebook class="share-icon"></b-icon-facebook>
-            <b-icon-facebook class="share-icon"></b-icon-facebook>
-            <b-icon-facebook class="share-icon"></b-icon-facebook>
+            <b-icon-facebook class="share-icon"></b-icon-facebook> -->
         </span>
     </b-card-text>
     <hr class="line-break">
@@ -113,7 +116,7 @@ export default {
     color: var(--text-normal, #18191F);
     font-size: 16px;
     font-style: normal;
-    font-weight: 500;
+    font-weight: 800;
     line-height: 24px; /* 150% */
     margin-right: 5px;
 }

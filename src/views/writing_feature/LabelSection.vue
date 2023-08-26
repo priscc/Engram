@@ -26,7 +26,6 @@
           </div>
         </b-row>
     </b-container>
-    <!-- <b-button @click="parseUserSelections">Parse</b-button> -->
 </div>
   </div>
 </template>
@@ -82,7 +81,7 @@ export default {
               }
             } else if (elem.className === "Analysis") {
               console.log(elem.innerText);
-              evidence[evidence.length - 1].analysis += elem.innerText;
+              evidence[evidence.length - 1].analysis = evidence[evidence.length - 1].analysis || "" + elem.innerText;
             }   
           }); 
           for (var i in evidence) {
@@ -137,10 +136,10 @@ export default {
           toolbar.style.zIndex = "10";
         };
 
-        //NOTE: depreciated, br not relevant 
         const recursion = (elem) => {
           var string = ""
           elem.childNodes.forEach(element => {
+            //NOTE: depreciated, br not relevant 
             if (element.nodeName === "BR"){
               string += "<br />";
               console.log("does it ever happen?")
@@ -196,19 +195,7 @@ export default {
               console.log(range.value)
               if (range.value.startContainer.parentNode.id === "essayArea") {
                 const fallout = range.value.extractContents();
-                console.log(fallout, fallout.textContent.charAt(fallout.textContent.length - 1));
-
                 const wrap = fallout.textContent.charAt(fallout.textContent.length - 1) === " ";
-                  // range.value.collapse = true;
-                  // range.value.setEnd(range.value.endContainer, range.value.endOffset - 1);
-                  // if (selection.focusOffset > selection.anchorOffset) {
-                    // console.log(selection.anchorOffset, selection.focusOffset);
-                    // selection.setBaseAndExtent(selection.anchorNode, fallout.textContent.charAt(0) === " " ? anchor + 1 : anchor, selection.focusNode, fallout.textContent.charAt(fallout.textContent.length - 1) === " " ? focus - 1 : focus);
-                    // range.value = selection.getRangeAt(0);
-                    // console.log("stripped", selection, range.value);
-                  // }
-                  // selection.setBaseAndExtent(selection.anchorNode, fallout.textContent.charAt(0) === " " ? selection.anchorOffset)
-                  // console.log("stripped")
                 
                 selectionNode.value = (preserveNewLines(fallout));
                 
@@ -219,10 +206,6 @@ export default {
             }
         }
 
-        const handleText = () => {
-          console.log(preserve.value);
-        }
-        
         const handleBack = () => {
           router.push({name: "003", params: {id: feedback.value.prompt_id, module: "Timed"}});
         }
@@ -251,7 +234,7 @@ export default {
             }
         ]
        
-        return {doc, handleHighlight, preserve, handleText, items, exersize, feedback, invisible, checkHighlight, 
+        return {doc, handleHighlight, preserve, items, exersize, feedback, invisible, checkHighlight, 
           handleClickLabel, handleClick, parseUserSelections, handleBack}
     }
 }

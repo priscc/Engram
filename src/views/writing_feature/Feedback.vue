@@ -13,8 +13,6 @@
             </b-row>
             <b-row class="px-1 px-sm-4 px-md-4 px-lg-4 white-container responsive-padding mx-0 mx-sm-4 mx-md-4 mx-lg-4">
                 <essayhead :prompt="exersize.prompt" :score="65"></essayhead>
-                <!-- <progressvue :section="currentSection" class="my-4"></progressvue> -->
-                <!-- <essayarea :props="exersize" @updateProgress="(section) => handleUpdate(section)"></essayarea> -->
                 <sectionfeedback class="mt-4" v-for="section in stream" :key="section.title" :title="section.title" :content="section.content" :title_2="section.title_2" :content_2="section.content_2"></sectionfeedback>
             </b-row>
         </b-container>
@@ -22,25 +20,16 @@
 </template>
 
 <script>
-// import whitecontainer from '../../components/writing_feature/WhiteContainer.vue'
 import breadcrumb from '../../components/writing_feature/BreadCrumb.vue';
-// import essayarea from '../../components/writing_feature/LEQEssay/EssayArea.vue';
-// import progressvue from '../../components/writing_feature/LEQEssay/Progress.vue';
 import essayhead from '../../components/writing_feature/LEQEssay/EssayHead.vue';
-// import purplebutton from '../../components/writing_feature/PurpleButton.vue'
-// import { useStore } from 'vuex'
 import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import storeWriting from '../../store/writing';
 import sectionfeedback from '../../components/writing_feature/SectionFeedback.vue';
 export default {
     components: {
-        // whitecontainer, 
         breadcrumb, 
-        // essayarea,
-        // progressvue,
         essayhead,
-        // purplebutton,
         sectionfeedback,
     },
     setup() {
@@ -67,6 +56,9 @@ export default {
             {
                 text: 'Essay Writing: LEQ',
             }, 
+            {
+                text: 'Essay Component Module: Beginner'
+            },
             {
                 text: 'Choose a Prompt',
             }, 

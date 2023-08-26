@@ -158,7 +158,7 @@ export default {
     height: auto;
 }
 .expansive {
-    height: 1101px;
+    height: 1201px;
 }
 .breakdown-title {
     color: #000;

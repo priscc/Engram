@@ -230,12 +230,12 @@ export const storeWriting = createStore({
             //    -  uniqueID functions to identify the feedback obj without being exposed to user manipulation like route params would
             let index = state.feedback.findIndex(x => x.prompt_id === payload.prompt_id && x.moduleVersion === payload.moduleVersion);
             console.log('apparent index ', state.feedback[index] );
-            // let completed_index = state.completedPrompts.findIndex(x => x.prompt_id === payload.prompt_id && x.moduleVersion === payload.moduleVersion);
             if (index > -1) {
 
                 //set uniqueID
                 state.uniqueId = state.feedback[index].id;
                 //UPDATE 8/10/23: bug fix, set new inputs to userInput property of content fields instead of the entire field
+                //NOTE: || statement will preserve old labels if no new labelled section is sent, change statement if not intended/desired
                 state.feedback[index].content.contextualization.userInput = payload.contextualization || state.feedback[index].content.contextualization.userInput;
                 state.feedback[index].content.thesis.userInput = payload.thesis || state.feedback[index].content.thesis.userInput;
                 state.feedback[index].content.conclusion.userInput = payload.conclusion || state.feedback[index].content.conclusion.userInput; 
@@ -244,9 +244,6 @@ export const storeWriting = createStore({
                         state.feedback[index].labelled = payload.labelled || state.feedback[index].labelled;
                         state.feedback[index].content.raw = payload.raw || state.feedback[index].content.raw;
                 }
-                // state.completedPrompts[completed_index].templates.contextualization = payload.contextualization
-                // state.completedPrompts[completed_index].templates.thesis = payload.thesis
-                // state.completedPrompts[completed_index].templates.conclusion = payload.conclusion
 
                 //Compatible with a dynamic amount of evidence
                 for(let i in payload.evidence) {
@@ -265,14 +262,10 @@ export const storeWriting = createStore({
                             }
                         }
                         state.feedback[index].content.evidence.push(new_evidence);
-                        // state.completedPrompts[completed_index].templates.evidence.push(new_evidence);
                     } else {
                         //overrides previous evidences 
                         state.feedback[index].content.evidence[i].evidence.userInput = payload.evidence[i][0] || null;
                         state.feedback[index].content.evidence[i].analysis.userInput = payload.evidence[i][1] || null;
-
-                        // state.completedPrompts[completed_index].templates.evidence[i][0] = payload.evidence[i][0];
-                        // state.completedPrompts[completed_index].templates.evidence[i][1] = payload.evidence[i][1];
                     }
                 }
             } else {
@@ -284,7 +277,6 @@ export const storeWriting = createStore({
                     labelled: payload.moduleVersion !== "Timed",
                     score: null,
                     content: {
-                        // raw: payload.moduleVersion === "Timed" ? payload.raw : null,
                         contextualization: {
                             userInput: payload.contextualization || null,
                             good: null,
@@ -305,16 +297,6 @@ export const storeWriting = createStore({
                 };
 
                 userInput.content.raw = payload.raw || null;
-                // const completedPrompt = {
-                //     prompt_id: payload.prompt_id, 
-                //     moduleVersion: payload.moduleVersion,
-                //     templates: {
-                //         thesis: payload.thesis,
-                //         evidence: [],
-                //         contextualization: payload.contextualization, 
-                //         conclusion: payload.conclusion
-                //     }
-                // }
                 (payload.evidence || []).forEach(x => {
                     const new_evidence = {
                         evidence: {
@@ -329,11 +311,8 @@ export const storeWriting = createStore({
                         }
                     }
                     userInput.content.evidence.push(new_evidence);
-                    // completedPrompt.templates.evidence.push([x[0], x[1]]);
                 });
-                //creates new completed prompt and feedback object 
                 state.feedback.push(userInput);
-                // state.completedPrompts.push(completedPrompt);
             }
         }
     },
