@@ -16,7 +16,7 @@
             <div class="essay-area mx-1 mt-4">
               <div ref="doc" id="essayArea" class="p-5 mt-5 mx-auto position-relative labelled-contain" style="position: relative;" @mouseup="handleHighlight" @mousedown="checkHighlight" @click="handleClick">
               {{ feedback.content.raw.text || "Error" }}
-                <div class="toolbar unselectable test" ref="invisible" id="toolbar">
+                <div class="toolbar unselectable" ref="invisible" id="toolbar">
                   <toolbarvue @clickLabel="(label) => handleClickLabel(label)"></toolbarvue>
                 </div>
               </div>
