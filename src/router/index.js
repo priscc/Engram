@@ -16,6 +16,7 @@ import ChoosePrompt from "../views/writing_feature/ChoosePrompt";
 import LEQEssay from "../views/writing_feature/LEQEssay";
 import Feedback from "../views/writing_feature/Feedback";
 import Quiz from "../views/Quiz";
+import QuizFeature from "../views/QuizFeature.vue";
 import LabelSection from "../views/writing_feature/LabelSection";
 const routes = [
   {
@@ -27,6 +28,11 @@ const routes = [
     path: "/Units",
     name: "Units",
     component: Units
+  },
+  {
+    path: "/unitquestions",
+    name: "QuizFeature",
+    component: QuizFeature
   },
   {
     path: "/privacypolicy",
