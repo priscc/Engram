@@ -16,9 +16,8 @@ import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 // GOOGLE ANALYTICS
 import VueGtag from "vue-gtag";
-
-// import { getPerformance } from "firebase/performance";
-// import "firebase/performance";
+//HOT JAR
+import Hotjar from "@hotjar/browser";
 
 export const db = firebase
   .initializeApp({
@@ -28,12 +27,18 @@ export const db = firebase
     storageBucket: "ap-studybites.appspot.com",
     messagingSenderId: "386062840730",
     appId: "1:386062840730:web:5f3a0c6b23f0be15220023",
-    measurementId: "G-8XJMW8N6QS"
+    measurementId: "G-8XJMW8N6QS",
   })
   .firestore();
 
-// Initialize Performance Monitoring and get a reference to the service
-// const perf = firebase.performance();
+//HOTJAR
+const siteId = 3665917;
+const hotjarVersion = 6;
+Hotjar.init(siteId, hotjarVersion);
+// Initializing with `debug` option:
+Hotjar.init(siteId, hotjarVersion, {
+  debug: true,
+});
 
 const app = createApp(App);
 app.use(store);
@@ -41,8 +46,8 @@ app.use(router);
 app.use(BootstrapVue);
 app.use(BootstrapIconsPlugin);
 app.component("QuillEditor", QuillEditor);
-// app.config.productionTip = false;
 app.use(VueGtag, {
-  config: { id: "G-8XJMW8N6QS" }
+  config: { id: "G-8XJMW8N6QS" },
 });
+
 app.mount("#app");

@@ -8,6 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@hotjar/browser": "^1.0.9",
     "@vue/cli-plugin-babel": "^5.0.8",
     "@vue/compat": "^3.1.0",
     "@vueup/vue-quill": "^1.1.0",
@@ -28,6 +29,7 @@
     "vue": "^3.2.47",
     "vue-d3-geo": "^0.4.6",
     "vue-gtag": "^2.0.1",
+    "vue-hotjar": "^1.4.0",
     "vue-quill": "^1.5.1",
     "vue-router": "^4.0.0-0",
     "vue-scrollto": "^2.20.0",
