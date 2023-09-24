@@ -88,9 +88,14 @@ export const storeWriting = createStore({
                 id: 'sample',
                 prompt_id: 'sample',
                 moduleVersion: 'Beginners',
-                feedback_given: false,
+                feedback_given: false, // true if feedback is given 
+                labelled: true, // true if user input is categorized for feedback page (i.e. default for beginner and advanced module)
                 score: null,
                 content: {
+                    raw: {
+                        outline: null,
+                        text: null,
+                    }, // exclusive to timed module, contains bare, unlabelled user essay
                     contextualization: {
                         userInput: 'Following the Post-Modern period, many regions around the world experienced instability and massive change due to increasingly global connections and the advent of new ideologies.',
                         good: null,
@@ -150,6 +155,7 @@ export const storeWriting = createStore({
                     prompt_id: feedback[0].prompt_id, 
                     moduleVersion: feedback[0].moduleVersion,
                     templates: {
+                        raw: feedback[0].content.raw,
                         thesis: feedback[0].content.thesis.userInput,
                         evidence: [],
                         contextualization: feedback[0].content.contextualization.userInput, 
@@ -165,8 +171,10 @@ export const storeWriting = createStore({
             return [];
         },
         findPrompt: (state, getters) => (i) => {
-            //Prioritizes returning the completed user input over the original blank templates
-            // const completedPromptres = state.completedPrompts.filter(prompt => prompt.prompt_id === i.id && prompt.moduleVersion === i.version );
+            //Prioritizes returning the completed user input over the original blank templates, completed user input is injected into textareas to save progress
+            
+            //NOTE: for both feedback and timed module, needing to use both findPrompt and findFeedback causes redundant returning of user input, 
+            //      split findPrompt functionality into a function that solely returns prompt, and one that solely returns template
             if(i === null) {
                 return null
             }
@@ -216,24 +224,26 @@ export const storeWriting = createStore({
             state.moduleVersion = payload;
         },
         uploadUserInput (state, payload) {
+            console.log('payload', payload)
             // Overrides/Updates existing feedback object if exists and has an equivalent prompt id 
             // Updates uniqueID to connect to existing feedback obj if exists
             //    -  uniqueID functions to identify the feedback obj without being exposed to user manipulation like route params would
             let index = state.feedback.findIndex(x => x.prompt_id === payload.prompt_id && x.moduleVersion === payload.moduleVersion);
-            // console.log('apparent index ', state.feedback[index] );
-            let completed_index = state.completedPrompts.findIndex(x => x.prompt_id === payload.prompt_id && x.moduleVersion === payload.moduleVersion);
+            console.log('apparent index ', state.feedback[index] );
             if (index > -1) {
 
                 //set uniqueID
                 state.uniqueId = state.feedback[index].id;
                 //UPDATE 8/10/23: bug fix, set new inputs to userInput property of content fields instead of the entire field
-                state.feedback[index].content.contextualization.userInput = payload.contextualization;
-                state.feedback[index].content.thesis.userInput = payload.thesis;
-                state.feedback[index].content.conclusion.userInput = payload.thesis; 
+                //NOTE: || statement will preserve old labels if no new labelled section is sent, change statement if not intended/desired
+                state.feedback[index].content.contextualization.userInput = payload.contextualization || state.feedback[index].content.contextualization.userInput;
+                state.feedback[index].content.thesis.userInput = payload.thesis || state.feedback[index].content.thesis.userInput;
+                state.feedback[index].content.conclusion.userInput = payload.conclusion || state.feedback[index].content.conclusion.userInput; 
 
-                state.completedPrompts[completed_index].templates.contextualization = payload.contextualization
-                state.completedPrompts[completed_index].templates.thesis = payload.thesis
-                state.completedPrompts[completed_index].templates.conclusion = payload.conclusion
+                if (payload.moduleVersion === "Timed") {
+                        state.feedback[index].labelled = payload.labelled || state.feedback[index].labelled;
+                        state.feedback[index].content.raw = payload.raw || state.feedback[index].content.raw;
+                }
 
                 //Compatible with a dynamic amount of evidence
                 for(let i in payload.evidence) {
@@ -252,14 +262,10 @@ export const storeWriting = createStore({
                             }
                         }
                         state.feedback[index].content.evidence.push(new_evidence);
-                        state.completedPrompts[completed_index].templates.evidence.push(new_evidence);
                     } else {
                         //overrides previous evidences 
-                        state.feedback[index].content.evidence[i].evidence.userInput = payload.evidence[i][0];
-                        state.feedback[index].content.evidence[i].analysis.userInput = payload.evidence[i][1];
-
-                        state.completedPrompts[completed_index].templates.evidence[i][0] = payload.evidence[i][0];
-                        state.completedPrompts[completed_index].templates.evidence[i][1] = payload.evidence[i][1];
+                        state.feedback[index].content.evidence[i].evidence.userInput = payload.evidence[i][0] || null;
+                        state.feedback[index].content.evidence[i].analysis.userInput = payload.evidence[i][1] || null;
                     }
                 }
             } else {
@@ -268,37 +274,30 @@ export const storeWriting = createStore({
                     prompt_id: payload.prompt_id,
                     moduleVersion: payload.moduleVersion,
                     feedback_given: false,
+                    labelled: payload.moduleVersion !== "Timed",
                     score: null,
                     content: {
                         contextualization: {
-                            userInput: payload.contextualization,
+                            userInput: payload.contextualization || null,
                             good: null,
                             toImprove: null
                         },
                         thesis: {
-                            userInput: payload.thesis,
+                            userInput: payload.thesis || null,
                             good: null,
                             toImprove: null
                         },
                         evidence: [], 
                         conclusion: {
-                            userInput: payload.conclusion,
+                            userInput: payload.conclusion|| null,
                             good: null,
                             toImprove: null
                         }
                     }
                 };
-                const completedPrompt = {
-                    prompt_id: payload.prompt_id, 
-                    moduleVersion: payload.moduleVersion,
-                    templates: {
-                        thesis: payload.thesis,
-                        evidence: [],
-                        contextualization: payload.contextualization, 
-                        conclusion: payload.conclusion
-                    }
-                }
-                payload.evidence.forEach(x => {
+
+                userInput.content.raw = payload.raw || null;
+                (payload.evidence || []).forEach(x => {
                     const new_evidence = {
                         evidence: {
                             userInput: x[0],
@@ -312,11 +311,8 @@ export const storeWriting = createStore({
                         }
                     }
                     userInput.content.evidence.push(new_evidence);
-                    completedPrompt.templates.evidence.push([x[0], x[1]]);
                 });
-                //creates new completed prompt and feedback object 
                 state.feedback.push(userInput);
-                state.completedPrompts.push(completedPrompt);
             }
         }
     },

@@ -1,5 +1,5 @@
 <template>
-  <div id="essay-writing fontist">
+  <div id="essay-writing">
     <navbarvue style="position: absolute; top: 0; width: 100%;"></navbarvue>
     <b-container fluid class="background">
         <b-row class="pt-4 responsive-padding">
@@ -7,7 +7,7 @@
         </b-row>
         <b-row class="px-4 pb-3 pt-2 title" style="position:relative">
             <a class="strip back-button-style mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3" @click="handleBack()">Back</a>
-            <h1 class="text-center prompt-title">
+            <h1 class="text-center prompt-title moderate-padding">
                 Choose a Prompt
             </h1>
         </b-row>
@@ -38,7 +38,7 @@ export default {
     setup() {
         const router = useRouter();
         const route = useRoute();
-        if (route.params.module !== 'Beginners' && route.params.module !== 'Advanced') {
+        if (!['Beginners', 'Advanced', 'Timed'].includes(route.params.module)) {
             router.push({name: '001'});
         }
         const store = storeWriting;

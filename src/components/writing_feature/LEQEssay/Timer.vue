@@ -1,13 +1,16 @@
 <template>
-    <div class="my-auto" style="border: 1px solid green; height: min-content;">
-        <div class="test text-center my-auto" style="position: relative;">
-            <svg class="test" xmlns="http://www.w3.org/2000/svg" width="145" height="145" viewBox="-75 -80 155 150" fill="none">
+    <div class="my-auto" style="height: min-content;">
+        <div class="text-center my-auto" style="position: relative;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="145" height="145" viewBox="-75 -80 155 150" fill="none">
                 <path d="M0 -69 A69 69 0 1 1 0 69 69 69 0 1 1 0 -69" :stroke="currentTime >= maxTime - 10 ? '#8C30F5' : '#D9DBE1'" stroke-width="2"/>
                 <path :d="`M0 -69 A69 69 0 ${currentTime > (maxTime / 2) ? 1 : 0} 1 ${endX} ${endY}`" stroke="#8C30F5" stroke-width="2"/>
                 <circle cx="100" cy="0" r="5" stroke="#D9DBE1" stroke-width="1"></circle>
                 <circle cx="0" cy="100" r="5" stroke="#D9DBE1" stroke-width="1"></circle>
                 <circle v-for="landmark in landmarks" :key="landmark" stroke="#D9DBE1" stroke-width="1" fill="#D9DBE1" :class="{'passed-circle' : landmark.value.passed }" :cx="landmark.value.cx" :cy="landmark.value.cy" :r="landmark.value.passed? 8.5 : 6.5"></circle>
             </svg>
+            <div class="time">
+                {{ currentTimeHoursMinutes }}
+            </div>
             <span class="outline" :class="{'passed-indicator' : outline.passed}">
                 Outline ({{ 10 * multiplier }} min)
             </span>
@@ -15,41 +18,54 @@
             <span class="thesis" :class="{'passed-indicator' : thesis.passed}">Thesis ({{ 5 * multiplier }} min)</span>
             <span class="evidence1" :class="{'passed-indicator' : evidence1.passed}">Evidence #1 / Analysis ({{ 10 * multiplier }} min)</span>
             <span class="evidence2" :class="{'passed-indicator' : evidence2.passed}">Evidence #2 / Analysis ({{ 10 * multiplier }} min)</span>
-            <span class="conclusion test" :class="{'passed-indicator' : conclusion.passed}">Conclusion ({{ 5 * multiplier }} min)</span>
+            <span class="conclusion" :class="{'passed-indicator' : conclusion.passed}">Conclusion ({{ 5 * multiplier }} min)</span>
             <span class="revisions" :class="{'passed-indicator' : revision.passed}">Revisions ({{ 2 * multiplier }} min)</span>
         </div>
-        <div class="test mt-auto my-auto">  
+        <div class="mt-auto my-auto">  
             <b-form-group class="form-border-top">
-                <b-form-checkbox-group
+                <!-- <b-form-checkbox-group
                     v-model="selected"
                     inline
-                > 
+                >  -->
                     <b-row align-h="center" class="g-5">
                         <b-col cols="auto">
-                            <b-form-checkbox value=""> I have 1.5x time</b-form-checkbox>
+                            <b-form-checkbox :disabled="checkboxable" v-model="fiftyPercentMultiplier"> I have 1.5x time {{  }}</b-form-checkbox>
                         </b-col>
                         <b-col cols="auto">
-                            <b-form-checkbox value=""> I have 2x time</b-form-checkbox>
+                            <b-form-checkbox :disabled="checkboxable" v-model="hundredPercentMultiplier"> I have 2x time</b-form-checkbox>
                         </b-col>
                     </b-row>
-                </b-form-checkbox-group>
+                <!-- </b-form-checkbox-group> -->
             </b-form-group>
         </div>
     </div>
 </template>
 
 <script>
-import { computed, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 export default {
     setup() {
-        const multiplier = ref(1)
-        const maxTime = ref(2700 * multiplier.value)
-        const currentTime = ref(1300) 
-        
+        //Checkbox
+        const checkboxable = computed(() => fiftyPercentMultiplier.value || hundredPercentMultiplier.value);
+        const fiftyPercentMultiplier = ref(false);
+        const hundredPercentMultiplier = ref(false);
+        //
+        const multiplier = computed(() => {
+            return fiftyPercentMultiplier.value ? 1.5 : hundredPercentMultiplier.value ? 2 : 1
+        });
+        const maxTime = computed( () => 2700 * multiplier.value);
+        //NOTE: change current time value to value passed in as prop
+        const currentTime = ref(0) ;
+        const currentTimeHoursMinutes = computed(() => {
+            let countdown = maxTime.value - currentTime.value;
+            let hours = Math.floor(countdown / 60);
+            let minutes = countdown % 60;
+            return `${hours < 10 ? '0' + hours : hours}:${minutes < 10 ? '0' + minutes : minutes}`
+        })
         const frac = computed(() => (currentTime.value / maxTime.value) * Math.PI * 2);
         const endX = computed(() => Math.cos(frac.value + (Math.PI * 0.5) ) * -69);
         const endY = computed(() => Math.sin(frac.value + (Math.PI * 0.5) ) * -69);
-        console.log(frac, endX, endY)
+        console.log(frac, endX, endY);
         // const partition = (frac) => {
         //     let fraction = frac + Math.PI * 2;
         //     return {
@@ -120,9 +136,22 @@ export default {
         //     }
         // }
         console.log(landmarks)
+        const id = ref(null)
+        onMounted(() => {
+            id.value = setInterval(() => {
+                currentTime.value += 1;
+                if (currentTime.value >= maxTime.value) {
+                    clearInterval(id.value);
+                }
+            }, 1000);
+        });
+        onUnmounted(() => {
+            clearInterval(id.value);
+        });
         return {endX, endY, landmarks, currentTime, maxTime,
             outline, contextualization, thesis, evidence1, 
-            evidence2, conclusion, revision, multiplier
+            evidence2, conclusion, revision, multiplier, currentTimeHoursMinutes,
+            checkboxable, fiftyPercentMultiplier, hundredPercentMultiplier
         }
     }
 }
@@ -171,6 +200,17 @@ export default {
     top: 0px;
     left: 75px;
 }
+.time {
+    position: absolute;
+    top: 65px;
+    right: 200px;
+    color: #000;
+    font-family: Manrope;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px; /* 157.143% */
+}
 span {
     color: var(--text-subtle-2, #D9DBE1);
     text-align: center;
@@ -184,6 +224,49 @@ span {
     margin-top:25px;
     padding-top: 5px;
     border-top: 2px solid #EEECEC;
+}
+@media screen and (max-width: 515.0px) {
+    span {
+        white-space: normal;
+    }
+    .outline {
+    top: -5px;
+    right: 42px;
+    }
+    .contextualization {
+        top: 30px;
+        left: 208px;
+        width: 85px;
+        overflow-wrap: break-word;
+    }
+    .thesis {
+        top: 73px;
+        left: 220px;
+        width: 50px;
+    }
+    .conclusion {
+        top: 30px;
+        left: 15px;
+        width: 60px;
+    }
+    .evidence1 {
+        top: 130px;
+        right: 10px;
+        width: 110px;
+    }
+    .evidence2 {
+        top: 115px;
+        left: 5px;
+        width: 90px;
+    }
+    .revisions {
+        top: 0px;
+        left: 15px;
+    }
+    .time {
+        top: 65px;
+        right: 130px;
+    }
 }
 </style>
 <style lang="scss">

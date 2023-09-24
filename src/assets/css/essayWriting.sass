@@ -186,6 +186,8 @@
 .main-button 
     width: 100%
 
+.finish-button 
+    max-width: 239px
 
 .button-parent 
     max-width:293px
@@ -298,51 +300,32 @@
   padding-left: 5%
   padding-right: 5%
 
-// FeaturesDisplay sass
+.user-responsivity:hover 
+    opacity: 0.75
 
-#feature 
-    max-width: 350px 
-    text-align: left
-    padding: 30px 32px 30px 32px
+.user-responsivity:active 
+    opacity: 0.5
 
-.feature-title 
-    color: var(--text-gray-900, #18191F)
-    font-feature-settings: 'liga' off
-    font-size: 24px
-    font-style: normal
-    font-weight: 600
-    line-height: 32px 
+//ESSAY AREA 
 
+.essay-area 
+    border-radius: 10px
+    background: #FFF
 
-.feature-description 
-    color: var(--text-gray-900, #18191F)
-    font-feature-settings: 'liga' off
+.collapsed > .when-open,
+.not-collapsed > .when-closed 
+  display: none
 
-    font-size: 15px
-    font-style: normal
-    font-weight: 400
-    line-height: 26px 
+.textbox-border 
+    border-radius: 10px
+    border: 0.5px solid var(--text-subtle, #969BAB)
 
+.textbox 
+    max-width: 948px
 
-.features-icon-parent 
-    position: relative
-    width: 50px
-    padding-bottom: 56px
+.no-scroll-bar::-webkit-scrollbar
+    display: none
 
-
-#features-link 
-    color: var(--brand-purple, #8C30F5)
-    font-feature-settings: 'clig' off, 'liga' off
-    font-size: 12px
-    font-style: normal
-    font-weight: 700
-    line-height: 16px
-    text-decoration: none
-    cursor: pointer
-
-
-#features-link::after 
-    content: url("../../assets/writing_feature/right-arrow.svg") !important    
-    padding-left:8px
-    position:absolute
-    bottom: 45px
+.no-scroll-bar 
+    -ms-overflow-style: none
+    scrollbar-width: none

@@ -101,8 +101,8 @@ const routes = [
     component: Feedback
   },
   {
-    path: "/test",
-    name: "test",
+    path: "/005",
+    name: "005",
     component: LabelSection
   }
 ];

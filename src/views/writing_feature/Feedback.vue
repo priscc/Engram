@@ -6,15 +6,13 @@
             </b-row>
             <b-row class="px-4 pb-3 pt-2 title">
                 <a class="strip back-button-style mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3" @click="handleBack()">Edit Essay</a>
-                <h1 class="text-center prompt-title extreme-padding">
+                <h1 class="text-center prompt-title top-control">
                     Feedback on Your Essay
                 </h1>
                 <a class="strip back-button-style-right mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3" @click="router.push({name: '001'})">Back to Modules</a>
             </b-row>
-            <b-row class="px-4 white-container responsive-padding mx-0 mx-sm-4 mx-md-4 mx-lg-4">
+            <b-row class="px-1 px-sm-4 px-md-4 px-lg-4 white-container responsive-padding mx-0 mx-sm-4 mx-md-4 mx-lg-4">
                 <essayhead :prompt="exersize.prompt" :score="65"></essayhead>
-                <!-- <progressvue :section="currentSection" class="my-4"></progressvue> -->
-                <!-- <essayarea :props="exersize" @updateProgress="(section) => handleUpdate(section)"></essayarea> -->
                 <sectionfeedback class="mt-4" v-for="section in stream" :key="section.title" :title="section.title" :content="section.content" :title_2="section.title_2" :content_2="section.content_2"></sectionfeedback>
             </b-row>
         </b-container>
@@ -22,25 +20,16 @@
 </template>
 
 <script>
-// import whitecontainer from '../../components/writing_feature/WhiteContainer.vue'
 import breadcrumb from '../../components/writing_feature/BreadCrumb.vue';
-// import essayarea from '../../components/writing_feature/LEQEssay/EssayArea.vue';
-// import progressvue from '../../components/writing_feature/LEQEssay/Progress.vue';
 import essayhead from '../../components/writing_feature/LEQEssay/EssayHead.vue';
-// import purplebutton from '../../components/writing_feature/PurpleButton.vue'
-// import { useStore } from 'vuex'
 import { ref, computed } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import storeWriting from '../../store/writing';
 import sectionfeedback from '../../components/writing_feature/SectionFeedback.vue';
 export default {
     components: {
-        // whitecontainer, 
         breadcrumb, 
-        // essayarea,
-        // progressvue,
         essayhead,
-        // purplebutton,
         sectionfeedback,
     },
     setup() {
@@ -67,6 +56,9 @@ export default {
             {
                 text: 'Essay Writing: LEQ',
             }, 
+            {
+                text: 'Essay Component Module: Beginner'
+            },
             {
                 text: 'Choose a Prompt',
             }, 
@@ -95,7 +87,7 @@ export default {
                 })
                 stream.value.push({
                     title: 'Thesis Statement',
-                    content: feedback.content.contextualization
+                    content: feedback.content.thesis
                 })
                 for(var i in feedback.content.evidence){
                     stream.value.push({
@@ -126,5 +118,10 @@ export default {
 </script>
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap');
+@media screen and (max-width: 790px) {
+    .top-control {
+        margin-top: 50px;
+    }
+}
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

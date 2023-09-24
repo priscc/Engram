@@ -42,9 +42,9 @@
 
                 <template #timed>
                     <a class="module-labels strip label-position">Timed Module</a>
-                    <b-container>
-                        <b-row class="" no-gutters align-h="center">
-                                <b-col class="mother-container timed justify-content-center py-4"  sm="3" md="3" lg="3">
+                    <b-container class="p-0 m-0">
+                        <b-row class="p-0 m-0" no-gutters align-h="center">
+                                <b-col class="mother-container timed justify-content-center py-4">
                                     <!-- <div style="border: 1px solid red;"> -->
                                         <!-- <div style="border: 2px dotted green; display: inline-flex; flex-wrap: wrap; background-color: aqua; align-items: flex-start; flex-direction: row; gap:10px"> -->
                                             <modules v-for="modules in timeModule" :key="modules.name" :modules="modules"></modules>
@@ -84,7 +84,7 @@ export default {
                 img: 'ModuleIcon4.svg', 
                 // title: 'For Beginners',
                 points: ['Real Exam Format', 'Answer a College Board prompt', '45 Minute Time Restriction'], 
-                button: {content: "Practice Writing", route: 'SelectModule'},
+                button: {content: "Practice Writing", route: '002', params: {module: 'Timed'}},
                 orientation: 12,
                 name:'timed'
             }, 
