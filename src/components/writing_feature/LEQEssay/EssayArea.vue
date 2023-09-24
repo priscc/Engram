@@ -204,7 +204,7 @@ export default {
         return { 
             stream, evidence, evidenceSubTemplateSubtitle, currentSection, 
             setCurrentSection, router, handleSubmit, submitted, 
-            handleRequest, dataRequested,  handleFocus, addEvidence
+            handleRequest, dataRequested,  handleFocus, addEvidencex
         }
     }
 } 
