@@ -1,43 +1,43 @@
 <template>
   <div id="Home">
     <div class="main">
-        <b-container>
-          <b-row align-v="center" class="px-4 py-5 main-row">
-            <b-jumbotron id="main-jumbo">
-              <template #header
-                ><a id="main-title"
-                  >Learn & Enjoy<br />AP World History🌎</a
-                ></template
+      <b-container>
+        <b-row align-v="center" class="px-4 py-5 main-row">
+          <b-jumbotron id="main-jumbo">
+            <template #header
+              ><a id="main-title"
+                >Learn & Enjoy<br />AP World History🌎</a
+              ></template
+            >
+
+            <template #lead>
+              <a id="main-subtitle"
+                >Engram provides AP World History study guides, multiple choice
+                questions, and essay practice session for students</a
               >
+            </template>
 
-              <template #lead>
-                <a id="main-subtitle"
-                  >Engram provides free AP World History study guides, essay
-                  practice session, and open community for students</a
-                >
-              </template>
-
-              <b-button id="button" @click="router.push({ name: '001' })">
-                Get Started
-              </b-button>
-            </b-jumbotron>
-          </b-row>
-        </b-container>
-        <div class="icon-parent">
-          <img
-            :src="require('@/assets/writing_feature/PurpleCircle.svg')"
-            alt="Image"
-            class="icon-circle"
-          />
-        </div>
-        <div class="icon-parent-demo align-middle">
-          <img
-            :src="require('@/assets/writing_feature/demov2.png')"
-            alt="Image"
-            class="icon-demo my-auto"
-          />
-        </div>
+            <b-button id="button" @click="router.push({ name: '001' })">
+              Get Started
+            </b-button>
+          </b-jumbotron>
+        </b-row>
+      </b-container>
+      <div class="icon-parent">
+        <img
+          :src="require('@/assets/writing_feature/PurpleCircle.svg')"
+          alt="Image"
+          class="icon-circle"
+        />
       </div>
+      <div class="icon-parent-demo align-middle">
+        <img
+          :src="require('@/assets/writing_feature/demov2.png')"
+          alt="Image"
+          class="icon-demo my-auto"
+        />
+      </div>
+    </div>
     <b-container fluid>
       <b-row align-h="center" align-v="center" class="features">
         <b-col
@@ -72,30 +72,37 @@
 
 <script>
 import { useRouter } from "vue-router";
-import featuresdisplay from "@/components/writing_feature/FeaturesDisplay.vue";
+import featuresdisplay from "@/components/FeaturesDisplay.vue";
 import steps from "@/components/writing_feature/Steps.vue";
 export default {
   components: {
     featuresdisplay,
-    steps
+    steps,
   },
   setup() {
     const router = useRouter();
     const features = [
       {
         img: "book.svg",
-        title: "AP World History Unit",
+        title: "AP World History Units",
         description:
           "Explore our AP World History resources. Feel free to enjoy our 100+ Interactive study materials.",
-        route: "Units"
+        route: "Units",
+      },
+      {
+        img: "eyes.png",
+        title: "Multiple Choice Questions",
+        description:
+          "Improve your AP World History quiz score. Test yourself with out multiple choice questions.",
+        route: "Quiz",
       },
       {
         img: "Essay.svg",
         title: "Essay Writing",
         description:
           "Learn and practice how to write your Long Essay Questions (LEQ) and Document Based Questions (DBQ).",
-        route: "001"
-      }
+        route: "001",
+      },
     ];
     const steps = [
       {
@@ -103,22 +110,22 @@ export default {
         title: "Learn AP World History",
         description: "Study our qualified AP World History materials",
         height: "72",
-        width: "257"
+        width: "257",
       },
       {
         img: "IconGroup2.svg",
         title: "Write your own essay",
         description: "Follow our step-by-step essay writing guides",
         height: "72",
-        width: "257"
+        width: "257",
       },
       {
         img: "IcongroupFinal.svg",
         title: "Get your dream score",
         description: "Master AP World History and get a full score",
         height: "72",
-        width: "257"
-      }
+        width: "257",
+      },
     ];
 
     return { features, steps, router };

@@ -4,7 +4,6 @@
       <navbarvue
         style="width: 100%; border-bottom: 1px solid #0000003D; z-index: 9999;"
       ></navbarvue>
-      
     </div>
     <div>
       <router-view></router-view>
@@ -31,7 +30,7 @@
         <b-row>
           <b-col>&copy; 2022 by Engram</b-col>
         </b-row>
-        <b-alert
+        <!--  <b-alert
           class="p-2"
           style="position:fixed; z-index: 300;  right: 0px; bottom: 0px; min-width: 50%; margin-right: 10px "
           :show="alertDisplay"
@@ -52,7 +51,7 @@
           >
             <div class="alert_dismiss">Close</div>
           </div>
-        </b-alert>
+        </b-alert> -->
       </b-container>
     </div>
   </div>
@@ -60,7 +59,7 @@
 
 <script>
 import store from "@/store";
-import navbarvue from '@/components/NavBar.vue';
+import navbarvue from "@/components/NavBar.vue";
 // import storeTopic from "@/store/topic.js";
 // import { db } from "@/main";
 export default {

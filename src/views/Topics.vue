@@ -26,9 +26,8 @@
               sm="12"
               v-for="topic in unit.topics"
               :key="topic.id"
-              class="pre-card"
             >
-              <div class="card" @click="next(topic)">
+              <div class="topic_card" @click="next(topic)">
                 <b-img class="card_image" :src="topic.topic_thumbURL"></b-img>
                 <div class="overlay overlay_2">
                   <p class="card_header">{{ topic.title }}</p>
@@ -72,7 +71,7 @@ export default {
                 var entry = doc.data();
                 entry.id = doc.id;
                 topics.push(entry);
-              }.bind(this)
+              }.bind(this),
             );
             topics = topics.sort(function(a, b) {
               if (a.timespan && b.timespan) {
@@ -89,13 +88,13 @@ export default {
                 if (keys.includes(element.unit)) {
                   this.units[element.unit].topics.push(element);
                 }
-              }.bind(this)
+              }.bind(this),
             );
-          }.bind(this)
+          }.bind(this),
         );
     },
     back() {
-      this.$router.push({ name: "Home" });
+      this.$router.push({ name: "Units" });
     },
     next(topic) {
       storeTopic.dispatch("setTopicContent", topic);
@@ -114,7 +113,7 @@ export default {
     store.dispatch("setTimePeriod", this.$route.params.period);
     this.units = this.timePeriodHeaders.unitTitles;
     var v = Object.keys(this.units).filter(
-      (unit) => this.units[unit].topics.length > 0
+      (unit) => this.units[unit].topics.length > 0,
     );
     if (v.length == 0) this.topic();
     this.$gtag.event("Topics-page", {

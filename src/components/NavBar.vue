@@ -23,26 +23,26 @@
               <span class="dd-link"
                 >Essay Writing
                 <img
-                  :src="
-                    require('@/assets/writing_feature/chevron-down.svg')
-                  "
+                  :src="require('@/assets/writing_feature/chevron-down.svg')"
                   alt="Icon"
               /></span>
             </template>
             <b-dropdown-item
               @click="router.push({ name: '001' })"
               class="drop-item"
-              >How It Works</b-dropdown-item
+              >LEQ Workshop</b-dropdown-item
             >
             <b-dropdown-item
               @click="router.push({ name: '001' })"
               class="drop-item"
-              >Learning Module</b-dropdown-item
+              disabled
+              >DBQ Workshop</b-dropdown-item
             >
             <b-dropdown-item
               @click="router.push({ name: '001' })"
               class="drop-item"
-              >Practice Module</b-dropdown-item
+              disabled
+              >SAQ Workshop</b-dropdown-item
             >
           </b-nav-item-dropdown>
           <b-row class="mb-3 mb-xl-0 mt-2 mt-xl-0">

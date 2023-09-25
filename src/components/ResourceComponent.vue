@@ -65,24 +65,25 @@ export default {
   name: "Intro",
   props: {
     type: String,
-    resourcetype: Object
+    resourcetype: Object,
   },
   components: { articlecomp },
   computed: {
     videos() {
       var r = this.resourcetype.filter(
-        video => video.resourceType == "video" && video.parentType == this.type
+        (video) =>
+          video.resourceType == "video" && video.parentType == this.type,
       );
       return r;
     },
     articles() {
       var r = this.resourcetype.filter(
-        article =>
-          article.resourceType == "article" && article.parentType == this.type
+        (article) =>
+          article.resourceType == "article" && article.parentType == this.type,
       );
       return r;
-    }
-  }
+    },
+  },
 };
 </script>
 

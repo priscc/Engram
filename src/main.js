@@ -18,6 +18,8 @@ import "bootstrap-vue/dist/bootstrap-vue.css";
 import VueGtag from "vue-gtag";
 //HOT JAR
 import Hotjar from "@hotjar/browser";
+// YOUTUBE
+import VueYouTubeEmbed from "vue3-youtube";
 
 export const db = firebase
   .initializeApp({
@@ -45,6 +47,7 @@ app.use(store);
 app.use(router);
 app.use(BootstrapVue);
 app.use(BootstrapIconsPlugin);
+app.use(VueYouTubeEmbed);
 app.component("QuillEditor", QuillEditor);
 app.use(VueGtag, {
   config: { id: "G-8XJMW8N6QS" },

@@ -1,14 +1,18 @@
 <template>
-    <b-card
-    id="feature"
-    class="border-0 fontist"
-    >
-    <div class="features-icon-parent">
-        <b-card-img :src="require('../../assets/writing_feature/' + feature.img + '')" alt="Image" top id="icons" height="50" width="50"></b-card-img>
-    </div>
-    <b-card-title class="-feature-title">
-        {{ feature.title }}
-    </b-card-title>
+    <b-card id="feature" class="border-0 fontist">
+        <div class="features-icon-parent">
+            <b-card-img
+                :src="require('../assets/' + feature.img + '')"
+                alt="Image"
+                top
+                id="icons"
+                height="50"
+                width="50"
+            ></b-card-img>
+        </div>
+        <b-card-title class="-feature-title">
+            {{ feature.title }}
+        </b-card-title>
         <b-card-text class="feature-description">
             {{ feature.description }}
         </b-card-text>
@@ -17,28 +21,28 @@
 </template>
 
 <script>
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 export default {
-    props: ['feature'],
+    props: ["feature"],
     setup(props) {
         const router = useRouter();
         const handleClick = () => {
-            router.push({name: props.feature.route});
-        }
-        return { handleClick }
-    }
-}
+            router.push({ name: props.feature.route });
+        };
+        return { handleClick };
+    },
+};
 </script>
 
 <style scoped>
 #feature {
-    max-width: 350px; 
+    max-width: 400px;
     text-align: left;
     padding: 30px 32px 30px 32px;
 }
 .feature-title {
-    color: var(--text-gray-900, #18191F);
-    font-feature-settings: 'liga' off;
+    color: var(--text-gray-900, #18191f);
+    font-feature-settings: "liga" off;
 
     /* Heading / H5 */
     font-size: 24px;
@@ -48,8 +52,8 @@ export default {
 }
 
 .feature-description {
-    color: var(--text-gray-900, #18191F);
-    font-feature-settings: 'liga' off;
+    color: var(--text-gray-900, #18191f);
+    font-feature-settings: "liga" off;
 
     /* Body / Body 1 */
     font-size: 15px;
@@ -65,8 +69,8 @@ export default {
 }
 
 #features-link {
-    color: var(--brand-purple, #8C30F5);
-    font-feature-settings: 'clig' off, 'liga' off;
+    color: var(--brand-purple, #8c30f5);
+    font-feature-settings: "clig" off, "liga" off;
 
     /* Label / Small Label */
     font-size: 12px;
@@ -78,11 +82,11 @@ export default {
 }
 
 #features-link::after {
-    content: url("../../assets/writing_feature/right-arrow.svg") !important; 
+    content: url("../assets/writing_feature/right-arrow.svg") !important;
     /* margin-top:30px; */
-   
-    padding-left:8px;
-    position:absolute;
+
+    padding-left: 8px;
+    position: absolute;
     bottom: 45px;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div id="Units">
     <div class="site_header">
-      (APWH) World History Units
+      AP World History Time Periods
     </div>
     <b-container fluid class="home_page">
       <b-row class="periods">
@@ -11,7 +11,7 @@
           class="period"
           :style="{
             'background-image':
-              'url(' + require(`@/assets/${timePeriod.img}`) + ')'
+              'url(' + require(`@/assets/${timePeriod.img}`) + ')',
           }"
           @click="next(timePeriod)"
         >
@@ -29,22 +29,22 @@ export default {
   computed: {
     timePeriodHeaders() {
       return store.state.timePeriodHeaders;
-    }
+    },
   },
   methods: {
     next(i) {
       this.$router.push({
         name: "Period",
-        params: { periodName: i.header, period: i.timePeriod }
+        params: { periodName: i.header, period: i.timePeriod },
       });
-    }
+    },
   },
-  mounted(){
+  mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     this.$gtag.event("Home-page", {
       event_category: "engagement",
     });
-  }
+  },
 };
 </script>
 
