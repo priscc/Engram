@@ -12,7 +12,11 @@
 				</h2>
 				<b-row>
 					<b-col
-						cols="3"
+						col
+						xs="6"
+						sm="6"
+						md="3"
+						lg="3"
 						v-for="(card, index) in section.cards"
 						:key="index"
 					>
