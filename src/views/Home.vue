@@ -84,7 +84,7 @@ export default {
     const features = [
       {
         img: "book.svg",
-        title: "AP World History Units",
+        title: "APWH Topics",
         description:
           "Explore our AP World History resources. Feel free to enjoy our 100+ Interactive study materials.",
         route: "Units",

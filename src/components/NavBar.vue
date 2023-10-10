@@ -8,11 +8,80 @@
       <b-navbar-toggle target="nav-collapse" type="light"></b-navbar-toggle>
       <b-collapse id="nav-collapse" is-nav>
         <b-navbar-nav class="navbar_tab_section">
-          <b-nav-item @click="router.push({ name: 'Units' })">
+          <b-nav-item-dropdown right class="nav-dropdown me-3" no-caret>
+            <template #button-content>
+              <span class="dd-link"
+                >APWH Time Periods
+                <img
+                  :src="require('@/assets/writing_feature/chevron-down.svg')"
+                  alt="Icon"
+              /></span>
+              <!--  <b-nav-item @click="router.push({ name: 'Units' })">
+
             <span class="nav-dropdown">
-              AP World History Units
+              APWH Time Periods
             </span></b-nav-item
-          >
+          > -->
+            </template>
+            <b-dropdown-item
+              @click="
+                router.push({
+                  name: 'Units',
+                })
+              "
+              class="drop-item"
+            >
+              All
+            </b-dropdown-item>
+            <b-dropdown-item
+              @click="
+                router.push({
+                  name: 'Period',
+                  params: { periodName: 'Regional Interactions', period: 1 },
+                })
+              "
+              class="drop-item"
+            >
+              Time Period: 1) Regional Interactions
+            </b-dropdown-item>
+            <b-dropdown-item
+              @click="
+                router.push({
+                  name: 'Period',
+                  params: {
+                    periodName: 'Revolutions & Industrialization',
+                    period: 3,
+                  },
+                })
+              "
+              class="drop-item"
+            >
+              Time Period: 2) Revolutions & Industrialization
+            </b-dropdown-item>
+            <b-dropdown-item
+              @click="
+                router.push({
+                  name: 'Period',
+                  params: { periodName: 'First Global Age', period: 2 },
+                })
+              "
+              class="drop-item"
+            >
+              Time Period: 3) First Global Age
+            </b-dropdown-item>
+            <b-dropdown-item
+              @click="
+                router.push({
+                  name: 'Period',
+                  params: { periodName: 'Modern Times', period: 4 },
+                })
+              "
+              class="drop-item"
+            >
+              Time Period: 4) Modern Times
+            </b-dropdown-item>
+          </b-nav-item-dropdown>
+
           <b-nav-item @click="router.push({ name: 'Quiz' })"
             ><span class="nav-dropdown">
               Quiz Questions

@@ -1,79 +1,111 @@
 <template>
-  <b-card class="border-0 text-center finish-modal fontist pb-5">
-    <b-icon-x class="x" @click.native="$emit('close')"></b-icon-x>
-    <div>
-        <img :src="require('../../../assets/writing_feature/books.gif')" alt="Image" height="163">
-    </div>
-    <b-card-title class="finish-title pb-2"> {{ header }} </b-card-title>
-    <b-card-text class="finish-subtitle">{{ subheader }}</b-card-text>
-    <b-card-text v-if="socials">
-        <span class="share-text">Share</span>
-        <span>
-            <img :src="require('@/assets/writing_feature/media1.svg')" alt="Image">
-            <img :src="require('@/assets/writing_feature/media2.svg')" alt="Image">
+    <b-card class="border-0 text-center finish-modal fontist pb-5">
+        <b-icon-x class="x" @click.native="$emit('close')"></b-icon-x>
+        <div>
+            <img
+                :src="require('../../../assets/writing_feature/books.gif')"
+                alt="Image"
+                height="163"
+            />
+        </div>
+        <b-card-title class="finish-title pb-2"> {{ header }} </b-card-title>
+        <b-card-text class="finish-subtitle">{{ subheader }}</b-card-text>
+        <b-card-text v-if="socials">
+            <span class="share-text">Share</span>
+            <span>
+                <img
+                    :src="require('@/assets/writing_feature/media1.svg')"
+                    alt="Image"
+                />
+                <img
+                    :src="require('@/assets/writing_feature/media2.svg')"
+                    alt="Image"
+                />
 
-            <!-- <b-icon-facebook class="share-icon"></b-icon-facebook>
+                <!-- <b-icon-facebook class="share-icon"></b-icon-facebook>
             <b-icon-facebook class="share-icon"></b-icon-facebook>
             <b-icon-facebook class="share-icon"></b-icon-facebook>
             <b-icon-facebook class="share-icon"></b-icon-facebook> -->
-        </span>
-    </b-card-text>
-    <hr class="line-break">
-    <b-card-text class="finish-subtitle button-header my-4 py-3 mx-auto">{{ subtitle }}</b-card-text>
-    <b-button id="finish-button" class="me-md-3 me-lg-3 me-sm-0 border-0 mb-1" @click="next(buttonprops[0])">{{ buttonprops[0].content }}</b-button>
-    <b-button id="finish-button" class="border-0 mb-1" @click="next(buttonprops[1])" :disabled="!ready">{{ buttonprops[1].content }}</b-button>
-  </b-card>
+            </span>
+        </b-card-text>
+        <hr class="line-break" />
+        <b-card-text class="finish-subtitle button-header my-4 py-3 mx-auto">{{
+            subtitle
+        }}</b-card-text>
+        <b-button
+            id="finish-button"
+            class="me-md-3 me-lg-3 me-sm-0 border-0 mb-1"
+            @click="next(buttonprops[0])"
+            >{{ buttonprops[0].content }}</b-button
+        >
+        <b-button
+            id="finish-button"
+            class="border-0 mb-1"
+            @click="next(buttonprops[1])"
+            :disabled="!ready"
+            >{{ buttonprops[1].content }}</b-button
+        >
+    </b-card>
 </template>
 
 <script>
 // import { onMounted } from 'vue';
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 // import storeWriting from '../../../store/writing';
 export default {
     props: {
         ready: {
             type: Boolean,
-            default: false
+            default: false,
         },
         socials: {
-            type: Boolean, 
-            default: true
+            type: Boolean,
+            default: true,
         },
         header: {
             type: String,
-            default: "Great Job!"
+            default: "Great Job!",
         },
         subheader: {
             type: String,
-            default: "You’ve successfully written your first essay."
+            default: "You’ve successfully written your first essay.",
         },
         subtitle: {
-            type: String, 
-            default: "Want to keep studying?"
-        }, 
+            type: String,
+            default: "Want to keep studying?",
+        },
         buttonprops: {
             type: Array,
             default: () => [
-                {content: "Practice Another Essay", route: '001', disabled: false},
-                {content: "Feedback", route: '004', params: {id: 'user'}, disabled: false}
-            ]
-        }
+                {
+                    content: "Practice Another Essay",
+                    route: "001",
+                    disabled: false,
+                },
+                {
+                    content: "Feedback",
+                    route: "004",
+                    params: { id: "user" },
+                    disabled: false,
+                },
+            ],
+        },
     },
-    emits: ['close'],
+    emits: ["close"],
     setup(props) {
         // const store = storeWriting;
         const router = useRouter();
         console.log(props.ready);
         const next = (obj) => {
-            const route = {name: obj.route};
+            const route = { name: obj.route };
             if (obj.params) {
                 route.params = obj.params;
             }
             router.push(route);
-        }
-        return { router, next }
-    }
-}
+        };
+        return { router, next };
+    },
+};
 </script>
 
 <style>
@@ -81,7 +113,7 @@ export default {
     position: relative;
 }
 .finish-title {
-    color: #8C30F5;
+    color: #8c30f5;
     text-align: center;
     font-size: 28px;
     font-style: normal;
@@ -92,7 +124,7 @@ export default {
 .finish-subtitle {
     color: #040404;
     text-align: center;
-    font-feature-settings: 'liga' off;
+    font-feature-settings: "liga" off;
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
@@ -100,9 +132,9 @@ export default {
 }
 
 .x {
-    position:absolute;
-    right:0;
-    top:0;
+    position: absolute;
+    right: 0;
+    top: 0;
     font-size: 25px;
     margin: 10px 10px 0 0;
     z-index: 100;
@@ -113,7 +145,7 @@ export default {
 }
 
 .share-text {
-    color: var(--text-normal, #18191F);
+    color: var(--text-normal, #18191f);
     font-size: 16px;
     font-style: normal;
     font-weight: 800;
@@ -123,10 +155,10 @@ export default {
 
 #finish-button {
     border-radius: 8px;
-    background: var(--brand-purple, #8C30F5);
-    color: var(--default-white, #FFF);
+    background: var(--brand-purple, #8c30f5);
+    color: var(--default-white, #fff);
     text-align: center;
-    font-feature-settings: 'clig' off, 'liga' off;
+    font-feature-settings: "clig" off, "liga" off;
 
     /* Label / Medium Label */
     font-family: Manrope;
@@ -137,9 +169,9 @@ export default {
     padding: 10px 15px;
 }
 #finish-button:hover {
-    background: #F1E4FF;
-    color: #451A75;
-    font-weight: 700 ;
+    background: #f1e4ff;
+    color: #451a75;
+    font-weight: 700;
 }
 .line-break {
     max-width: 400px;

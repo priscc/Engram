@@ -15,107 +15,107 @@ import Home from "../views/Home";
 import ChoosePrompt from "../views/writing_feature/ChoosePrompt";
 import LEQEssay from "../views/writing_feature/LEQEssay";
 import Feedback from "../views/writing_feature/Feedback";
-import Quiz from "../views/Quiz";
-import QuizFeature from "../views/QuizFeature.vue";
+import Quiz from "../views/quiz_feature/QuizFeature";
+import QuizUnit1 from "../views/quiz_feature/QuizUnit1";
 import LabelSection from "../views/writing_feature/LabelSection";
 const routes = [
   {
     path: "/",
     name: "Home",
-    component: Home
+    component: Home,
   },
   {
     path: "/Units",
     name: "Units",
-    component: Units
-  },
-  {
-    path: "/unitquestions",
-    name: "QuizFeature",
-    component: QuizFeature
+    component: Units,
   },
   {
     path: "/privacypolicy",
     name: "PrivacyPolicy",
-    component: PrivacyPolicy
+    component: PrivacyPolicy,
   },
   {
     path: "/about",
     name: "About",
-    component: About
+    component: About,
   },
   {
     path: "/Period/:periodName/:period",
     name: "Period",
-    component: Topics
+    component: Topics,
   },
   {
     path: "/Period/:periodName/:period/Topic/:topicName/:topic/:category",
     name: "Topic",
-    component: Topic
+    component: Topic,
   },
   {
     path:
       "/Period/:periodName/:period/Topic/:topicName/:topic/:category/Event/:event",
     name: "Event",
-    component: Event
+    component: Event,
   },
   {
     path:
       "/Period/:periodName/:period/Topic/:topicName/:topic/:category/Figure/:person",
     name: "Person",
-    component: Person
-  }, 
-   {
+    component: Person,
+  },
+  {
     path: "/Quiz",
     name: "Quiz",
-    component: Quiz
-  }, 
+    component: Quiz,
+  },
+  {
+    path: "/Quiz/Unit1",
+    name: "QuizUnit1",
+    component: QuizUnit1,
+  },
   {
     path: "/EssayWriting",
     name: "EssayWriting",
-    component: EssayWriting
-  }, 
+    component: EssayWriting,
+  },
   {
     path: "/SelectModule",
     name: "SelectModule",
-    component: SelectModuleV1
-  }, 
+    component: SelectModuleV1,
+  },
   {
     path: "/SelectDifficulty",
     name: "SelectDifficulty",
-    component: SelectDifficulty
-  }, 
+    component: SelectDifficulty,
+  },
   {
     path: "/001",
     name: "001",
-    component: SelectModule
-  }, 
+    component: SelectModule,
+  },
   {
     path: "/002/:module",
     name: "002",
-    component: ChoosePrompt
-  }, 
+    component: ChoosePrompt,
+  },
   {
     path: "/003/:id/:module",
     name: "003",
-    component: LEQEssay
-  }, 
+    component: LEQEssay,
+  },
   {
     path: "/004/:id",
     name: "004",
-    component: Feedback
+    component: Feedback,
   },
   {
     path: "/005",
     name: "005",
-    component: LabelSection
-  }
+    component: LabelSection,
+  },
 ];
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
 });
 
 export default router;

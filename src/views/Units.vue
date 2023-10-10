@@ -1,7 +1,8 @@
 <template>
   <div id="Units">
     <div class="site_header">
-      AP World History Time Periods
+      <h1>AP World History Time Periods</h1>
+      <h5>Explore APWH Time Periods</h5>
     </div>
     <b-container fluid class="home_page">
       <b-row class="periods">
@@ -49,3 +50,12 @@ export default {
 </script>
 
 <style lang="sass" scoped src="@/assets/css/main.sass"></style>
+<style type="text/css" scoped="">
+.site_header {
+  background-image: url("https://th.bing.com/th/id/R.be783c574e7c6a49e83b9eafd49e4b22?rik=hleDtASc6GRrqw&pid=ImgRaw&r=0");
+  font-weight: 750;
+  color: #fff;
+  padding: 30px 25px;
+  text-align: center;
+}
+</style>

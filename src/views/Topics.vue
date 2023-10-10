@@ -1,6 +1,6 @@
 <template>
   <div id="Topics">
-    <b-container class="topics_container" fluid>
+    <b-container class="topics_container">
       <div class="back_button" @click="back">
         <b-icon-caret-left aria-hidden="true" /> Back
       </div>
