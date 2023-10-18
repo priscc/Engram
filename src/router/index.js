@@ -1,5 +1,8 @@
 import { createRouter, createWebHistory } from "vue-router";
 
+import Home from "../views/Home";
+
+//Routes for UNITS
 import Units from "../views/Units.vue";
 import PrivacyPolicy from "../views/PrivacyPolicy.vue";
 import About from "../views/About.vue";
@@ -7,14 +10,19 @@ import Topics from "../views/Topics.vue";
 import Topic from "../views/Topic.vue";
 import Event from "../components/Event.vue";
 import Person from "../components/Person.vue";
+
+//ROUTES FOR WRITING
+//old
 import EssayWriting from "../views/writing_feature/EssayWriting";
 import SelectModuleV1 from "../views/writing_feature/SelectModuleV1";
-import SelectModule from "../views/writing_feature/SelectModule";
 import SelectDifficulty from "../views/writing_feature/SelectDifficulty";
-import Home from "../views/Home";
+//new
+import SelectModule from "../views/writing_feature/SelectModule";
 import ChoosePrompt from "../views/writing_feature/ChoosePrompt";
 import LEQEssay from "../views/writing_feature/LEQEssay";
 import Feedback from "../views/writing_feature/Feedback";
+
+//ROUTES FOR QUIZZES
 import Quiz from "../views/quiz_feature/QuizFeature";
 import QuizUnit1 from "../views/quiz_feature/QuizUnit1";
 import LabelSection from "../views/writing_feature/LabelSection";
@@ -71,6 +79,7 @@ const routes = [
     name: "QuizUnit1",
     component: QuizUnit1,
   },
+  //old essay pages
   {
     path: "/EssayWriting",
     name: "EssayWriting",
@@ -86,6 +95,7 @@ const routes = [
     name: "SelectDifficulty",
     component: SelectDifficulty,
   },
+  //new essay pages
   {
     path: "/001",
     name: "001",

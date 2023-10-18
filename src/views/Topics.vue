@@ -12,7 +12,6 @@
           {{ timePeriodHeaders.subheader }}
         </b-col>
       </b-row>
-
       <b-row v-for="unit in units" :key="unit.id" class="unit">
         <b-col>
           <p class="unit_header">
@@ -45,54 +44,18 @@
 <script>
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
-import { db } from "@/main";
+
 export default {
   name: "Topics",
-  data() {
-    return {
-      units: {},
-    };
-  },
   computed: {
     timePeriodHeaders() {
       return store.state.timePeriodHeaders[store.state.currentTimePeriod];
     },
+    units() {
+      return store.state.units;
+    },
   },
   methods: {
-    topic() {
-      var topics = [];
-      db.collection("topics")
-        .where("timePeriod", "==", this.timePeriodHeaders.timePeriod)
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                var entry = doc.data();
-                entry.id = doc.id;
-                topics.push(entry);
-              }.bind(this),
-            );
-            topics = topics.sort(function(a, b) {
-              if (a.timespan && b.timespan) {
-                var a1 = new Date(a.timespan.substring(0, 4));
-                var a2 = a1.getFullYear();
-                var b1 = new Date(b.timespan.substring(0, 4));
-                var b2 = b1.getFullYear();
-                return a2 - b2;
-              }
-            });
-            topics.forEach(
-              function(element) {
-                const keys = Object.keys(this.units);
-                if (keys.includes(element.unit)) {
-                  this.units[element.unit].topics.push(element);
-                }
-              }.bind(this),
-            );
-          }.bind(this),
-        );
-    },
     back() {
       this.$router.push({ name: "Units" });
     },
@@ -108,18 +71,11 @@ export default {
       });
     },
   },
-  created() {
+  mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    store.dispatch("setTimePeriod", this.$route.params.period);
-    this.units = this.timePeriodHeaders.unitTitles;
-    var v = Object.keys(this.units).filter(
-      (unit) => this.units[unit].topics.length > 0,
-    );
-    if (v.length == 0) this.topic();
-    this.$gtag.event("Topics-page", {
-      event_category: "engagement",
-      event_label: this.timePeriodHeaders.header,
-    });
+    if (this.units.length == 0) {
+      store.dispatch("setTimePeriod", this.$route.params.period);
+    }
   },
 };
 </script>

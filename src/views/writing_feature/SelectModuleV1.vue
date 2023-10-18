@@ -24,9 +24,7 @@
                 md="6"
                 class="mx-auto module-column py-4 module-container"
               >
-                <!-- <div style="border: 1px solid red;"> -->
                 <modules :modules="modules"></modules>
-                <!-- </div> -->
               </b-col>
             </b-row>
           </b-container>

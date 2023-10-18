@@ -5,50 +5,23 @@
       <h5>Welcome to the essay writing for the LEQ</h5>
     </div>
     <b-container fluid class="background">
-      <b-row class="pt-5 responsive-padding">
+      <b-row class="px-4 pb-2 pt-4 title">
+        <a class="strip mx-3 mx-sm-5 mx-smd-5 mx-lg-5 p-0">
+          <div style="min-height: 40px"></div>
+        </a>
+      </b-row>
+      <b-row class="responsive-padding">
         <breadcrumb :items="items"></breadcrumb>
       </b-row>
-      <b-row class="pb-4 pt-2">
-        <!-- <h1 class="text-center module-title">
-          {{ title }}
-        </h1> -->
-      </b-row>
-      <b-row
-        class="white-container responsive-padding mx-0 mx-sm-4 mx-md-4 mx-lg-4"
-      >
+
+      <b-row class="white-container responsive-padding">
         <whitecontainer
           :title="title"
           :subtitle="subtitle"
           id="module-white-container"
         >
-          <template #templates>
-            <!-- <a class="module-introduction strip label-position">Welcome to the Essay Writing for the LEQ</a> -->
-            <b-container fluid>
-              <b-row
-                class="mod-children mother-container mx-auto py-4 py-sm-4 py-md-4 py-lg-0"
-                no-gutters
-                align-h="center"
-                align-v="center"
-              >
-                <b-col class="template" cols="12">
-                  <!-- <div style="border: 1px solid red;"> -->
-                  <!-- <div style="border: 2px dotted green; display: inline-flex; flex-wrap: wrap; background-color: aqua; align-items: flex-start; flex-direction: row; gap:10px"> -->
-                  <modules
-                    v-for="modules in templateModule"
-                    :key="modules.name"
-                    :modules="modules"
-                    class="mt-2"
-                  ></modules>
-                  <!-- </div>                                    </div> -->
-                </b-col>
-              </b-row>
-            </b-container>
-          </template>
-
           <template #try-it>
-            <a class="module-labels strip label-position"
-              >Essay Structure Module</a
-            >
+            <a class="module-labels strip label-position">Template Module</a>
             <b-container>
               <b-row align-h="center">
                 <b-col
@@ -63,7 +36,7 @@
                     v-for="modules in moduleses"
                     :key="modules.name"
                     :modules="modules"
-                    class="mx-auto"
+                    class="mx-2"
                   ></modules>
                   <!-- </div>                                    </div> -->
                 </b-col>
@@ -90,6 +63,29 @@
               </b-row>
             </b-container>
           </template>
+
+          <template #templates>
+            <!-- <a class="module-introduction strip label-position">Welcome to the Essay Writing for the LEQ</a> -->
+            <b-container fluid>
+              <b-row
+                class="mod-children mother-container mx-auto py-4 py-sm-4 py-md-4 py-lg-0"
+                no-gutters
+                align-h="center"
+                align-v="center"
+              >
+                <b-col class="template" cols="12">
+                  <!-- <div style="border: 1px solid red;"> -->
+                  <!-- <div style="border: 2px dotted green; display: inline-flex; flex-wrap: wrap; background-color: aqua; align-items: flex-start; flex-direction: row; gap:10px"> -->
+                  <modules
+                    v-for="modules in templateModule"
+                    :key="modules.name"
+                    :modules="modules"
+                    class="mt-2"
+                  ></modules>
+                </b-col>
+              </b-row>
+            </b-container>
+          </template>
         </whitecontainer>
       </b-row>
     </b-container>
@@ -99,16 +95,19 @@
 <script>
 import whitecontainer from "../../components/writing_feature/V2WhiteContainer.vue";
 import breadcrumb from "../../components/writing_feature/BreadCrumb.vue";
-// import purplebutton from '../../components/writing_feature/PurpleButton.vue'
 import modules from "../../components/writing_feature/ModulesV2.vue";
+import { onMounted } from "vue";
 export default {
   components: {
     whitecontainer,
     breadcrumb,
-    // purplebutton,
     modules,
   },
   setup() {
+    onMounted(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
     const items = [
       {
         text: "Essay Writing: LEQ",
@@ -119,7 +118,7 @@ export default {
     const timeModule = [
       {
         img: "ModuleIcon4.svg",
-        // title: 'For Beginners',
+        title: "Expert",
         points: [
           "Real Exam Format",
           "Answer a College Board prompt",
@@ -128,7 +127,7 @@ export default {
         button: {
           content: "Practice Writing",
           route: "002",
-          params: { module: "Timed" },
+          params: { module: "Expert" },
           disabled: false,
         },
         orientation: 12,
@@ -157,7 +156,7 @@ export default {
     const moduleses = [
       {
         img: "ModuleIcon3.svg",
-        title: "For Beginners",
+        title: "Beginner",
         points: [
           "Section step by step guides",
           "Sample prompts",
@@ -166,7 +165,7 @@ export default {
         button: {
           content: "Start",
           route: "002",
-          params: { module: "Beginners" },
+          params: { module: "Beginner" },
           disabled: false,
         },
         orientation: 12,
@@ -175,7 +174,7 @@ export default {
       },
       {
         img: "ModuleIcon2.svg",
-        title: "For Advance Learners",
+        title: "Intermediate",
         points: [
           "Explore each section in-depth",
           "Sample prompts",
@@ -184,7 +183,7 @@ export default {
         button: {
           content: "Start",
           route: "002",
-          params: { module: "Advanced" },
+          params: { module: "Intermediate" },
           disabled: false,
         },
         orientation: 12,
@@ -196,11 +195,7 @@ export default {
     const title = "Welcome to the Essay Writing for the LEQ";
     const subtitle = "Each module will improve your LEQ writing skills.";
 
-    function mounted() {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
     return {
-      mounted,
       items,
       moduleses,
       title,

@@ -1,10 +1,15 @@
 <template>
   <b-button
+    v-if="!buttonprops.disabled"
     @click="next"
-    id="purple"
-    class="border-0 p-auto m-auto fontist"
-    :disabled="buttonprops.disabled"
-    :style="{ backgroundColor: buttonprops.disabled ? 'grey' : '#451a75' }"
+    class="border-0 p-auto m-auto fontist purple-button"
+  >
+    {{ buttonprops.content }}
+  </b-button>
+  <b-button
+    v-else
+    @click="next"
+    class="border-0 p-auto m-auto fontist purple-button-disabled"
   >
     {{ buttonprops.content }}
   </b-button>
@@ -19,7 +24,7 @@ export default {
     const router = useRouter();
 
     const next = () => {
-      console.log("click");
+      console.log("purple-button", props.buttonprops);
       if (props.buttonprops.params) {
         router.push({
           name: props.buttonprops.route,
@@ -35,25 +40,4 @@ export default {
 };
 </script>
 
-<style>
-#purple {
-  min-height: 52px;
-  border-radius: 30px;
-  padding: 10px 10px 10px 10px;
-  background: #451a75;
-  text-transform: uppercase;
-  color: var(--default-white, #fff);
-  text-align: center;
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: 25px;
-  letter-spacing: 2px;
-}
-
-#purple:hover {
-  background: #f1e4ff;
-  color: #451a75;
-  font-weight: 800;
-}
-</style>
+<style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

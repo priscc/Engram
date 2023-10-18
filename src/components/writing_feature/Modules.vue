@@ -1,26 +1,26 @@
 <template>
-  <b-card id="module" class="py-4 border-0">
-    <b-card-img
+  <div id="module" class="py-4 border-0">
+    <img
       :src="require('../../assets/writing_feature/' + modules.img + '')"
       alt="Image"
       top
       id="icons"
       style="max-height: 85px; max-width: 85px"
-    ></b-card-img>
-    <b-card-title class="module-title py-2">
+    />
+    <div class="module-title py-2">
       {{ modules.title }}
-    </b-card-title>
-    <b-card-text class="module-description">
+    </div>
+    <div class="module-description">
       <div class="point text-left mx-auto">
         <a v-for="point in modules.points" :key="point">
           <b>✓ </b>{{ point }}<br />
         </a>
       </div>
-    </b-card-text>
+    </div>
     <div class="w-100 text-center module-button-parent mx-auto">
       <purplebutton :buttonprops="modules.button" class="button"></purplebutton>
     </div>
-  </b-card>
+  </div>
 </template>
 
 <script>
@@ -33,7 +33,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #module {
   max-width: 539px;
   border-radius: 8px;
@@ -45,7 +45,7 @@ export default {
 .module-title {
   color: #000;
   text-align: center;
-  font-size: 20px;
+  font-size: 14px;
   font-style: normal;
   font-weight: 700;
   line-height: 25px; /* 90% */

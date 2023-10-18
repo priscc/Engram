@@ -13,13 +13,11 @@
       </b-row>
       <b-row align-h="end" class="px-5 pt-5 pb-3">
         <b-button
-          id="purple"
-          class="finish-button border-0 mb-2"
-          v-b-modal.my-modal
-          type="submit"
-          >Finish</b-button
-        >
-        <b-modal id="my-modal" hide-footer hide-header size="lg"
+          class="finish-button border-0 mb-2 fontist purple-button"
+          @click="next(buttonprops[1])"
+          >Finish
+        </b-button>
+        <!--  <b-modal id="my-modal" hide-footer hide-header size="lg"
           ><finishmodal
             @close="$bvModal.hide('my-modal')"
             :ready="true"
@@ -27,11 +25,11 @@
             :header="'Congratulations!'"
             :subheader="''"
             :subtitle="
-              'Please identify each section so we can best assess your essay!'
+              'Continue to self identify each section so we can assess and grade your essay!'
             "
             :buttonprops="buttonprops"
           ></finishmodal
-        ></b-modal>
+        ></b-modal> -->
       </b-row>
     </b-container>
   </b-form>
@@ -39,11 +37,12 @@
 
 <script>
 import { ref } from "vue";
-import finishmodal from "./FinishModal.vue";
+import { useRouter } from "vue-router";
+// import finishmodal from "./FinishModal.vue";
 export default {
   props: ["text"],
   components: {
-    finishmodal,
+    // finishmodal,
   },
   emits: ["TimedSubmit"],
   setup(props, context) {
@@ -63,7 +62,20 @@ export default {
       console.log("djnejcejn");
     };
 
+    const router = useRouter();
+    console.log(props.ready);
+    const next = (obj) => {
+      context.emit("TimedSubmit", essay.value);
+      const route = { name: obj.route };
+      if (obj.params) {
+        route.params = obj.params;
+      }
+      router.push(route);
+    };
+
     return {
+      router,
+      next,
       buttonprops,
       handleSubmit,
       essay,

@@ -1,37 +1,40 @@
 <template>
-  <div id="essay-writing" class="min-height">
+  <div id="LEQ-essay">
+    <div class="site_header">
+      <h1>LEQ Essays</h1>
+      <h5>Welcome to the essay writing for the LEQ</h5>
+    </div>
     <b-container fluid class="background">
-      <b-row class="pt-4 responsive-padding">
-        <breadcrumb :items="items"></breadcrumb>
+      <b-row class="px-4 pb-2 pt-4 title">
+        <b-col>
+          <a
+            class="strip back-button-style mx-2 mx-sm-4 mx-smd-4 mx-lg-4 p-0"
+            @click="handleBack()"
+            >Back</a
+          >
+        </b-col>
       </b-row>
-      <b-row class="px-4 pb-3 pt-2 title">
-        <a
-          class="strip back-button-style mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3"
-          @click="handleBack()"
-          >Back</a
-        >
-        <h1 class="text-center prompt-title">
-          Long Essay Question
-        </h1>
+      <b-row class="responsive-padding">
+        <breadcrumb :items="items"></breadcrumb>
       </b-row>
       <b-row
         class="px-1 px-sm-4 px-md-4 px-lg-4 white-container mx-0 mx-sm-4 mx-md-4 mx-lg-4"
       >
         <essayhead :prompt="exersize.prompt" :timer="timer"></essayhead>
         <progressvue
-          v-if="moduleVersion !== 'Timed'"
+          v-if="moduleVersion !== 'Expert'"
           :section="currentSection"
           class="my-4"
         ></progressvue>
         <essayarea
-          v-if="moduleVersion !== 'Timed'"
+          v-if="moduleVersion !== 'Expert'"
           :props="exersize"
           :moduleVersion="moduleVersion"
           :identification="id"
           @updateProgress="(section) => handleUpdate(section)"
         ></essayarea>
         <outlinevue
-          v-if="moduleVersion === 'Timed'"
+          v-if="moduleVersion === 'Expert'"
           class="my-4"
           :outlineText="
             exersize.template.templates.raw
@@ -42,7 +45,7 @@
           @TimedOutline="(outline) => handleOutline(outline)"
         ></outlinevue>
         <timedessayarea
-          v-if="moduleVersion === 'Timed'"
+          v-if="moduleVersion === 'Expert'"
           :text="
             exersize.template.templates.raw
               ? exersize.template.templates.raw.text
@@ -80,7 +83,7 @@ export default {
     const route = useRoute();
     const moduleVersion = route.params.module;
     const timer = ref(null);
-    if (!["Beginners", "Advanced", "Timed"].includes(route.params.module)) {
+    if (!["Beginner", "Intermediate", "Expert"].includes(route.params.module)) {
       router.push({ name: "001" });
     }
     const store = storeWriting;
@@ -151,7 +154,7 @@ export default {
     };
     onMounted(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
-      if (route.params.module === "Timed") {
+      if (route.params.module === "Expert") {
         timer.value = 45;
       }
     });
@@ -174,9 +177,11 @@ export default {
 </script>
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap");
-.min-height {
-  min-height: 1200px;
-  height: 1200px;
+#LEQ-essay {
+  min-height: 100vh; /* Set a minimum height to ensure it fills the viewport. */
+  height: 100%; /* Set the height to 100% to fill the available space. */
+  display: flex; /* Use a flexbox layout to expand vertically. */
+  flex-direction: column; /* Display children vertically. */
 }
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

@@ -12,8 +12,6 @@
         align-h="center"
         align-v="center"
       >
-        <!-- <b-col v-if="modules.name === 'template'" style="border: 1px solid green; max-width: 55px; min-width: 0;" sm="0">
-                </b-col> -->
         <b-col :cols="modules.orientation" class="module-gutter text-center">
           <b-img
             :src="require('../../assets/writing_feature/' + modules.img + '')"
@@ -26,9 +24,9 @@
         <b-col :cols="modules.orientation" class="module-gutter">
           <div v-if="modules.title" class="module-title py-2">
             {{ modules.title }} <br />
-            <a v-if="modules.time" class="module-time">
+            <!-- <a v-if="modules.time" class="module-time">
               {{ modules.time }}
-            </a>
+            </a> -->
           </div>
 
           <div class="module-description">
@@ -39,8 +37,6 @@
             </div>
           </div>
         </b-col>
-        <!-- <b-col v-if="modules.name === 'template'" style="border: 1px solid green; max-width: 55px;">
-                </b-col> -->
         <b-col
           :cols="modules.orientation"
           class="module-gutter"

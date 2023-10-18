@@ -23,66 +23,37 @@
             </span></b-nav-item
           > -->
             </template>
-            <b-dropdown-item
-              @click="
-                router.push({
-                  name: 'Units',
-                })
-              "
-              class="drop-item"
-            >
+            <b-dropdown-item @click="next('Units')" class="drop-item">
               All
             </b-dropdown-item>
             <b-dropdown-item
-              @click="
-                router.push({
-                  name: 'Period',
-                  params: { periodName: 'Regional Interactions', period: 1 },
-                })
-              "
+              @click="timePeriod(1, 'Regional Interactions')"
               class="drop-item"
             >
               Time Period: 1) Regional Interactions
             </b-dropdown-item>
             <b-dropdown-item
-              @click="
-                router.push({
-                  name: 'Period',
-                  params: {
-                    periodName: 'Revolutions & Industrialization',
-                    period: 3,
-                  },
-                })
-              "
+              @click="timePeriod(2, 'First Global Age')"
               class="drop-item"
             >
-              Time Period: 2) Revolutions & Industrialization
+              Time Period: 2) First Global Age
             </b-dropdown-item>
             <b-dropdown-item
-              @click="
-                router.push({
-                  name: 'Period',
-                  params: { periodName: 'First Global Age', period: 2 },
-                })
-              "
+              @click="timePeriod(3, 'Revolutions & Industrialization')"
               class="drop-item"
             >
-              Time Period: 3) First Global Age
+              Time Period: 3) Revolutions & Industrialization
             </b-dropdown-item>
+
             <b-dropdown-item
-              @click="
-                router.push({
-                  name: 'Period',
-                  params: { periodName: 'Modern Times', period: 4 },
-                })
-              "
+              @click="timePeriod(4, 'Modern Times')"
               class="drop-item"
             >
               Time Period: 4) Modern Times
             </b-dropdown-item>
           </b-nav-item-dropdown>
 
-          <b-nav-item @click="router.push({ name: 'Quiz' })"
+          <b-nav-item @click="next('Quiz')"
             ><span class="nav-dropdown">
               Quiz Questions
             </span></b-nav-item
@@ -96,21 +67,13 @@
                   alt="Icon"
               /></span>
             </template>
-            <b-dropdown-item
-              @click="router.push({ name: '001' })"
-              class="drop-item"
+            <b-dropdown-item @click="next('001')" class="drop-item"
               >LEQ Workshop</b-dropdown-item
             >
-            <b-dropdown-item
-              @click="router.push({ name: '001' })"
-              class="drop-item"
-              disabled
+            <b-dropdown-item @click="next('001')" class="drop-item" disabled
               >DBQ Workshop</b-dropdown-item
             >
-            <b-dropdown-item
-              @click="router.push({ name: '001' })"
-              class="drop-item"
-              disabled
+            <b-dropdown-item @click="next('001')" class="drop-item" disabled
               >SAQ Workshop</b-dropdown-item
             >
           </b-nav-item-dropdown>
@@ -150,15 +113,33 @@ import { useRouter } from "vue-router";
 import store from "@/store";
 
 export default {
-  components: {},
   setup() {
     const router = useRouter();
-    return { router, home };
 
-    function home() {
+    const home = () => {
       store.dispatch("setTopicCategory", 0);
       router.push("/");
-    }
+    };
+
+    const next = (name) => {
+      router.push({
+        name: name,
+      });
+    };
+
+    const timePeriod = (timePeriod, timePeriodTitle) => {
+      store.dispatch("setTimePeriod", timePeriod);
+      router.push({
+        name: "Period",
+        params: { periodName: timePeriodTitle, period: timePeriod },
+      });
+    };
+
+    return {
+      home,
+      timePeriod,
+      next,
+    };
   },
 };
 </script>

@@ -1,251 +1,320 @@
 <template>
   <div style="white-space: pre-line;">
     <div id="essay-writing" class="min-height">
-    <b-container fluid class="background">
-        <b-row class="pt-4 responsive-padding">
-            <breadcrumb :items="items"></breadcrumb>
+      <b-container fluid class="background">
+        <b-row class="px-4 pb-2 pt-4 title">
+          <b-col>
+            <a
+              class="strip back-button-style mx-2 mx-sm-4 mx-smd-4 mx-lg-4 p-0"
+              @click="handleBack()"
+              >Back</a
+            >
+          </b-col>
         </b-row>
-        <b-row class="px-4 pb-3 pt-2 title">
-            <a class="strip back-button-style mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3" @click="handleBack()">Back</a>
-            <h1 class="text-center prompt-title">
-                Long Essay Question
-            </h1>
+        <b-row class="responsive-padding">
+          <breadcrumb :items="items"></breadcrumb>
         </b-row>
-        <b-row class="px-1 px-sm-4 px-md-4 px-lg-4 white-container mx-0 mx-sm-4 mx-md-4 mx-lg-4">
-            <essayhead :prompt="exersize.prompt" :none="true"></essayhead>
-            <div class="essay-area mx-1 mt-4">
-              <div ref="doc" id="essayArea" class="p-5 mt-5 mx-auto position-relative labelled-contain" style="position: relative;" @mouseup="handleHighlight" @mousedown="checkHighlight" @click="handleClick">
-              {{ feedback.content.raw.text || "Error" }}
-                <div class="toolbar unselectable" ref="invisible" id="toolbar">
-                  <toolbarvue @clickLabel="(label) => handleClickLabel(label)"></toolbarvue>
-                </div>
+        <b-row>
+          <b-col>
+            <p class="instructions">
+              Instructions: Self identify each section so we can assess and
+              grade your essay.
+            </p>
+          </b-col>
+        </b-row>
+        <b-row
+          class="px-1 px-sm-4 px-md-4 px-lg-4 white-container mx-0 mx-sm-4 mx-md-4 mx-lg-4"
+        >
+          <essayhead :prompt="exersize.prompt" :none="true"></essayhead>
+          <div class="essay-area mx-1 mt-4">
+            <div
+              ref="doc"
+              id="essayArea"
+              class="p-5 mt-5 mx-auto position-relative labelled-contain"
+              style="position: relative;"
+              @mouseup="handleHighlight"
+              @mousedown="checkHighlight"
+              @click="handleClick"
+            >
+              {{ feedback.content.raw.text || "Text was not submit" }}
+              <div class="toolbar unselectable" ref="invisible" id="toolbar">
+                <toolbarvue
+                  @clickLabel="(label) => handleClickLabel(label)"
+                ></toolbarvue>
               </div>
-              <b-row align-h="end" class="px-5 pt-5 pb-3">
-                <b-button @click="parseUserSelections" id="purple" class="finish-button border-0 mb-2" type="button">Submit</b-button>
-              </b-row>
+            </div>
+            <b-row align-h="end" class="px-5 pt-5 pb-3">
+              <b-button
+                @click="parseUserSelections"
+                id="purple"
+                class="finish-button border-0 mb-2 fontlist purple-button"
+                type="button"
+                >Submit</b-button
+              >
+            </b-row>
           </div>
         </b-row>
-    </b-container>
-</div>
+      </b-container>
+    </div>
   </div>
 </template>
 
 <script>
-import essayhead from '../../components/writing_feature/LEQEssay/EssayHead.vue';
-import breadcrumb from '../../components/writing_feature/BreadCrumb.vue';
-import { ref, onMounted, computed } from 'vue';
-import storeWriting from '../../store/writing';
-import toolbarvue from '../../components/writing_feature/Toolbar.vue';
-import { useRouter } from 'vue-router';
+import essayhead from "../../components/writing_feature/LEQEssay/EssayHead.vue";
+import breadcrumb from "../../components/writing_feature/BreadCrumb.vue";
+import { ref, onMounted, computed } from "vue";
+import storeWriting from "../../store/writing";
+import toolbarvue from "../../components/writing_feature/Toolbar.vue";
+import { useRouter } from "vue-router";
 export default {
   components: {
     essayhead,
     breadcrumb,
-    toolbarvue
+    toolbarvue,
   },
-    setup() {
-      //
-      const router = useRouter();
-        const store = storeWriting;
+  setup() {
+    //
+    const router = useRouter();
+    const store = storeWriting;
 
-        //DOM MANIPULATION REFS
-        const doc = ref(null);
-        const range = ref(null)
-        const invisible = ref(null)
-        const preserve = ref(null);
-        const selectionNode = ref(null);
-        
-        //USER WRITING REFS
+    //DOM MANIPULATION REFS
+    const doc = ref(null);
+    const range = ref(null);
+    const invisible = ref(null);
+    const preserve = ref(null);
+    const selectionNode = ref(null);
 
-        //NOTE! check if all sections are present in labels via className to prevent user manipulation with inspect element
-        const parseUserSelections = () => {
-          console.log("check")
-          var thesis, conclusion, contextualization = null;
-          var evidence = [{}];
-          doc.value.childNodes.forEach(elem => {
-            if(elem.className === "Thesis") {
-              console.log(elem.innerText);
-              thesis = elem.innerText;
-            } else if (elem.className === "Conclusion") {
-              console.log(elem.innerText);
-              conclusion = elem.innerText;
-            } else if (elem.className === "Contextualization") {
-              console.log(elem.innerText);
-              contextualization = elem.innerText;
-            } else if (elem.className === "Evidence") {
-              console.log(elem.innerText);
-              if (evidence[evidence.length - 1].evidence) {
-                evidence.push({evidence: elem.innerText});
-              } else {
-                evidence[evidence.length - 1].evidence = elem.innerText;
-              }
-            } else if (elem.className === "Analysis") {
-              console.log(elem.innerText);
-              evidence[evidence.length - 1].analysis = evidence[evidence.length - 1].analysis || "" + elem.innerText;
-            }   
-          }); 
-          for (var i in evidence) {
-            evidence[i] = [evidence[i].evidence, evidence[i].analysis];
-          }
-          const idea = {
-            prompt_id: feedback.value.prompt_id, //ID to identify prompt
-            id: store.getters.getUniqueId, //Unique ID assigned to new feedback obj (to be replaced by firestore id's)
-            moduleVersion: "Timed", //For segregating beginner and advanced modules
+    //USER WRITING REFS
 
-            //User input -- analysis is wrapped within the evidence obj
-            contextualization: contextualization,
-            evidence: evidence,
-            conclusion: conclusion,
-            thesis: thesis
-            }
-            console.log("checkpoint");
-            store.dispatch('setUserInput', idea);
-            store.dispatch('setModuleVersion', "Timed");
-            console.log('handled submit in labelled',store.state.feedback, store.state.completedPrompts);
-            router.push({name: "004", params: {id: "user"}})
-        }
-        const handleClickLabel = (label) => {
-          if (selectionNode.value) {
-            selectionNode.value.style.background = label[0];
-            selectionNode.value.style.color = "#00000080";
-            selectionNode.value.setAttribute("class", label[1])
-            selectionNode.value = null;
-            invisible.value.parentNode.removeChild(invisible.value)
-          }
-        }
-
-        const handleClick = (event) => {
-          if (event.target.id === "background-editable") {
-            event.target.replaceWith(...event.target.childNodes);
-          }
-        }
-        const createTooltip = (selected, toolbar, wrap) => {
-          selected.collapse(wrap);
-          selected.insertNode(toolbar);
-          const coor = toolbar.getBoundingClientRect();
-          var x = coor.right
-          console.log("home:", x, "leftover:", screen.width)
-          if ((x + 55) > window.innerWidth) {
-            toolbar.style.marginLeft = `${-60 - (x - window.innerWidth + 80)}px`
+    //NOTE! check if all sections are present in labels via className to prevent user manipulation with inspect element
+    const parseUserSelections = () => {
+      console.log("check");
+      var thesis,
+        conclusion,
+        contextualization = null;
+      var evidence = [{}];
+      doc.value.childNodes.forEach((elem) => {
+        if (elem.className === "Thesis") {
+          console.log(elem.innerText);
+          thesis = elem.innerText;
+        } else if (elem.className === "Conclusion") {
+          console.log(elem.innerText);
+          conclusion = elem.innerText;
+        } else if (elem.className === "Contextualization") {
+          console.log(elem.innerText);
+          contextualization = elem.innerText;
+        } else if (elem.className === "Evidence") {
+          console.log(elem.innerText);
+          if (evidence[evidence.length - 1].evidence) {
+            evidence.push({ evidence: elem.innerText });
           } else {
-            toolbar.style.marginLeft = "-55px"
-            toolbar.style.float = "right"
+            evidence[evidence.length - 1].evidence = elem.innerText;
           }
-          console.log("parent?", toolbar.parentNode)
-          // toolbar.style.display = "inline-block";
-          toolbar.style.zIndex = "10";
-        };
-
-        const recursion = (elem) => {
-          var string = ""
-          elem.childNodes.forEach(element => {
-            //NOTE: depreciated, br not relevant 
-            if (element.nodeName === "BR"){
-              string += "<br />";
-              console.log("does it ever happen?")
-            } else {
-              if (element.childNodes.length > 0) {
-                string += recursion(element);
-              } else {
-                string += element.textContent;
-              }
-            }
-          })
-          return string
+        } else if (elem.className === "Analysis") {
+          console.log(elem.innerText);
+          evidence[evidence.length - 1].analysis =
+            evidence[evidence.length - 1].analysis || "" + elem.innerText;
         }
+      });
+      for (var i in evidence) {
+        evidence[i] = [evidence[i].evidence, evidence[i].analysis];
+      }
+      const idea = {
+        prompt_id: feedback.value.prompt_id, //ID to identify prompt
+        id: store.getters.getUniqueId, //Unique ID assigned to new feedback obj (to be replaced by firestore id's)
+        moduleVersion: "Expert", //For segregating beginner and advanced modules
 
-        const removeHighlight = (toolbar) => {
-          if (selectionNode.value) {
-            console.log("parent2?", toolbar.parentNode)
-            toolbar.style.marginLeft = "-55px"
-            toolbar.parentNode.removeChild(toolbar)
-            selectionNode.value.replaceWith(...selectionNode.value.childNodes);
-            selectionNode.value = null;
+        //User input -- analysis is wrapped within the evidence obj
+        contextualization: contextualization,
+        evidence: evidence,
+        conclusion: conclusion,
+        thesis: thesis,
+      };
+      console.log("checkpoint");
+      store.dispatch("setUserInput", idea);
+      store.dispatch("setModuleVersion", "Expert");
+      console.log(
+        "handled submit in labelled",
+        store.state.feedback,
+        store.state.completedPrompts,
+      );
+      router.push({ name: "004", params: { id: "user" } });
+    };
+    const handleClickLabel = (label) => {
+      if (selectionNode.value) {
+        selectionNode.value.style.background = label[0];
+        selectionNode.value.style.color = "#00000080";
+        selectionNode.value.setAttribute("class", label[1]);
+        selectionNode.value = null;
+        invisible.value.parentNode.removeChild(invisible.value);
+      }
+    };
+
+    const handleClick = (event) => {
+      if (event.target.id === "background-editable") {
+        event.target.replaceWith(...event.target.childNodes);
+      }
+    };
+    const createTooltip = (selected, toolbar, wrap) => {
+      selected.collapse(wrap);
+      selected.insertNode(toolbar);
+      const coor = toolbar.getBoundingClientRect();
+      var x = coor.right;
+      console.log("home:", x, "leftover:", screen.width);
+      if (x + 55 > window.innerWidth) {
+        toolbar.style.marginLeft = `${-60 - (x - window.innerWidth + 80)}px`;
+      } else {
+        toolbar.style.marginLeft = "-55px";
+        toolbar.style.float = "right";
+      }
+      console.log("parent?", toolbar.parentNode);
+      // toolbar.style.display = "inline-block";
+      toolbar.style.zIndex = "10";
+    };
+
+    const recursion = (elem) => {
+      var string = "";
+      elem.childNodes.forEach((element) => {
+        //NOTE: depreciated, br not relevant
+        if (element.nodeName === "BR") {
+          string += "<br />";
+          console.log("does it ever happen?");
+        } else {
+          if (element.childNodes.length > 0) {
+            string += recursion(element);
+          } else {
+            string += element.textContent;
           }
-          // toolbar.style.display = "none";
-          // toolbar.style.zIndex = "-1";
         }
+      });
+      return string;
+    };
 
-        const checkHighlight = (event) => {
-          if (event.target.id !== "toolbar" && selectionNode.value) {
-            removeHighlight(invisible.value)
-          }
+    const removeHighlight = (toolbar) => {
+      if (selectionNode.value) {
+        console.log("parent2?", toolbar.parentNode);
+        toolbar.style.marginLeft = "-55px";
+        toolbar.parentNode.removeChild(toolbar);
+        selectionNode.value.replaceWith(...selectionNode.value.childNodes);
+        selectionNode.value = null;
+      }
+      // toolbar.style.display = "none";
+      // toolbar.style.zIndex = "-1";
+    };
+
+    const checkHighlight = (event) => {
+      if (event.target.id !== "toolbar" && selectionNode.value) {
+        removeHighlight(invisible.value);
+      }
+    };
+    const preserveNewLines = (elem) => {
+      var highlight = document.createElement("span");
+      highlight.setAttribute(
+        "style",
+        "background-color: pink;position: relative;border-radius: 5px;-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;-o-user-select: none;user-select: none;",
+      );
+      highlight.id = "background-editable";
+      highlight.innerHTML += recursion(elem);
+      return highlight;
+    };
+
+    const handleHighlight = (event) => {
+      const selection = window.getSelection();
+      if (!selection.toString().trim()) {
+        if (
+          event.target.id !== "toolbar" &&
+          event.target.parentNode.id !== "toolbar"
+        ) {
+          console.log("Selected nothing else ");
+          removeHighlight(invisible.value);
         }
-        const preserveNewLines = (elem) => {
-          var highlight = document.createElement("span")
-          highlight.setAttribute("style", "background-color: pink;position: relative;border-radius: 5px;-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;-o-user-select: none;user-select: none;");
-          highlight.id = "background-editable"
-            highlight.innerHTML += recursion(elem)
-          return highlight
+      } else {
+        console.log("recieved selection", selection);
+        // let anchor = selection.anchorOffset;
+        // let focus = selection.focusOffset;
+
+        range.value = selection.getRangeAt(0);
+        console.log(range.value);
+        if (range.value.startContainer.parentNode.id === "essayArea") {
+          const fallout = range.value.extractContents();
+          const wrap =
+            fallout.textContent.charAt(fallout.textContent.length - 1) === " ";
+
+          selectionNode.value = preserveNewLines(fallout);
+
+          range.value.insertNode(selectionNode.value);
+          createTooltip(range.value, invisible.value, wrap);
+          selection.removeAllRanges();
         }
+      }
+    };
 
-        const handleHighlight = (event) => {
-            const selection = window.getSelection();
-            if (!selection.toString().trim()) {
-              if (event.target.id !== "toolbar" && event.target.parentNode.id !=="toolbar") {
-                console.log('Selected nothing else ');
-                removeHighlight(invisible.value)
-              }
-            } else {
-              console.log('recieved selection', selection);
-              // let anchor = selection.anchorOffset;
-              // let focus = selection.focusOffset;
+    const handleBack = () => {
+      router.push({
+        name: "003",
+        params: { id: feedback.value.prompt_id, module: "Expert" },
+      });
+    };
 
-              range.value = selection.getRangeAt(0);
-              console.log(range.value)
-              if (range.value.startContainer.parentNode.id === "essayArea") {
-                const fallout = range.value.extractContents();
-                const wrap = fallout.textContent.charAt(fallout.textContent.length - 1) === " ";
-                
-                selectionNode.value = (preserveNewLines(fallout));
-                
-                range.value.insertNode(selectionNode.value);
-                createTooltip(range.value, invisible.value, wrap)
-                selection.removeAllRanges()
-              }
-            }
-        }
+    const feedback = computed(() =>
+      store.getters.findFeedback({
+        id: store.state.uniqueId,
+        version: "Expert",
+      }),
+    );
+    const exersize = computed(() =>
+      store.getters.findPrompt({
+        id: feedback.value.prompt_id,
+        version: "Expert",
+      }),
+    );
+    onMounted(() => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      if (!feedback.value.prompt_id) {
+        router.push({ name: "002", params: { module: "Expert" } });
+      }
+    });
+    const items = [
+      {
+        text: "Essay Writing: LEQ",
+      },
+      {
+        text: `Essay Component Module: Expert`,
+      },
+      {
+        text: "Choose a Prompt",
+      },
+      {
+        text: "LEQ Essay",
+        active: "yes!",
+      },
+    ];
 
-        const handleBack = () => {
-          router.push({name: "003", params: {id: feedback.value.prompt_id, module: "Timed"}});
-        }
-
-        const feedback = computed(()=>store.getters.findFeedback({id: store.state.uniqueId, version: "Timed"}));
-        const exersize = computed(()=>store.getters.findPrompt({id: feedback.value.prompt_id, version: 'Timed'}));       
-        onMounted(() => {
-            window.scrollTo({ top: 0, behavior: "smooth"});
-            if (!feedback.value.prompt_id) {
-              router.push({name: "002", params:{module: "Timed"}});
-            }
-        })
-        const items = [
-            {
-                text: 'Essay Writing: LEQ',
-            }, 
-            {
-                text: `Essay Component Module: Timed`,
-            },
-            {
-                text: 'Choose a Prompt',
-            }, 
-            {
-                text: 'LEQ Essay', 
-                active: 'yes!'
-            }
-        ]
-       
-        return {doc, handleHighlight, preserve, items, exersize, feedback, invisible, checkHighlight, 
-          handleClickLabel, handleClick, parseUserSelections, handleBack}
-    }
-}
+    return {
+      doc,
+      handleHighlight,
+      preserve,
+      items,
+      exersize,
+      feedback,
+      invisible,
+      checkHighlight,
+      handleClickLabel,
+      handleClick,
+      parseUserSelections,
+      handleBack,
+    };
+  },
+};
 </script>
 
 <style scoped>
-span, p {
+span,
+p {
   white-space: pre-line;
 }
 .toolbar {
-  position:absolute;
+  position: absolute;
   display: inline-block;
   width: fit-content;
   z-index: -1;
@@ -253,15 +322,27 @@ span, p {
   margin-left: -55px;
 }
 
-.unselectable {
-    -moz-user-select: -moz-none;
-    -khtml-user-select: none;
-    -webkit-user-select: none;
-    -o-user-select: none;
-    user-select: none;
+.instructions {
+  color: #9b51e0;
+  font-feature-settings: "liga" off;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 30px; /* 166.667% */
+  text-align: center;
+  padding-top: 20px;
 }
 
-::-moz-selection { /* Code for Firefox */
+.unselectable {
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+::-moz-selection {
+  /* Code for Firefox */
   background: pink;
 }
 
@@ -271,7 +352,7 @@ span, p {
 
 .labelled-contain {
   border-radius: 10px;
-  border: 0.5px solid var(--text-subtle, #969BAB);
+  border: 0.5px solid var(--text-subtle, #969bab);
   max-width: 948px;
 }
 </style>

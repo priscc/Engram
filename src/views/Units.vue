@@ -34,6 +34,7 @@ export default {
   },
   methods: {
     next(i) {
+      store.dispatch("setTimePeriod", i.timePeriod);
       this.$router.push({
         name: "Period",
         params: { periodName: i.header, period: i.timePeriod },
@@ -42,7 +43,7 @@ export default {
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
-    this.$gtag.event("Home-page", {
+    this.$gtag.event("timePeriod-page", {
       event_category: "engagement",
     });
   },

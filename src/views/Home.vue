@@ -73,6 +73,8 @@
 <script>
 import { useRouter } from "vue-router";
 import featuresdisplay from "@/components/FeaturesDisplay.vue";
+import { onMounted } from "vue";
+import { event } from "vue-gtag";
 import steps from "@/components/writing_feature/Steps.vue";
 export default {
   components: {
@@ -81,6 +83,10 @@ export default {
   },
   setup() {
     const router = useRouter();
+    onMounted(() => {
+      event("home-page", { method: "Google" });
+    });
+
     const features = [
       {
         img: "book.svg",

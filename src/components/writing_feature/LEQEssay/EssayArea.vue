@@ -61,14 +61,12 @@
       </b-row>
       <b-row align-h="end" class="px-5 pb-5 my-4 mt-5 mt-sm-0 mt-md-0 mt-lg-0">
         <b-button
-          id="purple"
-          class="border-0 mb-1 back-button "
+          class="border-0 mb-1 back-button fontist purple-button"
           @click="router.push({ name: '002' })"
           >Back</b-button
         >
         <b-button
-          id="purple"
-          class="finish-button border-0 mb-1"
+          class="finish-button border-0 mb-1 fontist purple-button"
           v-b-modal.my-modal
           type="submit"
           >Finish</b-button
