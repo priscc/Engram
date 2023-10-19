@@ -46,6 +46,7 @@
         ></outlinevue>
         <timedessayarea
           v-if="moduleVersion === 'Expert'"
+          :moduleVersion="moduleVersion"
           :text="
             exersize.template.templates.raw
               ? exersize.template.templates.raw.text

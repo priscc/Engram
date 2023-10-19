@@ -38,10 +38,10 @@
 </template>
 
 <script>
-import breadcrumb from "../../components/writing_feature/BreadCrumb.vue";
-import essayhead from "../../components/writing_feature/LEQEssay/EssayHead.vue";
 import { onMounted, ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import breadcrumb from "../../components/writing_feature/BreadCrumb.vue";
+import essayhead from "../../components/writing_feature/LEQEssay/EssayHead.vue";
 import storeWriting from "../../store/writing";
 import sectionfeedback from "../../components/writing_feature/SectionFeedback.vue";
 export default {
@@ -144,6 +144,7 @@ export default {
         name: "003",
         params: { id: prompt_id.value, module: version },
       });
+      // router.go(-1);
     };
     return {
       items,

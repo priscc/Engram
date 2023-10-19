@@ -43,7 +43,7 @@
                 ></toolbarvue>
               </div>
             </div>
-            <b-row align-h="end" class="px-5 pt-5 pb-3">
+            <!-- <b-row align-h="end" class="px-5 pt-5 pb-3">
               <b-button
                 @click="parseUserSelections"
                 id="purple"
@@ -51,6 +51,40 @@
                 type="button"
                 >Submit</b-button
               >
+            </b-row> -->
+            <b-row
+              align-h="end"
+              class="pt-5 px-5 pb-5 my-4 mt-5 mt-sm-0 mt-md-0 mt-lg-0"
+            >
+              <b-button
+                class="border-0 mb-1 back-button fontist purple-button"
+                @click="handleBack()"
+                >Back</b-button
+              >
+              <b-button
+                class="finish-button border-0 mb-1 fontist purple-button"
+                @click="parseUserSelections"
+                v-b-modal.my-modal
+                type="submit"
+                >Submit</b-button
+              >
+              <b-modal id="my-modal" hide-footer hide-header size="lg">
+                <finishmodal @close="$bvModal.hide('my-modal')" :ready="true">
+                </finishmodal
+              ></b-modal>
+              <!-- <b-modal id="my-modal" hide-footer hide-header size="lg"
+                ><finishmodal
+                  @close="$bvModal.hide('my-modal')"
+                  :ready="true"
+                  :socials="false"
+                  :header="'Congratulations!'"
+                  :subheader="''"
+                  :subtitle="
+                    'Continue to self identify each section so we can assess and grade your essay!'
+                  "
+                  :buttonprops="buttonprops"
+                ></finishmodal
+              ></b-modal> -->
             </b-row>
           </div>
         </b-row>
@@ -60,17 +94,19 @@
 </template>
 
 <script>
+import { ref, onMounted, computed } from "vue";
+import { useRouter } from "vue-router";
 import essayhead from "../../components/writing_feature/LEQEssay/EssayHead.vue";
 import breadcrumb from "../../components/writing_feature/BreadCrumb.vue";
-import { ref, onMounted, computed } from "vue";
 import storeWriting from "../../store/writing";
 import toolbarvue from "../../components/writing_feature/Toolbar.vue";
-import { useRouter } from "vue-router";
+import finishmodal from "@/components/writing_feature/LEQEssay/FinishModal.vue";
 export default {
   components: {
     essayhead,
     breadcrumb,
     toolbarvue,
+    finishmodal,
   },
   setup() {
     //
@@ -138,7 +174,7 @@ export default {
         store.state.feedback,
         store.state.completedPrompts,
       );
-      router.push({ name: "004", params: { id: "user" } });
+      // router.push({ name: "004", params: { id: "user" } });
     };
     const handleClickLabel = (label) => {
       if (selectionNode.value) {

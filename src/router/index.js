@@ -20,12 +20,13 @@ import SelectDifficulty from "../views/writing_feature/SelectDifficulty";
 import SelectModule from "../views/writing_feature/SelectModule";
 import ChoosePrompt from "../views/writing_feature/ChoosePrompt";
 import LEQEssay from "../views/writing_feature/LEQEssay";
+import LabelSection from "../views/writing_feature/LabelSection";
 import Feedback from "../views/writing_feature/Feedback";
 
 //ROUTES FOR QUIZZES
 import Quiz from "../views/quiz_feature/QuizFeature";
 import QuizUnit1 from "../views/quiz_feature/QuizUnit1";
-import LabelSection from "../views/writing_feature/LabelSection";
+
 const routes = [
   {
     path: "/",

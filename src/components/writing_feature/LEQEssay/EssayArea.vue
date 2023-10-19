@@ -69,13 +69,11 @@
           class="finish-button border-0 mb-1 fontist purple-button"
           v-b-modal.my-modal
           type="submit"
-          >Finish</b-button
+          >Submit</b-button
         >
-        <b-modal id="my-modal" hide-footer hide-header size="lg"
-          ><finishmodal
-            @close="$bvModal.hide('my-modal')"
-            :ready="submitted"
-          ></finishmodal
+        <b-modal id="my-modal" hide-footer hide-header size="lg">
+          <finishmodal @close="$bvModal.hide('my-modal')" :ready="submitted">
+          </finishmodal
         ></b-modal>
       </b-row>
     </b-container>
@@ -254,6 +252,7 @@ export default {
     const handleSubmit = () => {
       //note: check if feedback obj has aleady been created for this prompt before uploading data
       //update: handled already created exception within store
+      console.log("submited essay");
       if (!submitted.value) {
         console.log(
           "before submit",
@@ -266,10 +265,10 @@ export default {
       }
     };
     const handleRequest = (data, stream) => {
-      console.log(stream);
+      console.log("stream", stream);
       stream.template = data;
 
-      console.log("handled", data, stream.template);
+      console.log("handled", data, stream, stream.template);
       currentEmits.value++;
     };
     //EVENT HANDLER: BREAKDOWN COMPONENT CONNECTION
@@ -349,15 +348,6 @@ export default {
   padding-top: 5px;
 }
 
-.finish-button {
-  max-width: 239px;
-}
-
-.back-button {
-  max-width: 170px;
-  margin: 0 30px 0 0;
-}
-
 .add-evidence-button {
   color: var(--brand-purple, #8c30f5);
   font-feature-settings: "liga" off;
@@ -368,17 +358,6 @@ export default {
   margin-bottom: 50px;
   cursor: pointer;
   width: fit-content;
-}
-@media screen and (max-width: 426px) {
-  .finish-button {
-    max-width: 239px;
-    margin: auto;
-  }
-
-  .back-button {
-    max-width: 170px;
-    margin: auto;
-  }
 }
 </style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

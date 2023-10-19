@@ -108,7 +108,6 @@ export default {
     ]);
     const displayTemplatePlaceholder = ref(true);
     if (Object.prototype.toString.call(props.string) === "[object Array]") {
-      console.log("idk");
       processed.value = true;
       //NOTE: make sure NOT to pull prompts completed in beginner module and inject into advanced module parsing logic
       //^IMPLEMENTED (date): implemented 8/10/23
