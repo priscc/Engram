@@ -72,11 +72,9 @@
           </div>
         </b-col>
         <div class="top_button">
-          <!-- <b-col> -->
-          <b-button size="small" @click="top()">
-            <b-icon-caret-up aria-hidden="true" /> Top
+          <b-button class="top-pill" @click="top()">
+            <b-icon-chevron-up aria-hidden="true" /> Top
           </b-button>
-          <!-- </b-col> -->
         </div>
       </b-row>
     </b-container>
@@ -174,7 +172,7 @@ export default {
       VueScrollTo.scrollTo(`#${this.topicButtons[index]}`, 1000);
       setTimeout(() => {
         this.updateCurrentSection();
-      }, 510);
+      }, 0);
     },
     updateCurrentSection() {
       for (let index = 0; index < this.topicButtons.length; index++) {
