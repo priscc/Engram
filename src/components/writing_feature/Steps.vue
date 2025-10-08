@@ -1,22 +1,23 @@
 <template>
-  <b-card id="step" class="border-0">
-    <div style="text-align: left;">
-      <b-card-img
-        :src="require('../../assets/writing_feature/' + step.img + '')"
+  <div id="step" class="step-container">
+    <div class="step-image-wrapper">
+      <b-img
+        :src="require('../../assets/writing_feature/' + step.img)"
         alt="Image"
-        top
-        id="icons"
         :height="step.height"
         :width="step.width"
-      ></b-card-img>
+        class="step-icon"
+      />
     </div>
-    <b-card-title class="title">
+
+    <div class="step-title">
       {{ step.title }}
-    </b-card-title>
-    <b-card-text class="description">
+    </div>
+
+    <div class="step-description">
       {{ step.description }}
-    </b-card-text>
-  </b-card>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -26,14 +27,21 @@ export default {
 </script>
 
 <style scoped>
-#step {
-  /* max-height: 172px; */
+.step-container {
   max-width: 257px;
   text-align: left;
 }
-.title {
+
+/* If you want to force sizes via CSS */
+.step-icon {
+  max-width: 257px !important;
+  height: 72px !important;
+  object-fit: cover;
+}
+
+/* Style your text sections */
+.step-title {
   color: var(--text-gray-900, #18191f);
-  /* Subtitle / Subtitle 1 */
   font-size: 18px;
   font-style: normal;
   font-weight: 700;
@@ -41,10 +49,8 @@ export default {
   margin-top: 10px;
 }
 
-.description {
+.step-description {
   color: var(--text-normal, #111);
-
-  /* Body / Body 1 */
   font-size: 16px;
   font-style: normal;
   font-weight: 400;

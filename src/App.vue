@@ -232,5 +232,5 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped src="@/assets/css/main.sass"></style>
-<style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>
+<!-- <style lang="sass" scoped src="@/assets/css/main.sass"></style> -->
+<!-- <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style> -->

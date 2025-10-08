@@ -14,6 +14,8 @@ import { BootstrapVue } from "bootstrap-vue";
 import { BootstrapIconsPlugin } from "bootstrap-icons-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
+import '@/assets/css/main.sass';
+
 // GOOGLE ANALYTICS
 import VueGtag from "vue-gtag";
 //HOT JAR

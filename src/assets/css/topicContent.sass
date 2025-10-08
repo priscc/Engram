@@ -27,15 +27,41 @@
 
 
 // BANNER TEXT
+// Back Button
 .back_button
-	color: white
-	&:hover
-		opacity: 0.5
-		cursor: pointer
+	display: inline-flex
+	align-items: center
+	gap: 6px
+	padding: 6px 14px
+	margin-top: 10px
+	margin-left: 10px
+	font-family: "Montserrat", sans-serif
+	font-weight: 700
+	font-size: 14px
+	color: #fff
+	background: rgba(91, 33, 182, 0.4)
+	border: 1px solid rgba(91, 33, 182, 1)
+	border-radius: 10px
+	backdrop-filter: blur(6px)
+	text-decoration: none
+	cursor: pointer
+	transition: all 0.25s ease
 
-@media (max-width: 425px) 
+	&:hover
+		background: linear-gradient(90deg, #8B5CF6 30%, #5B21B6 100%)
+		border-color: none
+		transform: translateY(-1px)
+
+	&:active
+		transform: translateY(0)
+		box-shadow: 0 2px 6px rgba(91, 33, 182, 0.25)
+
+@media (max-width: 425px)
 	.back_button
-		padding-bottom: 30px
+		padding: 5px 10px
+		font-size: 13px
+
+
 
 .banner_timeperiod_header
 	font-family: "Montserrat", sans-serif
@@ -72,31 +98,51 @@
 
 
 
-// CATEGORY BUTTONS
-.category_button 
-	font-family: "Montserrat", sans-serif
-	letter-spacing: -0.5px
-	font-size: 14px
-	line-height: 30px
-	font-weight: 700
-	background-color: #B19CD9
-	color: white
-	border-radius: 10px
-	margin-bottom: 10px
-	padding-left: 10px
-	min-width: 110px
-	&:hover
-		opacity: 0.5
-		cursor: pointer
-
+/* SIDE MENU REFINEMENT */
 .sidebar
-	position: -webkit-sticky
 	position: sticky
 	top: 10px
+	display: flex
+	flex-direction: column
+	gap: 8px
+	background: transparent
 
-.active
-	background-color: #B19CD9
-	opacity: 0.5
+/* CATEGORY BUTTONS */
+.category_button
+	display: flex
+	align-items: center
+	justify-content: flex-start
+	font-family: "Montserrat", sans-serif
+	font-weight: 600
+	font-size: 14px
+	letter-spacing: -0.2px
+
+	color: #4b4b4b
+	background: #f8f6ff
+	border: 1px solid #ece7fa
+	border-radius: 10px
+	padding: 8px 14px
+	transition: background .2s ease, color .2s ease, box-shadow .2s ease
+
+	&:hover
+		background: #ede7ff
+		color: #3b2f8f
+		box-shadow: 0 2px 6px rgba(177, 156, 217, 0.25)
+		cursor: pointer
+
+/* ACTIVE STATE */
+.category_button.active
+	background: linear-gradient(90deg, #b19cd9, #a48cd4)
+	color: white
+	box-shadow: 0 3px 8px rgba(161, 125, 236, 0.3)
+	border: none
+
+/* OPTIONAL ICON STYLE (if you add icons later) */
+.category_button svg,
+.category_button i
+	margin-right: 8px
+	font-size: 14px
+	opacity: 0.85
 
 
 // HEADERS

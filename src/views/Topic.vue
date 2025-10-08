@@ -7,7 +7,7 @@
       >
         <b-col lg="2" md="2" sm="12" class="u-non-blurred">
           <div class="back_button" @click="back">
-            <b-icon-caret-left aria-hidden="true" /> Back
+            <b-icon-chevron-left aria-hidden="true" /> Back
           </div>
         </b-col>
         <b-col class="d-flex flex-column u-non-blurred">
