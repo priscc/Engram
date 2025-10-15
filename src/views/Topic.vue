@@ -23,7 +23,7 @@
     </b-container>
     <b-container fluid class="mb-5 ml-3">
       <b-row class="pt-5">
-        <b-col lg="2" md="2" sm="12" class="d-flex flex-column">
+        <b-col lg="2" md="2" sm="12" class="category_buttons d-flex flex-column">
           <div class="sidebar">
             <div v-for="(button, index) in topicButtons" :key="index">
               <div
