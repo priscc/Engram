@@ -253,5 +253,7 @@ export default {
   },
 };
 </script>
-<style lang="sass" scoped src="@/assets/css/topicContent.sass"></style>
-<style lang="sass" scoped src="@/assets/css/loading.sass"></style>
+<style lang="sass" scoped>
+@import "@/assets/css/topicContent.sass"
+@import "@/assets/css/loading.sass"
+</style>

@@ -1,7 +1,7 @@
 <template>
   <div id="Topics">
     <b-container class="topics_container">
-      <div class="back_button" @click="back">
+      <div class="topics_back_button" @click="back">
         <b-icon-caret-left aria-hidden="true" /> Back
       </div>
       <b-row>
@@ -80,4 +80,8 @@ export default {
 };
 </script>
 
-<style lang="sass" scoped src="@/assets/css/topics.sass"></style>
+<!-- <style lang="sass" scoped src="@/assets/css/topics.sass"></style> -->
+
+<style lang="sass" scoped>
+@import "@/assets/css/topics.sass"
+</style>
