@@ -62,12 +62,12 @@ import { ref } from "vue";
 export default {
   props: ["currentSection"],
   components: {
-    sections,
+    sections
   },
   emits: ["changeSection"],
   setup(props, { emit }) {
     //NOTE: ADD HEIGHT TO BREAKDOWN WHEN ADD EVIDENCE
-    const handleClick = (name) => {
+    const handleClick = name => {
       let emitValue = null;
       if (props.currentSection !== name) {
         emitValue = name;
@@ -86,18 +86,18 @@ export default {
             body: [
               "Describe the broader historical context the prompt take place in",
               "It must explain the broader historical events, and or developments that occur before, during, or after the time frame of the question",
-              "This point is not awarded for simply adding sentence or reference.",
+              "This point is not awarded for simply adding sentence or reference."
             ],
-            style: "bulleted",
+            style: "bulleted"
           },
           {
             title: "Example (1pt)",
             body:
               "Following the Post-Modern period, many regions around the world experienced instability and massive change due to increasingly global connections and the advent of new ideologies. Due to centuries of subjugation and domination or simply a design for change due to resentment of the past, these ideologies grew into movements among the people in both developing and industrialized countries.",
-            style: "quoted",
-          },
+            style: "quoted"
+          }
         ],
-        palette: "#CCEBA5",
+        palette: "#CCEBA5"
       },
       {
         name: "Thesis",
@@ -107,18 +107,18 @@ export default {
             title: "How do I earn this point?",
             body: [
               "Respond with a historically defensible claim that establishes a line of reasoning.",
-              "A thesis does not need to encompass an entire period, but must identify relevant developments in the period",
+              "A thesis does not need to encompass an entire period, but must identify relevant developments in the period"
             ],
-            style: "bulleted",
+            style: "bulleted"
           },
           {
             title: "Example (1pt)",
             body:
               "Ideologies such as fascism, nationalism, and communism uprooted the existing sociopolitical order by mobilizing the people through promises of reform and uniting them with a popular message and universal appeal, inspiring them to rise up.",
-            style: "quoted",
-          },
+            style: "quoted"
+          }
         ],
-        palette: "#CAE2F1",
+        palette: "#CAE2F1"
       },
       {
         name: "Evidence",
@@ -130,18 +130,18 @@ export default {
               "You earn 1 point for each piece of evidence you provide",
               "Provides specific examples of evidence",
               "Supports an argument in response to the prompt",
-              "For each e at least two specific historical examples",
+              "For each e at least two specific historical examples"
             ],
-            style: "bulleted",
+            style: "bulleted"
           },
           {
             title: "2-point example",
             body:
               "In countries everywhere, populist movements such as nationalism, fascism, and communism galvanized the people with promises of change and reform. In India, Mahatma Gandhi activated a huge movement of passive resistance based on nationalism and called for reforms to prevent the British from ever abusing or oppressing the Indians again. Via this movement both the political and social order was rapidly changed, as Britain ultimately ceded political control to the Indians, and Indians, for the first time, dealt with the British as social equals.",
-            style: "quoted",
-          },
+            style: "quoted"
+          }
         ],
-        palette: "#DCBAE5",
+        palette: "#DCBAE5"
       },
       {
         name: "Analysis",
@@ -152,18 +152,18 @@ export default {
             body: [
               "You must explain how your evidence relate back to your thesis",
               "Ensure you frame your evidence to addresses the prompt clearly",
-              "You can either use comparison, causation, or explain change and continuity over time to analyze your evidence",
+              "You can either use comparison, causation, or explain change and continuity over time to analyze your evidence"
             ],
-            style: "bulleted",
+            style: "bulleted"
           },
           {
             title: "1-point example",
             body:
               "Gandhi's nationalist movement only succeeded because he managed to get the majority of Indians to rise up and unity by their national pride and tired of British dominance.",
-            style: "quoted",
-          },
+            style: "quoted"
+          }
         ],
-        palette: "#F5EBBB",
+        palette: "#F5EBBB"
       },
       {
         name: "Conclusion",
@@ -173,19 +173,19 @@ export default {
             title: "Are conclusions optional?",
             body:
               "Yes writing a conclusion is optional, however, it is highly recommended that you write a conclusion as the grader will be looking at the beginning and end of your essay to evaluate the content. So simply restate and summarize your thesis.",
-            style: "normal",
-          },
+            style: "normal"
+          }
         ],
-        palette: "#FFC27880",
-      },
+        palette: "#FFC27880"
+      }
     ]);
-    const CssVars = (section) => {
+    const CssVars = section => {
       return {
-        "--bg-color": section.palette,
+        "--bg-color": section.palette
       };
     };
     return { sections, CssVars, handleClick };
-  },
+  }
 };
 </script>
 

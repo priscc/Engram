@@ -12,7 +12,7 @@
           class="period"
           :style="{
             'background-image':
-              'url(' + require(`@/assets/${timePeriod.img}`) + ')',
+              'url(' + require(`@/assets/${timePeriod.img}`) + ')'
           }"
           @click="next(timePeriod)"
         >
@@ -26,27 +26,26 @@
 
 <script>
 import store from "@/store";
+import { goToPeriod } from "@/router/navigation";
 export default {
   computed: {
     timePeriodHeaders() {
       return store.state.timePeriodHeaders;
-    },
+    }
   },
   methods: {
     next(i) {
       store.dispatch("setTimePeriod", i.timePeriod);
-      this.$router.push({
-        name: "Period",
-        params: { periodName: i.header, period: i.timePeriod },
-      });
-    },
+      // Use goToPeriod which slugifies `periodName` so URLs are SEO-friendly
+      goToPeriod(i.header, i.timePeriod);
+    }
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     this.$gtag.event("timePeriod-page", {
-      event_category: "engagement",
+      event_category: "engagement"
     });
-  },
+  }
 };
 </script>
 

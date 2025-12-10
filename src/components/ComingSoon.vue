@@ -1,36 +1,16 @@
 <template>
-  <div id="ComingSoon">
-    <v-row v-show="delayShow">
-      <b-col>
-        <div class="trend_comingSoon">
-          <div class="header-4 trend_comingSoonTextBackground">
-            <div>Coming Soon</div>
-          </div>
-          <b-img
-            class="trend_comingSoonImg"
-            :src="require('@/assets/globe2.jpg')"
-          >
-          </b-img>
-        </div>
-      </b-col>
-    </v-row>
+  <div class="coming-soon-card">
+    <h1 class="coming-soon-title">Coming Soon</h1>
+    <p class="coming-soon-subtitle">
+      We're working on new site content — stay tuned.
+    </p>
   </div>
 </template>
 
 <script>
+import "@/assets/css/topicContent.sass";
+
 export default {
-  name: "ComingSoon",
-  data() {
-    return {
-      delayShow: false
-    };
-  },
-  created() {
-    setTimeout(() => {
-      this.delayShow = true;
-    }, 500);
-  }
+  name: "ComingSoonInfographic"
 };
 </script>
-
-<style lang="sass" scoped src="@/assets/css/topicContent.sass"></style>

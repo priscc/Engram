@@ -18,7 +18,11 @@
                   >
                   </b-img>
                   <!-- Modal -->
-                  <b-modal v-model="showModal[source.id]" hide-footer :title="source.title ">
+                  <b-modal
+                    v-model="showModal[source.id]"
+                    hide-footer
+                    :title="source.title"
+                  >
                     <b-img :src="source.thumbURL" class="modal_image"></b-img>
                   </b-modal>
                 </b-col>
@@ -45,7 +49,7 @@ export default {
   components: { comingsoon },
   data() {
     return {
-      showModal: {},
+      showModal: {}
     };
   },
   computed: {
@@ -54,11 +58,11 @@ export default {
     },
     comingSoon() {
       return storeTopic.state.sources.length;
-    },
+    }
   },
   mounted() {
     storeTopic.dispatch("setTopicSources", this.$route.params.topic);
-  },
+  }
 };
 </script>
 

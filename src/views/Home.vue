@@ -17,7 +17,7 @@
               >
             </template>
 
-            <b-button id="button" @click="router.push({ name: '001' })">
+            <b-button id="button" @click="goToSelectModule">
               Get Started
             </b-button>
           </b-jumbotron>
@@ -76,10 +76,11 @@ import featuresdisplay from "@/components/FeaturesDisplay.vue";
 import { onMounted } from "vue";
 import { event } from "vue-gtag";
 import steps from "@/components/writing_feature/Steps.vue";
+import { goToSelectModule } from "@/router/navigation";
 export default {
   components: {
     featuresdisplay,
-    steps,
+    steps
   },
   setup() {
     const router = useRouter();
@@ -93,22 +94,22 @@ export default {
         title: "APWH Topics",
         description:
           "Explore our AP World History resources. Feel free to enjoy our 100+ Interactive study materials.",
-        route: "Units",
+        route: "All_Periods"
       },
       {
         img: "eyes.png",
         title: "Multiple Choice Questions",
         description:
           "Improve your AP World History quiz score. Test yourself with out multiple choice questions.",
-        route: "Quiz",
+        route: "Quiz"
       },
       {
         img: "Essay.svg",
         title: "Essay Writing",
         description:
           "Learn and practice how to write your Long Essay Questions (LEQ) and Document Based Questions (DBQ).",
-        route: "001",
-      },
+        route: "001"
+      }
     ];
     const steps = [
       {
@@ -116,26 +117,26 @@ export default {
         title: "Learn AP World History",
         description: "Study our qualified AP World History materials",
         height: "72",
-        width: "257",
+        width: "257"
       },
       {
         img: "IconGroup2.svg",
         title: "Write your own essay",
         description: "Follow our step-by-step essay writing guides",
         height: "72",
-        width: "257",
+        width: "257"
       },
       {
         img: "IcongroupFinal.svg",
         title: "Get your dream score",
         description: "Master AP World History and get a full score",
         height: "72",
-        width: "257",
-      },
+        width: "257"
+      }
     ];
 
-    return { features, steps, router };
-  },
+    return { features, steps, router, goToSelectModule };
+  }
 };
 </script>
 <style scoped>

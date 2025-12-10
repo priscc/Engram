@@ -29,7 +29,7 @@ export default {
   props: ["title"],
   setup(props) {
     console.log(props.title);
-  },
+  }
 };
 </script>
 

@@ -25,7 +25,7 @@
 
 <script>
 import { ref } from "vue";
-import { useRouter } from "vue-router";
+import { pushRoute } from "@/router/navigation";
 import store from "@/store/writing";
 // import finishmodal from "./FinishModal.vue";
 export default {
@@ -41,32 +41,30 @@ export default {
       {
         content: "<   Go Back to Modules",
         route: "001",
-        disabled: false,
+        disabled: false
       },
-      { content: "Continue   >", route: "005", disabled: false },
+      { content: "Continue   >", route: "005", disabled: false }
     ];
 
-    const router = useRouter();
     console.log(props.ready);
-    const next = (obj) => {
+    const next = obj => {
       context.emit("TimedSubmit", essay.value);
       // store.dispatch("setUserInput", idea); // for when there are logins
       store.dispatch("setModuleVersion", props.moduleVersion);
-      const route = { name: obj.route };
       if (obj.params) {
-        route.params = obj.params;
+        pushRoute(obj.route, obj.params);
+      } else {
+        pushRoute(obj.route);
       }
-      router.push(route);
     };
 
     return {
-      router,
       next,
       buttonprops,
       essay,
-      textarea,
+      textarea
     };
-  },
+  }
 };
 </script>
 

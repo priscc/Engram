@@ -54,7 +54,7 @@ import { ref } from "vue";
 export default {
   props: ["title", "subtitle", "refresh", "buttonprops"],
   components: {
-    purpleButton,
+    purpleButton
   },
   emits: ["refresh"],
   setup(props, { emit }) {
@@ -70,7 +70,7 @@ export default {
       }
     };
     return { click, clicked };
-  },
+  }
 };
 </script>
 

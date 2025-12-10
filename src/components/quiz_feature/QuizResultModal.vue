@@ -39,29 +39,29 @@
 
 <script>
 // import { onMounted } from 'vue';
-import { useRouter } from "vue-router";
+import { pushRoute } from "@/router/navigation";
 // import storeWriting from '../../../store/writing';
 export default {
   props: {
     ready: {
       type: Boolean,
-      default: false,
+      default: false
     },
     socials: {
       type: Boolean,
-      default: true,
+      default: true
     },
     header: {
       type: String,
-      default: "Great Job!",
+      default: "Great Job!"
     },
     subheader: {
       type: String,
-      default: "You’ve successfully submitted your quiz.",
+      default: "You’ve successfully submitted your quiz."
     },
     subtitle: {
       type: String,
-      default: "Want to keep studying?",
+      default: "Want to keep studying?"
     },
     buttonprops: {
       type: Array,
@@ -69,25 +69,24 @@ export default {
         {
           content: "Choose Another Quiz",
           route: "Quiz",
-          disabled: false,
-        },
-      ],
-    },
+          disabled: false
+        }
+      ]
+    }
   },
   emits: ["close"],
   setup(props) {
     // const store = storeWriting;
-    const router = useRouter();
     console.log(props.ready);
-    const next = (obj) => {
-      const route = { name: obj.route };
+    const next = obj => {
       if (obj.params) {
-        route.params = obj.params;
+        pushRoute(obj.route, obj.params);
+      } else {
+        pushRoute(obj.route);
       }
-      router.push(route);
     };
-    return { router, next };
-  },
+    return { next };
+  }
 };
 </script>
 

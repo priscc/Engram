@@ -42,28 +42,26 @@ import whitecontainer from "../../components/writing_feature/WhiteContainer.vue"
 import breadcrumb from "../../components/writing_feature/BreadCrumb.vue";
 import steps from "../../components/writing_feature/Steps.vue";
 import purplebutton from "../../components/writing_feature/PurpleButton.vue";
-import { useRouter } from "vue-router";
+import { pushRoute } from "@/router/navigation";
 
 export default {
   components: {
     whitecontainer,
     breadcrumb,
     steps,
-    purplebutton,
+    purplebutton
   },
   setup() {
-    const router = useRouter();
-
     const next = () => {
       console.log("click");
-      router.push({ name: "SelectModule" });
+      pushRoute("SelectModule");
     };
 
     const items = [
       {
         text: "Essay Writing",
-        active: "true",
-      },
+        active: "true"
+      }
     ];
     const steps = [
       {
@@ -71,28 +69,28 @@ export default {
         title: "Step 1: Select a Module",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         height: "72",
-        width: "257",
+        width: "257"
       },
       {
         img: "IconGroup2.svg",
         title: "Step 2: Choose a Prompt",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         height: "72",
-        width: "257",
+        width: "257"
       },
       {
         img: "IconGroup3.svg",
         title: "Step 3: Learn & Practice",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
         height: "72",
-        width: "257",
-      },
+        width: "257"
+      }
     ];
 
     const buttonprops = {
       content: "Get Started",
       route: "SelectModule",
-      disabled: false,
+      disabled: false
     };
 
     const title = "How it works";
@@ -100,7 +98,7 @@ export default {
       "Follow the steps below to learn and practice your long essay question (LEQ) writing for the exam.";
 
     return { items, title, subtitle, steps, buttonprops, next };
-  },
+  }
 };
 </script>
 

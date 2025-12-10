@@ -28,8 +28,8 @@ import purplebutton from "./PurpleButton.vue";
 export default {
   props: ["modules"],
   components: {
-    purplebutton,
-  },
+    purplebutton
+  }
 };
 </script>
 

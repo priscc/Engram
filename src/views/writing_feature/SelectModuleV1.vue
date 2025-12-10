@@ -44,17 +44,17 @@ export default {
     whitecontainer,
     breadcrumb,
     // purplebutton,
-    modules,
+    modules
   },
   setup() {
     const items = [
       {
-        text: "Essay Writing",
+        text: "Essay Writing"
       },
       {
         text: "Select a Module",
-        active: "true",
-      },
+        active: "true"
+      }
     ];
 
     const moduleses = [
@@ -63,33 +63,33 @@ export default {
         title: "Learning Module",
         points: [
           "Step by step guides on each section",
-          "Essay break down and highlights",
+          "Essay break down and highlights"
         ],
         button: {
           content: "Learn Writing",
           route: "SelectModule",
-          disabled: false,
-        },
+          disabled: false
+        }
       },
       {
         img: "ModuleIcon.svg",
         title: "Practice Module",
         points: [
           "Practice writing at your own pace",
-          "Interactive writing guides",
+          "Interactive writing guides"
         ],
         button: {
           content: "Practice Writing",
           route: "SelectDifficulty",
-          disabled: false,
-        },
-      },
+          disabled: false
+        }
+      }
     ];
 
     const title = "Learning & Practice Module for your writing skills";
     const subtitle = "Each module will improve your LEQ writing skills.";
     return { items, moduleses, title, subtitle };
-  },
+  }
 };
 </script>
 <style scoped>

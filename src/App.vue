@@ -65,11 +65,11 @@ import navbarvue from "@/components/NavBar.vue";
 export default {
   name: "App",
   components: {
-    navbarvue,
+    navbarvue
   },
   data() {
     return {
-      alertDisplay: true,
+      alertDisplay: true
       //     searchClosed: true,
       //     searchItems: [],
       //     search: null,
@@ -207,7 +207,7 @@ export default {
       store.dispatch("setTopicCategory", 0);
 
       this.$gtag.event("About-page", {
-        event_category: "engagement",
+        event_category: "engagement"
       });
 
       this.$router.push("/about");
@@ -219,8 +219,8 @@ export default {
     dismissAlert() {
       console.log("dismissAlert");
       this.alertDisplay = false;
-    },
-  },
+    }
+  }
   // computed: {
   //   stateTimePeriod: function() {
   //     return store.state.currentTimePeriod;

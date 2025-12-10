@@ -44,6 +44,7 @@
 <script>
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
+import { pushRoute, goToTopic } from "@/router/navigation";
 
 export default {
   name: "Topics",
@@ -53,30 +54,38 @@ export default {
     },
     units() {
       return store.state.units;
-    },
+    }
   },
   methods: {
     back() {
-      this.$router.push({ name: "Units" });
+      pushRoute("All_Periods");
     },
     next(topic) {
       storeTopic.dispatch("setTopicContent", topic);
-      this.$router.push({
-        name: "Topic",
-        params: {
-          topicName: topic.title,
-          topic: topic.id,
-          category: "Introduction",
-        },
-      });
-    },
+      // Use goToTopic to ensure topicName and periodName are slugified for SEO-friendly URLs
+      const periodName =
+        this.timePeriodHeaders && this.timePeriodHeaders.header;
+      const periodId =
+        this.$route.params.period ||
+        this.$store?.state?.currentTimePeriod ||
+        null;
+      goToTopic(
+        periodName,
+        periodId,
+        topic.title,
+        topic.id,
+        "Introduction",
+        topic.title
+      );
+    }
   },
   mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     if (this.units.length == 0) {
+      console.log("this.$route.params.period", this.$route.params.period);
       store.dispatch("setTimePeriod", this.$route.params.period);
     }
-  },
+  }
 };
 </script>
 

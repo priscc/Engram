@@ -104,7 +104,6 @@
   </div>
 </template>
 
-
 <style type="text/css" scoped>
 div.absolute {
   position: absolute;

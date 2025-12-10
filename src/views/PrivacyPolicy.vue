@@ -521,10 +521,11 @@
   </div>
 </template>
 <script>
+import { pushRoute } from "@/router/navigation";
 export default {
   methods: {
     back() {
-      this.$router.push({ name: "Home" });
+      pushRoute("Home");
     }
   },
   mounted() {

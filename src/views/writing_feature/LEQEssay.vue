@@ -31,7 +31,7 @@
           :props="exersize"
           :moduleVersion="moduleVersion"
           :identification="id"
-          @updateProgress="(section) => handleUpdate(section)"
+          @updateProgress="section => handleUpdate(section)"
         ></essayarea>
         <outlinevue
           v-if="moduleVersion === 'Expert'"
@@ -42,7 +42,7 @@
               : null
           "
           :totalEmits="totalEmits"
-          @TimedOutline="(outline) => handleOutline(outline)"
+          @TimedOutline="outline => handleOutline(outline)"
         ></outlinevue>
         <timedessayarea
           v-if="moduleVersion === 'Expert'"
@@ -52,7 +52,7 @@
               ? exersize.template.templates.raw.text
               : null
           "
-          @TimedSubmit="(essay) => handleTimedSubmit(essay)"
+          @TimedSubmit="essay => handleTimedSubmit(essay)"
         ></timedessayarea>
       </b-row>
     </b-container>
@@ -65,7 +65,8 @@ import essayarea from "../../components/writing_feature/LEQEssay/EssayArea.vue";
 import progressvue from "../../components/writing_feature/LEQEssay/Progress.vue";
 import essayhead from "../../components/writing_feature/LEQEssay/EssayHead.vue";
 import { onMounted, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
+import { pushRoute } from "@/router/navigation";
 import storeWriting from "../../store/writing";
 import timedessayarea from "../../components/writing_feature/LEQEssay/TimedEssayArea.vue";
 import outlinevue from "../../components/writing_feature/LEQEssay/Outline.vue";
@@ -76,72 +77,71 @@ export default {
     progressvue,
     essayhead,
     timedessayarea,
-    outlinevue,
+    outlinevue
   },
   setup() {
     const totalEmits = ref(0); // if both components for the timed module emit their user writing (i.e total emits === 2), the data will be packaged and a store action will trigger
-    const router = useRouter();
     const route = useRoute();
     const moduleVersion = route.params.module;
     const timer = ref(null);
     if (!["Beginner", "Intermediate", "Expert"].includes(route.params.module)) {
-      router.push({ name: "001" });
+      pushRoute("001");
     }
     const store = storeWriting;
     const id = route.params.id;
     const exersize = store.getters.findPrompt({
       id: id,
-      version: moduleVersion,
+      version: moduleVersion
     });
     console.log("initial fetch", id, exersize);
     const items = [
       {
-        text: "Essay Writing: LEQ",
+        text: "Essay Writing: LEQ"
       },
       {
-        text: `Essay Component Module: ${moduleVersion}`,
+        text: `Essay Component Module: ${moduleVersion}`
       },
       {
-        text: "Choose a Prompt",
+        text: "Choose a Prompt"
       },
       {
         text: "LEQ Essay",
-        active: "yes!",
-      },
+        active: "yes!"
+      }
     ];
 
     const buttonprops = ref({
       content: "Get Started",
       route: "SelectModule",
-      disabled: false,
+      disabled: false
     });
 
     //BREAKDOWN SECTION UPDATES
     const currentSection = ref(null);
-    const handleUpdate = (section) => {
+    const handleUpdate = section => {
       currentSection.value = section;
     };
 
     const handleBack = () => {
-      router.push({ name: "002" });
+      pushRoute("002");
     };
 
     //TIMED MODULE STORE ACTIONS
     // updating store for Timed module submissions handled here, Beginner and Advanced are handled in EssayArea component
     const timedEssay = ref(null);
-    const handleTimedSubmit = (essay) => {
+    const handleTimedSubmit = essay => {
       totalEmits.value++;
       timedEssay.value = essay;
     };
-    const handleOutline = (outline) => {
+    const handleOutline = outline => {
       store.dispatch("setUserInput", {
         prompt_id: id, //ID to identify prompt
         id: store.getters.getUniqueId, //Unique ID assigned to new feedback obj (to be replaced by firestore id's)
         moduleVersion: moduleVersion, //For segregating beginner and advanced modules
         raw: {
           outline: outline,
-          text: timedEssay.value,
-        },
+          text: timedEssay.value
+        }
       });
 
       console.log(
@@ -150,7 +150,7 @@ export default {
         "essay:",
         timedEssay.value,
         "store:",
-        store.state.feedback,
+        store.state.feedback
       );
     };
     onMounted(() => {
@@ -171,9 +171,9 @@ export default {
       timer,
       handleTimedSubmit,
       totalEmits,
-      handleOutline,
+      handleOutline
     };
-  },
+  }
 };
 </script>
 <style scoped>

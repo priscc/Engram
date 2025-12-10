@@ -39,7 +39,7 @@
               {{ feedback.content.raw.text || "Text was not submit" }}
               <div class="toolbar unselectable" ref="invisible" id="toolbar">
                 <toolbarvue
-                  @clickLabel="(label) => handleClickLabel(label)"
+                  @clickLabel="label => handleClickLabel(label)"
                 ></toolbarvue>
               </div>
             </div>
@@ -95,7 +95,7 @@
 
 <script>
 import { ref, onMounted, computed } from "vue";
-import { useRouter } from "vue-router";
+import { pushRoute } from "@/router/navigation";
 import essayhead from "../../components/writing_feature/LEQEssay/EssayHead.vue";
 import breadcrumb from "../../components/writing_feature/BreadCrumb.vue";
 import storeWriting from "../../store/writing";
@@ -106,11 +106,9 @@ export default {
     essayhead,
     breadcrumb,
     toolbarvue,
-    finishmodal,
+    finishmodal
   },
   setup() {
-    //
-    const router = useRouter();
     const store = storeWriting;
 
     //DOM MANIPULATION REFS
@@ -129,7 +127,7 @@ export default {
         conclusion,
         contextualization = null;
       var evidence = [{}];
-      doc.value.childNodes.forEach((elem) => {
+      doc.value.childNodes.forEach(elem => {
         if (elem.className === "Thesis") {
           console.log(elem.innerText);
           thesis = elem.innerText;
@@ -164,7 +162,7 @@ export default {
         contextualization: contextualization,
         evidence: evidence,
         conclusion: conclusion,
-        thesis: thesis,
+        thesis: thesis
       };
       console.log("checkpoint");
       store.dispatch("setUserInput", idea);
@@ -172,11 +170,11 @@ export default {
       console.log(
         "handled submit in labelled",
         store.state.feedback,
-        store.state.completedPrompts,
+        store.state.completedPrompts
       );
-      // router.push({ name: "004", params: { id: "user" } });
+      // pushRoute("004", { id: "user" });
     };
-    const handleClickLabel = (label) => {
+    const handleClickLabel = label => {
       if (selectionNode.value) {
         selectionNode.value.style.background = label[0];
         selectionNode.value.style.color = "#00000080";
@@ -186,7 +184,7 @@ export default {
       }
     };
 
-    const handleClick = (event) => {
+    const handleClick = event => {
       if (event.target.id === "background-editable") {
         event.target.replaceWith(...event.target.childNodes);
       }
@@ -208,9 +206,9 @@ export default {
       toolbar.style.zIndex = "10";
     };
 
-    const recursion = (elem) => {
+    const recursion = elem => {
       var string = "";
-      elem.childNodes.forEach((element) => {
+      elem.childNodes.forEach(element => {
         //NOTE: depreciated, br not relevant
         if (element.nodeName === "BR") {
           string += "<br />";
@@ -226,7 +224,7 @@ export default {
       return string;
     };
 
-    const removeHighlight = (toolbar) => {
+    const removeHighlight = toolbar => {
       if (selectionNode.value) {
         console.log("parent2?", toolbar.parentNode);
         toolbar.style.marginLeft = "-55px";
@@ -238,23 +236,23 @@ export default {
       // toolbar.style.zIndex = "-1";
     };
 
-    const checkHighlight = (event) => {
+    const checkHighlight = event => {
       if (event.target.id !== "toolbar" && selectionNode.value) {
         removeHighlight(invisible.value);
       }
     };
-    const preserveNewLines = (elem) => {
+    const preserveNewLines = elem => {
       var highlight = document.createElement("span");
       highlight.setAttribute(
         "style",
-        "background-color: pink;position: relative;border-radius: 5px;-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;-o-user-select: none;user-select: none;",
+        "background-color: pink;position: relative;border-radius: 5px;-moz-user-select: -moz-none;-khtml-user-select: none;-webkit-user-select: none;-o-user-select: none;user-select: none;"
       );
       highlight.id = "background-editable";
       highlight.innerHTML += recursion(elem);
       return highlight;
     };
 
-    const handleHighlight = (event) => {
+    const handleHighlight = event => {
       const selection = window.getSelection();
       if (!selection.toString().trim()) {
         if (
@@ -286,44 +284,41 @@ export default {
     };
 
     const handleBack = () => {
-      router.push({
-        name: "003",
-        params: { id: feedback.value.prompt_id, module: "Expert" },
-      });
+      pushRoute("003", { id: feedback.value.prompt_id, module: "Expert" });
     };
 
     const feedback = computed(() =>
       store.getters.findFeedback({
         id: store.state.uniqueId,
-        version: "Expert",
-      }),
+        version: "Expert"
+      })
     );
     const exersize = computed(() =>
       store.getters.findPrompt({
         id: feedback.value.prompt_id,
-        version: "Expert",
-      }),
+        version: "Expert"
+      })
     );
     onMounted(() => {
       window.scrollTo({ top: 0, behavior: "smooth" });
       if (!feedback.value.prompt_id) {
-        router.push({ name: "002", params: { module: "Expert" } });
+        pushRoute("002", { module: "Expert" });
       }
     });
     const items = [
       {
-        text: "Essay Writing: LEQ",
+        text: "Essay Writing: LEQ"
       },
       {
-        text: `Essay Component Module: Expert`,
+        text: `Essay Component Module: Expert`
       },
       {
-        text: "Choose a Prompt",
+        text: "Choose a Prompt"
       },
       {
         text: "LEQ Essay",
-        active: "yes!",
-      },
+        active: "yes!"
+      }
     ];
 
     return {
@@ -338,9 +333,9 @@ export default {
       handleClickLabel,
       handleClick,
       parseUserSelections,
-      handleBack,
+      handleBack
     };
-  },
+  }
 };
 </script>
 

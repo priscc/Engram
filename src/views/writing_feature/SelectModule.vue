@@ -101,7 +101,7 @@ export default {
   components: {
     whitecontainer,
     breadcrumb,
-    modules,
+    modules
   },
   setup() {
     onMounted(() => {
@@ -111,8 +111,8 @@ export default {
     const items = [
       {
         text: "Essay Writing: LEQ",
-        active: "yes",
-      },
+        active: "yes"
+      }
     ];
 
     const timeModule = [
@@ -122,17 +122,17 @@ export default {
         points: [
           "Real Exam Format",
           "Answer a College Board prompt",
-          "45 Minute Time Restriction",
+          "45 Minute Time Restriction"
         ],
         button: {
           content: "Practice Writing",
           route: "002",
           params: { module: "Expert" },
-          disabled: false,
+          disabled: false
         },
         orientation: 12,
-        name: "timed",
-      },
+        name: "timed"
+      }
     ];
     const templateModule = [
       {
@@ -140,17 +140,17 @@ export default {
         // title: 'For Beginners',
         points: [
           "Step by step guides on each section",
-          "See examples with explanations",
+          "See examples with explanations"
         ],
         title: "View Templates & Examples",
         button: {
           content: "Learn Writing",
           route: "SelectModule",
-          disabled: true,
+          disabled: true
         },
         orientation: "auto",
-        name: "template",
-      },
+        name: "template"
+      }
     ];
 
     const moduleses = [
@@ -160,17 +160,17 @@ export default {
         points: [
           "Section step by step guides",
           "Sample prompts",
-          "No time restriction",
+          "No time restriction"
         ],
         button: {
           content: "Start",
           route: "002",
           params: { module: "Beginner" },
-          disabled: false,
+          disabled: false
         },
         orientation: 12,
         name: "try-it",
-        time: "~15 min",
+        time: "~15 min"
       },
       {
         img: "ModuleIcon2.svg",
@@ -178,18 +178,18 @@ export default {
         points: [
           "Explore each section in-depth",
           "Sample prompts",
-          "No time restriction",
+          "No time restriction"
         ],
         button: {
           content: "Start",
           route: "002",
           params: { module: "Intermediate" },
-          disabled: false,
+          disabled: false
         },
         orientation: 12,
         name: "try-it",
-        time: "~45 min-1hr",
-      },
+        time: "~45 min-1hr"
+      }
     ];
 
     const title = "Welcome to the Essay Writing for the LEQ";
@@ -201,9 +201,9 @@ export default {
       title,
       subtitle,
       timeModule,
-      templateModule,
+      templateModule
     };
-  },
+  }
 };
 </script>
 <style lang="sass" scoped src="@/assets/css/leq.sass"></style>

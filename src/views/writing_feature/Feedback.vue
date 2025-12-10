@@ -15,7 +15,7 @@
         </h1>
         <a
           class="strip back-button-style-right mx-3 mx-sm-5 mx-smd-5 mx-lg-5 mt-3"
-          @click="router.push({ name: '001' })"
+          @click="goToSelectModule"
           >Back to Modules</a
         >
       </b-row>
@@ -39,7 +39,8 @@
 
 <script>
 import { onMounted, ref, computed } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
+import { goToSelectModule, goToLEQEssay } from "@/router/navigation";
 import breadcrumb from "../../components/writing_feature/BreadCrumb.vue";
 import essayhead from "../../components/writing_feature/LEQEssay/EssayHead.vue";
 import storeWriting from "../../store/writing";
@@ -48,11 +49,10 @@ export default {
   components: {
     breadcrumb,
     essayhead,
-    sectionfeedback,
+    sectionfeedback
   },
   setup() {
     //ROUTE && FEEDBACK OBJECT ID
-    const router = useRouter();
     const route = useRoute();
     const store = storeWriting;
     const version = store.state.moduleVersion;
@@ -73,36 +73,36 @@ export default {
     const prompt_id = ref(null);
     const stream = ref([]);
     const exersize = computed(() =>
-      store.getters.findPrompt({ id: prompt_id.value, version: version }),
+      store.getters.findPrompt({ id: prompt_id.value, version: version })
     );
     const items = [
       {
-        text: "Essay Writing: LEQ",
+        text: "Essay Writing: LEQ"
       },
       {
-        text: "Essay Component Module: Beginner",
+        text: "Essay Component Module: Beginner"
       },
       {
-        text: "Choose a Prompt",
+        text: "Choose a Prompt"
       },
       {
-        text: "LEQ Essay",
+        text: "LEQ Essay"
       },
       {
         text: "Feedback",
-        active: "yes!",
-      },
+        active: "yes!"
+      }
     ];
     const buttonprops = ref({
       content: "Get Started",
       route: "SelectModule",
-      disabled: false,
+      disabled: false
     });
     //ACCESSING FEEDBACK OBJECT, for future database implementation
     const initialize = async () => {
       const feedback = await store.getters.findFeedback({
         id: id.value,
-        version: version,
+        version: version
       });
       if (feedback === 202) {
         //push to a page not found
@@ -113,23 +113,23 @@ export default {
         console.log("initialized", prompt_id.value, exersize.value);
         stream.value.push({
           title: "Contextualization",
-          content: feedback.content.contextualization,
+          content: feedback.content.contextualization
         });
         stream.value.push({
           title: "Thesis Statement",
-          content: feedback.content.thesis,
+          content: feedback.content.thesis
         });
         for (var i in feedback.content.evidence) {
           stream.value.push({
             title: `Evidence #${parseInt(i) + 1}`,
             content: feedback.content.evidence[i].evidence,
             title_2: "Analysis",
-            content_2: feedback.content.evidence[i].analysis,
+            content_2: feedback.content.evidence[i].analysis
           });
         }
         stream.value.push({
           title: "Conclusion",
-          content: feedback.content.conclusion,
+          content: feedback.content.conclusion
         });
         console.log(stream.value);
       }
@@ -140,22 +140,18 @@ export default {
 
     //ROUTING
     const handleBack = () => {
-      router.push({
-        name: "003",
-        params: { id: prompt_id.value, module: version },
-      });
-      // router.go(-1);
+      goToLEQEssay(prompt_id.value, version);
     };
     return {
       items,
       buttonprops,
       exersize,
       variable,
-      router,
       handleBack,
       stream,
+      goToSelectModule
     };
-  },
+  }
 };
 </script>
 <style scoped>

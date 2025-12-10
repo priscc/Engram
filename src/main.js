@@ -14,7 +14,7 @@ import { BootstrapVue } from "bootstrap-vue";
 import { BootstrapIconsPlugin } from "bootstrap-icons-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
-import '@/assets/css/main.sass';
+import "@/assets/css/main.sass";
 
 // GOOGLE ANALYTICS
 import VueGtag from "vue-gtag";
@@ -31,7 +31,7 @@ export const db = firebase
     storageBucket: "ap-studybites.appspot.com",
     messagingSenderId: "386062840730",
     appId: "1:386062840730:web:5f3a0c6b23f0be15220023",
-    measurementId: "G-8XJMW8N6QS",
+    measurementId: "G-8XJMW8N6QS"
   })
   .firestore();
 
@@ -41,7 +41,7 @@ const hotjarVersion = 6;
 Hotjar.init(siteId, hotjarVersion);
 // Initializing with `debug` option:
 Hotjar.init(siteId, hotjarVersion, {
-  debug: true,
+  debug: true
 });
 
 const app = createApp(App);
@@ -52,7 +52,7 @@ app.use(BootstrapIconsPlugin);
 app.use(VueYouTubeEmbed);
 app.component("QuillEditor", QuillEditor);
 app.use(VueGtag, {
-  config: { id: "G-8XJMW8N6QS" },
+  config: { id: "G-8XJMW8N6QS" }
 });
 
 app.mount("#app");

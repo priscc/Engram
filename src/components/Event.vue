@@ -45,6 +45,7 @@
 <script>
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
+import { pushRoute } from "@/router/navigation";
 // import eventmap from "./EventMapComponent.vue";
 import resourcecomp from "./ResourceComponent.vue";
 import { db } from "@/main";
@@ -63,7 +64,7 @@ export default {
       path: null,
       svg: null,
       startDate: null,
-      endDate: null,
+      endDate: null
     };
   },
   computed: {
@@ -89,60 +90,127 @@ export default {
     },
     resouces() {
       return storeTopic.state.eventResources;
-    },
+    }
+  },
+  // reload when route params change (e.g., navigating event -> event)
+  beforeRouteUpdate(to, from, next) {
+    console.log("Event.beforeRouteUpdate", {
+      from: from.params.event,
+      to: to.params.event
+    });
+    // If the event id changed, fetch the new event
+    if (to.params.event && to.params.event !== from.params.event) {
+      this.handleRouteChange(to.params)
+        .then(() => {
+          console.log("Event.beforeRouteUpdate: handleRouteChange completed");
+          next();
+        })
+        .catch(err => {
+          console.error("beforeRouteUpdate error:", err);
+          next();
+        });
+    } else {
+      next();
+    }
   },
   methods: {
     back() {
-     this.$gtag.event("event-backButton", { event_category: "engagement", });
-      this.$router.push({
-        name: "Topic",
-        params: {
-          period: this.$route.params.period,
-          topic: this.$route.params.topic,
-          category: this.$route.params.category,
-        },
+      this.$gtag.event("event-backButton", { event_category: "engagement" });
+      pushRoute("Topic", {
+        period: this.$route.params.period,
+        topic: this.$route.params.topic,
+        category: this.$route.params.category
       });
     },
+    async handleRouteChange(params) {
+      console.log("Event.handleRouteChange start", params);
+      // ensure topic is present
+      if (Object.keys(storeTopic.state.topic).length === 0) {
+        store.dispatch("setTimePeriod", params.period);
+        const topicSnap = await db
+          .collection("topics")
+          .doc(params.topic)
+          .get();
+        if (topicSnap.exists) {
+          const entry = topicSnap.data();
+          entry.id = topicSnap.id;
+          storeTopic.dispatch("setTopicContent", entry);
+        }
+      }
+
+      // fetch new event
+      const eventId = params.event;
+      if (eventId) {
+        const eventSnap = await db
+          .collection("events")
+          .doc(eventId)
+          .get();
+        if (eventSnap.exists) {
+          const ev = eventSnap.data();
+          ev.id = eventSnap.id;
+          storeTopic.dispatch("setEventContent", ev);
+        } else {
+          console.warn("Event not found:", eventId);
+        }
+        storeTopic.dispatch("setEventResources", eventId);
+      }
+
+      // update local date fields from storeTopic
+      if (storeTopic.state.event && storeTopic.state.event.startDate)
+        this.startDate = storeTopic.state.event.startDate.date;
+      if (storeTopic.state.event && storeTopic.state.event.endDate)
+        this.endDate = storeTopic.state.event.endDate.date;
+      console.log("Event.handleRouteChange end", {
+        startDate: this.startDate,
+        endDate: this.endDate
+      });
+    }
   },
   async mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    // Always ensure the topic is loaded (used for banner and context)
+    try {
+      if (Object.keys(storeTopic.state.topic).length === 0) {
+        store.dispatch("setTimePeriod", this.$route.params.period);
+        const topicSnap = await db
+          .collection("topics")
+          .doc(this.$route.params.topic)
+          .get();
+        if (topicSnap.exists) {
+          const entry = topicSnap.data();
+          entry.id = topicSnap.id;
+          storeTopic.dispatch("setTopicContent", entry);
+        }
+      }
 
-    if (Object.keys(storeTopic.state.topic).length === 0) {
-      store.dispatch("setTimePeriod", this.$route.params.period);
+      // Always fetch the event document (don't assume store already has it).
+      const eventId = this.$route.params.event;
+      if (eventId) {
+        const eventSnap = await db
+          .collection("events")
+          .doc(eventId)
+          .get();
+        if (eventSnap.exists) {
+          const ev = eventSnap.data();
+          ev.id = eventSnap.id;
+          storeTopic.dispatch("setEventContent", ev);
+        } else {
+          console.warn("Event not found:", eventId);
+        }
+        storeTopic.dispatch("setEventResources", eventId);
+      }
 
-      var newTopic = await db
-        .collection("topics")
-        .doc(this.$route.params.topic)
-        .get()
-        .then(
-          function(querySnapshot) {
-            var entry = querySnapshot.data();
-            entry.id = querySnapshot.id;
-            return entry;
-          }.bind(this)
-        );
-
-      storeTopic.dispatch("setTopicContent", newTopic);
-
-      var newEvent = await db
-        .collection("events")
-        .doc(this.$route.params.event)
-        .get()
-        .then(
-          function(querySnapshot) {
-            var entry = querySnapshot.data();
-            entry.id = querySnapshot.id;
-            return entry;
-          }.bind(this)
-        );
-
-      storeTopic.dispatch("setEventContent", newEvent);
+      // Safely set date fields if available
+      if (this.event && this.event.startDate)
+        this.startDate = this.event.startDate.date;
+      if (this.event && this.event.endDate)
+        this.endDate = this.event.endDate.date;
+    } catch (err) {
+      console.error("Event mounted error:", err, {
+        params: this.$route.params
+      });
     }
-
-    this.startDate = this.event.startDate.date;
-    this.endDate = this.event.endDate.date;
-    storeTopic.dispatch("setEventResources", this.$route.params.event);
-  },
+  }
 };
 </script>
 

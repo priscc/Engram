@@ -29,6 +29,7 @@
 
 <script type="text/javascript">
 import storeTopic from "@/store/topic.js";
+import { pushRoute } from "@/router/navigation";
 export default {
   props: {
     events: Object
@@ -51,10 +52,10 @@ export default {
   methods: {
     openEvent(event) {
       storeTopic.dispatch("setEventContent", event);
-      this.$router.push({ name: "Event", params: { event: event.id } });
+      pushRoute("Event", { event: event.id });
       this.$gtag.event("clicked-event-learnMore", {
         event_category: "engagement",
-        event_label: event,
+        event_label: event
       });
     },
     plusSlides(n) {

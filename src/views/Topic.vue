@@ -23,7 +23,12 @@
     </b-container>
     <b-container fluid class="mb-5 ml-3">
       <b-row class="pt-5">
-        <b-col lg="2" md="2" sm="12" class="category_buttons d-flex flex-column">
+        <b-col
+          lg="2"
+          md="2"
+          sm="12"
+          class="category_buttons d-flex flex-column"
+        >
           <div class="sidebar">
             <div v-for="(button, index) in topicButtons" :key="index">
               <div
@@ -82,6 +87,7 @@
 </template>
 <script>
 import store from "@/store";
+import { pushRoute } from "@/router/navigation";
 import storeTopic from "@/store/topic.js";
 import intro from "@/components/Intro.vue";
 import trends from "@/components/Trends.vue";
@@ -100,7 +106,7 @@ export default {
     developments,
     people,
     primarysources,
-    terms,
+    terms
   },
   data() {
     return {
@@ -110,20 +116,20 @@ export default {
         "Events",
         "People",
         "Sources",
-        "Terms",
+        "Terms"
       ],
       router_comp: "",
       display_loader: "block",
-      display_comps: "none",
+      display_comps: "none"
     };
   },
 
   watch: {
     loaded(newValue) {
       if (newValue === 6) {
-        this.$gtag.event("Topic-page-"+this.router_comp, {
+        this.$gtag.event("Topic-page-" + this.router_comp, {
           event_category: "engagement",
-          event_label: this.topic.title + " - " + this.router_comp,
+          event_label: this.topic.title + " - " + this.router_comp
         });
         setTimeout(() => {
           window.scrollTo({ top: 0, behavior: "smooth" });
@@ -143,11 +149,61 @@ export default {
               .scrollIntoView({ top: 0, behavior: "smooth" });
           }
         }, 1100);
+        // If a caller requested scrolling to a specific item (via query param
+        // `scrollTo`), perform that scroll after components have rendered.
+        setTimeout(() => {
+          const target = this.$route.query?.scrollTo;
+          if (target) {
+            const el = document.getElementById(target);
+            if (el) {
+              el.scrollIntoView({ behavior: "smooth", block: "start" });
+              // remove the query so subsequent navigations don't re-trigger
+              this.$router.replace({
+                name: "Topic",
+                params: this.$route.params,
+                query: {}
+              });
+            }
+          }
+        }, 1300);
         setTimeout(() => {
           window.addEventListener("scroll", this.updateCurrentSection);
         }, 2000);
       }
     },
+    // If a caller sets `?scrollTo=...` while we're already on the Topic page
+    // and the components are visible, scroll immediately.
+    "$route.query.scrollTo": function(target) {
+      if (!target) return;
+      // Only attempt immediate scroll when components are displayed
+      if (this.display_comps === "block") {
+        this.$nextTick(() => {
+          const el = document.getElementById(target);
+          if (el) {
+            el.scrollIntoView({ behavior: "smooth", block: "start" });
+            // clear query so repeated navigations don't re-trigger
+            this.$router.replace({
+              name: "Topic",
+              params: this.$route.params,
+              query: {}
+            });
+            return;
+          }
+          // element might render slightly later; try once more after a short delay
+          setTimeout(() => {
+            const el2 = document.getElementById(target);
+            if (el2) {
+              el2.scrollIntoView({ behavior: "smooth", block: "start" });
+              this.$router.replace({
+                name: "Topic",
+                params: this.$route.params,
+                query: {}
+              });
+            }
+          }, 350);
+        });
+      }
+    }
   },
   computed: {
     timePeriodHeaders() {
@@ -162,7 +218,7 @@ export default {
     loaded() {
       console.log("storeTopic.state.loaded", storeTopic.state.loaded);
       return storeTopic.state.loaded;
-    },
+    }
   },
   methods: {
     top() {
@@ -182,15 +238,15 @@ export default {
         const isVisible = rect.top >= 0 && rect.top <= window.innerHeight / 2;
 
         if (isVisible) {
-          this.$gtag.event("Topic-page-"+this.topicButtons[index], {
+          this.$gtag.event("Topic-page-" + this.topicButtons[index], {
             event_category: "engagement",
-            event_label: this.topic.title + " - " + this.topicButtons[index],
+            event_label: this.topic.title + " - " + this.topicButtons[index]
           });
 
           store.dispatch("setTopicCategory", this.topicButtons[index]);
           this.$router.replace({
             name: "Topic",
-            params: { category: this.topicButtons[index] },
+            params: { category: this.topicButtons[index] }
           });
           break;
         }
@@ -214,13 +270,10 @@ export default {
     },
     back() {
       this.$gtag.event("topic-backButton", {
-        event_category: "engagement",
+        event_category: "engagement"
       });
       store.dispatch("setTopicCategory", "");
-      this.$router.push({
-        name: "Period",
-        params: { period: this.$route.params.period },
-      });
+      pushRoute("Period", { period: this.$route.params.period });
     },
     loadCategory(category) {
       document
@@ -228,7 +281,7 @@ export default {
         .scrollIntoView({ top: -100, behavior: "smooth" });
       store.dispatch("setTopicCategory", category);
       this.$router.replace({ name: "Topic", params: { category: category } });
-    },
+    }
   },
   beforeMount() {
     console.log("beforeMount");
@@ -250,7 +303,7 @@ export default {
       storeTopic.dispatch("loader_add1");
     }
     store.dispatch("setTopicCategory", this.$route.params.category);
-  },
+  }
 };
 </script>
 <style lang="sass" scoped>

@@ -30,7 +30,7 @@
               :string="stream.template.template"
               :bgColor="stream.palette"
               @click.native="setCurrentSection(stream.title)"
-              @fulfillRequest="(data) => handleRequest(data, stream.template)"
+              @fulfillRequest="data => handleRequest(data, stream.template)"
             ></textareavue>
             <div v-if="stream.subTemplateSubtitle" class="subsubtitle">
               <div class="area-subtitle">
@@ -46,7 +46,7 @@
                   setCurrentSection(stream.subTemplateSubtitle.title)
                 "
                 @fulfillRequest="
-                  (data) => handleRequest(data, stream.subTemplate)
+                  data => handleRequest(data, stream.subTemplate)
                 "
               ></textareavue>
             </div>
@@ -54,7 +54,7 @@
         </b-col>
         <b-col class="component p-0 mx-4 mb-5">
           <breakdown
-            @changeSection="(section) => setCurrentSection(section)"
+            @changeSection="section => setCurrentSection(section)"
             :currentSection="currentSection"
           ></breakdown>
         </b-col>
@@ -62,7 +62,7 @@
       <b-row align-h="end" class="px-5 pb-5 my-4 mt-5 mt-sm-0 mt-md-0 mt-lg-0">
         <b-button
           class="border-0 mb-1 back-button fontist purple-button"
-          @click="router.push({ name: '002' })"
+          @click="goToChoosePrompt"
           >Back</b-button
         >
         <b-button
@@ -82,7 +82,7 @@
 
 <script>
 import { onMounted, ref, watch, computed, reactive } from "vue";
-import { useRouter } from "vue-router";
+import { pushRoute } from "@/router/navigation";
 import breakdown from "./BreakDown.vue";
 import finishmodal from "./FinishModal.vue";
 import storeWriting from "../../../store/writing";
@@ -92,7 +92,7 @@ export default {
   components: {
     breakdown,
     finishmodal,
-    textareavue,
+    textareavue
   },
   emits: ["updateProgress"],
   setup(props, { emit }) {
@@ -102,24 +102,24 @@ export default {
 
     //V-MODEL REFS
     const contextualization = reactive({
-      template: props.props.template.templates.contextualization,
+      template: props.props.template.templates.contextualization
     });
     const thesis = reactive({
-      template: props.props.template.templates.thesis,
+      template: props.props.template.templates.thesis
     });
     const evidence = [];
-    props.props.template.templates.evidence.forEach((x) => {
+    props.props.template.templates.evidence.forEach(x => {
       evidence.push([
         reactive({ template: x[0] }),
-        reactive({ template: x[1] }),
+        reactive({ template: x[1] })
       ]);
     });
     const conclusion = reactive({
-      template: props.props.template.templates.conclusion,
+      template: props.props.template.templates.conclusion
     });
 
-    //ROUTER
-    const router = useRouter();
+    //ROUTER helper
+    const goToChoosePrompt = () => pushRoute("002");
 
     //STRUCTURE AVAILABLE TO ADD ADDITIONAL EVIDENCES
     const evidences = ref(evidence.length);
@@ -127,11 +127,11 @@ export default {
       evidences.value++;
       evidence.push([
         reactive({
-          template: props.props.template.templates.evidence[0][0],
+          template: props.props.template.templates.evidence[0][0]
         }),
         reactive({
-          template: props.props.template.templates.evidence[0][1],
-        }),
+          template: props.props.template.templates.evidence[0][1]
+        })
       ]);
       const cap = stream.value.pop();
       stream.value.push({
@@ -140,7 +140,7 @@ export default {
         template: evidence[evidence.length - 1][0],
         subTemplate: evidence[evidence.length - 1][1],
         subTemplateSubtitle: evidenceSubTemplateSubtitle,
-        palette: "#D289E5",
+        palette: "#D289E5"
       });
       stream.value.push(cap);
       console.log("add evidence triggered");
@@ -155,7 +155,7 @@ export default {
             template: evidence[i][0],
             subTemplate: evidence[i][1],
             subTemplateSubtitle: evidenceSubTemplateSubtitle,
-            palette: "#D289E5",
+            palette: "#D289E5"
           });
           stream.value.push(cap);
         }
@@ -166,20 +166,20 @@ export default {
     const evidenceSubTemplateSubtitle = {
       subtitle:
         "add 1 sentence to analysis your evidence and support your thesis statement",
-      title: "Analysis",
+      title: "Analysis"
     };
     const stream = ref([
       {
         title: "Contextualization",
         subtitle: "add 1 sentence of historical context relevant to the prompt",
         template: contextualization,
-        palette: "#CCEBA5",
+        palette: "#CCEBA5"
       },
       {
         title: "Thesis",
         subtitle: "fill in the Change & Continuity thesis statement template",
         template: thesis,
-        palette: "#85CDF9",
+        palette: "#85CDF9"
       },
       {
         title: "Evidence #1",
@@ -188,7 +188,7 @@ export default {
         subTemplate: evidence[0][1],
         subTemplateSubtitle: evidenceSubTemplateSubtitle,
         palette: "#D289E5",
-        placeholder: "The result of...",
+        placeholder: "The result of..."
       },
       {
         title: "Evidence #2",
@@ -196,14 +196,14 @@ export default {
         template: evidence[1][0],
         subTemplate: evidence[1][1],
         subTemplateSubtitle: evidenceSubTemplateSubtitle,
-        palette: "#D289E5",
+        palette: "#D289E5"
       },
       {
         title: "Conclusion",
         subtitle: "add 1 sentence of historical context relevant to the prompt",
         template: conclusion,
-        palette: "#FE9A22",
-      },
+        palette: "#FE9A22"
+      }
     ]);
 
     // total emits = stream length and # of evidences (because analysis is wrapped within the evidence obj, but has their own textarea component within their own emits)
@@ -220,7 +220,7 @@ export default {
         if (newEmit === totalEmits.value) {
           console.log("All emits processed, triggering event!");
           let evidencePost = [];
-          evidence.forEach((x) => {
+          evidence.forEach(x => {
             evidencePost.push([x[0].template, x[1].template]);
           });
           const idea = {
@@ -232,7 +232,7 @@ export default {
             contextualization: contextualization.template,
             evidence: evidencePost,
             conclusion: conclusion.template,
-            thesis: thesis.template,
+            thesis: thesis.template
           };
 
           // console.log('criminal', idea)
@@ -242,11 +242,11 @@ export default {
           console.log(
             "handled submit",
             store.state.feedback,
-            store.state.completedPrompts,
+            store.state.completedPrompts
           );
         }
       },
-      { deep: true },
+      { deep: true }
     );
     //EVENT HANDLER: SUBMIT
     const handleSubmit = () => {
@@ -259,7 +259,7 @@ export default {
           contextualization.template,
           thesis.template,
           evidence,
-          conclusion.template,
+          conclusion.template
         );
         dataRequested.value = true;
       }
@@ -273,7 +273,7 @@ export default {
     };
     //EVENT HANDLER: BREAKDOWN COMPONENT CONNECTION
     const currentSection = ref(null);
-    const setCurrentSection = (breakdown) => {
+    const setCurrentSection = breakdown => {
       if (breakdown) {
         currentSection.value = breakdown.split(" ")[0];
       } else {
@@ -297,15 +297,15 @@ export default {
       evidenceSubTemplateSubtitle,
       currentSection,
       setCurrentSection,
-      router,
+      goToChoosePrompt,
       handleSubmit,
       submitted,
       handleRequest,
       dataRequested,
       handleFocus,
-      addEvidence,
+      addEvidence
     };
-  },
+  }
 };
 </script>
 

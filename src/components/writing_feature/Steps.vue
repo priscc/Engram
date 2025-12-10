@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  props: ["step"],
+  props: ["step"]
 };
 </script>
 

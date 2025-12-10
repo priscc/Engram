@@ -20,7 +20,7 @@
             :key="index"
             :class="[
               'answer-disabled',
-              { selected: selectedAnswer === answer.answerletter },
+              { selected: selectedAnswer === answer.answerletter }
             ]"
           >
             <p v-if="answer.answerletter === correctAnswer">
@@ -77,7 +77,7 @@ import quizresultmodal from "@/components/quiz_feature/QuizResultModal.vue";
 
 export default {
   components: {
-    quizresultmodal,
+    quizresultmodal
   },
   data() {
     return {
@@ -89,9 +89,9 @@ export default {
         {
           content: "Choose Another Quiz",
           route: "Quiz",
-          disabled: false,
-        },
-      ],
+          disabled: false
+        }
+      ]
     };
   },
   computed: {
@@ -114,7 +114,7 @@ export default {
     correctAnswerExplanation() {
       const currentQuestion = this.questions[this.questionNumber];
       return currentQuestion.description;
-    },
+    }
   },
   methods: {
     nextQuestion() {
@@ -131,7 +131,7 @@ export default {
       }
     },
     resetAnswerSelection() {
-      this.questions[this.questionNumber].answers.forEach((ans) => {
+      this.questions[this.questionNumber].answers.forEach(ans => {
         ans.selected = false;
       });
     },
@@ -140,8 +140,8 @@ export default {
       console.log("Quiz submitted!");
       this.submitted = true; // Mark the quiz as submitted
       storequiz.dispatch("setCorrectAnswers", this.correctAnswers);
-    },
-  },
+    }
+  }
 };
 </script>
 <style lang="sass" scoped src="@/assets/css/quiz.sass"></style>

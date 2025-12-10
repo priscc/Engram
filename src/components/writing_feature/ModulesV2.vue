@@ -7,7 +7,7 @@
           'modulev2-try-it pb-4 pb-sm-4 pb-md-0 pb-lg-0':
             modules.name === 'try-it',
           'modulev2-timed px-3': modules.name === 'timed',
-          'modulev2-template px-3': modules.name === 'template',
+          'modulev2-template px-3': modules.name === 'template'
         }"
         align-h="center"
         align-v="center"
@@ -42,7 +42,7 @@
           class="module-gutter"
           :class="{
             'button-template ms-lg-5': modules.name === 'template',
-            'button-try-it': modules.name === 'try-it',
+            'button-try-it': modules.name === 'try-it'
           }"
         >
           <div class="w-100 text-center module-button-parent mx-auto py-3">
@@ -62,8 +62,8 @@ import purplebutton from "./PurpleButton.vue";
 export default {
   props: ["modules"],
   components: {
-    purplebutton,
-  },
+    purplebutton
+  }
 };
 </script>
 

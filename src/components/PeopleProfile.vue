@@ -80,10 +80,11 @@
 <script>
 import storeTopic from "@/store/topic.js";
 import * as Quill from "quill";
+import { pushRoute } from "@/router/navigation";
 export default {
   name: "PeopleProfile",
   props: {
-    person: Object,
+    person: Object
   },
   computed: {
     content() {
@@ -98,25 +99,25 @@ export default {
       }
     },
     resources() {
-      var r = storeTopic.state.peopleResources.filter((resource) => {
+      var r = storeTopic.state.peopleResources.filter(resource => {
         return (
           resource.parentID === this.person.id &&
           resource.resourceType === "video"
         );
       });
       return r;
-    },
+    }
   },
   methods: {
     goTo() {
       storeTopic.dispatch("setPersonContent", this.person);
-      this.$router.push({ name: "Person", params: { person: this.person.id } });
+      pushRoute("Person", { person: this.person.id });
       this.$gtag.event("clicked-people-learnMore", {
         event_category: "engagement",
-        event_label: this.person,
+        event_label: this.person
       });
-    },
-  },
+    }
+  }
 };
 </script>
 

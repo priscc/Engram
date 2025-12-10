@@ -219,13 +219,17 @@
 
 .trend_comingSoonTextBackground
 	position: absolute
-	left: 10%
-	width: 100%
+	left: 50%
+	top: 50%
+	transform: translate(-50%, -50%)
 	z-index: 10
-	display: flex
+	display: inline-flex
 	align-items: center
-	min-height: 100px
-	// background: rgba(255, 255, 255, 0.6)
+	padding: 12px 28px
+	background: rgba(255, 255, 255, 0.92)
+	border-radius: 10px
+	box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06)
+	white-space: nowrap
 
 .trend_comingSoonImg
 	object-fit: cover
@@ -233,8 +237,36 @@
 	min-width: 100%
 	max-width: 100%
 	max-height: 300px
-	opacity: .5
+	//opacity: .5
 	box-shadow: 0 0 8px 8px #fff inset
+	border-radius: 10px
+	margin: auto
+
+.coming-soon-card
+	background: #fff
+	border-radius: 16px
+	padding: 48px 40px
+	text-align: center
+	box-shadow: 0 12px 24px rgba(15, 23, 42, 0.12)
+	max-width: 100%
+	margin: 20px auto
+
+.coming-soon-title
+	font-family: "Montserrat", sans-serif
+	font-size: 32px
+	font-weight: 700
+	color: #0f1724
+	margin: 0 0 16px 0
+
+.coming-soon-subtitle
+	font-family: "Montserrat", sans-serif
+	font-size: 14px
+	color: #4b5563
+	margin: 0
+	line-height: 1.6
+	max-width: 600px
+	margin-left: auto
+	margin-right: auto
 
 .trend_text
 	font-family: "Montserrat", sans-serif
@@ -249,6 +281,17 @@
 	font-weight: 620
 	padding-top: 10px
 	padding-bottom: 10px
+
+@media (max-width: 720px)
+	.coming-soon-card
+		padding: 32px 24px
+
+	.coming-soon-title
+		font-size: 22px
+		margin-bottom: 12px
+
+	.coming-soon-subtitle
+		font-size: 13px
 
 // EVENTS
 .events_component

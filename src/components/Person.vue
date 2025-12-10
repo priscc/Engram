@@ -45,6 +45,7 @@
 
 <script>
 import store from "@/store";
+import { pushRoute } from "@/router/navigation";
 import storeTopic from "@/store/topic.js";
 import resourcecomp from "./ResourceComponent.vue";
 import { db } from "@/main";
@@ -87,57 +88,60 @@ export default {
   },
   methods: {
     back() {
-      this.$gtag.event("person-backButton", { event_category: "engagement", });
-      this.$router.push({
-        name: "Topic",
-        params: {
-          period: this.$route.params.period,
-          periodName: this.$route.params.periodName,
-          topicName: this.$route.params.topicName,
-          topic: this.$route.params.topic,
-          category: this.$route.params.category
-        }
+      this.$gtag.event("person-backButton", { event_category: "engagement" });
+      pushRoute("Topic", {
+        period: this.$route.params.period,
+        periodName: this.$route.params.periodName,
+        topicName: this.$route.params.topicName,
+        topic: this.$route.params.topic,
+        category: this.$route.params.category
       });
     }
   },
   async mounted() {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    try {
+      // Ensure topic is present for page context
+      if (Object.keys(storeTopic.state.topic).length === 0) {
+        store.dispatch("setTimePeriod", this.$route.params.period);
+        const topicSnap = await db
+          .collection("topics")
+          .doc(this.$route.params.topic)
+          .get();
+        if (topicSnap.exists) {
+          const entry = topicSnap.data();
+          entry.id = topicSnap.id;
+          storeTopic.dispatch("setTopicContent", entry);
+        }
+      }
 
-    if (Object.keys(storeTopic.state.topic).length === 0) {
-      store.dispatch("setTimePeriod", this.$route.params.period);
+      // Always fetch the person document (don't assume store already has it)
+      const personId = this.$route.params.person;
+      if (personId) {
+        const personSnap = await db
+          .collection("people")
+          .doc(personId)
+          .get();
+        if (personSnap.exists) {
+          const p = personSnap.data();
+          p.id = personSnap.id;
+          storeTopic.dispatch("setPersonContent", p);
+        } else {
+          console.warn("Person not found:", personId);
+        }
+        storeTopic.dispatch("setPersonResources", personId);
+      }
 
-      var newTopic = await db
-        .collection("topics")
-        .doc(this.$route.params.topic)
-        .get()
-        .then(
-          function(querySnapshot) {
-            var entry = querySnapshot.data();
-            entry.id = querySnapshot.id;
-            return entry;
-          }.bind(this)
-        );
-      storeTopic.dispatch("setTopicContent", newTopic);
-
-      var newProfile = await db
-        .collection("people")
-        .doc(this.$route.params.person)
-        .get()
-        .then(
-          function(querySnapshot) {
-            var entry = querySnapshot.data();
-            entry.id = querySnapshot.id;
-            return entry;
-          }.bind(this)
-        );
-
-      storeTopic.dispatch("setPersonContent", newProfile);
+      // Safely assign date fields
+      if (this.person && this.person.dateOfBirth)
+        this.dateOfBirth = this.person.dateOfBirth.date;
+      if (this.person && this.person.dateOfPassing)
+        this.dateOfPassing = this.person.dateOfPassing.date;
+    } catch (err) {
+      console.error("Person mounted error:", err, {
+        params: this.$route.params
+      });
     }
-
-    this.dateOfBirth = this.person.dateOfBirth.date;
-    this.dateOfPassing = this.person.dateOfPassing.date;
-
-    storeTopic.dispatch("setPersonResources", this.$route.params.person);
   }
 };
 </script>

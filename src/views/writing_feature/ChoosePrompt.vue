@@ -50,19 +50,19 @@ import breadcrumb from "../../components/writing_feature/BreadCrumb.vue";
 import prompt from "../../components/writing_feature/Prompt.vue";
 import storeWriting from "@/store/writing.js";
 import { computed, onMounted, ref } from "vue";
-import { useRoute, useRouter } from "vue-router";
+import { useRoute } from "vue-router";
+import { pushRoute } from "@/router/navigation";
 export default {
   components: {
     whitecontainer,
     breadcrumb,
-    prompt,
+    prompt
   },
   setup() {
-    const router = useRouter();
     const route = useRoute();
     const moduleVersion = route.params.module;
     if (!["Beginner", "Intermediate", "Expert"].includes(route.params.module)) {
-      router.push({ name: "001" });
+      pushRoute("001");
     }
     const store = storeWriting;
     onMounted(() => {
@@ -74,15 +74,15 @@ export default {
     const prompts = computed(() => store.state.prompts.slice(0, 3));
     const items = [
       {
-        text: "Essay Writing: LEQ",
+        text: "Essay Writing: LEQ"
       },
       {
-        text: `Essay Component Module: ${moduleVersion}`,
+        text: `Essay Component Module: ${moduleVersion}`
       },
       {
         text: "Choose a Prompt",
-        active: "yes",
-      },
+        active: "yes"
+      }
     ];
     const title = "Choose a Prompt";
     const subtitle =
@@ -91,10 +91,10 @@ export default {
       content: "Get Started",
       route: "003",
       disabled: canClick,
-      params: { id: currentPrompt, module: route.params.module },
+      params: { id: currentPrompt, module: route.params.module }
     });
     const handleBack = () => {
-      router.push({ name: "001" });
+      pushRoute("001");
     };
     return {
       items,
@@ -103,9 +103,9 @@ export default {
       prompts,
       buttonprops,
       currentPrompt,
-      handleBack,
+      handleBack
     };
-  },
+  }
 };
 </script>
 <style scoped>

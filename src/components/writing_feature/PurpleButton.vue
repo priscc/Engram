@@ -16,27 +16,22 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
+import { pushRoute } from "@/router/navigation";
 
 export default {
   props: ["buttonprops"],
   setup(props) {
-    const router = useRouter();
-
     const next = () => {
       console.log("purple-button", props.buttonprops);
       if (props.buttonprops.params) {
-        router.push({
-          name: props.buttonprops.route,
-          params: props.buttonprops.params,
-        });
+        pushRoute(props.buttonprops.route, props.buttonprops.params);
       } else {
-        router.push({ name: props.buttonprops.route });
+        pushRoute(props.buttonprops.route);
       }
     };
 
     return { next };
-  },
+  }
 };
 </script>
 

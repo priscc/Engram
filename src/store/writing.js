@@ -11,29 +11,29 @@ export const storeWriting = createStore({
           "In the late twentieth century, the spread of free-market economic ideas led to numerous changes around the world. Develop an argument that evaluates the extent to which the spread of free-market ideas led to economic change during this period.",
         period: "1900-present",
         type: "Change & Continuity",
-        id: "AAA001",
+        id: "AAA001"
       },
       {
         prompt:
           "In the late twentieth century, the spread of free-market economic ideas led to numerous changes around the world. Develop an argument that evaluates the extent to which the spread of free-market ideas led to economic change during this period.",
         period: "1900-present",
         type: "Change & Continuity",
-        id: "AAA002",
+        id: "AAA002"
       },
       {
         prompt:
           "In the late twentieth century, the spread of free-market economic ideas led to numerous changes around the world. Develop an argument that evaluates the extent to which the spread of free-market ideas led to economic change during this period.",
         period: "1900-present",
         type: "Change & Continuity",
-        id: "AAA003",
+        id: "AAA003"
       },
       {
         prompt:
           "In the late twentieth century, the spread of free-market economic ideas led to numerous changes around the world. Develop an argument that evaluates the extent to which the spread of free-market ideas led to economic change during this period.",
         period: "1900-present",
         type: "Change & Continuity",
-        id: "sample",
-      },
+        id: "sample"
+      }
     ],
     selectedPrompt: null, // most current selected prompt, RESETS upon accessing the chose prompt page, UPDATES on prompt click
     completedPrompts: [], // note: intended to have the same structure as promptTemplates but filled w/ user input
@@ -46,16 +46,16 @@ export const storeWriting = createStore({
           evidence: [
             [
               "During the time period __(date)__ to __(date)__,  __(world context: what event was occurring)__ causing many things to stay constant because ____(why did this event allow continuities?)___.",
-              "",
+              ""
             ],
             [
               "During the time period __(date)__ to __(date)__,  __(world context: what event was occurring)__ causing many things to stay constant because ____(why did this event allow continuities?)___.",
-              "",
-            ],
+              ""
+            ]
           ],
           contextualization: "",
-          conclusion: "",
-        },
+          conclusion: ""
+        }
       },
       {
         prompt_id: "AAA002",
@@ -65,16 +65,16 @@ export const storeWriting = createStore({
           evidence: [
             [
               "During the time period __(date)__ to __(date)__,  __(world context: what event was occurring)__ causing many things to stay constant because ____(why did this event allow continuities?)___.",
-              "",
+              ""
             ],
             [
               "During the time period __(date)__ to __(date)__,  __(world context: what event was occurring)__ causing many things to stay constant because ____(why did this event allow continuities?)___.",
-              "",
-            ],
+              ""
+            ]
           ],
           contextualization: "",
-          conclusion: "",
-        },
+          conclusion: ""
+        }
       },
       {
         prompt_id: "AAA003",
@@ -84,16 +84,16 @@ export const storeWriting = createStore({
           evidence: [
             [
               "During the time period __(date)__ to __(date)__,  __(world context: what event was occurring)__ causing many things to stay constant because ____(why did this event allow continuities?)___.",
-              "",
+              ""
             ],
             [
               "During the time period __(date)__ to __(date)__,  __(world context: what event was occurring)__ causing many things to stay constant because ____(why did this event allow continuities?)___.",
-              "",
-            ],
+              ""
+            ]
           ],
           contextualization: "",
-          conclusion: "",
-        },
+          conclusion: ""
+        }
       },
       {
         prompt_id: "sample",
@@ -103,17 +103,17 @@ export const storeWriting = createStore({
           evidence: [
             [
               "During the time period __(date)__ to __(date)__,  __(world context: what event was occurring)__ causing many things to stay constant because ____(why did this event allow continuities?)___.",
-              "",
+              ""
             ],
             [
               "During the time period __(date)__ to __(date)__,  __(world context: what event was occurring)__ causing many things to stay constant because ____(why did this event allow continuities?)___.",
-              "",
-            ],
+              ""
+            ]
           ],
           contextualization: "",
-          conclusion: "",
-        },
-      },
+          conclusion: ""
+        }
+      }
     ],
     feedback: [
       {
@@ -126,19 +126,19 @@ export const storeWriting = createStore({
         content: {
           raw: {
             outline: null,
-            text: null,
+            text: null
           }, // exclusive to timed module, contains bare, unlabelled user essay
           contextualization: {
             userInput:
               "Following the Post-Modern period, many regions around the world experienced instability and massive change due to increasingly global connections and the advent of new ideologies.",
             good: null,
-            toImprove: null,
+            toImprove: null
           },
           thesis: {
             userInput:
               "Due to centuries of subjugation and domination or simply a design for change due to resentment of the past, these ideologies grew into movements among the people in both developing and industrialized countries. Ideologies such as fascism, nationalism, and communism uprooted the existing sociopolitical order by mobilizing the people through promises of reform and uniting them with a popular message and universal appeal, inspiring them to rise up.",
             good: null,
-            toImprove: null,
+            toImprove: null
           },
           evidence: [
             {
@@ -146,48 +146,48 @@ export const storeWriting = createStore({
                 userInput:
                   "In countries everywhere, populist movements such as nationalism, fascism, and communism galvanized the people with promises of change and reform. In India, Mohammed Gandhi activated a huge movement of passive resistance based on nationalism and called for reforms to prevent the British from ever abusing or oppressing the Indians again. ",
                 good: null,
-                toImprove: null,
+                toImprove: null
               },
               analysis: {
                 userInput:
                   "Via this movement both the political and social order was rapidly changed, as Britain ultimately ceded political control to the Indians, and Indians, for the first time, dealt with the British as social equals. Ghandi’s nationalist movement only succeeded because he managed to get the majority of Indians to rise up and unity by thier national pride and tired of British dominance.",
                 good: null,
-                toImprove: null,
-              },
+                toImprove: null
+              }
             },
             {
               evidence: {
                 userInput:
                   "In similar method to Ghandi, albiet much more violently and controversially, Mao Zedong headed the rise of Communism in China, and he also uprooted the existing social and political order. His popular movement grew to the people’s resentment to years of Japanese occupation and abuses and anger at the wealthy for controlling all the land and unfairly treating the peasantry. Mao also promised reform, offering redistribution of land and the building of new communist movement, the communists deposed the Japanese, the elite, and the Nationalists, drastically altering the the political landscape of China for years to come.",
                 good: null,
-                toImprove: null,
+                toImprove: null
               },
               analysis: {
                 userInput:
                   "it is apparent to see that one populist movement deposed another Communists led by Mao vs. Nationalist led by Chiang Kai-shek and it must be acknowledged that the people were not always satisfied with the results of these ideologies and oftentimes continued to struggle to change the existing system.",
                 good: null,
-                toImprove: null,
-              },
-            },
+                toImprove: null
+              }
+            }
           ],
           conclusion: {
             userInput: "",
             good: null,
-            toImprove: null,
-          },
-        },
-      },
-    ],
+            toImprove: null
+          }
+        }
+      }
+    ]
   },
   getters: {
-    getPrompts: (state) => state.prompts,
-    getUniqueId: (state) => {
+    getPrompts: state => state.prompts,
+    getUniqueId: state => {
       state.uniqueId++;
       return state.uniqueId;
     },
-    parseFeedbackAsTemplate: (state) => (i) => {
+    parseFeedbackAsTemplate: state => i => {
       const feedback = state.feedback.filter(
-        (feed) => feed.prompt_id === i.id && feed.moduleVersion === i.version,
+        feed => feed.prompt_id === i.id && feed.moduleVersion === i.version
       );
       if (feedback.length > 0) {
         console.log("this is the one we're parsing: ", feedback[0]);
@@ -199,24 +199,24 @@ export const storeWriting = createStore({
             thesis: feedback[0].content.thesis.userInput,
             evidence: [],
             contextualization: feedback[0].content.contextualization.userInput,
-            conclusion: feedback[0].content.conclusion.userInput,
-          },
+            conclusion: feedback[0].content.conclusion.userInput
+          }
         };
-        feedback[0].content.evidence.forEach((x) => {
+        feedback[0].content.evidence.forEach(x => {
           completedTemplate.templates.evidence.push([
             x.evidence.userInput,
-            x.analysis.userInput,
+            x.analysis.userInput
           ]);
         });
         console.log(
           "successfully implemented feedback parsing as template",
-          completedTemplate,
+          completedTemplate
         );
         return [completedTemplate];
       }
       return [];
     },
-    findPrompt: (state, getters) => (i) => {
+    findPrompt: (state, getters) => i => {
       //Prioritizes returning the completed user input over the original blank templates, completed user input is injected into textareas to save progress
 
       //NOTE: for both feedback and timed module, needing to use both findPrompt and findFeedback causes redundant returning of user input,
@@ -225,19 +225,19 @@ export const storeWriting = createStore({
         return null;
       }
       const completedPromptres = getters.parseFeedbackAsTemplate(i);
-      const promptres = state.prompts.filter((prompt) => prompt.id === i.id);
+      const promptres = state.prompts.filter(prompt => prompt.id === i.id);
       const templateres = state.promptTemplates.filter(
-        (template) => template.prompt_id === i.id,
+        template => template.prompt_id === i.id
       );
       return completedPromptres.length > 0
         ? { prompt: promptres[0], template: completedPromptres[0] }
         : { prompt: promptres[0], template: templateres[0] };
     },
-    findFeedback: (state) => (i) => {
+    findFeedback: state => i => {
       const feedback = state.feedback.filter(
-        (feed) =>
+        feed =>
           feed.id.toString() === i.id.toString() &&
-          feed.moduleVersion === i.version,
+          feed.moduleVersion === i.version
       );
       console.log(feedback, state.uniqueId, state.feedback, i);
       if (!feedback.length) {
@@ -258,7 +258,7 @@ export const storeWriting = createStore({
           "The response situates the emergence of German leader Adolf Hitler in the aftermath of World War I.";
         feedback[0].content.conclusion.toImprove =
           "You could have added more contextualization to be more detailed ";
-        feedback[0].content.evidence.forEach((x) => {
+        feedback[0].content.evidence.forEach(x => {
           x.analysis.good =
             "The response situates the emergence of German leader Adolf Hitler in the aftermath of World War I.";
           x.analysis.toImprove =
@@ -271,7 +271,7 @@ export const storeWriting = createStore({
         feedback[0].feedback_given = true;
       }
       return feedback[0];
-    },
+    }
   },
   mutations: {
     selectPrompt(state, payload) {
@@ -293,9 +293,9 @@ export const storeWriting = createStore({
       // Updates uniqueID to connect to existing feedback obj if exists
       //    -  uniqueID functions to identify the feedback obj without being exposed to user manipulation like route params would
       let index = state.feedback.findIndex(
-        (x) =>
+        x =>
           x.prompt_id === payload.prompt_id &&
-          x.moduleVersion === payload.moduleVersion,
+          x.moduleVersion === payload.moduleVersion
       );
       console.log("apparent index ", state.feedback[index]);
       if (index > -1) {
@@ -327,13 +327,13 @@ export const storeWriting = createStore({
               evidence: {
                 userInput: payload.evidence[i][0],
                 good: null,
-                toImprove: null,
+                toImprove: null
               },
               analysis: {
                 userInput: payload.evidence[i][1],
                 good: null,
-                toImprove: null,
-              },
+                toImprove: null
+              }
             };
             state.feedback[index].content.evidence.push(new_evidence);
           } else {
@@ -356,41 +356,41 @@ export const storeWriting = createStore({
             contextualization: {
               userInput: payload.contextualization || null,
               good: null,
-              toImprove: null,
+              toImprove: null
             },
             thesis: {
               userInput: payload.thesis || null,
               good: null,
-              toImprove: null,
+              toImprove: null
             },
             evidence: [],
             conclusion: {
               userInput: payload.conclusion || null,
               good: null,
-              toImprove: null,
-            },
-          },
+              toImprove: null
+            }
+          }
         };
 
         userInput.content.raw = payload.raw || null;
-        (payload.evidence || []).forEach((x) => {
+        (payload.evidence || []).forEach(x => {
           const new_evidence = {
             evidence: {
               userInput: x[0],
               good: null,
-              toImprove: null,
+              toImprove: null
             },
             analysis: {
               userInput: x[1],
               good: null,
-              toImprove: null,
-            },
+              toImprove: null
+            }
           };
           userInput.content.evidence.push(new_evidence);
         });
         state.feedback.push(userInput);
       }
-    },
+    }
   },
   actions: {
     setSelectedPrompt({ commit }, payload) {
@@ -404,8 +404,8 @@ export const storeWriting = createStore({
     },
     setModuleVersion({ commit }, payload) {
       commit("changeVersion", payload);
-    },
-  },
+    }
+  }
 });
 
 export default storeWriting;

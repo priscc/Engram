@@ -1,5 +1,5 @@
 import { createStore } from "vuex";
-import { db } from "@/main";
+import { fetchTopicsByTimePeriod } from "@/services/firestore";
 
 export const store = createStore({
   state: {
@@ -11,16 +11,16 @@ export const store = createStore({
         unitTitles: {
           "Unit 1: The Global Tapestry": {
             unitHeader: "Unit 1: The Global Tapestry",
-            topics: [],
+            topics: []
           },
           "Unit 2: Networks of Exchange": {
             unitHeader: "Unit 2: Networks of Exchange",
-            topics: [],
-          },
+            topics: []
+          }
         },
         color: "green",
         timePeriod: 1,
-        img: "RegionalInteractions.png",
+        img: "RegionalInteractions.png"
       },
       {
         header: "First Global Age",
@@ -28,16 +28,16 @@ export const store = createStore({
         unitTitles: {
           "Unit 3: Land-Based Empires": {
             unitHeader: "Unit 3: Land-Based Empires",
-            topics: [],
+            topics: []
           },
           "Unit 4: Transoceanic Interconnections": {
             unitHeader: "Unit 4: Transoceanic Interconnections",
-            topics: [],
-          },
+            topics: []
+          }
         },
         color: "yellow",
         timePeriod: 2,
-        img: "FirstGlobalAge.png",
+        img: "FirstGlobalAge.png"
       },
       {
         header: "Revolutions & Industrialization",
@@ -45,16 +45,16 @@ export const store = createStore({
         unitTitles: {
           "Unit 5: Revolutions": {
             unitHeader: "Unit 5: Revolutions",
-            topics: [],
+            topics: []
           },
           "Unit 6: Consequences of Industrialization": {
             unitHeader: "Unit 6: Consequences of Industrialization",
-            topics: [],
-          },
+            topics: []
+          }
         },
         color: "pink",
         timePeriod: 3,
-        img: "Rev&Indus.png",
+        img: "Rev&Indus.png"
       },
       {
         header: "Modern Times",
@@ -62,28 +62,27 @@ export const store = createStore({
         unitTitles: {
           "Unit 7: Global Conflict": {
             unitHeader: "Unit 7: Global Conflict",
-            topics: [],
+            topics: []
           },
           "Unit 8: Cold War and Decolonization": {
             unitHeader: "Unit 8: Cold War and Decolonization",
-            topics: [],
+            topics: []
           },
           "Unit 9: Globalization": {
             unitHeader: "Unit 9: Globalization",
-            topics: [],
-          },
+            topics: []
+          }
         },
         color: "blue",
         timePeriod: 4,
-        img: "Modern.png",
-      },
+        img: "Modern.png"
+      }
     ],
     currentTimePeriod: 0,
-    currentTopicCategory: 0,
+    currentTopicCategory: 0
   },
   getters: {
-    timePeriodHeaders: (state) =>
-      state.timePeriodHeaders[state.currentTimePeriod],
+    timePeriodHeaders: state => state.timePeriodHeaders[state.currentTimePeriod]
   },
   mutations: {
     selectedTimePeriod(state, i) {
@@ -100,41 +99,32 @@ export const store = createStore({
         const eventLabel = state.timePeriodHeaders[timePeriod - 1].header;
         window.gtag("event", eventAction, {
           event_category: eventCategory,
-          event_label: eventLabel,
+          event_label: eventLabel
         });
       }
       state.units = [];
-      var dbtopics = [];
-      db.collection("topics")
-        .where("timePeriod", "==", timePeriod)
-        .get()
-        .then(function(querySnapshot) {
-          querySnapshot.forEach(function(doc) {
-            var entry = doc.data();
-            entry.id = doc.id;
-            dbtopics.push(entry);
-          });
-          dbtopics = dbtopics.sort(function(a, b) {
-            if (a.timespan && b.timespan) {
-              var a1 = new Date(a.timespan.substring(0, 4));
-              var a2 = a1.getFullYear();
-              var b1 = new Date(b.timespan.substring(0, 4));
-              var b2 = b1.getFullYear();
-              return a2 - b2;
-            }
-          });
-          const currentUnits =
-            state.timePeriodHeaders[timePeriod - 1].unitTitles;
-          for (const unit in currentUnits) {
-            if (currentUnits[unit].topics) {
-              currentUnits[unit].topics = dbtopics.filter(
-                (topic) => topic.unit === unit,
-              );
-            }
+      // Use service to fetch topics for the period
+      fetchTopicsByTimePeriod(timePeriod).then(dbtopics => {
+        dbtopics = dbtopics.sort(function(a, b) {
+          if (a.timespan && b.timespan) {
+            var a1 = new Date(a.timespan.substring(0, 4));
+            var a2 = a1.getFullYear();
+            var b1 = new Date(b.timespan.substring(0, 4));
+            var b2 = b1.getFullYear();
+            return a2 - b2;
           }
-          state.units = currentUnits;
         });
-    },
+        const currentUnits = state.timePeriodHeaders[timePeriod - 1].unitTitles;
+        for (const unit in currentUnits) {
+          if (currentUnits[unit].topics) {
+            currentUnits[unit].topics = dbtopics.filter(
+              topic => topic.unit === unit
+            );
+          }
+        }
+        state.units = currentUnits;
+      });
+    }
   },
   actions: {
     setTimePeriod({ commit }, i) {
@@ -143,8 +133,8 @@ export const store = createStore({
     },
     setTopicCategory({ commit }, i) {
       commit("topicButtonCategory", i);
-    },
-  },
+    }
+  }
 });
 
 export default store;

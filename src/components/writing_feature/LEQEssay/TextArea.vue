@@ -9,7 +9,7 @@
       :class="{
         'focus-text-transition': moduleVersion === 'Beginner',
         'no-template-padding': finalString[0].noTemplate,
-        'regular-padding': !finalString[0].noTemplate,
+        'regular-padding': !finalString[0].noTemplate
       }"
     >
       <span
@@ -48,7 +48,7 @@
                   }px`,
                   'max-width': 'fit-content',
                   display: word.content.length > 0 ? 'inline' : 'inline-block',
-                  height: '30px',
+                  height: '30px'
                 }"
                 @input="handleInput($event, word)"
                 >{{ word.shallow_copy }}</span
@@ -60,7 +60,7 @@
                     (word.placeholder.length - word.content.length) * 10 > width
                       ? width * 0.5
                       : 'auto'
-                  }px`,
+                  }px`
                 }"
                 >{{ word.placeholder }}</span
               >
@@ -103,8 +103,8 @@ export default {
         editable: true,
         content: ref(""),
         shallow_copy: "",
-        template: null,
-      },
+        template: null
+      }
     ]);
     const displayTemplatePlaceholder = ref(true);
     if (Object.prototype.toString.call(props.string) === "[object Array]") {
@@ -120,15 +120,15 @@ export default {
       }
     } else {
       console.log("Injected as fresh template");
-      processUnderscore = props.string.split("_").filter((x) => x !== "");
+      processUnderscore = props.string.split("_").filter(x => x !== "");
       if (processUnderscore.length === 0) {
         finalString.value = [
           {
             noTemplate: true,
             editable: true,
             content: ref(""),
-            shallow_copy: "",
-          },
+            shallow_copy: ""
+          }
         ];
       }
     }
@@ -144,7 +144,7 @@ export default {
       //      if editable is true, then object must have properties: shallow_copy
       if (!processed.value) {
         console.log("unprocessed!");
-        processUnderscore.forEach((element) => {
+        processUnderscore.forEach(element => {
           if (element.indexOf("(") > -1) {
             finalString.value.push({
               editable: true,
@@ -152,14 +152,14 @@ export default {
               shallow_copy: " ",
               placeholder: element.substring(
                 element.indexOf("("),
-                element.indexOf(")") + 1,
-              ),
+                element.indexOf(")") + 1
+              )
             });
           } else {
             finalString.value.push({
               editable: false,
               content: element + " ",
-              placeholder: null,
+              placeholder: null
             });
           }
         });
@@ -194,7 +194,7 @@ export default {
 
     const CssVars = computed(() => {
       return {
-        "--bg-color": props.bgColor,
+        "--bg-color": props.bgColor
       };
     });
 
@@ -205,7 +205,7 @@ export default {
         (props.moduleVersion === "Intermediate"
           ? advancedWriting
           : finalString
-        ).value.forEach((x) => {
+        ).value.forEach(x => {
           if (x.editable) {
             console.log("what to look for", x.content);
             x.shallow_copy = x.content;
@@ -213,18 +213,14 @@ export default {
         });
         console.log(
           "finished product",
-          props.moduleVersion === "Intermediate"
-            ? advancedWriting
-            : finalString,
+          props.moduleVersion === "Intermediate" ? advancedWriting : finalString
         );
         emit(
           "fulfillRequest",
-          props.moduleVersion === "Intermediate"
-            ? advancedWriting
-            : finalString,
+          props.moduleVersion === "Intermediate" ? advancedWriting : finalString
         );
       },
-      { deep: true },
+      { deep: true }
     );
 
     return {
@@ -240,9 +236,9 @@ export default {
       handleFocus,
       handleFocusout,
       displayTemplatePlaceholder,
-      focusCandidate,
+      focusCandidate
     };
-  },
+  }
 };
 </script>
 

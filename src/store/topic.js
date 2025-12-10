@@ -1,5 +1,13 @@
-import { db } from "@/main";
 import { createStore } from "vuex";
+import {
+  fetchEventsByTopic,
+  fetchTrendsByTopic,
+  fetchPeopleByTopic,
+  fetchWorksByTopic,
+  fetchTerminologyByTopic,
+  fetchResourcesByTopicAndParentType,
+  fetchResourcesByParentId
+} from "@/services/firestore";
 
 export const storeTopic = createStore({
   state: {
@@ -16,7 +24,7 @@ export const storeTopic = createStore({
     event: [],
     eventIndex: 0,
     person: [],
-    loaded: 0,
+    loaded: 0
   },
   mutations: {
     //TOPIC
@@ -26,226 +34,133 @@ export const storeTopic = createStore({
     //EVENTS
     retrieveEvents(state, i) {
       state.events = [];
-      var ev = [];
-      db.collection("events")
-        .where("topicID", "array-contains-any", [i])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                var entry = doc.data();
-                entry.id = doc.id;
-                //start year calculation
-                var parsedDate = Date.parse(entry.startDate.date);
-                if (parsedDate < -30610292638000) {
-                  parsedDate = new Date(parsedDate).getFullYear();
-                } else {
-                  if (entry.startDate.date.length <= 4) {
-                    parsedDate = new Date(parsedDate).getFullYear() + 1;
-                  } else {
-                    parsedDate = new Date(parsedDate).getFullYear();
-                  }
-                }
-                entry.startDate.dateNum = parsedDate;
-                //end year parsing
-                var parsedDateEnd = Date.parse(entry.endDate.date);
-                if (parsedDateEnd < -30610292638000) {
-                  parsedDateEnd = new Date(parsedDateEnd).getFullYear();
-                } else {
-                  if (entry.endDate.date.length <= 4) {
-                    parsedDateEnd = new Date(parsedDateEnd).getFullYear() + 1;
-                  } else {
-                    parsedDateEnd = new Date(parsedDateEnd).getFullYear();
-                  }
-                }
-                if (entry.endDate.date == "Modern Day") {
-                  parsedDateEnd = new Date().getFullYear();
-                } else if (isNaN(parsedDateEnd)) {
-                  parsedDateEnd = 0;
-                }
-
-                entry.endDate.dateNum = parsedDateEnd;
-                ev.push(entry);
-              }.bind(this)
-            );
-            const events = ev.sort(function(a, b) {
-              return a.startDate.dateNum - b.startDate.dateNum;
-            });
-            state.events = events;
-            state.loaded++;
-          }.bind(this)
-        );
+      // Fetch events via service then perform the same processing
+      fetchEventsByTopic(i).then(docs => {
+        const ev = [];
+        docs.forEach(entry => {
+          // start year calculation
+          var parsedDate = Date.parse(entry.startDate.date);
+          if (parsedDate < -30610292638000) {
+            parsedDate = new Date(parsedDate).getFullYear();
+          } else {
+            if (entry.startDate.date.length <= 4) {
+              parsedDate = new Date(parsedDate).getFullYear() + 1;
+            } else {
+              parsedDate = new Date(parsedDate).getFullYear();
+            }
+          }
+          entry.startDate.dateNum = parsedDate;
+          // end year parsing
+          var parsedDateEnd = Date.parse(entry.endDate.date);
+          if (parsedDateEnd < -30610292638000) {
+            parsedDateEnd = new Date(parsedDateEnd).getFullYear();
+          } else {
+            if (entry.endDate.date.length <= 4) {
+              parsedDateEnd = new Date(parsedDateEnd).getFullYear() + 1;
+            } else {
+              parsedDateEnd = new Date(parsedDateEnd).getFullYear();
+            }
+          }
+          if (entry.endDate.date == "Modern Day") {
+            parsedDateEnd = new Date().getFullYear();
+          } else if (isNaN(parsedDateEnd)) {
+            parsedDateEnd = 0;
+          }
+          entry.endDate.dateNum = parsedDateEnd;
+          ev.push(entry);
+        });
+        const events = ev.sort(function(a, b) {
+          return a.startDate.dateNum - b.startDate.dateNum;
+        });
+        state.events = events;
+        state.loaded++;
+      });
     },
     //TRENDS
     retrieveTrends(state, i) {
       state.trends = [];
-      db.collection("trends")
-        .where("topicID", "array-contains-any", [i])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                state.trends.push(doc.data());
-              }.bind(this)
-            );
-            state.loaded++;
-          }.bind(this)
-        );
+      fetchTrendsByTopic(i).then(docs => {
+        state.trends = docs;
+        state.loaded++;
+      });
     },
     //PEOPLE
     retrievePeople(state, i) {
       state.people = [];
-      var p = [];
-      db.collection("people")
-        .where("topicID", "array-contains-any", [i])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                var entry = doc.data();
-                entry.id = doc.id;
-                p.push(entry);
-              }.bind(this)
-            );
-            const people = p.sort(function(a, b) {
-              if (a.name < b.name) {
-                return -1;
-              }
-              if (a.name > b.name) {
-                return 1;
-              }
-              return 0;
-            });
-            state.people = people;
-            state.loaded++;
-          }.bind(this)
-        );
+      fetchPeopleByTopic(i).then(docs => {
+        const people = docs.sort(function(a, b) {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        });
+        state.people = people;
+        state.loaded++;
+      });
     },
     //SOURCES
     retrieveSources(state, i) {
       state.sources = [];
-      var s = [];
-      db.collection("works")
-        .where("topicID", "array-contains-any", [i])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                var entry = doc.data();
-                entry.id = doc.id;
-                s.push(entry);
-              }.bind(this)
-            );
-            const sources = s.sort(function(a, b) {
-              if (a.title < b.title) {
-                return -1;
-              }
-              if (a.title > b.title) {
-                return 1;
-              }
-              return 0;
-            });
-            state.sources = sources;
-            state.loaded++;
-          }.bind(this)
-        );
+      fetchWorksByTopic(i).then(docs => {
+        const sources = docs.sort(function(a, b) {
+          if (a.title < b.title) {
+            return -1;
+          }
+          if (a.title > b.title) {
+            return 1;
+          }
+          return 0;
+        });
+        state.sources = sources;
+        state.loaded++;
+      });
     },
     //TERMS
     retrieveTerms(state, i) {
       state.terms = [];
-      var t = [];
-      db.collection("terminology")
-        .where("topicID", "array-contains-any", [i])
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                t.push(doc.data());
-              }.bind(this)
-            );
-            const terms = t.sort(function(a, b) {
-              if (a.term < b.term) {
-                return -1;
-              }
-              if (a.term > b.term) {
-                return 1;
-              }
-              return 0;
-            });
-            state.terms = terms;
-            state.loaded++;
-          }.bind(this)
-        );
+      fetchTerminologyByTopic(i).then(docs => {
+        const terms = docs.sort(function(a, b) {
+          if (a.term < b.term) {
+            return -1;
+          }
+          if (a.term > b.term) {
+            return 1;
+          }
+          return 0;
+        });
+        state.terms = terms;
+        state.loaded++;
+      });
     },
     //RESOURES
     retrieveToipcResources(state, i) {
       state.topicResources = [];
-      db.collection("resources")
-        .where("topicID", "array-contains-any", [i])
-        .where("parentType", "==", "topic")
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                state.topicResources.push(doc.data());
-              }.bind(this)
-            );
-          }.bind(this)
-        );
+      fetchResourcesByTopicAndParentType(i, "topic").then(docs => {
+        state.topicResources = docs;
+      });
     },
     retrieveEventResources(state, i) {
       var i2 = String(i);
       state.eventResources = [];
-      db.collection("resources")
-        .where("parentID", "==", i2)
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                state.eventResources.push(doc.data());
-              }.bind(this)
-            );
-          }.bind(this)
-        );
+      fetchResourcesByParentId(i2).then(docs => {
+        state.eventResources = docs;
+      });
     },
     retrievePeopleResources(state, i) {
       state.peopleResources = [];
-      db.collection("resources")
-        .where("topicID", "array-contains-any", [i])
-        .where("parentType", "==", "people")
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                state.peopleResources.push(doc.data());
-              }.bind(this)
-            );
-          }.bind(this)
-        );
+      fetchResourcesByTopicAndParentType(i, "people").then(docs => {
+        state.peopleResources = docs;
+      });
     },
     retrievePersonResources(state, i) {
       var i2 = String(i);
       state.eventResources = [];
-      db.collection("resources")
-        .where("parentID", "==", i2)
-        .get()
-        .then(
-          function(querySnapshot) {
-            querySnapshot.forEach(
-              function(doc) {
-                state.personResources.push(doc.data());
-              }.bind(this)
-            );
-          }.bind(this)
-        );
+      fetchResourcesByParentId(i2).then(docs => {
+        state.personResources = docs;
+      });
     },
     //EVENT
     setEvent(state, i) {
@@ -260,11 +175,11 @@ export const storeTopic = createStore({
     },
     //REST LOADER
     loader_add1(state) {
-      state.loaded ++;
+      state.loaded++;
     },
     restLoader(state) {
-      state.loaded = 0 ;
-    },
+      state.loaded = 0;
+    }
   },
   actions: {
     //TOPIC
@@ -321,8 +236,8 @@ export const storeTopic = createStore({
     },
     restLoader({ commit }) {
       commit("restLoader");
-    },
-  },
+    }
+  }
 });
 
 export default storeTopic;
