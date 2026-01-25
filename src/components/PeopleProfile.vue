@@ -60,7 +60,7 @@
               md="6"
               sm="12"
             >
-              <div v-if="i < 2" class="loading">
+              <div v-if="i < 2 && embedStatusMap[resource.url] === 'playable'" class="loading">
                 <iframe
                   class="person_iframe"
                   :src="'https://www.youtube.com/embed/' + resource.url"
@@ -81,10 +81,16 @@
 import storeTopic from "@/store/topic.js";
 import * as Quill from "quill";
 import { pushRoute } from "@/router/navigation";
+import { checkYouTubeEmbed } from "@/services/youtubeEmbedCheck";
 export default {
   name: "PeopleProfile",
   props: {
     person: Object
+  },
+  data() {
+    return {
+      embedStatusMap: {}
+    };
   },
   computed: {
     content() {
@@ -108,7 +114,28 @@ export default {
       return r;
     }
   },
+  watch: {
+    resources: {
+      immediate: true,
+      handler() {
+        this.runEmbedChecks();
+      }
+    }
+  },
   methods: {
+    async runEmbedChecks() {
+      // Only check first two resources since only those are rendered
+      const items = (this.resources || []).slice(0, 2);
+      for (const res of items) {
+        const idOrUrl = res.url;
+        try {
+          const status = await checkYouTubeEmbed(idOrUrl);
+          this.$set(this.embedStatusMap, res.url, status);
+        } catch (e) {
+          this.$set(this.embedStatusMap, res.url, "unknown_error");
+        }
+      }
+    },
     goTo() {
       storeTopic.dispatch("setPersonContent", this.person);
       pushRoute("Person", { person: this.person.id });
