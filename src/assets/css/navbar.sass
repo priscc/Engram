@@ -1,0 +1,119 @@
+// NavBar Component Styles
+// Extracted from NavBar.vue
+
+// Purple buttons (Login/Sign up)
+.navbar-purple
+  border-radius: 8px
+  font-family: "Manrope", sans-serif
+  font-size: 14px
+  font-style: normal
+  font-weight: 700
+
+#purples
+  background: var(--brand-purple, #8c30f5)
+  padding: 10px 28px
+  
+  &:hover
+    background: #f1e4ff
+    color: var(--brand-purple, #8c30f5)
+
+// Tab section layout
+.navbar_tab_section
+  white-space: nowrap
+
+// Search bar container
+.search-bar
+  height: 40px
+  width: 292px
+  border-radius: 8px
+  border: 1px solid #dfdfdf
+  background: #fff
+  position: relative
+
+.search-input
+  padding-right: 0
+
+.search-button
+  background: white
+  color: black
+  
+  &:focus:not(:disabled):not(.disabled),
+  &:focus,
+  &:active,
+  &:hover
+    box-shadow: none !important
+    outline: 0
+    background: white
+    color: black
+
+// Typeahead dropdown
+.typeahead
+  position: absolute
+  top: 44px
+  left: 0
+  width: 292px
+  max-height: 320px
+  overflow-y: auto
+  background: #fff
+  border: 1px solid #dfdfdf
+  border-radius: 8px
+  z-index: 1050
+
+.typeahead-item
+  display: flex
+  align-items: center
+  gap: 6px
+  width: 100%
+  padding: 10px 12px
+  background: transparent
+  border: none
+  text-align: left
+  font-size: 14px
+  
+  &:hover,
+  &.active
+    background: #f6f6f6
+
+.truncate
+  overflow: hidden
+  text-overflow: ellipsis
+  white-space: nowrap
+
+// Dropdown styling
+.nav-dropdown
+  color: var(--text-gray-900, #18191f)
+  font-feature-settings: "clig" off, "liga" off
+  font-family: Manrope
+  font-size: 16px
+  font-style: normal
+  font-weight: 700
+  line-height: 20px
+  outline: 0
+  box-shadow: none !important
+  outline: none !important
+  text-decoration: none !important
+  border: none !important
+  opacity: 1
+  border-radius: 0px
+  margin-top: 2px
+  
+  ::v-deep .dropdown-menu
+    background: #eee
+    border: none !important
+    border-radius: 0 !important
+    padding: 0
+    margin-top: 13px
+    
+    .dropdown-item
+      border: none !important
+      border-radius: 0 !important
+      height: 65px
+      padding-top: 22px
+      
+      &:hover
+        background: #8c30f5
+        color: white
+
+.dd-link
+  color: black
+  opacity: 1

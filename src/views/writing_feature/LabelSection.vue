@@ -339,52 +339,5 @@ export default {
 };
 </script>
 
-<style scoped>
-span,
-p {
-  white-space: pre-line;
-}
-.toolbar {
-  position: absolute;
-  display: inline-block;
-  width: fit-content;
-  z-index: -1;
-  margin-top: -60px;
-  margin-left: -55px;
-}
-
-.instructions {
-  color: #9b51e0;
-  font-feature-settings: "liga" off;
-  font-size: 22px;
-  font-style: normal;
-  font-weight: 700;
-  line-height: 30px; /* 166.667% */
-  text-align: center;
-  padding-top: 20px;
-}
-
-.unselectable {
-  -moz-user-select: -moz-none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  -o-user-select: none;
-  user-select: none;
-}
-
-::-moz-selection {
-  /* Code for Firefox */
-  background: pink;
-}
-
-::selection {
-  background: pink;
-}
-
-.labelled-contain {
-  border-radius: 10px;
-  border: 0.5px solid var(--text-subtle, #969bab);
-  max-width: 948px;
-}
-</style>
+<style lang="sass" scoped src="@/assets/css/labelSection.sass"></style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

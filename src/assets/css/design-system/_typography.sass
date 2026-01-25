@@ -1,0 +1,421 @@
+// ============================================================================
+// TYPOGRAPHY SYSTEM - Engram Design System
+// ============================================================================
+// Import tokens first
+@import './tokens'
+
+// ============================================================================
+// BASE TYPOGRAPHY
+// ============================================================================
+
+// Font Imports
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&display=swap')
+
+
+// ============================================================================
+// HEADING STYLES
+// ============================================================================
+
+// H1 - Banner/Hero Headings
+.h1,
+.banner-header
+  font-family: $font-primary
+  font-size: $font-size-6xl
+  font-weight: $font-weight-bold
+  line-height: 35px
+  letter-spacing: $letter-spacing-tight
+  color: $white
+
+// H2 - Large Section Headings
+.h2,
+.title
+  font-family: $font-primary
+  font-size: $font-size-4xl
+  font-weight: $font-weight-semibold
+  margin-bottom: $spacing-4
+
+// H3 - Subsection Headings
+.h3,
+.header-1,
+.trend-header
+  font-family: $font-primary
+  font-size: $font-size-2xl
+  font-weight: $font-weight-semibold
+  padding-top: $spacing-4
+  padding-bottom: $spacing-4
+
+// H4 - Card Headings
+.h4,
+.header-2
+  font-family: $font-primary
+  font-size: $font-size-xl
+  font-weight: $font-weight-bold
+  line-height: 25px
+  padding-bottom: $spacing-2
+  word-break: break-word
+
+// H5 - Small Headings
+.h5,
+.header-3
+  font-family: $font-primary
+  font-size: $font-size-md
+  font-weight: $font-weight-medium
+  word-break: break-word
+
+// H6 - Micro Headings
+.h6,
+.header-4
+  font-family: $font-primary
+  font-size: $font-size-3xl
+  font-weight: $font-weight-normal
+  word-break: break-word
+
+
+// ============================================================================
+// BODY TEXT VARIANTS
+// ============================================================================
+
+// Base Body Text
+.text,
+.body-text
+  font-family: $font-primary
+  font-size: $font-size-md
+  font-weight: $font-weight-normal
+  word-break: break-word
+
+// Small Body Text
+.text-sm,
+.subtitle
+  font-family: $font-primary
+  font-size: $font-size-base
+  font-weight: $font-weight-light
+
+// Large Body Text
+.text-lg
+  font-family: $font-primary
+  font-size: $font-size-lg
+  font-weight: $font-weight-normal
+
+// Bold Body Text
+.text-bold
+  font-family: $font-primary
+  font-size: $font-size-md
+  font-weight: $font-weight-bold
+
+// Trend Text
+.trend-text
+  font-family: $font-primary
+  font-size: $font-size-md
+  font-weight: $font-weight-normal
+  word-break: break-word
+  padding-right: $spacing-8
+
+
+// ============================================================================
+// SPECIALIZED TEXT STYLES
+// ============================================================================
+
+// Period Headers
+.period-header
+  font-family: $font-primary
+  font-size: $font-size-4xl
+  font-weight: $font-weight-bold
+  color: $white
+  height: 100px
+
+// Period Subheaders
+.period-subheader
+  font-family: $font-primary
+  font-size: $font-size-3xl
+  font-weight: $font-weight-medium
+  color: $white
+
+// Banner Headers
+.banner-timeperiod-header
+  font-family: $font-primary
+  letter-spacing: $letter-spacing-tight
+  font-size: $font-size-lg
+  margin-bottom: 0px
+  text-decoration: underline
+  text-decoration-thickness: .9px
+  color: $white
+
+.banner-unit-header
+  font-family: $font-primary
+  letter-spacing: $letter-spacing-tight
+  font-size: $font-size-lg
+  font-style: italic
+  color: $white
+
+
+// ============================================================================
+// CARD & MODULE TEXT
+// ============================================================================
+
+// Card Headers
+.card-header
+  word-break: normal
+  font-family: $font-primary
+  letter-spacing: $letter-spacing-tight
+  font-size: $font-size-2xl
+  margin-bottom: 0px
+  font-weight: $font-weight-semibold
+  color: $gray-200
+  padding: 0px $spacing-10
+
+// Card Subheaders
+.card-subheader
+  word-break: normal
+  font-family: $font-primary
+  letter-spacing: $letter-spacing-tight
+  font-size: $font-size-xl
+  font-weight: $font-weight-medium
+  color: $gray-200
+
+// Module Title
+.module-title
+  color: $color-text-primary
+  text-align: center
+  font-family: $font-secondary
+  font-size: $font-size-3xl
+  font-style: normal
+  font-weight: $font-weight-extrabold
+  line-height: 64px
+
+// Module Labels
+.module-labels
+  color: $color-text-secondary
+  text-align: center
+  font-size: $font-size-xl
+  font-style: normal
+  font-weight: $font-weight-bold
+  line-height: 18px
+  letter-spacing: $letter-spacing-wide
+  text-transform: uppercase
+
+// Module Introduction
+.module-introduction
+  color: $color-text-primary
+  text-align: center
+  font-size: $font-size-3xl
+  font-style: normal
+  font-weight: $font-weight-extrabold
+  line-height: normal
+  font-family: $font-secondary
+
+
+// ============================================================================
+// PERSON/PROFILE TEXT
+// ============================================================================
+
+// Person Header
+.person-header
+  font-family: $font-primary
+  text-transform: uppercase
+  font-size: $font-size-base
+  font-weight: 550
+
+// Person Time
+.person-time
+  font-family: $font-primary
+  font-size: $font-size-sm
+  font-weight: 550
+  margin-bottom: 0px
+
+// Person Subheader
+.person-subheader
+  font-family: $font-primary
+  text-transform: uppercase
+  font-size: $font-size-sm
+  font-weight: $font-weight-medium
+  color: $color-text-light
+
+
+// ============================================================================
+// ARTICLE TEXT
+// ============================================================================
+
+// Article Title
+.article-title
+  font-size: $font-size-base
+  font-weight: 650
+  line-height: 20px
+
+// Article Subtitle
+.article-subtitle
+  font-size: $font-size-sm
+  font-weight: $font-weight-medium
+  color: $color-text-light
+
+// Article Summary
+.article-summary
+  margin-top: $spacing-1
+  overflow: hidden
+  line-height: 1.2rem
+  max-height: 3.5rem
+  -webkit-box-orient: vertical
+  display: block
+  display: -webkit-box
+  overflow: hidden !important
+  text-overflow: ellipsis
+  -webkit-line-clamp: 3
+  margin-bottom: $spacing-7
+
+
+// ============================================================================
+// COMING SOON TEXT
+// ============================================================================
+
+.coming-soon-title
+  font-family: $font-primary
+  font-size: $font-size-5xl
+  font-weight: $font-weight-bold
+  color: $color-text-dark
+  margin: 0 0 $spacing-7 0
+
+.coming-soon-subtitle
+  font-family: $font-primary
+  font-size: $font-size-base
+  color: $color-text-muted
+  margin: 0
+  line-height: $line-height-relaxed
+  max-width: 600px
+  margin-left: auto
+  margin-right: auto
+
+
+// ============================================================================
+// RESOURCE TEXT
+// ============================================================================
+
+.resource-header
+  font-family: $font-primary
+  font-size: $font-size-md
+  font-weight: $font-weight-medium
+  word-break: break-word
+
+
+// ============================================================================
+// EVENT TEXT
+// ============================================================================
+
+.event-title
+  font-family: $font-primary
+  font-size: $font-size-base
+  font-weight: $font-weight-bold
+  line-height: 25px
+  color: $gray-200
+  padding: $spacing-3 $spacing-5
+  width: 100%
+  text-align: center
+
+.event-text
+  font-family: $font-primary
+  font-size: $font-size-base
+  line-height: 25px
+  color: $gray-200
+  padding: $spacing-3 $spacing-5
+  width: 100%
+  text-align: center
+
+
+// ============================================================================
+// QUESTION TEXT (QUIZ)
+// ============================================================================
+
+.question-text
+  font-size: $font-size-2xl
+  font-weight: $font-weight-bold
+  margin-bottom: $spacing-8
+
+.question-num
+  font-weight: $font-weight-light
+  display: flex
+  justify-content: flex-end
+  padding: $spacing-14 $spacing-8
+
+
+// ============================================================================
+// UTILITY CLASSES
+// ============================================================================
+
+// Text Alignment
+.text-left
+  text-align: left
+
+.text-center
+  text-align: center
+
+.text-right
+  text-align: right
+
+// Text Transform
+.text-uppercase
+  text-transform: uppercase
+
+.text-lowercase
+  text-transform: lowercase
+
+.text-capitalize
+  text-transform: capitalize
+
+// Text Decoration
+.text-underline
+  text-decoration: underline
+
+.text-no-decoration
+  text-decoration: none
+
+// Word Break
+.text-break
+  word-break: break-word
+
+.text-no-wrap
+  white-space: nowrap
+
+// Font Weights
+.font-light
+  font-weight: $font-weight-light
+
+.font-normal
+  font-weight: $font-weight-normal
+
+.font-medium
+  font-weight: $font-weight-medium
+
+.font-semibold
+  font-weight: $font-weight-semibold
+
+.font-bold
+  font-weight: $font-weight-bold
+
+.font-extrabold
+  font-weight: $font-weight-extrabold
+
+
+// ============================================================================
+// RESPONSIVE TYPOGRAPHY
+// ============================================================================
+
+@media (max-width: $breakpoint-lg)
+  .period-header,
+  .period-subheader
+    text-align: center
+    font-size: $font-size-5xl
+    padding-bottom: $spacing-4
+
+  .coming-soon-card
+    padding: $spacing-13 $spacing-2xl
+
+  .coming-soon-title
+    font-size: $font-size-2xl
+    margin-bottom: $spacing-5
+
+  .coming-soon-subtitle
+    font-size: 13px
+
+@media (max-width: $breakpoint-md)
+  .back-button
+    padding: $spacing-1 $spacing-4
+    font-size: 13px

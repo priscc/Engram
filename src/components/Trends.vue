@@ -12,11 +12,11 @@
           <b-col :class="border">
             <div class="trend_header" style="color: #000000">Change</div>
             <!-- Social -->
-            <b-row v-if="society_change.length > 0">
+            <b-row v-if="social_change.length > 0">
               <b-col>
                 <div class="trend_header" style="color: #FF9800">Society</div>
                 <p
-                  v-for="(trend, index) in society_change"
+                  v-for="(trend, index) in social_change"
                   :key="index"
                   class="trend_text"
                 >
@@ -97,11 +97,11 @@
           <b-col lg="6" md="6" sm="12" xs="12">
             <div class="trend_header" style="color: #000000">Continuity</div>
             <!-- Social -->
-            <b-row v-if="society_continuity.length > 0">
+            <b-row v-if="social_continuity.length > 0">
               <b-col>
                 <div class="trend_header" style="color: #FF9800">Society</div>
                 <p
-                  v-for="(trend, index) in society_continuity"
+                  v-for="(trend, index) in social_continuity"
                   :key="index"
                   class="trend_text"
                 >
@@ -217,7 +217,7 @@ export default {
   computed: {
     typeColors() {
       return {
-        society: "#FF9800",
+        social: "#FF9800",
         economic: "#16a175",
         technology: "#009688",
         politics: "#673AB7",
@@ -265,9 +265,9 @@ export default {
       return this.structuredTrends.length > 0;
     },
     // Structured trend filters (Change/Continuity layout)
-    society_change() {
+    social_change() {
       return this.structuredTrends.filter(
-        i => i.type === "society" && i.trendName === "change"
+        i => i.type === "social" && i.trendName === "change"
       );
     },
     economic_change() {
@@ -295,9 +295,9 @@ export default {
         i => i.type == "environment" && i.trendName === "change"
       );
     },
-    society_continuity() {
+    social_continuity() {
       return this.structuredTrends.filter(
-        i => i.type === "society" && i.trendName === "continuity"
+        i => i.type === "social" && i.trendName === "continuity"
       );
     },
     economic_continuity() {

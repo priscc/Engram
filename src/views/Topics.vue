@@ -23,7 +23,7 @@
               lg="4"
               md="6"
               sm="12"
-              v-for="topic in unit.topics"
+              v-for="topic in unit.topics.filter(t => t.enabled === true)"
               :key="topic.id"
             >
               <div class="topic_card" @click="next(topic)">

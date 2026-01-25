@@ -104,34 +104,4 @@
   </div>
 </template>
 
-<style type="text/css" scoped>
-div.absolute {
-  position: absolute;
-  top: 180px;
-  left: 0;
-  width: 60%;
-  z-index: 10;
-  background: rgba(255, 255, 255, 0.6);
-}
-div.absolute2 {
-  position: absolute;
-
-  top: 500px;
-  right: 0;
-  width: 80%;
-
-  z-index: 1;
-  background: rgba(255, 255, 255, 0.8);
-}
-
-/*#app,
-#app iframe {
-	height: 100%;
-	width: 100vw;
-	border: none;
-	box-sizing: border-box;
-}
-body {
-	margin: 0;
-}*/
-</style>
+<style lang="sass" scoped src="@/assets/css/about.sass"></style>

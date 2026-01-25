@@ -139,36 +139,5 @@ export default {
   }
 };
 </script>
-<style scoped>
-.steps-banner {
-  padding: 64px 165px 84px 165px;
-}
-.steps-title {
-  color: var(--text-gray-900, #18191f);
-  font-feature-settings: "liga" off;
-
-  /* Heading / H2 */
-  font-size: 48px;
-  font-style: normal;
-  font-weight: 800;
-  line-height: 64px; /* 133.333% */
-}
-.steps-subtitle {
-  color: var(--text-gray-900, #18191f);
-  font-feature-settings: "liga" off;
-
-  /* Lead / Lead 1 */
-  font-size: 18px;
-  font-style: normal;
-  font-weight: 400;
-  line-height: 32px; /* 177.778% */
-  margin-bottom: 40px;
-}
-
-@media screen and (max-width: 800px) {
-  .steps-banner {
-    padding: 64px 30px;
-  }
-}
-</style>
+<style lang="sass" scoped src="@/assets/css/home.sass"></style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

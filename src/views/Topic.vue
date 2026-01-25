@@ -39,6 +39,12 @@
                 {{ button }}
               </div>
             </div>
+            <!-- Right-aligned Top button inside sidebar -->
+            <div class="d-flex justify-content-end">
+              <b-button class="top-pill" @click="top()">
+                <b-icon-chevron-up aria-hidden="true" /> Top
+              </b-button>
+            </div>
           </div>
         </b-col>
         <b-col class="pa-0">
@@ -76,11 +82,6 @@
             <terms id="Terms" class="findByScroll"></terms>
           </div>
         </b-col>
-        <div class="top_button">
-          <b-button class="top-pill" @click="top()">
-            <b-icon-chevron-up aria-hidden="true" /> Top
-          </b-button>
-        </div>
       </b-row>
     </b-container>
   </div>
@@ -306,7 +307,3 @@ export default {
   }
 };
 </script>
-<style lang="sass" scoped>
-@import "@/assets/css/topicContent.sass"
-@import "@/assets/css/loading.sass"
-</style>

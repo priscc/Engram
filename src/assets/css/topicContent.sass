@@ -431,10 +431,10 @@
 .top_button
 	z-index: 200
 	display: flex
-	justify-content: end
+	justify-content: start
 	position: fixed
-	right: 24px
-	bottom: 24px
+	left: 40px
+	bottom: 40px
 	z-index: 200
 	transition: opacity .2s ease, transform .2s ease
 	&.is-hidden
@@ -446,15 +446,16 @@
 .top-pill
 	display: inline-flex
 	align-items: center
-	gap: 8px
+	gap: 6px
 	font-family: "Montserrat", sans-serif
 	font-weight: 700
 	font-size: 14px
 	color: #fff
 	background-image: linear-gradient(180deg, #8b5cf6, #7c3aed)
 	border: 1px solid rgba(255,255,255,.22)
-	border-radius: 999px
-	padding: 10px 14px
+	border-radius: 10px
+	padding: 6px 14px
+	margin: 20px 10px
 	box-shadow: 0 8px 16px rgba(124,58,237,.28)
 	transition: transform .18s ease, box-shadow .18s ease, background .2s ease
 	cursor: pointer

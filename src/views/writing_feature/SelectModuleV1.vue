@@ -92,12 +92,5 @@ export default {
   }
 };
 </script>
-<style scoped>
-#module-white-container {
-  padding-bottom: 0px;
-}
-.module-container {
-  max-width: 539px;
-}
-</style>
+<style lang="sass" scoped src="@/assets/css/selectModule.sass"></style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

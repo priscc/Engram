@@ -10,7 +10,7 @@ import { z } from "zod";
  * @property {string} unit
  * @property {number} timePeriod
  * @property {string=} timespan
- * @property {boolean=} disabled
+ * @property {boolean=} enabled
  * @property {Array=} introMD - rich text delta array for intro
  * @property {string=} intro_thumbFile
  * @property {string=} intro_thumbURL
@@ -24,7 +24,7 @@ export const TopicSchema = z.object({
   unit: z.string(),
   timePeriod: z.number(),
   timespan: z.string().optional(),
-  disabled: z.boolean().optional(),
+  enabled: z.boolean().optional(),
   introMD: z.array(z.any()).optional(),
   intro_thumbFile: z.string().optional(),
   intro_thumbURL: z.string().optional(),

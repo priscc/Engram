@@ -154,12 +154,5 @@ export default {
   }
 };
 </script>
-<style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@700&display=swap");
-@media screen and (max-width: 790px) {
-  .top-control {
-    margin-top: 50px;
-  }
-}
-</style>
+<style lang="sass" scoped src="@/assets/css/feedback.sass"></style>
 <style lang="sass" scoped src="@/assets/css/essayWriting.sass"></style>

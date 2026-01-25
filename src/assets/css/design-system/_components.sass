@@ -1,0 +1,582 @@
+// ============================================================================
+// COMPONENTS - Engram Design System
+// ============================================================================
+// Import tokens first
+@import './tokens'
+
+// ============================================================================
+// CARDS
+// ============================================================================
+
+// Base Card
+.card
+  background: $white
+  border-radius: $radius-md
+  box-shadow: $shadow-base
+  overflow: hidden
+  transition: $transition-all
+
+// Topic Card
+.topic-card
+  height: 250px
+  border-radius: 25%
+  position: relative
+  margin: $spacing-1 0px
+
+  &:hover
+    opacity: $opacity-hover
+    cursor: pointer
+
+// Card Image
+.card-image
+  display: block
+  object-fit: cover
+  width: 100%
+  height: 100%
+  border-radius: 25%
+
+// Quiz Card
+.quiz-card
+  position: relative
+  width: 100%
+  height: 300px
+  margin-bottom: $spacing-8
+  border-radius: $radius-md
+  overflow: hidden
+
+  &:hover
+    transform: scale(1.05)
+    transition: all 0.3s ease-in-out
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3)
+
+  img
+    width: 100%
+    height: 300px
+    object-fit: cover
+
+// Disabled Card
+.card-disabled
+  position: relative
+  width: 100%
+  height: 300px
+  margin-bottom: $spacing-8
+  border-radius: $radius-md
+  overflow: hidden
+
+  img
+    width: 100%
+    height: 300px
+    object-fit: cover
+    opacity: $opacity-hover
+    border-radius: $radius-md
+
+// Coming Soon Card
+.coming-soon-card
+  background: $white
+  border-radius: $radius-xl
+  padding: $spacing-15 $spacing-14
+  text-align: center
+  box-shadow: $shadow-2xl
+  max-width: 100%
+  margin: $spacing-8 auto
+
+// Article Card
+.article
+  font-family: $font-primary
+  border: 1px solid $border-light
+  border-radius: $radius-md
+  margin-bottom: $spacing-2
+
+  .article-content
+    margin: $spacing-1
+    margin-right: $spacing-3
+
+
+// ============================================================================
+// OVERLAYS
+// ============================================================================
+
+// Base Overlay
+.overlay
+  position: absolute
+  background: $bg-overlay
+  display: flex
+  align-items: center
+  justify-content: center
+  flex-direction: column
+  border-radius: 25%
+
+// Full Overlay
+.overlay-2
+  inset: 0
+
+// Quiz Overlay
+.quiz-overlay
+  position: absolute
+  top: 0
+  left: 0
+  width: 100%
+  height: 100%
+  background-color: $bg-overlay-dark
+  border-radius: $radius-md
+  color: $white
+  display: flex
+  flex-direction: column
+  justify-content: flex-end
+  align-content: center
+  text-align: center
+
+
+// ============================================================================
+// IMAGES
+// ============================================================================
+
+// Topic/Intro Images
+.intro-image,
+.event-image,
+.person-image
+  object-fit: cover
+  object-position: 50% 50%
+  min-width: 100%
+  max-width: 100%
+  max-height: 300px
+
+// Trend Coming Soon Image
+.trend-coming-soon-img
+  object-fit: cover
+  object-position: 50% 50%
+  min-width: 100%
+  max-width: 100%
+  max-height: 300px
+  box-shadow: $shadow-inner
+  border-radius: $radius-md
+  margin: auto
+
+// Profile Image
+.profile-image
+  object-fit: cover
+  object-position: center center
+  width: 160px
+  height: 160px
+  max-height: 160px
+  border-radius: 10%
+
+// Source/Term Image
+.source-image,
+.term-image
+  max-width: 150px
+  height: auto
+
+  &:hover
+    opacity: $opacity-disabled
+    cursor: pointer
+
+// Article Image
+.article-image
+  object-fit: cover
+  object-position: 50% 50%
+  min-width: 100%
+  max-height: 130px
+  border-radius: $radius-md $radius-md 0px 0px
+
+// Modal Image
+.modal-image
+  display: flex
+  justify-content: center
+  max-width: 100%
+  max-height: 80vh
+  margin: 0 auto
+
+// Logo
+.logo-img
+  max-width: 30px
+
+// Event Slideshow Image
+.event-image-slide
+  object-fit: cover
+  object-position: 50% 50%
+  min-width: 100%
+  max-width: 100%
+  max-height: 250px
+  border-radius: $radius-md
+
+
+// ============================================================================
+// VIDEOS
+// ============================================================================
+
+// Video Container (16:9 responsive box)
+.video-box
+  max-width: $video-max-width
+  width: 100%
+  display: block
+  background: linear-gradient(to right, $gray-50, $gray-400, $gray-50)
+  background-size: 200% 200%
+  animation: Animation 3s infinite
+
+.ratio
+  position: relative
+  width: 100%
+  padding-top: 56.25% // 16:9 = 9/16
+  overflow: hidden
+
+// The injected iframe fills the box
+.ratio > iframe,
+.ratio > .yt-embedded
+  position: absolute
+  inset: 0
+  width: 100% !important
+  height: 100% !important
+  border: 0
+  display: block
+  border-radius: $radius-sm
+
+// Modal video variant
+.video-box.in-modal
+  max-width: $video-max-width
+  margin: auto
+
+// Intro iframe (legacy)
+.intro-iframe,
+.person-iframe
+  position: relative
+  z-index: $z-base + 3
+  min-width: 100%
+  max-width: 100%
+  height: 100%
+  aspect-ratio: 16 / 9
+
+
+// ============================================================================
+// MODALS
+// ============================================================================
+
+.modal-content
+  border-radius: $radius-xl
+  border: none
+
+
+// ============================================================================
+// SIDEBAR & NAVIGATION
+// ============================================================================
+
+// Sidebar
+.sidebar
+  position: sticky
+  top: $spacing-4
+  display: flex
+  flex-direction: column
+  gap: $spacing-3
+  background: transparent
+
+// Category Buttons Container
+.category-buttons
+  width: $sidebar-width !important
+
+
+// ============================================================================
+// BACKGROUNDS & BANNERS
+// ============================================================================
+
+// Background Filter
+.background
+  background-size: cover
+  background-position: right 15% bottom 52%
+  height: 100%
+  padding-top: $spacing-8
+
+.background-filter
+  position: relative
+
+  &:after
+    -webkit-backdrop-filter: blur(5px)
+    backdrop-filter: brightness(50%)
+    content: ""
+    display: block
+    position: absolute
+    width: 100%
+    height: 100%
+    top: 0
+
+.u-non-blurred
+  position: relative
+  z-index: $z-base
+
+
+// ============================================================================
+// PERSON PROFILE
+// ============================================================================
+
+.person-profile
+  padding-bottom: $spacing-10
+
+.person-info
+  min-width: 220px
+  max-width: 220px
+
+.person-description
+  overflow: hidden
+  max-height: 8rem
+  -webkit-box-orient: vertical
+  display: block
+  display: -webkit-box
+  overflow: hidden !important
+  text-overflow: ellipsis
+  -webkit-line-clamp: 5
+
+.person-link
+  font-family: $font-primary
+  margin-top: $spacing-4
+
+
+// ============================================================================
+// SOURCES & TERMS
+// ============================================================================
+
+.source
+  border: 1px solid $border-light
+  border-radius: $radius-md
+  padding-top: $spacing-10
+  padding-bottom: $spacing-14
+
+
+// ============================================================================
+// TRENDS
+// ============================================================================
+
+.trend-coming-soon
+  position: relative
+  display: flex
+  align-items: center
+
+.trend-coming-soon-text-background
+  position: absolute
+  left: 50%
+  top: 50%
+  transform: translate(-50%, -50%)
+  z-index: $z-dropdown
+  display: inline-flex
+  align-items: center
+  padding: $spacing-5 $spacing-11
+  background: $bg-overlay-light
+  border-radius: $radius-md
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06)
+  white-space: nowrap
+
+
+// ============================================================================
+// EVENTS
+// ============================================================================
+
+.events-component
+  color: $white
+  background-color: $black
+  border-radius: $radius-md
+  padding: $spacing-1
+  padding-bottom: $spacing-16
+
+// Event Slideshow
+.slideshow-container
+  max-width: 400px
+  position: relative
+  margin: auto
+
+.prev,
+.next
+  cursor: pointer
+  position: absolute
+  top: 100px
+  width: auto
+  padding: $spacing-7
+  margin-top: -22px
+  color: $white
+  font-weight: $font-weight-bold
+  font-size: $font-size-lg
+  transition: 0.6s ease
+  border-radius: 0 3px 3px 0
+  background-color: $bg-overlay-dark
+
+  &:hover
+    background-color: rgba(0, 0, 0, 0.8)
+
+.next
+  right: 0
+  border-radius: 3px 0 0 3px
+
+// Dot Navigation
+.dot
+  cursor: pointer
+  height: 15px
+  width: 15px
+  margin: 0 2px
+  background-color: #bbb
+  border-radius: $radius-circle
+  display: inline-block
+  transition: background-color 0.6s ease
+
+  &.active,
+  &:hover
+    background-color: #717171
+
+// Number Text
+.numbertext
+  font-family: $font-primary
+  color: $gray-200
+  font-size: $font-size-sm
+  padding: $spacing-3 $spacing-5
+  font-weight: $font-weight-medium
+  position: absolute
+  top: 0
+  background: rgba(0, 0, 0, 0.2)
+
+
+// ============================================================================
+// MAP & TIMELINE
+// ============================================================================
+
+.map-container
+  position: relative
+  min-height: 368px
+
+.dates
+  font-family: $font-primary
+  font-size: $font-size-lg
+  font-weight: $font-weight-bold
+  line-height: 25px
+  display: flex
+  justify-content: end
+
+
+// ============================================================================
+// WHITE CONTAINERS (Module System)
+// ============================================================================
+
+.white-container
+  padding-bottom: $spacing-23
+
+.true-white-container
+  background: $white
+  min-height: 700px
+  border-radius: $radius-md
+  padding-bottom: $spacing-23
+
+.title-white-container
+  color: $color-text-primary
+  font-size: $font-size-2xl
+  font-style: normal
+  font-weight: $font-weight-extrabold
+  line-height: 64px
+
+.subtitle-white-container
+  color: $black
+  font-size: $font-size-md
+  font-style: normal
+  font-weight: $font-weight-normal
+  line-height: 26px
+
+.module-container
+  max-width: 539px
+
+.module-gray-contain
+  border-radius: $radius-base
+  background: $gray-100
+  opacity: 0.9
+  box-shadow: $shadow-base
+
+
+// ============================================================================
+// FOOTER
+// ============================================================================
+
+.footer
+  background-color: $black
+  text-align: center
+  color: $color-text-light
+  font-size: $font-size-xs
+  padding: $spacing-4 0px $spacing-4 0px
+  margin-top: auto
+
+.footer-icon
+  width: $spacing-8
+  height: $spacing-8
+  padding: $spacing-0
+
+  &:hover
+    cursor: pointer
+
+
+// ============================================================================
+// NAVBAR
+// ============================================================================
+
+.navbar-styling
+  background-color: $black
+  padding: 0px $spacing-10
+
+.navbar-tab-section
+  margin-left: auto
+
+.logo
+  &:hover
+    cursor: pointer
+
+.logo-btn
+  font-family: $font-primary
+  font-size: $font-size-md
+  font-weight: $font-weight-medium
+  letter-spacing: $spacing-0
+  color: $white
+  padding-left: $spacing-4
+
+
+// ============================================================================
+// ANIMATIONS
+// ============================================================================
+
+// Fade In
+.fade-in-image
+  animation: fadeIn 2s
+  -webkit-animation: fadeIn 2s
+  -moz-animation: fadeIn 2s
+  -o-animation: fadeIn 2s
+  -ms-animation: fadeIn 2s
+
+@keyframes fadeIn
+  0%
+    opacity: 0
+  100%
+    opacity: 1
+
+@-webkit-keyframes fadeIn
+  0%
+    opacity: 0
+  100%
+    opacity: 1
+
+// Loading Animation
+@keyframes Animation
+  0%
+    background-position: 90% 0%
+  90%
+    background-position: 0% 70%
+
+
+// ============================================================================
+// RESPONSIVE COMPONENTS
+// ============================================================================
+
+@media (max-width: $breakpoint-md)
+  .person-profile
+    border: 1px solid $color-text-light
+    border-radius: $radius-md
+    padding-top: $spacing-4
+
+@media (max-width: $breakpoint-xl)
+  .person-profile
+    border-bottom: 1px solid $border-light
+    margin-bottom: $spacing-4
+
+@media (max-width: $breakpoint-2xl)
+  .video-box
+    max-width: 100%
+    margin: 0 auto

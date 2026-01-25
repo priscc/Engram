@@ -1,11 +1,11 @@
 <template>
   <div id="ResourceComp">
     <!-- VIDEOS HEADER -->
-    <b-row class="pt-4">
+    <b-row class="pb-4">
       <b-col>
         <div class="resource_header">Videos:</div>
       </b-col>
-      <b-col v-if="visibleVideos.length >= 2" class="text-right">
+      <b-col v-if="visibleVideos.length >= 2" class="d-flex justify-content-end">
         <!-- button is clearer, but your div works too -->
         <div class="view_all" v-b-modal="'modal-1'">
           View all ({{ visibleVideos.length }})<b-icon-chevron-right

@@ -1,0 +1,411 @@
+// ============================================================================
+// BUTTON SYSTEM - Engram Design System
+// ============================================================================
+// Import tokens first
+@import './tokens'
+
+// ============================================================================
+// BASE BUTTON STYLES
+// ============================================================================
+
+%btn-base
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  font-family: $font-primary
+  font-weight: $font-weight-bold
+  text-decoration: none
+  cursor: pointer
+  transition: $transition-all
+  border: none
+  outline: none
+
+  &:focus-visible
+    outline: 2px solid rgba(124,58,237,.45)
+    outline-offset: 2px
+
+
+// ============================================================================
+// PRIMARY BUTTONS (Purple Gradient)
+// ============================================================================
+
+// Primary Default
+.btn-primary,
+.top-pill,
+.back-button
+  @extend %btn-base
+  gap: $spacing-2
+  padding: $spacing-2 $spacing-6
+  font-size: $font-size-base
+  color: $white
+  background-image: linear-gradient(180deg, $purple-400, $purple-500)
+  border: 1px solid $border-white-trans
+  border-radius: $radius-md
+  box-shadow: $shadow-lg
+
+  &:hover
+    transform: translateY(-2px)
+    box-shadow: $shadow-xl
+
+  &:active
+    transform: translateY(0)
+    box-shadow: $shadow-md
+
+// Primary Large
+.btn-primary-lg
+  @extend .btn-primary
+  padding: $spacing-4 $spacing-14
+  font-size: $font-size-xl
+  border-radius: $radius-3xl
+  letter-spacing: $letter-spacing-wide
+  text-transform: uppercase
+
+// Primary Small
+.btn-primary-sm
+  @extend .btn-primary
+  padding: $spacing-1 $spacing-4
+  font-size: 13px
+
+
+// ============================================================================
+// SECONDARY BUTTONS (Light Purple Background)
+// ============================================================================
+
+// Secondary Default (Category/View All style)
+.btn-secondary,
+.category-button,
+.view-all
+  @extend %btn-base
+  gap: $spacing-2
+  padding: $spacing-3 $spacing-6
+  font-size: $font-size-base
+  font-weight: $font-weight-semibold
+  letter-spacing: -0.2px
+  color: $color-text-tertiary
+  background: $purple-50
+  border: 3px solid $purple-300
+  border-radius: $radius-md
+  transition: background $transition-base, color $transition-base, box-shadow $transition-base
+  line-height: $line-height-normal
+
+  &:hover
+    background: $purple-200
+    color: $gray-900
+    box-shadow: $shadow-xs
+
+  &:active
+    transform: translateY(0)
+    box-shadow: none
+
+// Secondary Active State
+.btn-secondary-active,
+.category-button.active
+  @extend .btn-secondary
+  background: $purple-400
+  border: 3px solid $purple-400
+  margin: 0px
+  color: $white
+  box-shadow: $shadow-sm
+
+
+// ============================================================================
+// TERTIARY BUTTONS (Purple Solid)
+// ============================================================================
+
+// Tertiary Default (Purple Button)
+.btn-tertiary,
+.purple-button
+  @extend %btn-base
+  min-height: 52px
+  gap: $spacing-2
+  padding: $spacing-4 $spacing-4
+  font-size: $font-size-lg
+  border-radius: $radius-3xl
+  background: $purple-800
+  text-transform: uppercase
+  color: $white
+  letter-spacing: $letter-spacing-wide
+  line-height: 25px
+
+  &:hover
+    background: $purple-100
+    color: $purple-800
+
+// Tertiary Disabled
+.btn-tertiary-disabled,
+.purple-button-disabled
+  @extend .btn-tertiary
+  background: $gray-500
+  cursor: not-allowed
+  opacity: $opacity-disabled
+
+  &:hover
+    background: $gray-500
+    color: $white
+    transform: none
+
+
+// ============================================================================
+// OUTLINE BUTTONS
+// ============================================================================
+
+// Outline Primary (Purple Border with Text)
+.btn-outline-primary,
+.purple-button-border-text
+  @extend %btn-base
+  padding: $spacing-4 $spacing-14
+  font-size: $font-size-lg
+  border-radius: $radius-3xl
+  border: 2px solid $purple-800
+  background: transparent
+  text-transform: uppercase
+  color: $purple-800
+  letter-spacing: $letter-spacing-wide
+  line-height: 25px
+
+  &:hover
+    background: $purple-800
+    color: $white
+
+  &:active
+    transform: translateY(0)
+
+
+// ============================================================================
+// GHOST BUTTONS (Text Only)
+// ============================================================================
+
+// Ghost Button (Text Link Style)
+.btn-ghost,
+.back-button-style
+  @extend %btn-base
+  width: fit-content
+  padding: $spacing-1 $spacing-3
+  color: $purple-600
+  font-size: $font-size-base
+  font-weight: $font-weight-bold
+  line-height: 20px
+  background: transparent
+  border: none
+
+  &:hover
+    opacity: $opacity-hover
+    text-decoration: underline
+
+// Ghost Button Right Aligned
+.btn-ghost-right,
+.back-button-style-right
+  @extend .btn-ghost
+  position: absolute
+  right: 0
+
+
+// ============================================================================
+// NAVBAR BUTTONS
+// ============================================================================
+
+// Navbar Purple Button
+.btn-navbar,
+.navbar-purple
+  @extend %btn-base
+  padding: $spacing-3 $spacing-7
+  font-family: $font-secondary
+  font-size: $font-size-base
+  font-weight: $font-weight-bold
+  border-radius: $radius-base
+  background: $purple-800
+  color: $white
+
+  &:hover
+    background: $purple-700
+
+// Navbar Tab
+.navbar-tab
+  font-family: $font-primary
+  font-size: $font-size-md
+  font-weight: 750
+  letter-spacing: $spacing-0
+  color: $white
+  padding: 0px
+
+
+// ============================================================================
+// ALERT/DISMISS BUTTONS
+// ============================================================================
+
+.btn-alert-dismiss,
+.alert-dismiss
+  @extend %btn-base
+  border: .5px solid #055160
+  border-radius: $radius-lg
+  padding: $spacing-0 $spacing-4
+  font-size: $font-size-sm
+  background: transparent
+  color: #055160
+
+  &:hover
+    opacity: $opacity-disabled
+
+
+// ============================================================================
+// ICON BUTTONS
+// ============================================================================
+
+// Button with Icon
+.btn-with-icon
+  @extend %btn-base
+
+  svg,
+  i
+    margin-right: $spacing-3
+    font-size: $font-size-base
+    opacity: $opacity-light
+
+
+// ============================================================================
+// BUTTON GROUPS
+// ============================================================================
+
+// Button Parent (Container)
+.button-parent
+  max-width: 293px
+  padding: 0 $spacing-4 0 $spacing-4
+
+// Main Button (Full Width)
+.main-button,
+.btn-block
+  width: 100%
+
+// Finish Button (Fixed Width)
+.finish-button
+  max-width: $button-max-width
+
+// Back Button (Fixed Width)
+.back-button
+  max-width: 170px
+  margin: 0 $spacing-12 0 0
+
+
+// ============================================================================
+// QUIZ/EVENT BUTTONS
+// ============================================================================
+
+.quiz-button,
+.purple_button
+  @extend .btn-tertiary
+  min-height: 52px
+  border-radius: $radius-3xl
+  border: none
+  padding: $spacing-4 $spacing-14
+
+.event-button
+  display: flex
+  justify-content: end
+
+
+// ============================================================================
+// BUTTON SIZES
+// ============================================================================
+
+// Extra Small
+.btn-xs
+  padding: $spacing-1 $spacing-3
+  font-size: $font-size-sm
+  min-height: 32px
+
+// Small
+.btn-sm
+  padding: $spacing-2 $spacing-4
+  font-size: $font-size-base
+  min-height: 40px
+
+// Medium (Default)
+.btn-md
+  padding: $spacing-3 $spacing-6
+  font-size: $font-size-base
+  min-height: 48px
+
+// Large
+.btn-lg
+  padding: $spacing-4 $spacing-14
+  font-size: $font-size-lg
+  min-height: 52px
+
+// Extra Large
+.btn-xl
+  padding: $spacing-7 $spacing-14
+  font-size: $font-size-xl
+  min-height: 64px
+
+
+// ============================================================================
+// BUTTON STATES
+// ============================================================================
+
+// Loading State
+.btn-loading
+  position: relative
+  pointer-events: none
+
+  &::after
+    content: ''
+    position: absolute
+    width: 16px
+    height: 16px
+    top: 50%
+    left: 50%
+    margin-left: -8px
+    margin-top: -8px
+    border: 2px solid transparent
+    border-top-color: currentColor
+    border-radius: $radius-circle
+    animation: spin 0.6s linear infinite
+
+@keyframes spin
+  to
+    transform: rotate(360deg)
+
+// Disabled State
+.btn-disabled,
+button:disabled,
+.btn[disabled]
+  opacity: $opacity-disabled
+  cursor: not-allowed
+  pointer-events: none
+
+
+// ============================================================================
+// RESPONSIVE BUTTON STYLES
+// ============================================================================
+
+@media (max-width: $breakpoint-md)
+  .finish-button
+    max-width: $button-max-width
+    margin: auto
+
+  .back-button
+    max-width: 170px
+    margin: auto
+
+@media (max-width: $breakpoint-xl)
+  .top-button
+    right: $spacing-6
+    bottom: $spacing-6
+
+  .top-pill
+    padding: $spacing-5
+    gap: 0
+
+    .label
+      display: none
+
+    .chev
+      font-size: $font-size-lg
+
+
+// ============================================================================
+// SIDEBAR BUTTON (Topic Top Button in Sidebar)
+// ============================================================================
+
+.sidebar-top-button
+  margin: $spacing-8 $spacing-4

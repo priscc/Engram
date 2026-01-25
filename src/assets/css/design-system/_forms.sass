@@ -1,0 +1,385 @@
+// ============================================================================
+// FORMS - Engram Design System
+// ============================================================================
+// Import tokens first
+@import './tokens'
+
+// ============================================================================
+// TEXT AREAS & INPUTS
+// ============================================================================
+
+// Essay Text Area
+.essay-text-area
+  width: 100%
+  min-height: 400px
+  border: 1px solid $border-light
+  border-radius: $radius-base
+  padding: $spacing-6
+  font-family: $font-primary
+  font-size: $font-size-base
+  line-height: 1.5
+  resize: vertical
+
+  &:focus
+    outline: none
+    border-color: $purple-500
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1)
+
+// Timed Essay Area
+.timed-essay-area
+  width: 100%
+  min-height: 500px
+  border: 2px solid $purple-500
+  border-radius: $radius-md
+  padding: $spacing-8
+  font-family: $font-primary
+  font-size: $font-size-base
+  line-height: 1.6
+  resize: none
+  background: $white
+
+  &:focus
+    outline: none
+    border-color: $purple-600
+    box-shadow: $shadow-lg
+
+// Section Label Input
+.section-label-input
+  width: 100%
+  padding: $spacing-4
+  border: 1px solid $border-medium
+  border-radius: $radius-base
+  font-family: $font-primary
+  font-size: $font-size-sm
+  background: $gray-50
+
+  &:focus
+    outline: none
+    border-color: $purple-400
+    background: $white
+
+// Outline Input
+.outline-input
+  width: 100%
+  min-height: 200px
+  padding: $spacing-6
+  border: 1px solid $border-light
+  border-radius: $radius-base
+  font-family: $font-primary
+  font-size: $font-size-sm
+  line-height: 1.5
+  resize: vertical
+
+  &:focus
+    outline: none
+    border-color: $purple-500
+    box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.05)
+
+
+// ============================================================================
+// QUIZ INPUTS
+// ============================================================================
+
+// Multiple Choice Container
+.quiz-options-container
+  display: flex
+  flex-direction: column
+  gap: $spacing-4
+  margin: $spacing-6 0
+
+// Quiz Option Button
+.quiz-option
+  display: flex
+  align-items: center
+  padding: $spacing-6
+  border: 2px solid $border-light
+  border-radius: $radius-md
+  background: $white
+  cursor: pointer
+  transition: $transition-all
+  font-family: $font-primary
+  font-size: $font-size-base
+
+  &:hover
+    border-color: $purple-300
+    background: $purple-50
+
+  &.selected
+    border-color: $purple-500
+    background: $purple-100
+
+  &.correct
+    border-color: $success-500
+    background: $success-50
+
+  &.incorrect
+    border-color: $error-500
+    background: $error-50
+
+// Radio/Checkbox Styles
+.quiz-radio,
+.quiz-checkbox
+  margin-right: $spacing-4
+  width: 20px
+  height: 20px
+  accent-color: $purple-600
+
+
+// ============================================================================
+// DROPDOWNS & SELECTS
+// ============================================================================
+
+// Difficulty Selector
+.difficulty-selector
+  display: flex
+  gap: $spacing-4
+  margin: $spacing-8 0
+
+.difficulty-option
+  flex: 1
+  padding: $spacing-8 $spacing-10
+  border: 2px solid $border-light
+  border-radius: $radius-lg
+  text-align: center
+  cursor: pointer
+  transition: $transition-all
+  font-family: $font-primary
+  font-weight: $font-weight-semibold
+
+  &:hover
+    border-color: $purple-400
+    transform: translateY(-2px)
+    box-shadow: $shadow-md
+
+  &.selected
+    border-color: $purple-600
+    background: linear-gradient(180deg, $purple-400, $purple-600)
+    color: $white
+    box-shadow: $shadow-lg
+
+// Module Selector
+.module-selector
+  display: grid
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr))
+  gap: $spacing-6
+  margin: $spacing-8 0
+
+.module-card
+  padding: $spacing-10
+  border: 1px solid $border-light
+  border-radius: $radius-xl
+  text-align: center
+  cursor: pointer
+  transition: $transition-all
+  background: $white
+
+  &:hover
+    border-color: $purple-400
+    box-shadow: $shadow-lg
+    transform: scale(1.03)
+
+  &.disabled
+    opacity: $opacity-disabled
+    cursor: not-allowed
+    background: $gray-100
+
+    &:hover
+      transform: none
+      box-shadow: none
+
+
+// ============================================================================
+// PROMPT SELECTION
+// ============================================================================
+
+.prompt-container
+  display: flex
+  flex-direction: column
+  gap: $spacing-4
+  margin: $spacing-6 0
+
+.prompt-card
+  padding: $spacing-8
+  border: 1px solid $border-light
+  border-radius: $radius-md
+  background: $white
+  cursor: pointer
+  transition: $transition-all
+
+  &:hover
+    border-color: $purple-400
+    box-shadow: $shadow-base
+
+  &.selected
+    border-color: $purple-600
+    background: $purple-50
+
+.prompt-type-label
+  font-family: $font-primary
+  font-size: $font-size-xs
+  font-weight: $font-weight-bold
+  color: $purple-600
+  text-transform: uppercase
+  letter-spacing: 0.05em
+  margin-bottom: $spacing-2
+
+.prompt-text
+  font-family: $font-primary
+  font-size: $font-size-base
+  font-weight: $font-weight-medium
+  color: $color-text-primary
+  line-height: 1.5
+
+
+// ============================================================================
+// SEARCH BAR
+// ============================================================================
+
+.search-bar
+  width: 100%
+  max-width: 600px
+  margin: $spacing-8 auto
+
+.search-input
+  width: 100%
+  padding: $spacing-5 $spacing-10 $spacing-5 $spacing-16
+  border: 2px solid $border-light
+  border-radius: $radius-pill
+  font-family: $font-primary
+  font-size: $font-size-base
+  background: $white
+  background-repeat: no-repeat
+  background-position: $spacing-5 center
+  transition: $transition-all
+
+  &:focus
+    outline: none
+    border-color: $purple-500
+    box-shadow: 0 0 0 4px rgba(139, 92, 246, 0.1)
+
+  &::placeholder
+    color: $gray-400
+
+
+// ============================================================================
+// FEEDBACK FORMS
+// ============================================================================
+
+.feedback-textarea
+  width: 100%
+  min-height: 150px
+  padding: $spacing-6
+  border: 1px solid $border-light
+  border-radius: $radius-md
+  font-family: $font-primary
+  font-size: $font-size-sm
+  line-height: 1.5
+  resize: vertical
+
+  &:focus
+    outline: none
+    border-color: $purple-500
+    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.05)
+
+.feedback-label
+  display: block
+  font-family: $font-primary
+  font-size: $font-size-sm
+  font-weight: $font-weight-semibold
+  color: $color-text-primary
+  margin-bottom: $spacing-2
+
+
+// ============================================================================
+// FORM VALIDATION STATES
+// ============================================================================
+
+.form-input
+  &.error
+    border-color: $error-500
+    background: $error-50
+
+    &:focus
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1)
+
+  &.success
+    border-color: $success-500
+    background: $success-50
+
+    &:focus
+      box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.1)
+
+  &.warning
+    border-color: $warning-500
+    background: $warning-50
+
+    &:focus
+      box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.1)
+
+.error-message
+  font-family: $font-primary
+  font-size: $font-size-xs
+  color: $error-600
+  margin-top: $spacing-2
+  display: flex
+  align-items: center
+  gap: $spacing-2
+
+.success-message
+  font-family: $font-primary
+  font-size: $font-size-xs
+  color: $success-600
+  margin-top: $spacing-2
+  display: flex
+  align-items: center
+  gap: $spacing-2
+
+
+// ============================================================================
+// FORM LAYOUTS
+// ============================================================================
+
+.form-group
+  margin-bottom: $spacing-6
+
+.form-row
+  display: flex
+  gap: $spacing-6
+  margin-bottom: $spacing-6
+
+  @media (max-width: $breakpoint-md)
+    flex-direction: column
+
+.form-actions
+  display: flex
+  gap: $spacing-4
+  justify-content: flex-end
+  margin-top: $spacing-8
+  padding-top: $spacing-6
+  border-top: 1px solid $border-light
+
+
+// ============================================================================
+// DISABLED STATES
+// ============================================================================
+
+input:disabled,
+textarea:disabled,
+select:disabled,
+button:disabled
+  opacity: $opacity-disabled
+  cursor: not-allowed
+  background: $gray-100
+  color: $gray-500
+
+
+// ============================================================================
+// FOCUS VISIBLE (Accessibility)
+// ============================================================================
+
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+button:focus-visible
+  outline: 2px solid $purple-600
+  outline-offset: 2px
