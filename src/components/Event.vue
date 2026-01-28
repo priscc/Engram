@@ -22,19 +22,38 @@
       </b-row>
     </b-container>
 
-    <b-container class="pt-5 pb-5">
+    <b-container class="pt-2 pb-5">
       <b-row>
         <b-col lg="7" md="12" sm="12">
-          <b-img class="event_image" :src="event.thumbURL"></b-img>
-          <!-- <div style="background-color: black;"><eventmap :events="event"></eventmap></div> -->
-          <p class="header-2">{{ event.title }}</p>
+          <p class="header-2 mt-4">{{ event.title }}</p>
           <p v-if="endDate == null || endDate.length == 0" class="text">
             ({{ startDate }})
           </p>
           <p b-else class="text">({{ startDate }} - {{ endDate }})</p>
+          <div class="image-wrapper">
+            <b-img class="event_image" :src="event.thumbURL" fluid></b-img>
+            <b-button
+              class="expand-icon"
+              @click="openImageModal"
+              aria-label="Expand image"
+            >
+              <b-icon-arrows-angle-expand aria-hidden="true" font-scale="1.3" />
+            </b-button>
+          </div>
+          <b-modal
+            id="image-modal"
+            title="Image"
+            hide-footer
+            centered
+            size="xl"
+          >
+            <img :src="expandedImageURL" class="full-image" alt="Event image" />
+          </b-modal>
+          <!-- <div style="background-color: black;"><eventmap :events="event"></eventmap></div> -->
+
           <div class="text pt-2" v-html="content"></div>
         </b-col>
-        <b-col>
+        <b-col class="pt-5 mt-5">
           <resourcecomp type="event" :resourcetype="resouces"></resourcecomp>
         </b-col>
       </b-row>
@@ -76,6 +95,14 @@ export default {
     },
     event() {
       return storeTopic.state.event;
+    },
+    expandedImageURL() {
+      // Prefer a full-size image field if available, fallback to thumbnail
+      return (
+        (this.event &&
+          (this.event.imageURL || this.event.fullURL || this.event.thumbURL)) ||
+        ""
+      );
     },
     content() {
       var inputDelta = this.event.mainMD;
@@ -121,6 +148,9 @@ export default {
         topic: this.$route.params.topic,
         category: this.$route.params.category
       });
+    },
+    openImageModal() {
+      this.$bvModal && this.$bvModal.show("image-modal");
     },
     async handleRouteChange(params) {
       console.log("Event.handleRouteChange start", params);

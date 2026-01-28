@@ -1,32 +1,37 @@
 <template>
   <div id="ResourceComp">
-    <!-- VIDEOS HEADER -->
-    <b-row class="pb-4">
-      <b-col>
-        <div class="resource_header">Videos:</div>
-      </b-col>
-      <b-col v-if="visibleVideos.length >= 2" class="d-flex justify-content-end">
-        <!-- button is clearer, but your div works too -->
-        <div class="view_all" v-b-modal="'modal-1'">
-          View all ({{ visibleVideos.length }})<b-icon-chevron-right
-            aria-hidden="true"
-          />
-        </div>
-      </b-col>
-    </b-row>
+    <div class="video-section">
+      <!-- VIDEOS HEADER -->
+      <b-row class="pb-4">
+        <b-col>
+          <div class="resource_header">Videos:</div>
+        </b-col>
+        <b-col
+          v-if="visibleVideos.length >= 2"
+          class="d-flex justify-content-end"
+        >
+          <!-- button is clearer, but your div works too -->
+          <div class="view_all" v-b-modal="'modal-1'">
+            View all ({{ visibleVideos.length }})<b-icon-chevron-right
+              aria-hidden="true"
+            />
+          </div>
+        </b-col>
+      </b-row>
 
-    <!-- TOP 3 (unchanged) -->
-    <b-col
-      v-for="(v, i) in visibleVideos.slice(0, 2)"
-      :key="v._key"
-      class="pt-1"
-    >
-      <div class="video-box">
-        <div class="ratio">
-          <div :id="playerId(i)"></div>
+      <!-- TOP 3 (unchanged) -->
+      <b-col
+        v-for="(v, i) in visibleVideos.slice(0, 2)"
+        :key="v._key"
+        class="pt-1"
+      >
+        <div class="video-box">
+          <div class="ratio">
+            <div :id="playerId(i)"></div>
+          </div>
         </div>
-      </div>
-    </b-col>
+      </b-col>
+    </div>
 
     <!-- REAL BOOTSTRAPVUE MODAL -->
     <b-modal

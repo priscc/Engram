@@ -307,3 +307,7 @@ export default {
   }
 };
 </script>
+<style lang="sass" scoped>
+@import "@/assets/css/topicContent.sass"
+@import "@/assets/css/loading.sass"
+</style>

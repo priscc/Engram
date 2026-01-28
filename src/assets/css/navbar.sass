@@ -1,6 +1,24 @@
 // NavBar Component Styles
 // Extracted from NavBar.vue
 
+.navbar_style
+  padding: 10px 0
+  background: #fff
+  border: none
+  box-shadow: none
+  align-items: center
+  display: flex
+  flex-wrap: wrap
+
+.logo
+  display: flex
+  align-items: center
+
+.logo_img
+  height: 32px
+  width: auto
+  margin: 0
+
 // Purple buttons (Login/Sign up)
 .navbar-purple
   border-radius: 8px
@@ -20,10 +38,13 @@
 // Tab section layout
 .navbar_tab_section
   white-space: nowrap
+  display: flex
+  align-items: center
+  gap: 16px
 
 // Search bar container
 .search-bar
-  height: 40px
+  height: 100%
   width: 292px
   border-radius: 8px
   border: 1px solid #dfdfdf
@@ -32,6 +53,45 @@
 
 .search-input
   padding-right: 0
+  padding-left: 10px
+  font-family: "Manrope", sans-serif
+  font-size: 16px
+  font-weight: 400
+  color: #18191f
+
+  &::placeholder
+    color: #a0a0a0 !important
+    opacity: 1 !important
+    font-family: "Manrope", sans-serif
+    font-size: 16px
+    font-weight: 400
+
+  &::-webkit-input-placeholder
+    color: #a0a0a0 !important
+    opacity: 1 !important
+    font-family: "Manrope", sans-serif
+    font-size: 16px
+    font-weight: 400
+
+  &::-moz-placeholder
+    color: #a0a0a0 !important
+    opacity: 1 !important
+    font-family: "Manrope", sans-serif
+    font-size: 16px
+    font-weight: 400
+
+  &:-ms-input-placeholder
+    color: #a0a0a0 !important
+    opacity: 1 !important
+    font-family: "Manrope", sans-serif
+    font-size: 16px
+    font-weight: 400
+
+// Override Bootstrap's form-control placeholder styling
+.search-bar .form-control
+  &::placeholder
+    color: #a0a0a0 !important
+    opacity: 1 !important
 
 .search-button
   background: white

@@ -8,12 +8,38 @@
         <b-col lg="7" md="7" sm="12">
           <b-row>
             <b-col>
-              <b-img
-                class="intro_image"
-                id="hideImg"
-                :src="topic.intro_thumbURL"
-                @error="imageLoadError"
-              ></b-img>
+              <div class="image-wrapper">
+                <b-img
+                  class="intro_image"
+                  id="hideImg"
+                  :src="topic.intro_thumbURL"
+                  @error="imageLoadError"
+                  fluid
+                ></b-img>
+                <b-button
+                  class="expand-icon"
+                  @click="openImageModal"
+                  aria-label="Expand image"
+                >
+                  <b-icon-arrows-angle-expand
+                    aria-hidden="true"
+                    font-scale="1.3"
+                  />
+                </b-button>
+              </div>
+              <b-modal
+                id="intro-image-modal"
+                title="Image"
+                hide-footer
+                centered
+                size="xl"
+              >
+                <img
+                  :src="expandedImageURL"
+                  class="full-image"
+                  alt="Intro image"
+                />
+              </b-modal>
               <div class="text pt-2" v-html="intro"></div>
             </b-col>
           </b-row>
@@ -51,6 +77,16 @@ export default {
     },
     resouces() {
       return storeTopic.state.topicResources;
+    },
+    expandedImageURL() {
+      // Prefer a full-size image field if available, fallback to thumbnail
+      return (
+        (this.topic &&
+          (this.topic.intro_imageURL ||
+            this.topic.intro_fullURL ||
+            this.topic.intro_thumbURL)) ||
+        ""
+      );
     }
   },
   methods: {
@@ -59,6 +95,9 @@ export default {
     },
     showModal() {
       this.$refs["modal-1"].show();
+    },
+    openImageModal() {
+      this.$bvModal && this.$bvModal.show("intro-image-modal");
     }
   },
   mounted() {

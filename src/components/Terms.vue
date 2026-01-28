@@ -36,7 +36,8 @@
               </b-col>
               <b-col xl="7" lg="7" md="6" sm="12">
                 <div class="text">
-                  <span class="header-2">{{ term.term }} - </span><span v-html="term.def"></span>
+                  <span class="header-2">{{ term.term }} - </span
+                  ><span v-html="term.def"></span>
                 </div>
               </b-col>
             </b-row>

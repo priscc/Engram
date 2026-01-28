@@ -1,16 +1,20 @@
 <!-- src/components/NavBar.vue -->
 <template>
   <div class="navbar_styling fontist">
-    <b-navbar toggleable="xl" type="light" class="navbar_style">
-      <b-navbar-brand @click="home" class="logo">
-        <img class="logo_img mb-1" src="@/assets/EngramLogo.png" />
+    <b-navbar
+      toggleable="xl"
+      type="light"
+      class="navbar_style align-items-center"
+    >
+      <b-navbar-brand @click="home" class="logo d-flex align-items-center">
+        <img class="logo_img" src="@/assets/EngramLogo.png" />
         <span class="logo_btn ms-3">Engram</span>
       </b-navbar-brand>
 
       <b-navbar-toggle target="nav-collapse" type="light"></b-navbar-toggle>
 
       <b-collapse id="nav-collapse" is-nav>
-        <b-navbar-nav class="navbar_tab_section">
+        <b-navbar-nav class="navbar_tab_section align-items-center w-100">
           <b-nav-item-dropdown right class="nav-dropdown me-3" no-caret>
             <template #button-content>
               <span class="dd-link">
@@ -76,7 +80,7 @@
           </b-nav-item-dropdown>
 
           <!-- SEARCH -->
-          <b-row class="mb-3 mb-xl-0 mt-2 mt-xl-0 position-relative">
+          <b-row class="mb-0 mt-0 position-relative d-flex align-items-center">
             <b-nav-form class="me-sm-0 me-md-3 me-lg-4">
               <b-input-group
                 class="search-bar border"

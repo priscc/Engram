@@ -4,10 +4,13 @@
       <b-row>
         <b-col cols="2" class="person_info">
           <b-img
+            v-if="!imageLoadError"
             :lazy-src="person.thumbURL"
             class="profile_image"
             :src="person.thumbURL"
+            @error="imageLoadError = true"
           ></b-img>
+          <div v-else class="profile_image profile_image_placeholder"></div>
           <div>
             <p class="person_header">
               {{ person.name }}
@@ -60,7 +63,10 @@
               md="6"
               sm="12"
             >
-              <div v-if="i < 2 && embedStatusMap[resource.url] === 'playable'" class="loading">
+              <div
+                v-if="i < 2 && embedStatusMap[resource.url] === 'playable'"
+                class="loading"
+              >
                 <iframe
                   class="person_iframe"
                   :src="'https://www.youtube.com/embed/' + resource.url"
@@ -89,7 +95,8 @@ export default {
   },
   data() {
     return {
-      embedStatusMap: {}
+      embedStatusMap: {},
+      imageLoadError: false
     };
   },
   computed: {

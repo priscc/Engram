@@ -24,7 +24,6 @@
     <b-container class="pt-5 pb-5">
       <b-row>
         <b-col lg="7" md="7" sm="12">
-          <b-img class="person_image" :src="person.thumbURL"> </b-img>
           <p class="header-2">{{ person.name }}</p>
           <p
             v-if="dateOfPassing == null || dateOfPassing.length == 0"
@@ -33,9 +32,48 @@
             Date of Birth: {{ dateOfBirth }}
           </p>
           <p b-else class="text">({{ dateOfBirth }} - {{ dateOfPassing }})</p>
+
+          <div class="image-wrapper">
+            <div
+              v-if="!imageLoaded && !imageLoadError"
+              class="person_image person_image_placeholder loading"
+            ></div>
+            <b-img
+              v-show="!imageLoadError"
+              class="person_image"
+              :src="person.thumbURL"
+              @load="onImageLoad"
+              @error="onImageError"
+            ></b-img>
+            <div
+              v-if="imageLoadError"
+              class="person_image person_image_placeholder"
+            ></div>
+            <b-button
+              class="expand-icon"
+              @click="openImageModal"
+              aria-label="Expand image"
+            >
+              <b-icon-arrows-angle-expand aria-hidden="true" font-scale="1.3" />
+            </b-button>
+          </div>
+          <b-modal
+            id="person-image-modal"
+            title="Image"
+            hide-footer
+            centered
+            size="xl"
+          >
+            <img
+              :src="expandedImageURL"
+              class="full-image"
+              alt="Person image"
+            />
+          </b-modal>
+
           <div class="text pt-2" v-html="content"></div>
         </b-col>
-        <b-col>
+        <b-col class="pt-5 mt-5">
           <resourcecomp type="people" :resourcetype="resouces"></resourcecomp>
         </b-col>
       </b-row>
@@ -58,7 +96,9 @@ export default {
   data() {
     return {
       dateOfBirth: null,
-      dateOfPassing: null
+      dateOfPassing: null,
+      imageLoadError: false,
+      imageLoaded: false
     };
   },
   computed: {
@@ -84,9 +124,29 @@ export default {
     },
     resouces() {
       return storeTopic.state.personResources;
+    },
+    expandedImageURL() {
+      // Prefer a full-size image field if available, fallback to thumbnail
+      return (
+        (this.person &&
+          (this.person.imageURL ||
+            this.person.fullURL ||
+            this.person.thumbURL)) ||
+        ""
+      );
     }
   },
   methods: {
+    onImageLoad() {
+      this.imageLoaded = true;
+    },
+    onImageError() {
+      this.imageLoadError = true;
+      this.imageLoaded = true;
+    },
+    openImageModal() {
+      this.$bvModal && this.$bvModal.show("person-image-modal");
+    },
     back() {
       this.$gtag.event("person-backButton", { event_category: "engagement" });
       pushRoute("Topic", {
@@ -147,3 +207,4 @@ export default {
 </script>
 
 <style lang="sass" scoped src="@/assets/css/topicContent.sass"></style>
+<style lang="sass" scoped src="@/assets/css/loading.sass"></style>
