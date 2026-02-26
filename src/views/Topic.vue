@@ -47,7 +47,7 @@
             </div>
           </div>
         </b-col>
-        <b-col class="pa-0">
+        <b-col class="pa-0 topic-content-column">
           <div :style="{ display: display_loader }">
             <b-row>
               <b-col cols="7">
@@ -92,7 +92,7 @@ import { pushRoute } from "@/router/navigation";
 import storeTopic from "@/store/topic.js";
 import intro from "@/components/Intro.vue";
 import trends from "@/components/Trends.vue";
-import developments from "@/components/Developments.vue";
+import developments from "@/components/Developments2.vue";
 import people from "@/components/People.vue";
 import primarysources from "@/components/PrimarySources.vue";
 import terms from "@/components/Terms.vue";
@@ -310,4 +310,7 @@ export default {
 <style lang="sass" scoped>
 @import "@/assets/css/topicContent.sass"
 @import "@/assets/css/loading.sass"
+
+.topic-content-column
+  min-width: 0
 </style>

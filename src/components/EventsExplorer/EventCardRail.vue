@@ -1,0 +1,199 @@
+<template>
+  <div class="event-card-rail">
+    <div class="rail-header">
+      <h2 class="rail-title">Events</h2>
+      <div class="rail-nav">
+        <button
+          class="nav-btn nav-prev"
+          @click="prevCard"
+          :disabled="activeIndex === 0"
+          aria-label="Previous event"
+        >
+          ‹
+        </button>
+        <span class="nav-counter"
+          >{{ activeIndex + 1 }} / {{ events.length }}</span
+        >
+        <button
+          class="nav-btn nav-next"
+          @click="nextCard"
+          :disabled="activeIndex === events.length - 1"
+          aria-label="Next event"
+        >
+          ›
+        </button>
+      </div>
+    </div>
+
+    <div class="rail-content">
+      <div class="cards-scroll">
+        <event-card
+          v-for="event in events"
+          :key="event.id"
+          :event="event"
+          :is-active="event.id === activeEventId"
+          :accent-color="accentColor"
+          @card-selected="selectEvent"
+          @cta-clicked="handleCTA"
+          :ref="el => setCardRef(event.id, el)"
+        />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script setup>
+/* global defineProps, defineEmits */
+import { computed, ref, watch } from "vue";
+import EventCard from "./EventCard.vue";
+
+const props = defineProps({
+  events: {
+    type: Array,
+    default: () => []
+  },
+  activeEventId: {
+    type: String,
+    default: null
+  },
+  accentColor: {
+    type: String,
+    default: "#7c3aed"
+  },
+  layout: {
+    type: String,
+    default: "rail",
+    validator: val => ["rail", "grid", "carousel"].includes(val)
+  }
+});
+
+const emit = defineEmits(["event-selected", "cta-clicked"]);
+
+const cardRefs = ref({});
+const activeIndex = computed(() => {
+  return props.events.findIndex(e => e.id === props.activeEventId);
+});
+
+const setCardRef = (eventId, el) => {
+  cardRefs.value[eventId] = el;
+};
+
+const selectEvent = eventId => {
+  emit("event-selected", eventId);
+};
+
+const handleCTA = event => {
+  emit("cta-clicked", event);
+};
+
+const nextCard = () => {
+  if (activeIndex.value < props.events.length - 1) {
+    emit("event-selected", props.events[activeIndex.value + 1].id);
+  }
+};
+
+const prevCard = () => {
+  if (activeIndex.value > 0) {
+    emit("event-selected", props.events[activeIndex.value - 1].id);
+  }
+};
+
+/**
+ * Auto-scroll active card into view
+ */
+watch(
+  () => props.activeEventId,
+  newId => {
+    setTimeout(() => {
+      const cardElement = cardRefs.value[newId];
+      if (cardElement && cardElement.$el) {
+        cardElement.$el.scrollIntoView({
+          behavior: "smooth",
+          block: "nearest",
+          inline: "center"
+        });
+      }
+    }, 50);
+  }
+);
+</script>
+
+<style scoped lang="sass">
+.event-card-rail
+  width: 100%
+  background: var(--bg, #1a1a1a)
+  border-radius: 8px
+  display: flex
+  flex-direction: column
+  gap: 12px
+
+.rail-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 16px
+  border-bottom: 1px solid var(--surface, #2a2a2a)
+
+.rail-title
+  margin: 0
+  font-size: 20px
+  font-weight: 700
+  color: var(--text-primary, #fff)
+
+.rail-nav
+  display: flex
+  align-items: center
+  gap: 12px
+
+.nav-btn
+  width: 32px
+  height: 32px
+  border: 1px solid var(--text-secondary, #999)
+  background: transparent
+  color: var(--text-primary, #fff)
+  border-radius: 4px
+  cursor: pointer
+  font-size: 16px
+  font-weight: 600
+  transition: all 200ms ease
+
+  &:hover:not(:disabled)
+    background: var(--accent-color, #7c3aed)
+    border-color: var(--accent-color, #7c3aed)
+    color: #000
+
+  &:disabled
+    opacity: 0.3
+    cursor: not-allowed
+
+.nav-counter
+  font-size: 12px
+  color: var(--text-secondary, #999)
+  font-weight: 600
+  min-width: 50px
+  text-align: center
+
+.rail-content
+  width: 100%
+  overflow: hidden
+
+.cards-scroll
+  display: flex
+  gap: 12px
+  padding: 0 16px 16px
+  overflow-x: auto
+  scroll-behavior: smooth
+
+  &::-webkit-scrollbar
+    height: 6px
+
+  &::-webkit-scrollbar-track
+    background: transparent
+
+  &::-webkit-scrollbar-thumb
+    background: var(--text-secondary, #999)
+    border-radius: 3px
+
+    &:hover
+      background: var(--text-primary, #fff)
+</style>

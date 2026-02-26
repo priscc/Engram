@@ -17,8 +17,8 @@
 </template>
 
 <script type="text/javascript">
-import eventcard from "./EventCardComponent.vue";
-import eventmap from "./EventMapComponent.vue";
+import eventcard from "./EventCardComponent2.vue";
+import eventmap from "./EventMapComponent2.vue";
 import storeTopic from "@/store/topic.js";
 
 export default {
