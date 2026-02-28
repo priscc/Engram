@@ -1,0 +1,440 @@
+.events-explorer
+  width: 100%
+  display: flex
+  flex-direction: column
+  gap: 10px
+  padding: 0
+  background: var(--bg)
+  border-radius: 12px
+  overflow: hidden
+
+  --accent-color: #ae96f5
+  --highlight-color: #BDFF00
+  --bg: #1a1a1a
+  --surface: #2a2a2a
+  --text-primary: #ffffff
+  --text-secondary: #999999
+
+.explorer-section
+  width: 100%
+  display: flex
+  justify-content: center
+
+.explorer-section > *
+  width: 100%
+
+.map-section
+  height: 360px
+  min-height: 360px
+  flex: 0 0 auto
+
+@media (max-width: 768px)
+  .map-section
+    height: 300px
+    min-height: 300px
+
+.timeline-section
+  flex: 0 0 auto
+
+.cards-section
+  flex: 1
+  min-height: 200px
+  position: relative
+  top: -144px
+
+.empty-state
+  width: 100%
+  height: 300px
+  display: flex
+  align-items: center
+  justify-content: center
+  color: var(--text-secondary)
+  font-size: 16px
+  background: var(--bg)
+
+.event-card
+  flex: 0 0 auto
+  width: 290px
+  background: var(--surface, #2a2a2a)
+  border: 2px solid transparent
+  border-radius: 12px
+  overflow: hidden
+  cursor: pointer
+  transition: all 300ms ease
+  display: flex
+  flex-direction: column
+
+  &:hover
+    border-color: var(--accent-color, #ae96f5)
+    transform: translateY(-2px)
+
+  &.active
+    border-color: var(--accent-color, #ae96f5)
+    box-shadow: 0 8px 24px rgba(124, 58, 237, 0.3)
+    background: var(--surface-highlight, #333)
+
+.card-thumbnail
+  width: 100%
+  height: 160px
+  overflow: hidden
+  background: #1a1a1a
+
+  img
+    width: 100%
+    height: 100%
+    object-fit: cover
+    transition: transform 300ms ease
+
+  .event-card:hover &
+    img
+      transform: scale(1.05)
+
+.card-content
+  padding: 16px
+  display: flex
+  flex-direction: column
+  gap: 8px
+  flex: 1
+
+.card-date
+  font-size: 12px
+  color: var(--accent-color, #ae96f5)
+  font-weight: 600
+  text-transform: uppercase
+  letter-spacing: 0.5px
+
+.card-title
+  font-size: 18px
+  font-weight: 700
+  color: var(--text-primary, #fff)
+  margin: 0
+  line-clamp: 2
+  display: -webkit-box
+  -webkit-line-clamp: 2
+  -webkit-box-orient: vertical
+  overflow: hidden
+
+.card-summary
+  font-size: 14px
+  color: var(--text-secondary, #ccc)
+  margin: 0
+  flex: 1
+  line-clamp: 3
+  display: -webkit-box
+  -webkit-line-clamp: 3
+  -webkit-box-orient: vertical
+  overflow: hidden
+
+.card-tags
+  display: flex
+  gap: 6px
+  flex-wrap: wrap
+  margin-top: 4px
+
+.tag
+  display: inline-block
+  padding: 4px 8px
+  background: var(--accent-color, #ae96f5)
+  color: #000
+  border-radius: 4px
+  font-size: 11px
+  font-weight: 600
+  text-transform: uppercase
+  letter-spacing: 0.3px
+
+.tag-more
+  padding: 4px 8px
+  color: var(--text-secondary, #ccc)
+  font-size: 11px
+
+.card-cta
+  margin-top: 8px
+
+.btn-learn-more
+  width: 100%
+  padding: 8px 12px
+  background: var(--accent-color, #ae96f5)
+  color: #000
+  border: none
+  border-radius: 6px
+  font-weight: 600
+  font-size: 12px
+  text-transform: uppercase
+  cursor: pointer
+  transition: all 200ms ease
+
+  &:hover
+    background: var(--accent-color-hover, #a78bfa)
+    transform: scale(1.02)
+
+  &:active
+    transform: scale(0.98)
+
+.event-card-rail
+  width: 100%
+  background: var(--bg, #1a1a1a)
+  border-radius: 8px
+  display: flex
+  flex-direction: column
+  gap: 12px
+
+.rail-header
+  display: flex
+  justify-content: space-between
+  align-items: center
+  padding: 16px
+  border-bottom: 1px solid var(--surface, #2a2a2a)
+
+.rail-title
+  margin: 0
+  font-size: 20px
+  font-weight: 700
+  color: var(--text-primary, #fff)
+
+.rail-nav
+  display: flex
+  align-items: center
+  gap: 12px
+
+.nav-btn
+  width: 32px
+  height: 32px
+  border: 1px solid var(--text-secondary, #999)
+  background: transparent
+  color: var(--text-primary, #fff)
+  border-radius: 4px
+  cursor: pointer
+  font-size: 16px
+  font-weight: 600
+  transition: all 200ms ease
+
+  &:hover:not(:disabled)
+    background: var(--accent-color, #ae96f5)
+    border-color: var(--accent-color, #ae96f5)
+    color: #000
+
+  &:disabled
+    opacity: 0.3
+    cursor: not-allowed
+
+.nav-counter
+  font-size: 12px
+  color: var(--text-secondary, #999)
+  font-weight: 600
+  min-width: 50px
+  text-align: center
+
+.rail-content
+  width: 100%
+  overflow: hidden
+
+.cards-scroll
+  display: flex
+  gap: 12px
+  padding: 0 16px 16px
+  overflow-x: auto
+  scroll-behavior: smooth
+
+  &::-webkit-scrollbar
+    height: 6px
+
+  &::-webkit-scrollbar-track
+    background: transparent
+
+  &::-webkit-scrollbar-thumb
+    background: var(--text-secondary, #999)
+    border-radius: 3px
+
+    &:hover
+      background: var(--text-primary, #fff)
+
+.map-panel
+  width: 100%
+  height: 360px
+  min-height: 360px
+  display: flex
+  align-items: center
+  justify-content: center
+  background: var(--bg, #1a1a1a)
+  border-radius: 8px
+  overflow: hidden
+
+@media (max-width: 768px)
+  .map-panel
+    height: 300px
+    min-height: 300px
+
+.map-content
+  width: 100%
+  height: 100%
+  min-height: 0
+  position: relative
+  display: flex
+  align-items: stretch
+  justify-content: center
+
+.map-fallback
+  position: absolute
+  bottom: 12px
+  right: 12px
+  background: rgba(0, 0, 0, 0.45)
+  padding: 6px 10px
+  border-radius: 6px
+  backdrop-filter: blur(4px)
+
+.fallback-text
+  color: var(--text-secondary, #999)
+  font-size: 12px
+  text-align: center
+
+.map-container
+  flex: 1
+  width: 100%
+  height: 100%
+  min-height: 0
+  position: relative
+  display: flex
+  align-items: stretch
+  justify-content: center
+
+:deep(.svg-container)
+  position: relative
+  width: 100%
+  height: 100%
+  min-height: 0
+  display: flex
+  align-items: stretch
+  justify-content: center
+
+:deep(.svg-content-responsive)
+  display: block
+  position: relative
+  width: 100%
+  height: 100%
+
+:deep(.border)
+  stroke: #999
+  stroke-width: 0.5px
+
+:deep(.regions)
+  stroke: #333
+  stroke-width: 0.25px
+  cursor: pointer
+
+:deep(.regions.active)
+  fill: var(--highlight-color, #BDFF00) !important
+  opacity: 1 !important
+  filter: drop-shadow(0 0 4px rgba(189, 255, 0, 0.5))
+
+:deep(.regions.secondary)
+  opacity: 0.5
+
+:deep(.regions:hover)
+  filter: brightness(1.1)
+
+.timeline-bar
+  position: relative
+  width: 100%
+  padding: 10px 0px 26px 0px
+  background: var(--surface, #2a2a2a)
+  border-radius: 55px
+  overflow: hidden
+
+.timeline-scroll-controls
+  position: absolute
+  right: 12px
+  bottom: 4px
+  display: flex
+  gap: 20px
+  z-index: 2
+  justify-content: center
+
+.timeline-scroll-btn
+  width: 35px
+  height: 25px
+  display: inline-flex
+  align-items: center
+  justify-content: center
+  border: 1px solid var(--text-secondary, #999)
+  border-radius: 999px
+  background: rgba(0, 0, 0, 0.28)
+  color: var(--text-secondary, #999)
+  font-size: 16px
+  line-height: 1
+  cursor: pointer
+  padding: 0
+
+  &:hover
+    color: var(--text-primary, #fff)
+    border-color: var(--text-primary, #fff)
+
+  &:disabled
+    opacity: 0.35
+    cursor: not-allowed
+
+.timeline-axis
+  position: relative
+  width: 100%
+  height: 60px
+  display: flex
+  align-items: center
+  padding: 0 16px
+  overflow-x: auto
+  overflow-y: hidden
+  -ms-overflow-style: none
+  scrollbar-width: none
+
+  &::-webkit-scrollbar
+    display: none
+
+.timeline-svg
+  width: 100%
+  height: 60px
+  min-width: 1200px
+
+.baseline
+  stroke: var(--text-secondary, #999)
+  stroke-width: 2
+
+.tick-line
+  stroke: var(--text-secondary, #999)
+  stroke-width: 1
+
+.tick-line--major
+  stroke-width: 3
+
+.tick-line--minor
+  stroke-width: 2
+
+.tick-line--micro
+  stroke-width: 1
+
+.tick-label
+  font-size: 12px
+  fill: var(--text-secondary, #999)
+  text-anchor: middle
+  user-select: none
+
+.markers
+  .marker-group
+    cursor: pointer
+    outline: none
+
+    &:focus circle
+      filter: drop-shadow(0 0 6px rgba(124, 58, 237, 0.6))
+
+.marker-circle
+  r: 6
+  fill: var(--accent-color, #999)
+  stroke: var(--surface, #2a2a2a)
+  stroke-width: 2
+  transition: all 200ms ease
+
+  &:hover
+    r: 8
+    filter: brightness(1.2)
+
+  &.active
+    r: 10
+    fill: var(--accent-color, #ae96f5)
+    filter: drop-shadow(0 0 8px rgba(124, 58, 237, 0.8))

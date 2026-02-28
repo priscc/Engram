@@ -7,16 +7,6 @@
 
     <!-- Main layout -->
     <template v-else>
-      <!-- Map panel -->
-      <map-panel
-        class="explorer-section map-section"
-        :active-regions="activeRegions"
-        :active-coordinates="activeCoordinates"
-        :secondary-regions="secondaryRegions"
-        :highlight-color="theme.highlightColor"
-        :base-map-style="theme.mapStyle"
-      />
-
       <!-- Timeline bar -->
       <timeline-bar
         class="explorer-section timeline-section"
@@ -28,6 +18,16 @@
         @event-selected="setActiveEvent"
         @prev-event="prevEventWrapped"
         @next-event="nextEventWrapped"
+      />
+
+      <!-- Map panel -->
+      <map-panel
+        class="explorer-section map-section"
+        :active-regions="activeRegions"
+        :active-coordinates="activeCoordinates"
+        :secondary-regions="secondaryRegions"
+        :highlight-color="theme.highlightColor"
+        :base-map-style="theme.mapStyle"
       />
 
       <!-- Event card rail -->
@@ -162,51 +162,4 @@ if (!activeEventId.value && props.events?.length > 0) {
 }
 </script>
 
-<style scoped lang="sass">
-.events-explorer
-  width: 100%
-  display: flex
-  flex-direction: column
-  gap: 10px
-  padding: 0
-  background: var(--bg)
-  border-radius: 12px
-  overflow: hidden
-
-  --accent-color: #7c3aed
-  --highlight-color: #BDFF00
-  --bg: #1a1a1a
-  --surface: #2a2a2a
-  --text-primary: #ffffff
-  --text-secondary: #999999
-
-.explorer-section
-  width: 100%
-
-.map-section
-  height: 360px
-  min-height: 360px
-  flex: 0 0 auto
-
-@media (max-width: 768px)
-  .map-section
-    height: 300px
-    min-height: 300px
-
-.timeline-section
-  flex: 0 0 auto
-
-.cards-section
-  flex: 1
-  min-height: 200px
-
-.empty-state
-  width: 100%
-  height: 300px
-  display: flex
-  align-items: center
-  justify-content: center
-  color: var(--text-secondary)
-  font-size: 16px
-  background: var(--bg)
-</style>
+<style lang="sass" scoped src="@/assets/css/eventsExplorer.sass"></style>

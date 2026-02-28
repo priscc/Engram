@@ -65,7 +65,6 @@
 import store from "@/store";
 import storeTopic from "@/store/topic.js";
 import { pushRoute } from "@/router/navigation";
-// import eventmap from "./EventMapComponent.vue";
 import resourcecomp from "./ResourceComponent.vue";
 import { db } from "@/main";
 import Quill from "quill";
