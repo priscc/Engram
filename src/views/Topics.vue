@@ -1,17 +1,27 @@
 <template>
   <div id="Topics">
-    <b-container class="topics_container">
-      <div class="topics_back_button" @click="back">
-        <b-icon-caret-left aria-hidden="true" /> Back
-      </div>
-      <b-row>
-        <b-col sm="12" md="6" lg="6" class="period_header">
-          {{ timePeriodHeaders.header }}
-        </b-col>
-        <b-col sm="12" md="6" lg="6" class="period_subheader">
-          {{ timePeriodHeaders.subheader }}
+    <b-container fluid>
+      <b-row
+        class="background background_filter page_header_row"
+        :style="{ 'background-image': `url(${headerBackgroundImage})` }"
+      >
+        <b-col cols="12" class="u-non-blurred">
+          <div class="page_header_inner">
+            <div class="header_back_button" @click="back">
+              <b-icon-chevron-left aria-hidden="true" /> Back
+            </div>
+            <div class="header_breadcrumb" role="heading" aria-level="1">
+              <span class="crumb_item">AP World History</span>
+              <span class="crumb_sep" aria-hidden="true">→</span>
+              <span class="crumb_item">{{ timePeriodHeaders.header }}</span>
+              <span class="crumb_sep" aria-hidden="true">→</span>
+              <span class="crumb_item crumb_current">{{ timePeriodHeaders.subheader }}</span>
+            </div>
+          </div>
         </b-col>
       </b-row>
+    </b-container>
+    <b-container class="topics_container">
       <b-row v-for="unit in units" :key="unit.id" class="unit">
         <b-col>
           <p class="unit_header">
@@ -349,6 +359,15 @@ export default {
     };
   },
   computed: {
+    headerBackgroundImage() {
+      try {
+        return this.timePeriodHeaders?.img
+          ? require(`@/assets/${this.timePeriodHeaders.img}`)
+          : "";
+      } catch (e) {
+        return "";
+      }
+    },
     timePeriodHeaders() {
       return store.state.timePeriodHeaders[store.state.currentTimePeriod];
     },
@@ -762,6 +781,66 @@ export default {
 <style lang="sass" scoped>
 @import "@/assets/css/topics.sass"
 
+.page_header_row
+  min-height: 132px
+  padding: 16px 22px
+
+.page_header_inner
+  min-height: 100px
+  width: 100%
+  display: flex
+  align-items: center
+  gap: 14px
+
+.header_back_button
+  display: inline-flex
+  align-items: center
+  gap: 6px
+  padding: 6px 14px
+  font-family: "Montserrat", sans-serif
+  font-weight: 700
+  font-size: 14px
+  color: #fff
+  background: rgba(91, 33, 182, 0.4)
+  border: 1px solid rgba(91, 33, 182, 1)
+  border-radius: 10px
+  backdrop-filter: blur(6px)
+  text-decoration: none
+  cursor: pointer
+  transition: all 0.25s ease
+
+.header_back_button:hover
+  background: #5B21B6
+  transform: translateY(-1px)
+
+.header_back_button:active
+  transform: translateY(0)
+
+.header_breadcrumb
+  display: flex
+  align-items: center
+  flex-wrap: wrap
+  gap: 6px
+  min-width: 0
+  color: #ffffff
+  font-family: "Montserrat", sans-serif
+  letter-spacing: -0.4px
+  font-size: 22px
+  line-height: 1.2
+  font-weight: 500
+
+.crumb_item
+  max-width: 100%
+  word-break: break-word
+
+.crumb_current
+  font-weight: 700
+
+.crumb_sep
+  color: rgba(255, 255, 255, 0.82)
+  font-size: 20px
+  line-height: 1
+
 .unit
   text-align: left
 
@@ -871,6 +950,16 @@ export default {
   color: #e2e8f0
 
 @media (max-width: 920px)
+  .page_header_row
+    min-height: 124px
+    padding: 14px 14px
+
+  .page_header_inner
+    gap: 10px
+
+  .header_breadcrumb
+    font-size: 18px
+
   .topics_map
     min-height: 460px
 
@@ -883,4 +972,18 @@ export default {
   .legend_topic
     font-size: 12px
     padding: 6px 10px
+
+@media (max-width: 576px)
+  .page_header_inner
+    align-items: flex-start
+    flex-direction: column
+    justify-content: center
+
+  .header_back_button
+    padding: 5px 10px
+    font-size: 13px
+
+  .header_breadcrumb
+    font-size: 16px
+    gap: 4px
 </style>
