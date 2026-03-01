@@ -1,9 +1,108 @@
 // Units View Styles
 // Extracted from Units.vue
 
-.site_header
-  background-image: url("https://th.bing.com/th/id/R.be783c574e7c6a49e83b9eafd49e4b22?rik=hleDtASc6GRrqw&pid=ImgRaw&r=0")
+.home_page
+  min-height: 100vh
+
+.periods
+  min-height: calc(100vh - 132px)
+
+.period
+  position: relative
+  background-repeat: no-repeat
+  background-size: cover
+  background-position: center
+  border: none
+  padding: 0
+  min-height: 760px
+  overflow: hidden
+  transition: transform .2s ease
+
+  &:hover
+    cursor: pointer
+
+.period_overlay
+  position: absolute
+  inset: 0
+  background: linear-gradient(180deg, rgba(8, 10, 20, .36) 0%, rgba(8, 10, 20, .52) 45%, rgba(8, 10, 20, .68) 100%)
+  pointer-events: none
+
+.period_content
+  position: relative
+  z-index: 1
+  min-height: 100%
+  padding: 14px 10px 16px 10px
+  display: flex
+  flex-direction: column
+
+.period_header
+  font-family: "Montserrat", sans-serif
+  font-size: clamp(28px, 2.2vw, 44px)
   font-weight: 750
   color: #fff
-  padding: 30px 25px
-  text-align: center
+  margin: 0
+  line-height: 1.15
+
+.period_subheader
+  font-family: "Montserrat", sans-serif
+  font-size: clamp(16px, 1.5vw, 26px)
+  font-weight: 500
+  color: rgba(255, 255, 255, .95)
+  margin: 8px 0 0 0
+
+.period_units
+  display: flex
+  flex-direction: column
+  gap: 12px
+  margin-top: 100px
+
+.period_unit_card
+  width: 100%
+  border: 1px solid rgba(255, 255, 255, .24)
+  border-radius: 12px
+  background: rgba(255, 255, 255, .22)
+  backdrop-filter: blur(4px)
+  text-align: left
+  padding: 10px 14px
+  display: flex
+  flex-direction: column
+  gap: 2px
+  cursor: pointer
+  transition: transform .18s ease, background .18s ease, box-shadow .18s ease
+
+  &:nth-child(2)
+    background: rgba(255, 255, 255, .18)
+
+  &:hover
+    transform: translateY(-4px)
+    background: rgba(255, 255, 255, .4)
+    box-shadow: 0 10px 18px rgba(3, 6, 17, .6)
+
+  &:focus-visible
+    outline: 2px solid rgba(255, 255, 255, .9)
+    outline-offset: 2px
+
+.period_unit_label
+  font-family: "Montserrat", sans-serif
+  font-size: clamp(22px, 1.8vw, 34px)
+  line-height: 1.08
+  font-weight: 700
+  color: #fff
+
+.period_unit_title
+  font-family: "Montserrat", sans-serif
+  font-size: clamp(16px, 1.35vw, 28px)
+  line-height: 1.2
+  font-weight: 500
+  color: #fff
+
+@media (max-width: 1200px)
+  .period
+    min-height: 620px
+
+@media (max-width: 767px)
+  .period
+    min-height: 450px
+
+  .period_content
+    padding: 16px 12px

@@ -2,52 +2,44 @@
   <div id="Topic">
     <b-container fluid>
       <b-row
-        class="background background_filter"
+        class="background background_filter page_header_row"
         :style="{ 'background-image': `url(${topic.topic_thumbURL})` }"
       >
-        <b-col lg="2" md="2" sm="12" class="u-non-blurred">
-          <div class="back_button" @click="back">
-            <b-icon-chevron-left aria-hidden="true" /> Back
+        <b-col cols="12" class="u-non-blurred">
+          <div class="page_header_inner">
+            <div class="header_back_button" @click="back">
+              <b-icon-chevron-left aria-hidden="true" /> Back
+            </div>
+            <div class="header_breadcrumb" role="heading" aria-level="1">
+              <span class="crumb_item">{{ timePeriodHeaders.header }}</span>
+              <span class="crumb_sep" aria-hidden="true">→</span>
+              <span class="crumb_item">{{ topic.unit }}</span>
+              <span class="crumb_sep" aria-hidden="true">→</span>
+              <span class="crumb_item crumb_current">{{ topic.title }}</span>
+            </div>
           </div>
-        </b-col>
-        <b-col class="d-flex flex-column u-non-blurred">
-          <p class="banner_timeperiod_header">
-            Time Period: {{ timePeriodHeaders.header }}
-          </p>
-          <p class="banner_unit_header">{{ topic.unit }}</p>
-          <p class="banner_header">
-            {{ topic.title }}
-          </p>
         </b-col>
       </b-row>
     </b-container>
-    <b-container fluid class="mb-5 ml-3">
-      <b-row class="pt-5">
-        <b-col
-          lg="2"
-          md="2"
-          sm="12"
-          class="category_buttons d-flex flex-column"
-        >
-          <div class="sidebar">
-            <div v-for="(button, index) in topicButtons" :key="index">
-              <div
-                class="category_button"
-                :class="{ active: currentTopicCategory === button }"
-                @click="loadCategory(button)"
-              >
-                {{ button }}
-              </div>
-            </div>
-            <!-- Right-aligned Top button inside sidebar -->
-            <div class="d-flex justify-content-end">
-              <b-button class="top-pill" @click="top()">
-                <b-icon-chevron-up aria-hidden="true" /> Top
-              </b-button>
-            </div>
+    <b-container fluid class="mb-5 ml-3 topic_main_container">
+      <div class="sidebar topic-progress-nav">
+        <div v-for="(button, index) in topicButtons" :key="index">
+          <div
+            class="category_button"
+            :class="{ active: currentTopicCategory === button }"
+            @click="loadCategory(button)"
+          >
+            {{ button }}
           </div>
-        </b-col>
-        <b-col class="pa-0 topic-content-column">
+        </div>
+        <div class="d-flex justify-content-end top_button_slot">
+          <b-button class="top-pill" @click="top()">
+            <b-icon-chevron-up aria-hidden="true" /> Top
+          </b-button>
+        </div>
+      </div>
+      <b-row class="pt-5 topic_layout_row">
+        <b-col cols="12" class="pa-0 topic-content-column">
           <div :style="{ display: display_loader }">
             <b-row>
               <b-col cols="7">
@@ -313,4 +305,131 @@ export default {
 
 .topic-content-column
   min-width: 0
+
+.topic_main_container,
+.topic_layout_row,
+.topic-content-column
+  overflow: visible
+
+.topic_main_container
+  --topic-nav-sticky-top: 64px
+  --topic-nav-sticky-top-mobile: 56px
+
+.topic_layout_row
+  align-items: flex-start
+
+.sidebar
+  position: sticky
+  top: 0
+  z-index: 50
+  align-self: flex-start
+  width: 100%
+  height: fit-content
+  display: flex
+  flex-direction: row
+  flex-wrap: wrap
+  align-items: center
+  gap: 8px
+  padding: 8px 10px
+  background: #ffffff
+  border-bottom: 1px solid rgba(24, 25, 31, 0.08)
+
+.category_button
+  margin: 0
+  white-space: nowrap
+
+.top_button_slot
+  margin-left: auto
+
+.top_button_slot .top-pill
+  margin: 0
+
+@media (max-width: 768px)
+  .sidebar
+    top: 0px
+
+.page_header_row
+  min-height: 132px
+  padding: 16px 22px
+
+.page_header_inner
+  min-height: 100px
+  width: 100%
+  display: flex
+  align-items: center
+  gap: 14px
+
+.header_back_button
+  display: inline-flex
+  align-items: center
+  gap: 6px
+  padding: 6px 14px
+  font-family: "Montserrat", sans-serif
+  font-weight: 700
+  font-size: 14px
+  color: #fff
+  background: rgba(91, 33, 182, 0.4)
+  border: 1px solid rgba(91, 33, 182, 1)
+  border-radius: 10px
+  backdrop-filter: blur(6px)
+  text-decoration: none
+  cursor: pointer
+  transition: all 0.25s ease
+
+.header_back_button:hover
+  background: #5B21B6
+  transform: translateY(-1px)
+
+.header_back_button:active
+  transform: translateY(0)
+
+.header_breadcrumb
+  display: flex
+  align-items: center
+  flex-wrap: wrap
+  gap: 6px
+  min-width: 0
+  color: #ffffff
+  font-family: "Montserrat", sans-serif
+  letter-spacing: -0.4px
+  font-size: 22px
+  line-height: 1.2
+  font-weight: 500
+
+.crumb_item
+  max-width: 100%
+  word-break: break-word
+
+.crumb_current
+  font-weight: 700
+
+.crumb_sep
+  color: rgba(255, 255, 255, 0.82)
+  font-size: 20px
+  line-height: 1
+
+@media (max-width: 920px)
+  .page_header_row
+    min-height: 124px
+    padding: 14px 14px
+
+  .page_header_inner
+    gap: 10px
+
+  .header_breadcrumb
+    font-size: 18px
+
+@media (max-width: 576px)
+  .page_header_inner
+    align-items: flex-start
+    flex-direction: column
+    justify-content: center
+
+  .header_back_button
+    padding: 5px 10px
+    font-size: 13px
+
+  .header_breadcrumb
+    font-size: 16px
+    gap: 4px
 </style>

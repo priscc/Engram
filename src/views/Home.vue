@@ -38,6 +38,45 @@
         />
       </div>
     </div>
+
+    <section class="home-periods" aria-label="AP World History Time Periods">
+      <div class="home-periods__heading">
+        <h2 class="home-periods__title">AP World History Time Periods</h2>
+        <p class="home-periods__subtitle">Explore APWH Time Periods</p>
+      </div>
+
+      <div class="home-periods__grid">
+        <article
+          v-for="period in timePeriods"
+          :key="period.id"
+          class="home-period"
+          :style="{ backgroundImage: `url(${period.image})` }"
+        >
+          <div class="home-period__overlay"></div>
+
+          <div class="home-period__content">
+            <header>
+              <h3 class="home-period__title">{{ period.title }}</h3>
+              <p class="home-period__range">{{ period.range }}</p>
+            </header>
+            <div class="home-period__units" role="list">
+              <button
+                v-for="unit in period.units"
+                :key="unit.id"
+                type="button"
+                role="listitem"
+                class="home-period__unit"
+                @click="openPeriod(period)"
+              >
+                <span class="home-period__unit-label">{{ unit.id }}</span>
+                <span class="home-period__unit-title">{{ unit.title }}</span>
+              </button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
     <b-container fluid>
       <b-row align-h="center" align-v="center" class="features">
         <b-col
@@ -71,22 +110,71 @@
 </template>
 
 <script>
-import { useRouter } from "vue-router";
 import featuresdisplay from "@/components/FeaturesDisplay.vue";
 import { onMounted } from "vue";
 import { event } from "vue-gtag";
 import steps from "@/components/writing_feature/Steps.vue";
-import { goToSelectModule } from "@/router/navigation";
+import { goToPeriod, goToSelectModule } from "@/router/navigation";
 export default {
   components: {
     featuresdisplay,
     steps
   },
   setup() {
-    const router = useRouter();
     onMounted(() => {
       event("home-page", { method: "Google" });
     });
+
+    const timePeriods = [
+      {
+        id: "period-1",
+        title: "Regional Interactions",
+        range: "1200-1450",
+        periodNumber: 1,
+        image: require("@/assets/RegionalInteractions.png"),
+        units: [
+          { id: "Unit 1", title: "The Global Tapestry" },
+          { id: "Unit 2", title: "Networks of Exchange" }
+        ]
+      },
+      {
+        id: "period-2",
+        title: "First Global Age",
+        range: "1450-1750",
+        periodNumber: 2,
+        image: require("@/assets/FirstGlobalAge.png"),
+        units: [
+          { id: "Unit 3", title: "Land-Based Empires" },
+          { id: "Unit 4", title: "Transoceanic Interconnections" }
+        ]
+      },
+      {
+        id: "period-3",
+        title: "Revolutions & Industrialization",
+        range: "1750-1900",
+        periodNumber: 3,
+        image: require("@/assets/Rev&Indus.png"),
+        units: [
+          { id: "Unit 5", title: "Revolutions" },
+          { id: "Unit 6", title: "Consequences of Industrialization" }
+        ]
+      },
+      {
+        id: "period-4",
+        title: "Modern Times",
+        range: "1900-Present",
+        periodNumber: 4,
+        image: require("@/assets/Modern.png"),
+        units: [
+          { id: "Unit 7", title: "Global Conflict" },
+          { id: "Unit 8", title: "Cold War & Decolonization" }
+        ]
+      }
+    ];
+
+    const openPeriod = period => {
+      goToPeriod(period.title, period.periodNumber);
+    };
 
     const features = [
       {
@@ -135,7 +223,7 @@ export default {
       }
     ];
 
-    return { features, steps, router, goToSelectModule };
+    return { features, steps, timePeriods, openPeriod, goToSelectModule };
   }
 };
 </script>

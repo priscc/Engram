@@ -5,7 +5,7 @@
         <div class="title">Introduction</div>
       </b-row>
       <b-row>
-        <b-col lg="7" md="7" sm="12">
+        <b-col lg="8" md="8" sm="12">
           <b-row>
             <b-col>
               <div class="image-wrapper">
@@ -44,7 +44,8 @@
             </b-col>
           </b-row>
         </b-col>
-        <b-col lg="4" md="5" sm="12">
+        <b-col lg="4" md="5" sm="12" class="intro_resources">
+<div data-v-54074de2="" class="topic_resource_header">Additional Topic Resources:</div>
           <resourcecomp type="topic" :resourcetype="resouces"></resourcecomp>
         </b-col>
       </b-row>
@@ -107,3 +108,15 @@ export default {
 </script>
 
 <style lang="sass" scoped src="@/assets/css/topicContent.sass"></style>
+
+<style lang="sass" scoped>
+.intro_resources
+  background: #f2f2f2
+  padding: 20px
+  border-radius: 10px
+  border: 2px solid #8b5cf6
+.topic_resource_header
+  padding-bottom:  20px
+  font-size: 20px
+  font-weight: 700
+</style>
