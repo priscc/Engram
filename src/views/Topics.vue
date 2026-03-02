@@ -22,7 +22,7 @@
       </b-row>
     </b-container>
     <b-container class="topics_container">
-      <b-row v-for="unit in units" :key="unit.id" class="unit">
+      <b-row v-for="unit in visibleUnits" :key="unit.unitHeader" class="unit">
         <b-col>
           <p class="unit_header">
             {{ unit.unitHeader }}
@@ -373,6 +373,47 @@ export default {
     },
     units() {
       return store.state.units;
+    },
+    selectedUnitHeader() {
+      const selectedUnitRaw = this.$route?.query?.unit;
+      const selectedUnit = Array.isArray(selectedUnitRaw)
+        ? selectedUnitRaw[0]
+        : selectedUnitRaw;
+
+      if (typeof selectedUnit !== "string") {
+        return "";
+      }
+
+      try {
+        return decodeURIComponent(selectedUnit).replace(/\+/g, " ");
+      } catch (e) {
+        return selectedUnit.replace(/\+/g, " ");
+      }
+    },
+    unitsArray() {
+      return Array.isArray(this.units)
+        ? this.units
+        : Object.values(this.units || {});
+    },
+    visibleUnits() {
+      if (!this.unitsArray.length) {
+        return [];
+      }
+
+      const normalizedSelected = this.selectedUnitHeader.trim().toLowerCase();
+      if (!normalizedSelected) {
+        return [this.unitsArray[0]];
+      }
+
+      const matchedUnit = this.unitsArray.find(unit =>
+        String(unit?.unitHeader || "")
+          .trim()
+          .toLowerCase()
+          .replace(/\s+/g, " ")
+          .startsWith(normalizedSelected)
+      );
+
+      return [matchedUnit || this.unitsArray[0]];
     }
   },
   watch: {

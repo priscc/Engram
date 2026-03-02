@@ -18,7 +18,7 @@
             'background-image':
               'url(' + require(`@/assets/${timePeriod.img}`) + ')'
           }"
-          @click="next(timePeriod)"
+          @click="next(timePeriod, unitsForPeriod(timePeriod)[0])"
         >
           <div class="period_overlay"></div>
           <div class="period_content">
@@ -34,7 +34,7 @@
                 type="button"
                 class="period_unit_card"
                 role="listitem"
-                @click.stop="next(timePeriod)"
+                @click.stop="next(timePeriod, unit)"
               >
                 <span class="period_unit_label">{{ unit.id }}</span>
                 <span class="period_unit_title">{{ unit.title }}</span>
@@ -68,39 +68,22 @@ export default {
   },
   methods: {
     unitsForPeriod(period) {
-      const preferredUnits = {
-        "Regional Interactions": [
-          { id: "Unit 1", title: "The Global Tapestry" },
-          { id: "Unit 2", title: "Networks of Exchange" }
-        ],
-        "First Global Age": [
-          { id: "Unit 3", title: "Land-Based Empires" },
-          { id: "Unit 4", title: "Transoceanic Interconnections" }
-        ],
-        "Revolutions & Industrialization": [
-          { id: "Unit 5", title: "Revolutions" },
-          { id: "Unit 6", title: "Consequences of Industrialization" }
-        ],
-        "Modern Times": [
-          { id: "Unit 7", title: "Global Conflict" },
-          { id: "Unit 8", title: "Cold War & Decolonization" }
-        ]
-      };
-
-      if (preferredUnits[period.header]) {
-        return preferredUnits[period.header];
-      }
-
-      const titles = Object.keys(period.unitTitles || {}).slice(0, 2);
-      return titles.map((title, index) => ({
-        id: `Unit ${index + 1}`,
-        title: title.replace(/^Unit\s*\d+:\s*/, "")
-      }));
+      const unitHeaders = Object.keys(period.unitTitles || {});
+      return unitHeaders.map((unitHeader, index) => {
+        const unitIdMatch = unitHeader.match(/^Unit\s*\d+/i);
+        return {
+          id: unitIdMatch ? unitIdMatch[0] : `Unit ${index + 1}`,
+          title: unitHeader.replace(/^Unit\s*\d+:\s*/, ""),
+          unitHeader
+        };
+      });
     },
-    next(i) {
+    next(i, selectedUnit = null) {
       store.dispatch("setTimePeriod", i.timePeriod);
       // Use goToPeriod which slugifies `periodName` so URLs are SEO-friendly
-      goToPeriod(i.header, i.timePeriod);
+      goToPeriod(i.header, i.timePeriod, {
+        unit: selectedUnit?.id || ""
+      });
     }
   },
   mounted() {

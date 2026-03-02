@@ -31,11 +31,12 @@ export function goToUnits() {
   return router.push({ name: "All_Periods" });
 }
 
-export function goToPeriod(periodName, period) {
+export function goToPeriod(periodName, period, query = {}) {
   const periodSlug = slugify(periodName || String(period || ""));
   return router.push({
     name: "Period",
-    params: { periodName: periodSlug, period }
+    params: { periodName: periodSlug, period },
+    query
   });
 }
 
