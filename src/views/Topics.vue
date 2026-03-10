@@ -13,110 +13,130 @@
             <div class="header_breadcrumb" role="heading" aria-level="1">
               <span class="crumb_item">AP World History</span>
               <span class="crumb_sep" aria-hidden="true">→</span>
-              <span class="crumb_item">{{ timePeriodHeaders.header }}</span>
-              <span class="crumb_sep" aria-hidden="true">→</span>
-              <span class="crumb_item crumb_current">{{ timePeriodHeaders.subheader }}</span>
+              <span class="crumb_item">{{ timePeriodHeaders.header }} ({{ timePeriodHeaders.subheader }})</span>
+              <span v-if="headerUnitTitle" class="crumb_sep" aria-hidden="true">→</span>
+              <span v-if="headerUnitTitle" class="crumb_item crumb_current">{{ headerUnitTitle }}</span>
             </div>
           </div>
         </b-col>
       </b-row>
     </b-container>
     <b-container class="topics_container">
-      <b-row v-for="unit in visibleUnits" :key="unit.unitHeader" class="unit">
-        <b-col>
-          <p class="unit_header">
-            {{ unit.unitHeader }}
-          </p>
-          <div
-            class="topics_legend"
-            role="list"
-            :aria-label="`${unit.unitHeader} topics`"
-          >
-            <button
-              v-for="region in mapRegionsForUnit(unit)"
-              :key="`legend-${unit.unitHeader}-${region.topic.id}`"
-              type="button"
-              class="legend_topic"
-              :class="{ hovered: hoveredTopicId === region.topic.id }"
-              :style="topicLabelStyle(region.topic.id)"
-              @mouseenter="setHoveredTopic(region.topic.id)"
-              @mouseleave="clearHoveredTopic"
-              @focus="setHoveredTopic(region.topic.id)"
-              @blur="clearHoveredTopic"
-              @click="next(region.topic)"
-            >
-              <span
-                class="legend_dot"
-                :style="{ backgroundColor: getTopicColor(region.topic.id) }"
-                aria-hidden="true"
-              ></span>
-              <span class="legend_title">{{ region.topic.title }}</span>
-              <span v-if="region.topic.timespan" class="legend_time">
-                ({{ region.topic.timespan }})
-              </span>
-            </button>
-          </div>
-
-          <div
-            class="topics_map"
-            role="region"
-            :aria-label="`${unit.unitHeader} topic map`"
-          >
-            <svg class="world_svg" viewBox="0 0 1000 520" aria-hidden="true">
-              <rect x="0" y="0" width="1000" height="520" class="ocean"></rect>
-              <path
-                v-if="worldLandPath"
-                class="world_land"
-                :d="worldLandPath"
-              />
-              <path
-                v-if="worldBorderPath"
-                class="world_borders"
-                :d="worldBorderPath"
-              />
-
-              <path
-                v-for="region in mapRegionsForUnit(unit)"
-                :key="`${unit.unitHeader}-${region.topic.id}`"
-                class="map_highlight"
-                :class="{ hovered: hoveredTopicId === region.topic.id }"
-                :style="regionStyle(region.topic.id)"
-                :d="region.path"
-                tabindex="0"
-                role="button"
-                @mouseenter="setHoveredRegion(region, $event)"
-                @mousemove="moveTooltip($event)"
-                @mouseleave="clearHoveredTopic"
-                @focus="setHoveredRegion(region, $event)"
-                @blur="clearHoveredTopic"
-                @click="next(region.topic)"
-                @keydown.enter.prevent="next(region.topic)"
-                @keydown.space.prevent="next(region.topic)"
-                :aria-label="`Open topic ${region.topic.title}`"
-              >
-                <title>
-                  {{ region.topic.title }}
-                  {{
-                    region.topic.timespan ? `(${region.topic.timespan})` : ""
-                  }}
-                </title>
-              </path>
-            </svg>
-
-            <div
-              v-if="hoverTooltip.visible"
-              class="map_tooltip"
-              :style="{
-                left: `${hoverTooltip.x}px`,
-                top: `${hoverTooltip.y}px`,
-                borderColor: hoverTooltip.color
-              }"
-            >
-              <p class="tooltip_title">{{ hoverTooltip.title }}</p>
-              <p v-if="hoverTooltip.timespan" class="tooltip_time">
-                {{ hoverTooltip.timespan }}
+      <b-row
+        v-for="unit in visibleUnits"
+        :key="unit.unitHeader"
+        class="topics_unit_row"
+      >
+        <b-col cols="12">
+          <div class="topics_content_layout">
+            <section class="topics_left_panel">
+              <p class="unit_header">
+                {{ unit.unitHeader }}
               </p>
-            </div>
+
+              <div
+                class="topic_cards_grid"
+                role="list"
+                :aria-label="`${unit.unitHeader} topics`"
+              >
+                <button
+                  v-for="region in mapRegionsForUnit(unit)"
+                  :key="`card-${unit.unitHeader}-${region.topic.id}`"
+                  type="button"
+                  class="topic_card_tile"
+                  :class="{ hovered: hoveredTopicId === region.topic.id }"
+                  :style="topicCardStyle(region.topic)"
+                  @mouseenter="setHoveredTopic(region.topic.id)"
+                  @mouseleave="clearHoveredTopic"
+                  @focus="setHoveredTopic(region.topic.id)"
+                  @blur="clearHoveredTopic"
+                  @click="next(region.topic)"
+                  :aria-label="`Open topic ${region.topic.title}`"
+                >
+                  <span
+                    class="topic_card_accent"
+                    :style="{ backgroundColor: getTopicColor(region.topic.id) }"
+                    aria-hidden="true"
+                  ></span>
+                  <span class="topic_card_body">
+                    <span class="topic_card_title">{{ region.topic.title }}</span>
+                    <span v-if="region.topic.timespan" class="topic_card_time">
+                      ({{ region.topic.timespan }})
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </section>
+
+            <section class="topics_right_panel">
+              <div
+                class="topics_map"
+                role="region"
+                :aria-label="`${unit.unitHeader} topic map`"
+              >
+                <svg class="world_svg" viewBox="0 0 1000 520" aria-hidden="true">
+                  <rect
+                    x="0"
+                    y="0"
+                    width="1000"
+                    height="520"
+                    class="ocean"
+                  ></rect>
+                  <path
+                    v-if="worldLandPath"
+                    class="world_land"
+                    :d="worldLandPath"
+                  />
+                  <path
+                    v-if="worldBorderPath"
+                    class="world_borders"
+                    :d="worldBorderPath"
+                  />
+
+                  <path
+                    v-for="region in mapRegionsForUnit(unit)"
+                    :key="`${unit.unitHeader}-${region.topic.id}`"
+                    class="map_highlight"
+                    :class="{ hovered: hoveredTopicId === region.topic.id }"
+                    :style="regionStyle(region.topic.id)"
+                    :d="region.path"
+                    tabindex="0"
+                    role="button"
+                    @mouseenter="setHoveredRegion(region, $event)"
+                    @mousemove="moveTooltip($event)"
+                    @mouseleave="clearHoveredTopic"
+                    @focus="setHoveredRegion(region, $event)"
+                    @blur="clearHoveredTopic"
+                    @click="next(region.topic)"
+                    @keydown.enter.prevent="next(region.topic)"
+                    @keydown.space.prevent="next(region.topic)"
+                    :aria-label="`Open topic ${region.topic.title}`"
+                  >
+                    <title>
+                      {{ region.topic.title }}
+                      {{
+                        region.topic.timespan ? `(${region.topic.timespan})` : ""
+                      }}
+                    </title>
+                  </path>
+                </svg>
+
+                <div
+                  v-if="hoverTooltip.visible"
+                  class="map_tooltip"
+                  :style="{
+                    left: `${hoverTooltip.x}px`,
+                    top: `${hoverTooltip.y}px`,
+                    borderColor: hoverTooltip.color
+                  }"
+                >
+                  <p class="tooltip_title">{{ hoverTooltip.title }}</p>
+                  <p v-if="hoverTooltip.timespan" class="tooltip_time">
+                    {{ hoverTooltip.timespan }}
+                  </p>
+                </div>
+              </div>
+            </section>
           </div>
         </b-col>
       </b-row>
@@ -414,6 +434,15 @@ export default {
       );
 
       return [matchedUnit || this.unitsArray[0]];
+    },
+    headerUnitTitle() {
+      const visibleUnit = this.visibleUnits[0];
+      const visibleHeader = String(visibleUnit?.unitHeader || "").trim();
+      if (visibleHeader) {
+        return visibleHeader;
+      }
+
+      return this.selectedUnitHeader.trim();
     }
   },
   watch: {
@@ -481,13 +510,35 @@ export default {
         strokeWidth: isHovered ? 2 : 1.25
       };
     },
-    topicLabelStyle(topicId) {
-      const color = this.getTopicColor(topicId);
-      const isHovered = this.hoveredTopicId === topicId;
+    resolveTopicImage(topic) {
+      const imageCandidates = [
+        topic?.topic_thumbURL,
+        topic?.intro_thumbURL,
+        topic?.topic_thumbFile,
+        topic?.intro_thumbFile
+      ];
+
+      const imagePath = imageCandidates.find(
+        value => typeof value === "string" && value.trim().length > 0
+      );
+
+      return imagePath ? imagePath.trim() : "";
+    },
+    topicCardStyle(topic) {
+      const color = this.getTopicColor(topic?.id);
+      const topicImage = this.resolveTopicImage(topic);
+
+      const overlayGradient =
+        "linear-gradient(180deg, rgba(6, 6, 9, 0.3) 0%, rgba(6, 6, 9, 0.55) 52%, rgba(6, 6, 9, 0.78) 100%)";
 
       return {
-        borderColor: color,
-        backgroundColor: this.hexToRgba(color, isHovered ? 0.32 : 0.18)
+        borderColor: this.hexToRgba(color, 0.72),
+        backgroundImage: topicImage
+          ? `${overlayGradient}, url("${topicImage}")`
+          : `linear-gradient(180deg, ${this.hexToRgba(
+              color,
+              0.66
+            )} 0%, rgba(6, 6, 9, 0.9) 100%)`
       };
     },
     positionTooltip(event) {
@@ -882,60 +933,137 @@ export default {
   font-size: 20px
   line-height: 1
 
-.unit
-  text-align: left
+.topics_container
+  max-width: 1360px
+  margin: 0 auto
+  padding: 32px 20px 44px
 
-.topics_legend
+.topics_unit_row
+  margin: 0
+
+.topics_content_layout
+  display: grid
+  grid-template-columns: minmax(260px, 336px) minmax(0, 1fr)
+  align-items: start
+  gap: 24px
+
+.topics_left_panel
   display: flex
-  flex-wrap: wrap
-  gap: 10px
-  margin-bottom: 14px
+  flex-direction: column
+  gap: 18px
 
-.legend_topic
-  border: 1px solid
-  border-radius: 999px
-  background: rgba(255, 255, 255, 0.12)
-  padding: 7px 12px
-  display: inline-flex
-  align-items: center
-  gap: 8px
+.unit_header
+  margin: 0
+  color: #1f2937
   font-family: "Montserrat", sans-serif
-  font-size: 13px
-  cursor: pointer
-  transition: transform 0.15s ease, background 0.15s ease
+  letter-spacing: -0.6px
+  line-height: 1.1
+  font-weight: 500
+  font-size: clamp(34px, 2.8vw, 48px)
 
-.legend_topic:hover,
-.legend_topic:focus,
-.legend_topic.hovered
-  transform: translateY(-1px)
-  background: rgba(255, 255, 255, 0.18)
+.topic_cards_grid
+  display: grid
+  grid-template-columns: repeat(2, minmax(0, 1fr))
+  gap: 14px
+
+.topic_card_tile
+  position: relative
+  width: 100%
+  aspect-ratio: 1 / 1
+  border: 1px solid rgba(255, 255, 255, 0.2)
+  border-radius: 24px
+  overflow: hidden
+  padding: 16px 12px 15px
+  background-color: #111827
+  background-size: cover
+  background-repeat: no-repeat
+  background-position: center
+  color: #ffffff
+  text-align: center
+  display: flex
+  align-items: flex-end
+  justify-content: center
+  cursor: pointer
+  box-shadow: 0 8px 20px rgba(15, 23, 42, 0.24)
+  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease, border-color 0.2s ease
+
+.topic_card_tile::before
+  content: ""
+  position: absolute
+  inset: 0
+  background: rgba(8, 8, 12, 0.2)
+  pointer-events: none
+
+.topic_card_tile:hover,
+.topic_card_tile.hovered,
+.topic_card_tile:focus-visible
+  transform: translateY(-2px)
+  filter: brightness(1.06)
+  box-shadow: 0 14px 30px rgba(15, 23, 42, 0.36)
   outline: none
 
-.legend_dot
-  width: 10px
-  height: 10px
-  border-radius: 50%
-  flex-shrink: 0
+.topic_card_tile:focus-visible
+  border-color: #ffffff
 
-.legend_title
-  font-weight: 600
+.topic_card_accent
+  position: absolute
+  z-index: 1
+  top: 16px
+  left: 20px
+  right: 20px
+  height: 14px
+  border-radius: 999px
+  opacity: 0.95
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.2), 0 6px 18px rgba(0, 0, 0, 0.35)
 
-.legend_time
-  opacity: 0.9
+.topic_card_body
+  position: relative
+  z-index: 1
+  width: 100%
+  display: flex
+  flex-direction: column
+  align-items: center
+  justify-content: flex-end
+  gap: 6px
+  color: #ffffff
+  text-shadow: 0 2px 12px rgba(0, 0, 0, 0.82)
+
+.topic_card_title
+  margin: 0
+  font-family: "Montserrat", sans-serif
+  letter-spacing: -0.25px
+  line-height: 1.12
+  font-size: clamp(16px, 1.2vw, 24px)
+  font-weight: 700
+  max-width: 94%
+  overflow-wrap: anywhere
+
+.topic_card_time
+  margin: 0
+  font-family: "Montserrat", sans-serif
+  letter-spacing: -0.2px
+  line-height: 1.16
+  font-size: clamp(12px, 0.92vw, 17px)
+  font-weight: 500
+  max-width: 94%
+  opacity: 0.98
+
+.topics_right_panel
+  min-width: 0
 
 .topics_map
   position: relative
   width: 100%
-  min-height: 400px
-  border-radius: 20px
+  aspect-ratio: 1000 / 520
+  border-radius: 24px
   overflow: hidden
-  border: 1px solid rgba(0, 0, 0, 0.15)
+  border: 1px solid rgba(24, 24, 27, 0.62)
   background: #050507
+  box-shadow: 0 18px 38px rgba(0, 0, 0, 0.3)
 
 .world_svg
   width: 100%
   height: 100%
-  min-height: 400px
   display: block
 
 .ocean
@@ -954,7 +1082,7 @@ export default {
 
 .map_highlight
   cursor: pointer
-  transition: all 0.2s ease
+  transition: filter 0.2s ease
 
 .map_highlight.hovered
   filter: brightness(1.15)
@@ -1001,18 +1129,41 @@ export default {
   .header_breadcrumb
     font-size: 18px
 
-  .topics_map
-    min-height: 460px
+  .topics_container
+    padding: 26px 14px 36px
 
-  .world_svg
-    min-height: 460px
+  .topics_content_layout
+    grid-template-columns: minmax(220px, 280px) minmax(0, 1fr)
+    gap: 16px
 
-  .topics_legend
-    gap: 8px
+  .unit_header
+    font-size: clamp(28px, 4vw, 36px)
 
-  .legend_topic
-    font-size: 12px
-    padding: 6px 10px
+  .topic_cards_grid
+    gap: 10px
+
+  .topic_card_tile
+    border-radius: 20px
+    padding: 14px 10px 12px
+
+  .topic_card_accent
+    top: 12px
+    left: 14px
+    right: 14px
+    height: 12px
+
+  .topic_card_title
+    font-size: clamp(15px, 1.55vw, 20px)
+
+  .topic_card_time
+    font-size: clamp(11px, 1.1vw, 14px)
+
+@media (max-width: 760px)
+  .topics_content_layout
+    grid-template-columns: 1fr
+
+  .topics_right_panel
+    margin-top: 4px
 
 @media (max-width: 576px)
   .page_header_inner
@@ -1027,4 +1178,29 @@ export default {
   .header_breadcrumb
     font-size: 16px
     gap: 4px
+
+  .topics_container
+    padding: 20px 10px 28px
+
+  .unit_header
+    font-size: clamp(24px, 8vw, 32px)
+
+  .topic_cards_grid
+    gap: 9px
+
+  .topic_card_tile
+    border-radius: 18px
+    padding: 11px 8px 10px
+
+  .topic_card_accent
+    top: 10px
+    left: 12px
+    right: 12px
+    height: 10px
+
+  .topic_card_title
+    font-size: clamp(15px, 4.1vw, 19px)
+
+  .topic_card_time
+    font-size: clamp(11px, 2.8vw, 14px)
 </style>
