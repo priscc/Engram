@@ -11,11 +11,15 @@
               <b-icon-chevron-left aria-hidden="true" /> Back
             </div>
             <div class="header_breadcrumb" role="heading" aria-level="1">
-              <span class="crumb_item">{{ timePeriodHeaders.header }}</span>
+              <span class="crumb_item">AP World History</span>
               <span class="crumb_sep" aria-hidden="true">→</span>
-              <span class="crumb_item">{{ topic.unit }}</span>
-              <span class="crumb_sep" aria-hidden="true">→</span>
-              <span class="crumb_item crumb_current">{{ topic.title }}</span>
+              <span class="crumb_item"
+                >{{ timePeriodHeaders.header }} ({{ timePeriodHeaders.subheader }})</span
+              >
+              <span v-if="topic.unit" class="crumb_sep" aria-hidden="true">→</span>
+              <span v-if="topic.unit" class="crumb_item">{{ topic.unit }}</span>
+              <span v-if="topic.title" class="crumb_sep" aria-hidden="true">→</span>
+              <span v-if="topic.title" class="crumb_item crumb_current">{{ topic.title }}</span>
             </div>
           </div>
         </b-col>
